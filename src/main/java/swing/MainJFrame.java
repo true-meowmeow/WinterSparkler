@@ -1,14 +1,11 @@
-package Swing;
+package swing;
 
 import javax.swing.*;
-import com.formdev.flatlaf.FlatClientProperties;
-import Core.FlatSVGUtils;
-import Core.MainJFrameElements;
-import Core.Variables;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
-import static com.formdev.flatlaf.FlatClientProperties.*;
+import core.FlatSVGUtils;
+import core.MainJFrameElements;
+import core.Variables;
+import java.awt.*;
 
 public class MainJFrame extends MainJFrameElements implements Variables {
 
