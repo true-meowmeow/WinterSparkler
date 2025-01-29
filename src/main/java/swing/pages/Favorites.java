@@ -1,4 +1,4 @@
-package Swing;
+package swing.pages;
 
 import javax.swing.*;
 import java.awt.*;

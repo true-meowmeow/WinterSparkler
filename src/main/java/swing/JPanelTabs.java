@@ -1,4 +1,8 @@
-package Swing;
+package swing;
+
+import swing.pages.Favorites;
+import swing.pages.PageComponent;
+import swing.pages.home.PageHome;
 
 import javax.swing.*;
 import java.awt.*;

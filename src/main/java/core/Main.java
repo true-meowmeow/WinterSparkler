@@ -1,7 +1,7 @@
-package Core;
+package core;
 
-import Swing.DemoPrefs;
-import Swing.MainJFrame;
+import swing.DemoPrefs;
+import swing.MainJFrame;
 
 import javax.swing.*;
 

@@ -1,23 +1,23 @@
-package Swing;
+package swing.pages;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PageHome extends JPanel {
+public class PageComponent extends JPanel {
 
-    public PageHome() {
+    public PageComponent() {
 
         setLayout(new GridBagLayout());
 
         // Создаем 4 панели, которые будем размещать на основной панели
         JPanel part1 = new JPanel();
-        part1.setBackground(Color.RED); // Цвет для наглядности
+        part1.setBackground(Color.GREEN); // Цвет для наглядности
         JPanel part2 = new JPanel();
-        part2.setBackground(Color.GREEN); // Цвет для наглядности
+        part2.setBackground(Color.GRAY); // Цвет для наглядности
         JPanel part3 = new JPanel();
         part3.setBackground(Color.BLUE); // Цвет для наглядности
         JPanel part4 = new JPanel();
-        part4.setBackground(Color.YELLOW); // Цвет для наглядности
+        part4.setBackground(Color.RED); // Цвет для наглядности
 
         // Создаем объект GridBagConstraints для настройки позиций и размеров
         GridBagConstraints gbc = new GridBagConstraints();
@@ -58,8 +58,6 @@ public class PageHome extends JPanel {
         gbc.weightx = 0.25; // Эта часть будет занимать 25% ширины
         gbc.weighty = 1;
         add(part4, gbc);
-
-
 
 
 
