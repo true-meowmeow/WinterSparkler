@@ -5,6 +5,7 @@ import swing.objects.JPanelBorder;
 import javax.swing.*;
 import java.awt.*;
 
+import static core.Methods.createBorder;
 import static core.Methods.createVerticalPanel;
 
 public class PlayPanel extends JPanelBorder {
@@ -15,26 +16,19 @@ public class PlayPanel extends JPanelBorder {
 
         // Центральная панель — ДОБАВЛЯЕМ ПУСТОЙ КОМПОНЕНТ ДЛЯ РАСТЯЖКИ
         JPanel contentPanel = new JPanel(new BorderLayout());
+        createBorder(contentPanel);
         contentPanel.setBackground(Color.LIGHT_GRAY);
         contentPanel.add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
         add(contentPanel, BorderLayout.CENTER);
 
+        JPanel bottomPanel = createVerticalPanel(250);
 
-        add(createVerticalPanel(100), BorderLayout.SOUTH);
-        //add(playerJPanel(), BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.SOUTH);
+        huinya(bottomPanel);
 
         // УБИРАЕМ ЛЮБЫЕ ФИКСИРОВАННЫЕ РАЗМЕРЫ У ПАНЕЛИ
         setMinimumSize(new Dimension(0, 0));
         setPreferredSize(new Dimension(0, 0));
-    }
-
-    private JPanel playerJPanel() { //for now its fixed
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createVerticalStrut(10));
-
-        panel.add(new Button("fdsfds"));
-        return panel;
     }
 
 
