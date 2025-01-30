@@ -2,27 +2,41 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Methods {
 
-    public static void arePageWeightsValid(String page, double... weights) {
-        double sum = 0;
-        for (double weight : weights) {
-            sum += weight;
-        }
-        if (sum != 1) {
-            System.out.println("weights are unequal at " + page);
-            System.exit(1);
-        }
-    }
-
     public static JPanel createVerticalPanel(int height) {
-        JPanel panel = new JPanel(/*new FlowLayout(FlowLayout.CENTER)*/);   //Вроде бесполезно
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(Box.createVerticalStrut(height));
 
         //panel.add(new Button("fdsfds"));
         return panel;
+    }
+
+    public static void createBorder(JPanel jPanel) {
+        Random random = new Random();
+        Color randomColor;
+
+        do {
+            int r = random.nextInt(156) + 100; // 100–255
+            int g = random.nextInt(156) + 100;
+            int b = random.nextInt(156) + 100;
+
+            randomColor = new Color(r, g, b);
+        } while (isGrayish(randomColor)); // Проверяем, не получился ли серый
+
+        jPanel.setBorder(BorderFactory.createLineBorder(randomColor, 1));
+    }
+
+    private static boolean isGrayish(Color color) {
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+
+        // Разница между каналами должна быть значительной (иначе цвет серый)
+        return (Math.abs(r - g) < 50) && (Math.abs(r - b) < 50) && (Math.abs(g - b) < 50);
     }
 
 

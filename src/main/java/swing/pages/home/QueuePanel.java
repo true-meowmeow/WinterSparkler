@@ -1,4 +1,10 @@
 package swing.pages.home;
 
-public class QueuePanel {
+import swing.objects.JPanelBorder;
+
+public class QueuePanel extends JPanelBorder {
+
+    public QueuePanel() {
+
+    }
 }
