@@ -1,9 +1,11 @@
 package swing.pages.home;
 
+import swing.objects.JPanelBorder;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionsPanel extends JPanel {
+public class CollectionsPanel extends JPanelBorder {
     public CollectionsPanel() {
         setLayout(new BorderLayout());
 

@@ -1,9 +1,13 @@
 package swing.pages.home;
 
+import swing.objects.JPanelBorder;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayPanel extends JPanel {
+import static core.Methods.createVerticalPanel;
+
+public class PlayPanel extends JPanelBorder {
     public PlayPanel() {
         setLayout(new BorderLayout());
 
@@ -16,7 +20,8 @@ public class PlayPanel extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
 
 
-        add(playerJPanel(), BorderLayout.SOUTH);
+        add(createVerticalPanel(100), BorderLayout.SOUTH);
+        //add(playerJPanel(), BorderLayout.SOUTH);
 
         // УБИРАЕМ ЛЮБЫЕ ФИКСИРОВАННЫЕ РАЗМЕРЫ У ПАНЕЛИ
         setMinimumSize(new Dimension(0, 0));
@@ -26,7 +31,9 @@ public class PlayPanel extends JPanel {
     private JPanel playerJPanel() { //for now its fixed
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createVerticalStrut(100));
+        panel.add(Box.createVerticalStrut(10));
+
+        panel.add(new Button("fdsfds"));
         return panel;
     }
 
