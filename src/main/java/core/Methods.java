@@ -6,15 +6,6 @@ import java.util.Random;
 
 public class Methods {
 
-    public static JPanel createVerticalPanel(int height) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createVerticalStrut(height));
-
-        //panel.add(new Button("fdsfds"));
-        return panel;
-    }
-
     public static void createBorder(JPanel jPanel) {
         Random random = new Random();
         Color randomColor;
