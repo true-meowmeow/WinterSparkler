@@ -1,4 +1,4 @@
-package swing.pages.home;
+package swing.pages.home.play;
 
 import swing.objects.JPanelBorder;
 
@@ -10,7 +10,6 @@ import static core.Methods.createVerticalPanel;
 
 public class PlayPanel extends JPanelBorder {
     public PlayPanel() {
-        setLayout(new BorderLayout());
 
 
 
@@ -53,4 +52,10 @@ public class PlayPanel extends JPanelBorder {
         strut.revalidate(); // Пересчитать размеры
         strut.getParent().repaint(); // Перерисовать
     }
+
+
+}
+
+class PlayerPanel extends JPanelBorder {
+
 }

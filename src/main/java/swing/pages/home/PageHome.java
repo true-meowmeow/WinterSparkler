@@ -1,6 +1,10 @@
 package swing.pages.home;
 
 import swing.objects.JPanelGrid;
+import swing.pages.home.collections.CollectionsPanel;
+import swing.pages.home.play.PlayPanel;
+import swing.pages.home.queue.QueuePanel;
+import swing.pages.home.series.SeriesPanel;
 
 import static core.Methods.newGridBagConstraintsX;
 
@@ -21,8 +25,8 @@ public class PageHome extends JPanelGrid {
 class CollectionPageHome extends JPanelGrid {
 
     public CollectionPageHome() {
-        add(new ArtistsPanel(), newGridBagConstraintsX(0, 50));
-        add(new CollectionsPanel(), newGridBagConstraintsX(1, 50));
+        add(new CollectionsPanel(), newGridBagConstraintsX(0, 50));
+        add(new SeriesPanel(), newGridBagConstraintsX(1, 50));
 
     }
 }
