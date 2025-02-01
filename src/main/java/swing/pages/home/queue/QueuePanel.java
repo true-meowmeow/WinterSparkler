@@ -1,4 +1,4 @@
-package swing.pages.home;
+package swing.pages.home.queue;
 
 import swing.objects.JPanelBorder;
 
@@ -11,7 +11,6 @@ import static core.Methods.createVerticalPanel;
 public class QueuePanel extends JPanelBorder {
 
     public QueuePanel() {
-        setLayout(new BorderLayout());
 
 
 
