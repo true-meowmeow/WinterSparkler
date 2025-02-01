@@ -24,7 +24,7 @@ public class CollectionsPanel extends JPanelBorder {
         buttonsPanel.add(btn2, gbc);
 
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(buttonsPanel, BorderLayout.NORTH);
+        //add(buttonsPanel, BorderLayout.NORTH);
 
         // Центральная панель — ДОБАВЛЯЕМ ПУСТОЙ КОМПОНЕНТ
         JPanel contentPanel = new JPanel(new BorderLayout());
