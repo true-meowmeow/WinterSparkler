@@ -23,8 +23,9 @@ public class PlayPanel extends JPanelBorder {
 
         JPanel bottomPanel = createVerticalPanel(250);
 
+        createBorder(bottomPanel);
         add(bottomPanel, BorderLayout.SOUTH);
-        huinya(bottomPanel);
+        //huinya(bottomPanel);
 
         // УБИРАЕМ ЛЮБЫЕ ФИКСИРОВАННЫЕ РАЗМЕРЫ У ПАНЕЛИ
         setMinimumSize(new Dimension(0, 0));
