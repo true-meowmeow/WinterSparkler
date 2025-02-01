@@ -6,20 +6,22 @@ import swing.pages.home.play.PlayPanel;
 import swing.pages.home.queue.QueuePanel;
 import swing.pages.home.series.SeriesPanel;
 
+import javax.swing.*;
+
+import java.awt.*;
+
 import static core.Methods.newGridBagConstraintsX;
 
 
 public class PageHome extends JPanelGrid {
 
-
-
     public PageHome() {
+        add(new CollectionPageHome(), newGridBagConstraintsX(0, 37));
+        add(new PlayerPageHome(), newGridBagConstraintsX(1, 63));
 
-        add(new CollectionPageHome(), newGridBagConstraintsX(0, 38));
-        add(new PlayerPageHome(), newGridBagConstraintsX(1, 62));
+        setPreferredSize(new Dimension(0, 0));
+        setMinimumSize(new Dimension(0, 0));
     }
-
-
 }
 
 class CollectionPageHome extends JPanelGrid {
@@ -34,7 +36,7 @@ class CollectionPageHome extends JPanelGrid {
 class PlayerPageHome extends JPanelGrid {
 
     public PlayerPageHome() {
-        add(new PlayPanel(), newGridBagConstraintsX(0, 70));
-        add(new QueuePanel(), newGridBagConstraintsX(1, 30));
+        add(new PlayPanel(), newGridBagConstraintsX(0, 75));
+        add(new QueuePanel(), newGridBagConstraintsX(1, 25));
     }
 }
