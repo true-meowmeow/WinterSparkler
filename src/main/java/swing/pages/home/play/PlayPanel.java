@@ -6,32 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 
 import static core.Methods.createBorder;
-import static core.Methods.createVerticalPanel;
 
 public class PlayPanel extends JPanelBorder {
     public PlayPanel() {
+        super(true);
+        add(new PlaylistPanel(), BorderLayout.CENTER);
+        add(new PlayerPanel(), BorderLayout.SOUTH);
 
-
-
-        // Центральная панель — ДОБАВЛЯЕМ ПУСТОЙ КОМПОНЕНТ ДЛЯ РАСТЯЖКИ
-        JPanel contentPanel = new JPanel(new BorderLayout());
-        createBorder(contentPanel);
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-        contentPanel.add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
-        add(contentPanel, BorderLayout.CENTER);
-
-        JPanel bottomPanel = createVerticalPanel(250);
-
-        createBorder(bottomPanel);
-        add(bottomPanel, BorderLayout.SOUTH);
-        //huinya(bottomPanel);
-
-        // УБИРАЕМ ЛЮБЫЕ ФИКСИРОВАННЫЕ РАЗМЕРЫ У ПАНЕЛИ
-        setMinimumSize(new Dimension(0, 0));
         setPreferredSize(new Dimension(0, 0));
+        setMinimumSize(new Dimension(0, 0));
     }
-
-
     private void huinya(JPanel panel) { //movablya resizing panol
 
         Component verticalStrut = Box.createVerticalStrut(100);
@@ -52,10 +36,18 @@ public class PlayPanel extends JPanelBorder {
         strut.revalidate(); // Пересчитать размеры
         strut.getParent().repaint(); // Перерисовать
     }
+}
 
-
+class PlaylistPanel extends JPanelBorder {
+    public PlaylistPanel() {
+        setBackground(Color.LIGHT_GRAY);
+        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
+    }
 }
 
 class PlayerPanel extends JPanelBorder {
-
+    public PlayerPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(Box.createVerticalStrut(400));
+    }
 }
