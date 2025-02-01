@@ -1,13 +1,12 @@
-package swing.pages.home;
+package swing.pages.home.collections;
 
 import swing.objects.JPanelBorder;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ArtistsPanel extends JPanelBorder {
-    public ArtistsPanel() {
-        setLayout(new BorderLayout());
+public class CollectionsPanel extends JPanelBorder {
+    public CollectionsPanel() {
 
         // Поисковая панель (оставляем как есть)
         JTextField searchField = new JTextField("Введите текст...");
