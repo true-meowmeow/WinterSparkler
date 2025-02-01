@@ -1,45 +1,41 @@
 package swing.pages.home.series;
 
 import swing.objects.JPanelBorder;
+import swing.objects.JPanelGrid;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SeriesPanel extends JPanelBorder {
     public SeriesPanel() {
+        super(true);
+        add(new ButtonsNorthPanel(), BorderLayout.NORTH);
+        add(new SeriesMainPanel(), BorderLayout.CENTER);
 
-        // Кнопки — ИСПОЛЬЗУЕМ ПАНЕЛЬ С ВЕСАМИ
-        JPanel buttonsPanel = new JPanel(new GridBagLayout());
+        setPreferredSize(new Dimension(0, 0));
+        setMinimumSize(new Dimension(0, 0));
+    }
+}
+
+class SeriesMainPanel extends JPanelBorder {
+    public SeriesMainPanel() {
+        setBackground(Color.LIGHT_GRAY);
+    }
+}
+
+class ButtonsNorthPanel extends JPanelGrid {
+    public ButtonsNorthPanel() {
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.5;
 
         JButton btn1 = new JButton("Кнопка 1");
         gbc.gridx = 0;
-        buttonsPanel.add(btn1, gbc);
+        add(btn1, gbc);
 
         JButton btn2 = new JButton("Кнопка 2");
         gbc.gridx = 1;
-        buttonsPanel.add(btn2, gbc);
-
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        //add(buttonsPanel, BorderLayout.NORTH);
-
-        // Центральная панель — ДОБАВЛЯЕМ ПУСТОЙ КОМПОНЕНТ
-        JPanel contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-        contentPanel.add(new JLabel(), BorderLayout.CENTER);
-        add(contentPanel, BorderLayout.CENTER);
-
-        // Кнопка внизу (оставляем)
-        JButton button = new JButton("Действие");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.add(button);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        // УБИРАЕМ ФИКСИРОВАННЫЕ РАЗМЕРЫ
-        setMinimumSize(new Dimension(0, 0));
-        setPreferredSize(new Dimension(0, 0));
+        add(btn2, gbc);
     }
 }
