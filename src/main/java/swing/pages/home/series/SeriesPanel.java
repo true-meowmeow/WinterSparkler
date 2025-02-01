@@ -1,13 +1,12 @@
-package swing.pages.home;
+package swing.pages.home.series;
 
 import swing.objects.JPanelBorder;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionsPanel extends JPanelBorder {
-    public CollectionsPanel() {
-        setLayout(new BorderLayout());
+public class SeriesPanel extends JPanelBorder {
+    public SeriesPanel() {
 
         // Кнопки — ИСПОЛЬЗУЕМ ПАНЕЛЬ С ВЕСАМИ
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
