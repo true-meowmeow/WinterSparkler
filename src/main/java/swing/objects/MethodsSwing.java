@@ -1,6 +1,8 @@
 package swing.objects;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -52,12 +54,13 @@ public class MethodsSwing {
         JTextArea textArea = new JTextArea();
         textArea.setFont(new Font("Arial", Font.PLAIN, 30)); // Пример с параметрами
 
+
         textArea.setText(name);
-        textArea.setLineWrap(false);
+        textArea.setLineWrap(false);    // Перенос строк
+        textArea.setWrapStyleWord(false); // Перенос по словам
         textArea.setBorder(null);
         textArea.setOpaque(false);
-        textArea.setWrapStyleWord(false);
-        textArea.setMinimumSize(new Dimension(0, 0));
+        textArea.setMinimumSize(new Dimension(0, 0));               //todo при убирании всего текста он воспроизводит ненужный звук
         textArea.setColumns(1); // Фиксированное количество символов        //todo отработать если текстовое поле пустое, наверное стоит вставлять что-то пустое типо null
 
         textArea.addKeyListener(new KeyAdapter() {
