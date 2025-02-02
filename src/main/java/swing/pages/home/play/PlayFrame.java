@@ -5,6 +5,10 @@ import swing.objects.JPanelGrid;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import static core.Methods.createBorder;
 
 public class PlayFrame extends JPanelBorder {
     public PlayFrame() {
@@ -15,20 +19,71 @@ public class PlayFrame extends JPanelBorder {
     }
 }
 
-class InfoPanel extends JPanelGrid {
+class InfoPanel extends JPanelBorder {
     public InfoPanel() {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.5;
 
-        JButton btn1 = new JButton("Кнопка 1");
-        gbc.gridx = 0;
-        add(btn1, gbc);
+        {
+            JTextField collectionField = new JTextField("ASU - Winter Sparkler", 20);
+            collectionField.setBorder(null); // Убираем рамку
+            collectionField.setOpaque(false); // Прозрачный фон
+            collectionField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
 
-        JButton btn2 = new JButton("Кнопка 2");
-        gbc.gridx = 1;
-        add(btn2, gbc);
+            collectionField.addActionListener(e -> {
+                collectionField.getParent().requestFocusInWindow(); // Убираем фокус с поля
+            });
+
+            add(collectionField, BorderLayout.WEST);
+        }
+        {
+            JTextField seriesField = new JTextField("ASU - Winter Spark21312321ler", 20);
+            seriesField.setBorder(null); // Убираем рамку
+            seriesField.setOpaque(false); // Прозрачный фон
+            seriesField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
+
+            seriesField.addActionListener(e -> {
+                seriesField.getParent().requestFocusInWindow(); // Убираем фокус с поля
+            });
+
+            add(seriesField, BorderLayout.WEST);
+        }
+
+
+
+        {
+            JPanel infoPanel = new JPanelGrid();
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 0.5;
+
+            JButton btn1 = new JButton("Кнопка 1");
+            gbc.gridx = 0;
+            infoPanel.add(btn1, gbc);
+
+            JButton btn2 = new JButton("Кноп2ка 2");
+            gbc.gridx = 1;
+            infoPanel.add(btn2, gbc);
+
+            add(infoPanel, BorderLayout.CENTER);
+        }
+
+        {
+            JPanel controlsPanel = new JPanelGrid();
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 0.5;
+
+            JButton btn1 = new JButton("Кнопка 1");
+            gbc.gridx = 0;
+            controlsPanel.add(btn1, gbc);
+
+            JButton btn2 = new JButton("Кнопка 2");
+            gbc.gridx = 1;
+            controlsPanel.add(btn2, gbc);
+
+            add(controlsPanel, BorderLayout.EAST);
+        }
+
     }
 }
 
