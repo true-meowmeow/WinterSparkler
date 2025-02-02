@@ -8,7 +8,7 @@ import java.awt.*;
 public class CollectionsFrame extends JPanelBorder {
 
     public CollectionsFrame() {
-        super(true);
+        //super(true);
         add(new SearchPanel(), BorderLayout.NORTH);
         add(new CollectionPanel(), BorderLayout.CENTER);
     }
