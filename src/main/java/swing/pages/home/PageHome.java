@@ -6,7 +6,7 @@ import swing.pages.home.play.PlayFrame;
 import swing.pages.home.queue.QueueFrame;
 import swing.pages.home.series.SeriesFrame;
 
-import static core.Methods.newGridBagConstraintsX;
+import static swing.objects.MethodsSwing.newGridBagConstraintsX;
 
 
 public class PageHome extends JPanelGrid {
