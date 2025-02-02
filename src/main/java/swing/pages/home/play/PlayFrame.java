@@ -1,22 +1,51 @@
 package swing.pages.home.play;
 
 import swing.objects.JPanelBorder;
+import swing.objects.JPanelGrid;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static core.Methods.createBorder;
-
-public class PlayPanel extends JPanelBorder {
-    public PlayPanel() {
+public class PlayFrame extends JPanelBorder {
+    public PlayFrame() {
         super(true);
+        add(new InfoPanel(), BorderLayout.NORTH);
         add(new PlaylistPanel(), BorderLayout.CENTER);
         add(new PlayerPanel(), BorderLayout.SOUTH);
-
-        setPreferredSize(new Dimension(0, 0));
-        setMinimumSize(new Dimension(0, 0));
     }
-    private void huinya(JPanel panel) { //movablya resizing panol
+}
+
+class InfoPanel extends JPanelGrid {
+    public InfoPanel() {
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.5;
+
+        JButton btn1 = new JButton("Кнопка 1");
+        gbc.gridx = 0;
+        add(btn1, gbc);
+
+        JButton btn2 = new JButton("Кнопка 2");
+        gbc.gridx = 1;
+        add(btn2, gbc);
+    }
+}
+
+class PlaylistPanel extends JPanelBorder {
+    public PlaylistPanel() {
+        setBackground(Color.LIGHT_GRAY);
+        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
+    }
+}
+
+class PlayerPanel extends JPanelBorder {
+    public PlayerPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(Box.createVerticalStrut(300));
+    }
+}
+/*    private void huinya(JPanel panel) { //movablya resizing panol
 
         Component verticalStrut = Box.createVerticalStrut(100);
         panel.add(verticalStrut);
@@ -35,19 +64,4 @@ public class PlayPanel extends JPanelBorder {
         strut.setPreferredSize(new Dimension(0, newHeight));
         strut.revalidate(); // Пересчитать размеры
         strut.getParent().repaint(); // Перерисовать
-    }
-}
-
-class PlaylistPanel extends JPanelBorder {
-    public PlaylistPanel() {
-        setBackground(Color.LIGHT_GRAY);
-        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
-    }
-}
-
-class PlayerPanel extends JPanelBorder {
-    public PlayerPanel() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(400));
-    }
-}
+    }*/

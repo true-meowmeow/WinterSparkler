@@ -5,20 +5,12 @@ import swing.objects.JPanelBorder;
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionsPanel extends JPanelBorder {
+public class CollectionsFrame extends JPanelBorder {
 
-    public CollectionsPanel() {
+    public CollectionsFrame() {
         super(true);
         add(new SearchPanel(), BorderLayout.NORTH);
-        add(new CollectionMainPanel(), BorderLayout.CENTER);
-    }
-}
-
-class CollectionMainPanel extends JPanelBorder {
-
-    public CollectionMainPanel() {
-        setBackground(Color.LIGHT_GRAY);
-        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
+        add(new CollectionPanel(), BorderLayout.CENTER);
     }
 }
 
@@ -32,5 +24,13 @@ class SearchPanel extends JPanelBorder {
 
 
     }
+}
+class CollectionPanel extends JPanelBorder {
+
+    public CollectionPanel() {
+        setBackground(Color.LIGHT_GRAY);
+        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
+    }
+
 }
 
