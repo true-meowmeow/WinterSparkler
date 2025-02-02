@@ -3,6 +3,7 @@ package swing.objects;
 import javax.swing.*;
 import java.awt.*;
 
+import static core.Methods.createBorder;
 
 
 public class JPanelGrid extends JPanel {
@@ -17,5 +18,6 @@ public class JPanelGrid extends JPanel {
 
     public JPanelGrid() {
         setLayout(new GridBagLayout());
+        createBorder(this);
     }
 }
