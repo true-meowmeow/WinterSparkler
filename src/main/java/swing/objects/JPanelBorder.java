@@ -19,5 +19,4 @@ public class JPanelBorder extends JPanel {
         setLayout(new BorderLayout());
         createBorder(this);
     }
-
 }
