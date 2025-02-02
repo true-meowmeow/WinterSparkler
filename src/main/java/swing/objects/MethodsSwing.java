@@ -1,6 +1,7 @@
 package swing.objects;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -49,6 +50,8 @@ public class MethodsSwing {
 
     public static JTextArea createTextArea(String name) {
         JTextArea textArea = new JTextArea();
+        textArea.setFont(new Font("Arial", Font.PLAIN, 20)); // Пример с параметрами
+
         textArea.setText(name);
         textArea.setLineWrap(false);
         textArea.setBorder(null);
@@ -56,6 +59,7 @@ public class MethodsSwing {
         textArea.setWrapStyleWord(false);
         textArea.setMinimumSize(new Dimension(0, 0));
         textArea.setColumns(1); // Фиксированное количество символов        //todo отработать если текстовое поле пустое, наверное стоит вставлять что-то пустое типо null
+
         textArea.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
