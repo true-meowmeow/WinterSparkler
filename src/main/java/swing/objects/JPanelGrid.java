@@ -3,8 +3,9 @@ package swing.objects;
 import javax.swing.*;
 import java.awt.*;
 
-public class JPanelGrid extends JPanel {
 
+
+public class JPanelGrid extends JPanel {
 
     public JPanelGrid(boolean clearBorder) {
         this();
