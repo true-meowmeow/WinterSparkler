@@ -50,7 +50,7 @@ public class MethodsSwing {
 
     public static JTextArea createTextArea(String name) {
         JTextArea textArea = new JTextArea();
-        textArea.setFont(new Font("Arial", Font.PLAIN, 20)); // Пример с параметрами
+        textArea.setFont(new Font("Arial", Font.PLAIN, 30)); // Пример с параметрами
 
         textArea.setText(name);
         textArea.setLineWrap(false);
