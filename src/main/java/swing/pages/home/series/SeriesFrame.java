@@ -6,25 +6,16 @@ import swing.objects.JPanelGrid;
 import javax.swing.*;
 import java.awt.*;
 
-public class SeriesPanel extends JPanelBorder {
-    public SeriesPanel() {
+public class SeriesFrame extends JPanelBorder {
+    public SeriesFrame() {
         super(true);
-        add(new ButtonsNorthPanel(), BorderLayout.NORTH);
-        add(new SeriesMainPanel(), BorderLayout.CENTER);
-
-        setPreferredSize(new Dimension(0, 0));
-        setMinimumSize(new Dimension(0, 0));
+        add(new ControlsPanel(), BorderLayout.NORTH);
+        add(new SeriesPanel(), BorderLayout.CENTER);
     }
 }
 
-class SeriesMainPanel extends JPanelBorder {
-    public SeriesMainPanel() {
-        setBackground(Color.LIGHT_GRAY);
-    }
-}
-
-class ButtonsNorthPanel extends JPanelGrid {
-    public ButtonsNorthPanel() {
+class ControlsPanel extends JPanelGrid {
+    public ControlsPanel() {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -38,4 +29,10 @@ class ButtonsNorthPanel extends JPanelGrid {
         gbc.gridx = 1;
         add(btn2, gbc);
     }
+}
+class SeriesPanel extends JPanelBorder {
+    public SeriesPanel() {
+        setBackground(Color.LIGHT_GRAY);
+    }
+
 }
