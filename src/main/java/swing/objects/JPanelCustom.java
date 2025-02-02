@@ -22,15 +22,6 @@ public class JPanelCustom extends JPanel {
         this(type, false);
     }
 
-/*    public JPanelCustom() {
-        this(PanelType.FLOW); // Дефолтный тип
-    }*/
-
-    // Специализированные конструкторы для обратной совместимости
-/*    public JPanelCustom(boolean clearBorder) {
-        this(PanelType.FLOW, clearBorder);
-    }*/
-
     private void setLayoutByType(PanelType type) {
         switch (type) {
             case GRID:
