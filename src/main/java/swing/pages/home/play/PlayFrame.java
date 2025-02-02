@@ -4,6 +4,7 @@ import swing.objects.JPanelCustom;
 import swing.objects.MethodsSwing;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 
 public class PlayFrame extends JPanelCustom {
@@ -71,35 +72,37 @@ class InfoPanel extends JPanelCustom {
             // Панель info2 (левая)
             JPanel info2 = new JPanel();
             info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            info2.setLayout(new BoxLayout(info2, BoxLayout.X_AXIS));
+            info2.setLayout(new BoxLayout(info2, BoxLayout.Y_AXIS));
             JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
             info2.add(textArea5);
 
             // Панель info3 (правая) с вертикальным центрированием
-            JPanel info3 = new JPanel(new GridBagLayout()) { // Используем GridBagLayout для центрирования
-                @Override
-                public Dimension getMaximumSize() {
-                    return new Dimension(super.getMaximumSize().width, getPreferredSize().height);
-                }
-            };
+
+            JPanel info3 = new JPanel();
+            info3.setLayout(new BoxLayout(info3, BoxLayout.Y_AXIS));
+
             info3.setBorder(BorderFactory.createLineBorder(Color.RED));
 
             JTextArea textArea6 = MethodsSwing.createTextArea("Winter Sparkler");
-            info3.add(textArea6); // Компонент автоматически центрируется
+
+            //todo проблема что текст залезает под кнопки и становится доступен от туда, ищи по типу            Добавь сода JPanel, которая будет занимать всё место где JTextArea и вплоть до начала кнопок
+
+
+            info3.add(textArea6);
+
 
             // Добавляем панели в контейнер
             infoTextPanel.add(info2, BorderLayout.WEST);
             infoTextPanel.add(info3, BorderLayout.EAST);
 
-            // Обертка для центрирования всего блока
-            JPanel wrapper = new JPanel(new GridBagLayout());
-            wrapper.add(infoTextPanel);
+            infoTextPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-            add(wrapper, BorderLayout.WEST);
+            add(infoTextPanel, BorderLayout.WEST);
         }
 
 
     }
+
 }
 
 class PlaylistPanel extends JPanelCustom {
@@ -117,6 +120,8 @@ class PlayerPanel extends JPanelCustom {
         add(Box.createVerticalStrut(300));
     }
 }
+
+
 /*    private void huinya(JPanel panel) { //movablya resizing panol
 
         Component verticalStrut = Box.createVerticalStrut(100);
