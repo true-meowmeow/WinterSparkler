@@ -13,7 +13,7 @@ public class JPanelCustom extends JPanel {
     // Основной конструктор
     public JPanelCustom(PanelType type, boolean clearBorder) {
         setLayoutByType(type);
-        createBorder(this);
+        //createBorder(this);
         handleClearBorder(clearBorder);
     }
 
