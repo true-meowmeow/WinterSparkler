@@ -1,21 +1,21 @@
 package swing.pages.home.series;
 
-import swing.objects.JPanelBorder;
-import swing.objects.JPanelGrid;
+import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SeriesFrame extends JPanelBorder {
+public class SeriesFrame extends JPanelCustom {
     public SeriesFrame() {
-        super(true);
+        super(PanelType.BORDER, true);
         add(new ControlsPanel(), BorderLayout.NORTH);
         add(new SeriesPanel(), BorderLayout.CENTER);
     }
 }
 
-class ControlsPanel extends JPanelGrid {
+class ControlsPanel extends JPanelCustom {
     public ControlsPanel() {
+        super(PanelType.GRID);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -30,8 +30,9 @@ class ControlsPanel extends JPanelGrid {
         add(btn2, gbc);
     }
 }
-class SeriesPanel extends JPanelBorder {
+class SeriesPanel extends JPanelCustom {
     public SeriesPanel() {
+        super(PanelType.GRID);
         setBackground(Color.LIGHT_GRAY);
     }
 

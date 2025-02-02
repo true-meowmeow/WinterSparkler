@@ -1,15 +1,14 @@
 package swing.pages.home.queue;
 
-import swing.objects.JPanelBorder;
-import swing.objects.JPanelGrid;
+import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class QueueFrame extends JPanelBorder {
+public class QueueFrame extends JPanelCustom {
 
     public QueueFrame() {
-        super(true);
+        super(PanelType.BORDER, true);
         JPanel contentPanel = new JPanel(new BorderLayout());
 
         contentPanel.setBackground(Color.LIGHT_GRAY);
@@ -25,8 +24,9 @@ public class QueueFrame extends JPanelBorder {
 
 
 
-class InfoQueuePanel extends JPanelGrid {
+class InfoQueuePanel extends JPanelCustom {
     public InfoQueuePanel() {
+        super(PanelType.GRID);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -42,9 +42,10 @@ class InfoQueuePanel extends JPanelGrid {
     }
 }
 
-class QueuePanel extends JPanelBorder {
+class QueuePanel extends JPanelCustom {
 
     public QueuePanel() {
+        super(PanelType.BORDER);
 
         setBackground(Color.LIGHT_GRAY);
 
@@ -52,8 +53,10 @@ class QueuePanel extends JPanelBorder {
     }
 }
 
-class ImagePanel extends JPanelBorder {
+class ImagePanel extends JPanelCustom {
     public ImagePanel() {
+        super(PanelType.BORDER);
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(Box.createVerticalStrut(300));
     }
