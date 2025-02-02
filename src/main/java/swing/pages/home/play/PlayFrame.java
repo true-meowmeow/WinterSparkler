@@ -1,6 +1,7 @@
 package swing.pages.home.play;
 
 import swing.objects.JPanelBorder;
+import swing.objects.JPanelFlow;
 import swing.objects.JPanelGrid;
 
 import javax.swing.*;
@@ -19,37 +20,41 @@ public class PlayFrame extends JPanelBorder {
     }
 }
 
+
+
 class InfoPanel extends JPanelBorder {
     public InfoPanel() {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         {
-            JTextField collectionField = new JTextField("Winter Sparkler", 20);
-            collectionField.setBorder(null); // Убираем рамку
-            collectionField.setOpaque(false); // Прозрачный фон
-            collectionField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
+            JPanel infoTextPanel = new JPanelFlow();
+            {
+                JTextField collectionField = new JTextField("Asu");
+                collectionField.setBorder(null); // Убираем рамку
+                collectionField.setOpaque(false); // Прозрачный фон
+                collectionField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
 
-            collectionField.addActionListener(e -> {
-                collectionField.getParent().requestFocusInWindow(); // Убираем фокус с поля
-            });
+                collectionField.addActionListener(e -> {
+                    collectionField.getParent().requestFocusInWindow(); // Убираем фокус с поля
+                });
 
-            add(collectionField, BorderLayout.WEST);
+                infoTextPanel.add(collectionField);
+                collectionField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+            }
+            {
+                JTextField seriesField = new JTextField("Winter Sparkler");
+                seriesField.setBorder(null); // Убираем рамку
+                seriesField.setOpaque(false); // Прозрачный фон
+                seriesField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
+
+                seriesField.addActionListener(e -> {
+                    seriesField.getParent().requestFocusInWindow(); // Убираем фокус с поля
+                });
+
+                infoTextPanel.add(seriesField);
+            }
+            add(infoTextPanel, BorderLayout.WEST);
         }
-        {
-            JTextField seriesField = new JTextField("Winter Sparkler", 20);
-            seriesField.setBorder(null); // Убираем рамку
-            seriesField.setOpaque(false); // Прозрачный фон
-            seriesField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
-
-            seriesField.addActionListener(e -> {
-                seriesField.getParent().requestFocusInWindow(); // Убираем фокус с поля
-            });
-
-            add(seriesField, BorderLayout.WEST);
-        }
-
-
-
 
 
         {
@@ -62,11 +67,11 @@ class InfoPanel extends JPanelBorder {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
 
-                JButton btn1 = new JButton("Кнопка 1");
+                JButton btn1 = new JButton("1 1");
                 gbc.gridx = 0;
                 infoPanel.add(btn1, gbc);
 
-                JButton btn2 = new JButton("Кнопка 2");
+                JButton btn2 = new JButton("2 2");
                 gbc.gridx = 1;
                 infoPanel.add(btn2, gbc);
 
@@ -79,11 +84,11 @@ class InfoPanel extends JPanelBorder {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
 
-                JButton btn1 = new JButton("Кнопка 1");
+                JButton btn1 = new JButton("21 1");
                 gbc.gridx = 0;
                 controlsPanel.add(btn1, gbc);
 
-                JButton btn2 = new JButton("Кнопка 2");
+                JButton btn2 = new JButton("22 2");
                 gbc.gridx = 1;
                 controlsPanel.add(btn2, gbc);
 
