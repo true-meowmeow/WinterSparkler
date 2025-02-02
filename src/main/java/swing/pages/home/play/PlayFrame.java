@@ -1,15 +1,13 @@
 package swing.pages.home.play;
 
 import swing.objects.JPanelBorder;
-import swing.objects.JPanelFlow;
 import swing.objects.JPanelGrid;
+import swing.objects.MethodsSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import static core.Methods.createBorder;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PlayFrame extends JPanelBorder {
     public PlayFrame() {
@@ -20,41 +18,11 @@ public class PlayFrame extends JPanelBorder {
     }
 }
 
-
-
 class InfoPanel extends JPanelBorder {
     public InfoPanel() {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        {
-            JPanel infoTextPanel = new JPanelFlow();
-            {
-                JTextField collectionField = new JTextField("Asu");
-                collectionField.setBorder(null); // Убираем рамку
-                collectionField.setOpaque(false); // Прозрачный фон
-                collectionField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
 
-                collectionField.addActionListener(e -> {
-                    collectionField.getParent().requestFocusInWindow(); // Убираем фокус с поля
-                });
-
-                infoTextPanel.add(collectionField);
-                collectionField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            }
-            {
-                JTextField seriesField = new JTextField("Winter Sparkler");
-                seriesField.setBorder(null); // Убираем рамку
-                seriesField.setOpaque(false); // Прозрачный фон
-                seriesField.setFont(new Font("Roboto", Font.PLAIN, 16)); // Красивый текст
-
-                seriesField.addActionListener(e -> {
-                    seriesField.getParent().requestFocusInWindow(); // Убираем фокус с поля
-                });
-
-                infoTextPanel.add(seriesField);
-            }
-            add(infoTextPanel, BorderLayout.WEST);
-        }
 
 
         {
@@ -95,6 +63,31 @@ class InfoPanel extends JPanelBorder {
                 infoControlsPanel.add(controlsPanel, BorderLayout.EAST);
             }
             add(infoControlsPanel, BorderLayout.EAST);
+        }
+
+        {
+
+
+            JPanel infoTextPanel = new JPanel(new BorderLayout());
+
+            JPanel info2 = new JPanel(new FlowLayout()); // Используем FlowLayout вместо BorderLayout
+            info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
+            JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
+
+            JPanel info3 = new JPanel(new FlowLayout()); // Аналогично
+            info3.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+            JTextArea textArea6 = MethodsSwing.createTextArea("Winter Sparkler");
+
+            info2.add(textArea5);
+            info3.add(textArea6);
+
+            infoTextPanel.add(info2, BorderLayout.WEST);
+            infoTextPanel.add(info3, BorderLayout.EAST);
+
+            add(infoTextPanel, BorderLayout.WEST);
+
         }
 
 

@@ -3,7 +3,7 @@ package swing.objects;
 import javax.swing.*;
 import java.awt.*;
 
-import static core.Methods.createBorder;
+import static swing.objects.MethodsSwing.createBorder;
 
 public class JPanelBorder extends JPanel {
 
