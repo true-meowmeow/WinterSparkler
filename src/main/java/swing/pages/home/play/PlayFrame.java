@@ -18,7 +18,7 @@ public class PlayFrame extends JPanelCustom {
 class InfoPanel extends JPanelCustom {
     public InfoPanel() {
         super(PanelType.BORDER);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 
 
@@ -29,6 +29,7 @@ class InfoPanel extends JPanelCustom {
 
             {
                 JPanel infoPanel = new JPanelCustom(PanelType.GRID);
+                infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
@@ -46,6 +47,7 @@ class InfoPanel extends JPanelCustom {
 
             {
                 JPanel controlsPanel = new JPanelCustom(PanelType.GRID);
+                controlsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
@@ -68,18 +70,21 @@ class InfoPanel extends JPanelCustom {
 
             JPanel infoTextPanel = new JPanel(new BorderLayout());
 
-            JPanel info2 = new JPanel(new FlowLayout()); // Используем FlowLayout вместо BorderLayout
+            JPanel info2 = new JPanel(); // Используем FlowLayout вместо BorderLayout
             info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+            info2.setLayout(new BoxLayout(info2, BoxLayout.X_AXIS)); // Горизонтальное расположение
 
             JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
 
-            JPanel info3 = new JPanel(new FlowLayout()); // Аналогично
+            JPanel info3 = new JPanel(); // Аналогично
             info3.setBorder(BorderFactory.createLineBorder(Color.RED));
+            info3.setLayout(new BoxLayout(info3, BoxLayout.X_AXIS));
 
             JTextArea textArea6 = MethodsSwing.createTextArea("Winter Sparkler");
 
             info2.add(textArea5);
             info3.add(textArea6);
+
 
             infoTextPanel.add(info2, BorderLayout.WEST);
             infoTextPanel.add(info3, BorderLayout.EAST);
