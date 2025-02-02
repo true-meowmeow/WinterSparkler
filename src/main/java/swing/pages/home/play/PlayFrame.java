@@ -1,36 +1,34 @@
 package swing.pages.home.play;
 
-import swing.objects.JPanelBorder;
-import swing.objects.JPanelGrid;
+import swing.objects.JPanelCustom;
 import swing.objects.MethodsSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-public class PlayFrame extends JPanelBorder {
+public class PlayFrame extends JPanelCustom {
     public PlayFrame() {
-        super(true);
+        super(PanelType.BORDER, true);
         add(new InfoPanel(), BorderLayout.NORTH);
         add(new PlaylistPanel(), BorderLayout.CENTER);
         add(new PlayerPanel(), BorderLayout.SOUTH);
     }
 }
 
-class InfoPanel extends JPanelBorder {
+class InfoPanel extends JPanelCustom {
     public InfoPanel() {
+        super(PanelType.BORDER);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 
 
 
         {
-            JPanel infoControlsPanel = new JPanelBorder();
+            JPanel infoControlsPanel = new JPanelCustom(PanelType.BORDER);
 
 
             {
-                JPanel infoPanel = new JPanelGrid();
+                JPanel infoPanel = new JPanelCustom(PanelType.GRID);
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
@@ -47,7 +45,7 @@ class InfoPanel extends JPanelBorder {
             }
 
             {
-                JPanel controlsPanel = new JPanelGrid();
+                JPanel controlsPanel = new JPanelCustom(PanelType.GRID);
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 0.5;
@@ -94,15 +92,17 @@ class InfoPanel extends JPanelBorder {
     }
 }
 
-class PlaylistPanel extends JPanelBorder {
+class PlaylistPanel extends JPanelCustom {
     public PlaylistPanel() {
+        super(PanelType.BORDER);
         setBackground(Color.LIGHT_GRAY);
         add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
     }
 }
 
-class PlayerPanel extends JPanelBorder {
+class PlayerPanel extends JPanelCustom {
     public PlayerPanel() {
+        super(JPanelCustom.PanelType.BORDER);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(Box.createVerticalStrut(300));
     }

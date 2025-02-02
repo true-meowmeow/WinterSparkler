@@ -1,22 +1,23 @@
 package swing.pages.home.collections;
 
-import swing.objects.JPanelBorder;
+import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionsFrame extends JPanelBorder {
+public class CollectionsFrame extends JPanelCustom {
 
     public CollectionsFrame() {
-        //super(true);
+        super(PanelType.BORDER, true);
         add(new SearchPanel(), BorderLayout.NORTH);
         add(new CollectionPanel(), BorderLayout.CENTER);
     }
 }
 
-class SearchPanel extends JPanelBorder {
+class SearchPanel extends JPanelCustom {
 
     public SearchPanel() {
+        super(PanelType.BORDER);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JTextField searchField = new JTextField("Введите текст...");
         add(searchField, BorderLayout.CENTER);
@@ -25,9 +26,10 @@ class SearchPanel extends JPanelBorder {
 
     }
 }
-class CollectionPanel extends JPanelBorder {
+class CollectionPanel extends JPanelCustom {
 
     public CollectionPanel() {
+        super(PanelType.BORDER);
         setBackground(Color.LIGHT_GRAY);
         add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
     }
