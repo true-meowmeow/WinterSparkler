@@ -6,6 +6,8 @@ import core.FlatSVGUtils;
 import core.MainJFrameElements;
 import core.Variables;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainJFrame extends MainJFrameElements implements Variables {
 
@@ -50,11 +52,35 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         menuButtonSettings.setPreferredSize(new Dimension(80, 20));
         menuButtonSettings.setMargin(new Insets(0, 4, 0, 4));
 
+        menuButtonSettings.addActionListener(e -> {
+            jPanelTabs.cardLayout.show(jPanelTabs, "Settings");
+            deselectNavigationButtons();
+        });
+
         menuBar.add(leftPanel);
         menuBar.add(Box.createGlue());
         menuBar.add(rightPanel);
 
         setJMenuBar(menuBar);
+    }
+
+    private void deselectNavigationButtons() {
+        // Снимаем выделение программно
+        btnHome.setSelected(false);
+        btnComponent.setSelected(false);
+        btnFavorites.setSelected(false);
+
+        // Явно обновляем стиль кнопок
+        Color bgColor = UIManager.getColor("MenuBar.background");
+        updateButtonStyle(btnHome, bgColor);
+        updateButtonStyle(btnComponent, bgColor);
+        updateButtonStyle(btnFavorites, bgColor);
+    }
+
+    private void updateButtonStyle(JToggleButton button, Color bgColor) {
+        button.setOpaque(false);
+        button.setBackground(bgColor);
+        button.repaint();
     }
 
     private JPanel createNavigationButtons() {
@@ -73,9 +99,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         btnFavorites = createNavButton("Favorites", group, bgColor, selectedColor);
 
         panel.add(btnHome);
-        //panel.add(Box.createHorizontalStrut(5));
         panel.add(btnComponent);
-        //panel.add(Box.createHorizontalStrut(5));
         panel.add(btnFavorites);
 
         return panel;
