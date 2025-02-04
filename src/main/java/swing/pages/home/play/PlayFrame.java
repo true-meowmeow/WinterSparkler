@@ -71,24 +71,25 @@ class InfoPanel extends JPanelCustom {
 
             // Панель info2 (левая)
             JPanel info2 = new JPanel();
-            info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            info2.setLayout(new BoxLayout(info2, BoxLayout.Y_AXIS));
-            JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
-            info2.add(textArea5);
-
-            // Панель info3 (правая) с вертикальным центрированием
-
             JPanel info3 = new JPanel();
+            info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+            info3.setBorder(BorderFactory.createLineBorder(Color.RED));
+            info2.setLayout(new BoxLayout(info2, BoxLayout.Y_AXIS));
             info3.setLayout(new BoxLayout(info3, BoxLayout.Y_AXIS));
 
-            info3.setBorder(BorderFactory.createLineBorder(Color.RED));
 
+// В вашем классе InfoPanel, например, для textArea5:
+            JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
+            //textArea5.setLineWrap(true);        // Включаем автоматический перенос строки
+            textArea5.setWrapStyleWord(true);   // Переносим по словам (а не посимвольно)
+            info2.add(textArea5);
+
+// Аналогично для textArea6:
             JTextArea textArea6 = MethodsSwing.createTextArea("Winter Sparkler");
-
-            //todo проблема что текст залезает под кнопки и становится доступен от туда, ищи по типу            Добавь сода JPanel, которая будет занимать всё место где JTextArea и вплоть до начала кнопок
-
-
+            //textArea6.setLineWrap(true);
+            //textArea6.setWrapStyleWord(true);
             info3.add(textArea6);
+
 
 
             // Добавляем панели в контейнер
@@ -99,7 +100,6 @@ class InfoPanel extends JPanelCustom {
 
             add(infoTextPanel, BorderLayout.WEST);
         }
-
 
     }
 
