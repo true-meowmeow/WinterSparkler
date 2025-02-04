@@ -15,6 +15,8 @@ public class MainJFrame extends MainJFrameElements implements Variables {
     static int controlButtonSizeWidth = 47;
     static int buttonPreferredSizeWidth = 90;
 
+    private ButtonGroup navButtonGroup; // Добавляем поле для группы переключателей
+
     private JToggleButton btnHome;
     private JToggleButton btnComponent;
     private JToggleButton btnFavorites;
@@ -65,12 +67,12 @@ public class MainJFrame extends MainJFrameElements implements Variables {
     }
 
     private void deselectNavigationButtons() {
-        // Снимаем выделение программно
-        btnHome.setSelected(false);
-        btnComponent.setSelected(false);
-        btnFavorites.setSelected(false);
+        // Снимаем выделение через ButtonGroup
+        if (navButtonGroup != null) {
+            navButtonGroup.clearSelection();
+        }
 
-        // Явно обновляем стиль кнопок
+        // Можно обновить стиль кнопок, если требуется:
         Color bgColor = UIManager.getColor("MenuBar.background");
         updateButtonStyle(btnHome, bgColor);
         updateButtonStyle(btnComponent, bgColor);
@@ -85,18 +87,23 @@ public class MainJFrame extends MainJFrameElements implements Variables {
 
     private JPanel createNavigationButtons() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        ButtonGroup group = new ButtonGroup();
+        navButtonGroup = new ButtonGroup(); // Инициализируем группу
 
         // Стиль для кнопок навигации
         Color bgColor = UIManager.getColor("MenuBar.background");
         Color selectedColor = UIManager.getColor("Component.focusedBorderColor");
 
-        // Кнопки
-        btnHome = createNavButton("Home", group, bgColor, selectedColor);
+        // Создаём кнопки
+        btnHome = createNavButton("Home", bgColor, selectedColor);
         btnHome.setSelected(true); // Активная по умолчанию
 
-        btnComponent = createNavButton("Component", group, bgColor, selectedColor);
-        btnFavorites = createNavButton("Favorites", group, bgColor, selectedColor);
+        btnComponent = createNavButton("Component", bgColor, selectedColor);
+        btnFavorites = createNavButton("Favorites", bgColor, selectedColor);
+
+        // Добавляем кнопки в группу и панель
+        navButtonGroup.add(btnHome);
+        navButtonGroup.add(btnComponent);
+        navButtonGroup.add(btnFavorites);
 
         panel.add(btnHome);
         panel.add(btnComponent);
@@ -105,7 +112,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         return panel;
     }
 
-    private JToggleButton createNavButton(String title, ButtonGroup group, Color bg, Color selectedColor) {
+    private JToggleButton createNavButton(String title, Color bg, Color selectedColor) {
         JToggleButton button = new JToggleButton(title);
         button.setFocusable(false);
         button.setBackground(bg);
@@ -114,7 +121,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12));
         button.setPreferredSize(new Dimension(buttonPreferredSizeWidth, controlButtonSizeHeight));
 
-        // Стиль для выбранного состояния
+        // Слушатель для изменения стиля при выборе
         button.addItemListener(e -> {
             if (button.isSelected()) {
                 button.setOpaque(true);
@@ -123,6 +130,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
                 button.setOpaque(false);
                 button.setBackground(bg);
             }
+            button.repaint();
         });
 
         // Обработчик переключения страниц
@@ -134,7 +142,6 @@ public class MainJFrame extends MainJFrameElements implements Variables {
             }
         });
 
-        group.add(button);
         return button;
     }
 
