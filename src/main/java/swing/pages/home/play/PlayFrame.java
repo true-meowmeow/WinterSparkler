@@ -6,6 +6,8 @@ import swing.objects.MethodsSwing;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PlayFrame extends JPanelCustom {
     public PlayFrame() {
@@ -20,7 +22,7 @@ class InfoPanel extends JPanelCustom {
     public InfoPanel() {
         super(PanelType.BORDER);
         //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+        JTextArea             textArea = new JTextArea("Многострочный\nтекст");
 
 
 
@@ -61,6 +63,31 @@ class InfoPanel extends JPanelCustom {
                 gbc.gridx = 1;
                 controlsPanel.add(btn2, gbc);
 
+                btn2.addActionListener(e -> {
+                    try {
+                        // Получаем позицию (offset) последнего символа
+                        int docLength = textArea.getDocument().getLength();
+                        if (docLength == 0) {
+                            System.out.println("Нет текста");
+                            return;
+                        }
+                        // Получаем область, в которой отображается последний символ.
+                        // (Если используете JDK 9 и выше, можно использовать modelToView2D)
+                        Rectangle lastCharRect = textArea.modelToView(docLength - 1);
+
+                        // Определяем высоту строки по метрикам шрифта
+                        int lineHeight = textArea.getFontMetrics(textArea.getFont()).getHeight();
+
+                        // Количество визуальных строк вычисляется по вертикальной координате
+                        // Последняя строка начинается на lastCharRect.y, поэтому делим на высоту строки и прибавляем 1
+                        int visualLineCount = (lastCharRect.y / lineHeight) + 1;
+
+                        System.out.println("Визуальных строк: " + visualLineCount);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
                 infoControlsPanel.add(controlsPanel, BorderLayout.EAST);
             }
             add(infoControlsPanel, BorderLayout.EAST);
@@ -68,37 +95,17 @@ class InfoPanel extends JPanelCustom {
 
         {
             JPanel infoTextPanel = new JPanel(new BorderLayout());
-
-            // Панель info2 (левая)
-            JPanel info2 = new JPanel();
-            JPanel info3 = new JPanel();
-            info2.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            info3.setBorder(BorderFactory.createLineBorder(Color.RED));
-            info2.setLayout(new BoxLayout(info2, BoxLayout.Y_AXIS));
-            info3.setLayout(new BoxLayout(info3, BoxLayout.Y_AXIS));
+            infoTextPanel.setBackground(Color.ORANGE);
 
 
-// В вашем классе InfoPanel, например, для textArea5:
-            JTextArea textArea5 = MethodsSwing.createTextArea("Asu");
-            //textArea5.setLineWrap(true);        // Включаем автоматический перенос строки
-            textArea5.setWrapStyleWord(true);   // Переносим по словам (а не посимвольно)
-            info2.add(textArea5);
+            textArea.setLineWrap(true);        // Включаем автоматический перенос строки
+            textArea.setWrapStyleWord(true);    //todo сделать при информации о песне
+            textArea.setEnabled(false);
+            textArea.setBorder(null);
+            textArea.setOpaque(false);
+            infoTextPanel.add(textArea);
 
-// Аналогично для textArea6:
-            JTextArea textArea6 = MethodsSwing.createTextArea("Winter Sparkler");
-            //textArea6.setLineWrap(true);
-            //textArea6.setWrapStyleWord(true);
-            info3.add(textArea6);
-
-
-
-            // Добавляем панели в контейнер
-            infoTextPanel.add(info2, BorderLayout.WEST);
-            infoTextPanel.add(info3, BorderLayout.EAST);
-
-            infoTextPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
-            add(infoTextPanel, BorderLayout.WEST);
+            add(infoTextPanel, BorderLayout.CENTER);
         }
 
     }
@@ -110,6 +117,8 @@ class PlaylistPanel extends JPanelCustom {
         super(PanelType.BORDER);
         setBackground(Color.LIGHT_GRAY);
         add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
+
+        setBackground(Color.BLUE);
     }
 }
 
