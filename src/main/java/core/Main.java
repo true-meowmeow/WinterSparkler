@@ -18,19 +18,19 @@ public class Main implements Variables {
             DemoPrefs.setupLaf(args);
 
 
-// Перед изменением темы
-            LookAndFeel originalTheme = UIManager.getLookAndFeel();
+
 
             MainJFrame frame = new MainJFrame();
 
-// После диалога восстановите явно
+
             try {
-                UIManager.setLookAndFeel(originalTheme);
-            } catch (UnsupportedLookAndFeelException e) {
+                UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+
             SwingUtilities.updateComponentTreeUI(frame); // для главного окна
-            FlatLaf.updateUI(); // вместо updateComponentTreeUI()
             frame.setVisible(true);
 
             //Swing.DemoPrefs.registerSystemScaleFactors(frame);
