@@ -1,5 +1,6 @@
 package core;
 
+import com.formdev.flatlaf.FlatLaf;
 import swing.DemoPrefs;
 import swing.MainJFrame;
 
@@ -16,7 +17,20 @@ public class Main implements Variables {
             DemoPrefs.init(PREFS_ROOT_PATH);
             DemoPrefs.setupLaf(args);
 
+
+// Перед изменением темы
+            LookAndFeel originalTheme = UIManager.getLookAndFeel();
+
             MainJFrame frame = new MainJFrame();
+
+// После диалога восстановите явно
+            try {
+                UIManager.setLookAndFeel(originalTheme);
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
+            }
+            SwingUtilities.updateComponentTreeUI(frame); // для главного окна
+            FlatLaf.updateUI(); // вместо updateComponentTreeUI()
             frame.setVisible(true);
 
             //Swing.DemoPrefs.registerSystemScaleFactors(frame);
