@@ -24,6 +24,7 @@ public class Main implements Variables {
 
 
             try {
+                UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
                 UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
             } catch (Exception e) {
                 throw new RuntimeException(e);
