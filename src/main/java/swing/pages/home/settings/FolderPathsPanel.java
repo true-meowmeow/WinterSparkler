@@ -175,18 +175,27 @@ public class FolderPathsPanel extends JPanel {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Выберите папку");
 
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        // Получаем размеры экрана
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();     //todo вывести в main
+        // Устанавливаем размер диалога (половина экрана)
+        chooser.setPreferredSize(
+                new Dimension(screenSize.width / 2, screenSize.height / 2)
+        );
+
+        // Показываем диалог по центру экрана
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File selectedFolder = chooser.getSelectedFile();
             String path = selectedFolder.getAbsolutePath();
+
             // Проверяем, что такой путь ещё не добавлен
             for (int i = 0; i < listModel.getSize(); i++) {
                 FolderEntry fe = listModel.getElementAt(i);
                 if (!fe.isAddButton() && fe.getPath().equals(path)) {
-                    // Такой путь уже есть – не добавляем
                     return;
                 }
             }
-            // Вставляем новый элемент перед последним элементом "Добавить папку"
+
+            // Вставляем новый элемент перед кнопкой "Добавить папку"
             int addButtonIndex = listModel.getSize() - 1;
             listModel.add(addButtonIndex, new FolderEntry(path));
         }
