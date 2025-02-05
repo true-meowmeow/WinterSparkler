@@ -2,7 +2,7 @@ package swing;
 
 import swing.pages.Favorites;
 import swing.pages.PageComponent;
-import swing.pages.PageSettings; // Добавляем импорт
+import swing.pages.home.settings.PageSettings; // Добавляем импорт
 import swing.pages.home.PageHome;
 
 import javax.swing.*;
