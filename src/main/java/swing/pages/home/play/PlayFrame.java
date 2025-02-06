@@ -112,15 +112,7 @@ class InfoPanel extends JPanelCustom {
 
 }
 
-class PlaylistPanel extends JPanelCustom {
-    public PlaylistPanel() {
-        super(PanelType.BORDER);
-        setBackground(Color.LIGHT_GRAY);
-        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
 
-        setBackground(Color.BLUE);
-    }
-}
 
 class PlayerPanel extends JPanelCustom {
     public PlayerPanel() {
