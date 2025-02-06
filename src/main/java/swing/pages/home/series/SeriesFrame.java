@@ -5,6 +5,9 @@ import swing.objects.JPanelCustom;
 import javax.swing.*;
 import java.awt.*;
 
+import static swing.pages.home.play.PlaylistPanel.*;
+
+
 public class SeriesFrame extends JPanelCustom {
     public SeriesFrame() {
         super(PanelType.BORDER, true);
@@ -21,13 +24,26 @@ class ControlsPanel extends JPanelCustom {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.5;
 
-        JButton btn1 = new JButton("Кнопка 1");
+        JToggleButton favoritesToggle = new JToggleButton("Favorites");
         gbc.gridx = 0;
-        add(btn1, gbc);
+        add(favoritesToggle, gbc);
 
-        JButton btn2 = new JButton("Кнопка 2");
+        JToggleButton manageToggle = new JToggleButton("Manage");
+
+        manageToggle.setFocusPainted(false);
         gbc.gridx = 1;
-        add(btn2, gbc);
+        add(manageToggle, gbc);
+        manageToggle.addActionListener(e -> {
+            if (manageToggle.isSelected()) {
+                // Переключаемся на режим управления:
+                cardLayout.show(cardPanel, MANAGE_VIEW);
+                // Можно дополнительно деактивировать компоненты обычного экрана,
+                // если они должны быть неактивны (но в нашем случае они просто скрыты)
+            } else {
+                // Возвращаемся к обычному экрану плейлиста:
+                cardLayout.show(cardPanel, PLAYLIST_VIEW);
+            }
+        });
     }
 }
 class SeriesPanel extends JPanelCustom {
