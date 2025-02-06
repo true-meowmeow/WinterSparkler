@@ -1,5 +1,6 @@
 package swing.pages.home.play;
 
+import core.contentManager.ContentSeeker;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
@@ -49,12 +50,8 @@ public class PlaylistPanel extends JPanelCustom {
         cardLayout.show(cardPanel, PLAYLIST_VIEW);
         add(cardPanel, BorderLayout.CENTER);
 
+        ContentSeeker contentSeeker = new ContentSeeker();
 
-
-
-
-
-
-
+        contentSeeker.seek();
     }
 }

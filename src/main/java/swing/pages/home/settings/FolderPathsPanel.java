@@ -34,12 +34,6 @@ class FolderEntry {
         return path;
     }
 
-    /**
-     * Преобразование пути.
-     * Например, "T:\DistributeFiles\Favorites" ->
-     * "Favorites\DistributeFiles\:T"
-     * То есть, при выводе двоеточие перемещается в начало первой части.
-     */
     public String getDisplayName() {
         if (path == null) {
             return "";
@@ -69,9 +63,9 @@ class FolderEntry {
 
 public class FolderPathsPanel extends JPanel {
     // Модель списка хранит объекты FolderEntry
-    private final DefaultListModel<FolderEntry> listModel = new DefaultListModel<>();
+    private static final DefaultListModel<FolderEntry> listModel = new DefaultListModel<>();
     // JList для отображения элементов
-    private final JList<FolderEntry> pathsList = new JList<>(listModel);
+    public static final JList<FolderEntry> pathsList = new JList<>(listModel);
 
     public FolderPathsPanel() {
         super(new BorderLayout());
@@ -211,6 +205,17 @@ public class FolderPathsPanel extends JPanel {
             }
         }
         return paths;
+    }
+
+    public java.util.List<String> getAllDisplayNames() {
+        java.util.List<String> names = new java.util.ArrayList<>();
+        for (int i = 0; i < listModel.getSize(); i++) {
+            FolderEntry fe = listModel.getElementAt(i);
+            if (!fe.isAddButton()) {
+                names.add(fe.getDisplayName());
+            }
+        }
+        return names;
     }
 
     /**
