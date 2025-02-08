@@ -4,6 +4,7 @@ import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.collections.CollectionsFrame;
 import swing.pages.home.play.PlayFrame;
+import swing.pages.home.play.PlaylistPanel;
 import swing.pages.home.queue.QueueFrame;
 import swing.pages.home.series.SeriesFrame;
 
@@ -12,28 +13,28 @@ import static swing.objects.MethodsSwing.newGridBagConstraintsX;
 
 public class PageHome extends JPanelCustom {
 
-    public PageHome(FolderEntities folderEntities) {
+    public PageHome(PlaylistPanel playlistPanel) {
         super(PanelType.GRID, true);
-        add(new CollectionPageHome(), newGridBagConstraintsX(0, 37));
-        add(new PlayerPageHome(folderEntities), newGridBagConstraintsX(1, 63));
+        add(new LeftSidePageHome(playlistPanel), newGridBagConstraintsX(0, 37));
+        add(new RightSidePageHome(playlistPanel), newGridBagConstraintsX(1, 63));
     }
 }
 
-class CollectionPageHome extends JPanelCustom {
+class LeftSidePageHome extends JPanelCustom {
 
-    public CollectionPageHome() {
+    public LeftSidePageHome(PlaylistPanel playlistPanel) {
         super(PanelType.GRID);
         add(new CollectionsFrame(), newGridBagConstraintsX(0, 50));
-        add(new SeriesFrame(), newGridBagConstraintsX(1, 50));
+        add(new SeriesFrame(playlistPanel), newGridBagConstraintsX(1, 50));
 
     }
 }
 
-class PlayerPageHome extends JPanelCustom {
+class RightSidePageHome extends JPanelCustom {
 
-    public PlayerPageHome(FolderEntities folderEntities) {
+    public RightSidePageHome(PlaylistPanel playlistPanel) {
         super(PanelType.GRID);
-        add(new PlayFrame(folderEntities), newGridBagConstraintsX(0, 75));
+        add(new PlayFrame(playlistPanel), newGridBagConstraintsX(0, 75));
         add(new QueueFrame(), newGridBagConstraintsX(1, 25));
     }
 }
