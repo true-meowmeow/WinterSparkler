@@ -1,14 +1,39 @@
 package core.contentManager;
 
-import static swing.pages.home.settings.FolderPathsPanel.pathsList;
+
+import java.util.List;
 
 public class ContentSeeker {
 
+    FolderEntities folderEntities;
 
-    public ContentSeeker() {
+
+    public ContentSeeker(FolderEntities folderEntities) {
+        this.folderEntities = folderEntities;
     }
 
-    public void seek() {
-        System.out.println(pathsList);
+    public String seek() {
+
+
+        FileDataProcessor processor = new FileDataProcessor();
+
+        // Получаем все файлы из указанных корневых директорий (рекурсивно)
+        List<FileData> allFiles = processor.processRootPaths((folderEntities.getAllPaths()));
+
+        // Выводим статистику по неотсортированным (полным) данным
+        processor.printFileStatistics(allFiles, "неотсортированных");
+
+        // Фильтруем только аудиофайлы (wav, opus, flac, mp3)
+        List<FileData> audioFiles = processor.filterAudioFiles(allFiles);
+
+        // Выводим статистику по аудиофайлам
+        processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
+
+        // Для демонстрации можно распечатать все найденные аудиофайлы:
+        System.out.println("Найденные аудиофайлы:");
+        for (FileData fd : audioFiles) {
+            System.out.println(fd);
+        }
+        return String.valueOf((folderEntities.getAllPaths()));
     }
 }

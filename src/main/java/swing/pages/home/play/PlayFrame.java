@@ -1,5 +1,6 @@
 package swing.pages.home.play;
 
+import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.objects.MethodsSwing;
 
@@ -10,10 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayFrame extends JPanelCustom {
-    public PlayFrame() {
+    public PlayFrame(FolderEntities folderEntities) {
         super(PanelType.BORDER, true);
         add(new InfoPanel(), BorderLayout.NORTH);
-        add(new PlaylistPanel(), BorderLayout.CENTER);
+        add(new PlaylistPanel(folderEntities), BorderLayout.CENTER);
         add(new PlayerPanel(), BorderLayout.SOUTH);
     }
 }
