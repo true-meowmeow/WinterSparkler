@@ -3,6 +3,7 @@ package swing;
 import core.contentManager.FolderEntities;
 import swing.pages.Favorites;
 import swing.pages.PageComponent;
+import swing.pages.home.play.PlaylistPanel;
 import swing.pages.home.settings.PageSettings; // Добавляем импорт
 import swing.pages.home.PageHome;
 
@@ -14,9 +15,10 @@ public class JPanelTabs extends JPanel {
 
     //Objects
     FolderEntities folderEntities = new FolderEntities();
+    PlaylistPanel playlistPanel = new PlaylistPanel(folderEntities);
 
     //Swing
-    PageHome pageHome = new PageHome(folderEntities);
+    PageHome pageHome = new PageHome(playlistPanel);
     PageComponent pageComponent = new PageComponent();
     Favorites favorites = new Favorites();
     PageSettings pageSettings = new PageSettings(folderEntities);
