@@ -10,18 +10,39 @@ import java.awt.*;
 
 public class PlaylistPanel extends JPanelCustom {
 
-    public static final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
-    public static final String MANAGE_VIEW = "MANAGE_VIEW";
+    private final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
+    private final String MANAGE_VIEW = "MANAGE_VIEW";
 
-    // Панель с карточками и CardLayout для переключения режимов
-    public static final CardLayout cardLayout = new ObservableCardLayout();
-    public static final JPanel cardPanel = new JPanel(cardLayout);
+    FolderEntities folderEntities;
+    ContentSeeker contentSeeker;
+
+    CardLayout cardLayout;
+    JPanel cardPanel;
+
+
+    public void setCardLayout(String view) {
+        switch (view) {
+            case "PLAYLIST": {
+                cardLayout.show(cardPanel, PLAYLIST_VIEW);
+                break;
+            }
+            case "MANAGE":
+                cardLayout.show(cardPanel, MANAGE_VIEW);
+                break;
+        }
+    }
 
 
 
-    public PlaylistPanel(FolderEntities folderEntities) {
+
+    public PlaylistPanel(FolderEntities folderEntitiesSuper) {
         super(PanelType.BORDER);
+        this.folderEntities = folderEntitiesSuper;
+
+        contentSeeker = new ContentSeeker(folderEntities);
         ContentSeeker contentSeeker = new ContentSeeker(folderEntities);
+        cardLayout = new ObservableCardLayout(MANAGE_VIEW, contentSeeker);
+        cardPanel = new JPanel(cardLayout);
 
         setBackground(Color.LIGHT_GRAY);
 
@@ -39,29 +60,6 @@ public class PlaylistPanel extends JPanelCustom {
 
         JLabel displayCountLabel = new JLabel();
         manageViewPanel.add(displayCountLabel, BorderLayout.SOUTH); // например, снизу
-
-        folderEntities.listModel.addListDataListener(new javax.swing.event.ListDataListener() {
-            @Override
-            public void intervalAdded(javax.swing.event.ListDataEvent e) {
-                System.out.println("\nadded ->");
-                updateFolders();
-            }
-
-            @Override
-            public void intervalRemoved(javax.swing.event.ListDataEvent e) {
-                System.out.println("\nremoved ->");
-                updateFolders();
-            }
-
-            @Override
-            public void contentsChanged(javax.swing.event.ListDataEvent e) {
-                System.out.println("\nchanged ->");
-                updateFolders();
-            }
-            public void updateFolders() {
-                displayCountLabel.setText(contentSeeker.seek());
-            }
-        });
 
         cardLayout.show(cardPanel, PLAYLIST_VIEW);
         add(cardPanel, BorderLayout.CENTER);

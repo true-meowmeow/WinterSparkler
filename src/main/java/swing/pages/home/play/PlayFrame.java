@@ -11,10 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayFrame extends JPanelCustom {
-    public PlayFrame(FolderEntities folderEntities) {
+
+    public PlayFrame(PlaylistPanel playlistPanel) {
         super(PanelType.BORDER, true);
+
         add(new InfoPanel(), BorderLayout.NORTH);
-        add(new PlaylistPanel(folderEntities), BorderLayout.CENTER);
+        add(playlistPanel, BorderLayout.CENTER);
         add(new PlayerPanel(), BorderLayout.SOUTH);
     }
 }
@@ -23,7 +25,7 @@ class InfoPanel extends JPanelCustom {
     public InfoPanel() {
         super(PanelType.BORDER);
         //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        JTextArea             textArea = new JTextArea("Многострочный\nтекст");
+        JTextArea textArea = new JTextArea("Многострочный\nтекст");
 
 
 

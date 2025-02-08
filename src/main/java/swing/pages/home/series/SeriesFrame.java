@@ -1,6 +1,7 @@
 package swing.pages.home.series;
 
 import swing.objects.JPanelCustom;
+import swing.pages.home.play.PlaylistPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +10,16 @@ import static swing.pages.home.play.PlaylistPanel.*;
 
 
 public class SeriesFrame extends JPanelCustom {
-    public SeriesFrame() {
+
+    public SeriesFrame(PlaylistPanel playlistPanel) {
         super(PanelType.BORDER, true);
-        add(new ControlsPanel(), BorderLayout.NORTH);
+        add(new ControlsPanel(playlistPanel), BorderLayout.NORTH);
         add(new SeriesPanel(), BorderLayout.CENTER);
     }
 }
 
 class ControlsPanel extends JPanelCustom {
-    public ControlsPanel() {
+    public ControlsPanel(PlaylistPanel playlistPanel) {
         super(PanelType.GRID);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,13 +37,9 @@ class ControlsPanel extends JPanelCustom {
         add(manageToggle, gbc);
         manageToggle.addActionListener(e -> {
             if (manageToggle.isSelected()) {
-                // Переключаемся на режим управления:
-                cardLayout.show(cardPanel, MANAGE_VIEW);
-                // Можно дополнительно деактивировать компоненты обычного экрана,
-                // если они должны быть неактивны (но в нашем случае они просто скрыты)
+                playlistPanel.setCardLayout("MANAGE");
             } else {
-                // Возвращаемся к обычному экрану плейлиста:
-                cardLayout.show(cardPanel, PLAYLIST_VIEW);
+                playlistPanel.setCardLayout("PLAYLIST");
             }
         });
     }

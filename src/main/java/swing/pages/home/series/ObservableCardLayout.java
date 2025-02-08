@@ -1,17 +1,31 @@
 package swing.pages.home.series;
 
+import core.contentManager.ContentSeeker;
+import core.contentManager.FolderEntities;
+
 import java.awt.*;
 
 public class ObservableCardLayout extends CardLayout {
+
+    private String MANAGE_VIEW;
+    private ContentSeeker contentSeeker;
+
+    public ObservableCardLayout(String MANAGE_VIEW, ContentSeeker contentSeeker) {
+        this.MANAGE_VIEW = MANAGE_VIEW;
+        this.contentSeeker = contentSeeker;
+    }
+
     @Override
     public void show(Container parent, String name) {
-        // Вызов кастомной логики перед переключением
-        fireBeforeSwitchEvent(parent, name);
+        if (name == MANAGE_VIEW) {
+            fireBeforeSwitchEvent();
+        }
         super.show(parent, name);
     }
 
-    private void fireBeforeSwitchEvent(Container parent, String name) {
-        // Ваша логика обработки
-        System.out.println("?>FDSMFSD");
+    private void fireBeforeSwitchEvent() {
+        //todo логика
+        contentSeeker.seek();
+
     }
 }
