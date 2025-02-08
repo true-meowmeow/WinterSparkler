@@ -86,14 +86,12 @@ public class FileDataProcessor {
         for (FileData fileData : allFiles) {
 
             switch (fileData.getExtension()) {
-                case "wav" -> {
+                case "wav", "flac" -> {
                     audioFiles.add(fileData);
-                }
-                case "flac" -> {
-                    audioFiles.add(fileData);
+                    break;
                 }
                 default -> {
-                    System.out.println("no support");
+                    break;
                 }
             }
         }

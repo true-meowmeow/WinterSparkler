@@ -22,18 +22,22 @@ public class ContentSeeker {
 
         // Выводим статистику по неотсортированным (полным) данным
         processor.printFileStatistics(allFiles, "неотсортированных");
+        System.out.println();
 
         // Фильтруем только аудиофайлы (wav, opus, flac, mp3)
         List<FileData> audioFiles = processor.filterAudioFiles(allFiles);
 
         // Выводим статистику по аудиофайлам
         processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
+        System.out.println();
 
         // Для демонстрации можно распечатать все найденные аудиофайлы:
         System.out.println("Найденные аудиофайлы:");
         for (FileData fd : audioFiles) {
             System.out.println(fd);
         }
+        System.out.println();
+        System.out.println();
         return String.valueOf((folderEntities.getAllPaths()));
     }
 }
