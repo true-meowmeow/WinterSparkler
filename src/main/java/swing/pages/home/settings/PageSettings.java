@@ -1,24 +1,20 @@
 package swing.pages.home.settings;
 
+import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 
 import static swing.objects.MethodsSwing.newGridBagConstraintsX;
 
 
 public class PageSettings extends JPanelCustom {
-    public PageSettings() {
+    public PageSettings(FolderEntities folderEntities) {
         super(JPanelCustom.PanelType.GRID, true);
 
         add(new LeftPanel(), newGridBagConstraintsX(0, 40));
         add(new CenterPanel(), newGridBagConstraintsX(1, 30));
-        add(new RightPanel(), newGridBagConstraintsX(2, 30));
+        add(new RightPanel(folderEntities), newGridBagConstraintsX(2, 30));
     }
 }
 
@@ -41,12 +37,12 @@ class CenterPanel extends JPanelCustom {
 
 class RightPanel extends JPanelCustom {
 
-    public RightPanel() {
+    public RightPanel(FolderEntities folderEntities) {
         super(PanelType.BORDER, true);
 
 
         setBackground(Color.DARK_GRAY);
-        add(new FolderPathsPanel(), BorderLayout.NORTH);
+        add(new FolderPathsPanel(folderEntities), BorderLayout.NORTH);
     }
 }
 

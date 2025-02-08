@@ -1,5 +1,6 @@
 package swing.pages.home;
 
+import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.collections.CollectionsFrame;
 import swing.pages.home.play.PlayFrame;
@@ -11,10 +12,10 @@ import static swing.objects.MethodsSwing.newGridBagConstraintsX;
 
 public class PageHome extends JPanelCustom {
 
-    public PageHome() {
+    public PageHome(FolderEntities folderEntities) {
         super(PanelType.GRID, true);
         add(new CollectionPageHome(), newGridBagConstraintsX(0, 37));
-        add(new PlayerPageHome(), newGridBagConstraintsX(1, 63));
+        add(new PlayerPageHome(folderEntities), newGridBagConstraintsX(1, 63));
     }
 }
 
@@ -30,9 +31,9 @@ class CollectionPageHome extends JPanelCustom {
 
 class PlayerPageHome extends JPanelCustom {
 
-    public PlayerPageHome() {
+    public PlayerPageHome(FolderEntities folderEntities) {
         super(PanelType.GRID);
-        add(new PlayFrame(), newGridBagConstraintsX(0, 75));
+        add(new PlayFrame(folderEntities), newGridBagConstraintsX(0, 75));
         add(new QueueFrame(), newGridBagConstraintsX(1, 25));
     }
 }

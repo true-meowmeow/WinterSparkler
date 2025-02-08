@@ -1,5 +1,6 @@
 package swing;
 
+import core.contentManager.FolderEntities;
 import swing.pages.Favorites;
 import swing.pages.PageComponent;
 import swing.pages.home.settings.PageSettings; // Добавляем импорт
@@ -11,10 +12,17 @@ import java.awt.*;
 public class JPanelTabs extends JPanel {
     CardLayout cardLayout = new CardLayout();
 
-    PageHome pageHome = new PageHome();
+    //Objects
+    FolderEntities folderEntities = new FolderEntities();
+
+    //Swing
+    PageHome pageHome = new PageHome(folderEntities);
     PageComponent pageComponent = new PageComponent();
     Favorites favorites = new Favorites();
-    PageSettings pageSettings = new PageSettings(); // Добавляем страницу настроек
+    PageSettings pageSettings = new PageSettings(folderEntities);
+
+
+
 
     public JPanelTabs() {
         setVisible(true);
