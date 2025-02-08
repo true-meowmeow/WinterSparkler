@@ -1,82 +1,41 @@
 package swing.pages.home.settings;
 
+import core.contentManager.FolderEntities;
+import core.contentManager.FolderEntry;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DropTarget;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
-// Класс-обёртка для элемента списка
-class FolderEntry {
-    private final String path;
-    private final boolean addButton; // если true – это специальный элемент "Добавить папку"
 
-    public FolderEntry(String path) {
-        this.path = path;
-        this.addButton = false;
-    }
-
-    // Для создания элемента "Добавить папку"
-    public FolderEntry(boolean addButton) {
-        this.path = null;
-        this.addButton = addButton;
-    }
-
-    public boolean isAddButton() {
-        return addButton;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getDisplayName() {
-        if (path == null) {
-            return "";
-        }
-        String separator = File.separator;
-        // Разбиваем по обратному слешу или прямому слешу
-        String[] parts = path.split("\\\\|/");
-        if (parts.length < 2) {
-            return path;
-        }
-        StringBuilder sb = new StringBuilder();
-        // Идем с конца к началу (реверсируем порядок)
-        for (int i = parts.length - 1; i >= 0; i--) {
-            String part = parts[i];
-            // Если это последняя (фактически изначально первая) часть и она оканчивается на ":", переместим двоеточие в начало
-            if (i == 0 && part.endsWith(":")) {
-                part = ":" + part.substring(0, part.length() - 1);
-            }
-            sb.append(part);
-            if (i > 0) {
-                sb.append(separator);
-            }
-        }
-        return sb.toString();
-    }
-}
 
 public class FolderPathsPanel extends JPanel {
-    // Модель списка хранит объекты FolderEntry
-    private static final DefaultListModel<FolderEntry> listModel = new DefaultListModel<>();
-    // JList для отображения элементов
-    public static final JList<FolderEntry> pathsList = new JList<>(listModel);
 
-    public FolderPathsPanel() {
+    //FolderEntities folderEntities;
+    public DefaultListModel<FolderEntry> listModel;
+    public JList<FolderEntry> pathsList;
+
+    public FolderPathsPanel(FolderEntities folderEntities) {
         super(new BorderLayout());
+
+        //this.folderEntities = folderEntities;
+        this.listModel = folderEntities.listModel;
+        this.pathsList = folderEntities.pathsList;
+
+
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Добавляем несколько демонстрационных путей
-        for (int i = 0; i < 5; i++) {
-            listModel.addElement(new FolderEntry("T:\\DistributeFiles\\Favorites"));
-        }
+        folderEntities.addListModel("C:\\Users\\meowmeow\\Music\\testing\\core 1");
+        folderEntities.addListModel("C:\\Users\\meowmeow\\Music\\testing\\core 1 — копия");
+
         // Добавляем специальный элемент "Добавить папку"
-        listModel.addElement(new FolderEntry(true));
+        folderEntities.addListModel(true);
 
         // Заголовок
         JLabel titleLabel = new JLabel("Список рабочих директорий");
@@ -85,12 +44,12 @@ public class FolderPathsPanel extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         // Настраиваем список
-        pathsList.setFixedCellHeight(30);
-        pathsList.setCellRenderer(new FolderEntryRenderer());
+        folderEntities.pathsList.setFixedCellHeight(30);
+        folderEntities.pathsList.setCellRenderer(new FolderEntryRenderer());
 
         // Включаем drag&drop для списка
-        pathsList.setDropMode(DropMode.INSERT);
-        pathsList.setTransferHandler(new TransferHandler() {
+        folderEntities.pathsList.setDropMode(DropMode.INSERT);
+        folderEntities.pathsList.setTransferHandler(new TransferHandler() {
             @Override
             public boolean canImport(TransferSupport support) {
                 // Поддерживаем только список файлов
@@ -134,14 +93,14 @@ public class FolderPathsPanel extends JPanel {
         });
 
         // Обработка нажатия мыши для ячеек списка
-        pathsList.addMouseListener(new MouseAdapter() {
+        folderEntities.pathsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int index = pathsList.locationToIndex(e.getPoint());
+                int index = folderEntities.pathsList.locationToIndex(e.getPoint());
                 if (index == -1) {
                     return;
                 }
-                Rectangle cellBounds = pathsList.getCellBounds(index, index);
+                Rectangle cellBounds = folderEntities.pathsList.getCellBounds(index, index);
                 Point ptInCell = new Point(e.getX() - cellBounds.x, e.getY() - cellBounds.y);
                 FolderEntry entry = listModel.getElementAt(index);
                 if (entry.isAddButton()) {
@@ -157,7 +116,7 @@ public class FolderPathsPanel extends JPanel {
         });
 
         // Оборачиваем список в JScrollPane
-        JScrollPane scrollPane = new JScrollPane(pathsList);
+        JScrollPane scrollPane = new JScrollPane(folderEntities.pathsList);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         add(scrollPane, BorderLayout.CENTER);
@@ -193,29 +152,6 @@ public class FolderPathsPanel extends JPanel {
             int addButtonIndex = listModel.getSize() - 1;
             listModel.add(addButtonIndex, new FolderEntry(path));
         }
-    }
-
-    // Метод для получения всех путей (без элемента "Добавить папку")
-    public java.util.List<String> getAllPaths() {
-        java.util.List<String> paths = new java.util.ArrayList<>();
-        for (int i = 0; i < listModel.getSize(); i++) {
-            FolderEntry fe = listModel.getElementAt(i);
-            if (!fe.isAddButton()) {
-                paths.add(fe.getPath());
-            }
-        }
-        return paths;
-    }
-
-    public java.util.List<String> getAllDisplayNames() {
-        java.util.List<String> names = new java.util.ArrayList<>();
-        for (int i = 0; i < listModel.getSize(); i++) {
-            FolderEntry fe = listModel.getElementAt(i);
-            if (!fe.isAddButton()) {
-                names.add(fe.getDisplayName());
-            }
-        }
-        return names;
     }
 
     /**
