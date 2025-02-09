@@ -33,10 +33,14 @@ class InfoQueuePanel extends JPanelCustom {
         gbc.weightx = 0.5;
 
         JButton btn1 = new JButton("Кнопка 1");
+        btn1.setFocusable(false);
+        btn1.setFocusPainted(false);
         gbc.gridx = 0;
         add(btn1, gbc);
 
         JButton btn2 = new JButton("Кнопка 2");
+        btn2.setFocusable(false);
+        btn2.setFocusPainted(false);
         gbc.gridx = 1;
         add(btn2, gbc);
     }

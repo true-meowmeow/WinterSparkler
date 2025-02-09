@@ -1,5 +1,7 @@
 package core.contentManager;
 
+import java.beans.PropertyChangeSupport;
+
 public class FileData {
     private String fileName;     // Имя файла, например "song.mp3"
     private String relativePath; // Относительный путь до папки, в которой лежит файл, например "Album1/"
