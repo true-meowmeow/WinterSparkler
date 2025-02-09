@@ -71,7 +71,4 @@ public class PlaylistPanel extends JPanelCustom {
         panel.setBackground(Color.ORANGE);
         return panel;
     }
-
-    // Если потребуется отдельный manageViewPanel, его можно сделать пустым,
-    // но в данном случае используем folderPanel
 }
