@@ -51,6 +51,10 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 4, 0));
         rightPanel.add(menuButtonSettings);
 
+
+        menuButtonSettings.setFocusable(false);
+        menuButtonSettings.setFocusPainted(false);
+
         menuButtonSettings.setPreferredSize(new Dimension(80, 20));
         menuButtonSettings.setMargin(new Insets(0, 4, 0, 4));
 
