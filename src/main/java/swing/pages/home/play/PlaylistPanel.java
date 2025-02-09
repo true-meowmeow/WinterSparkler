@@ -1,12 +1,14 @@
 package swing.pages.home.play;
 
 import core.contentManager.ContentSeeker;
+import core.contentManager.FileData;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.series.ObservableCardLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class PlaylistPanel extends JPanelCustom {
 
@@ -16,9 +18,8 @@ public class PlaylistPanel extends JPanelCustom {
     FolderEntities folderEntities;
     ContentSeeker contentSeeker;
 
-    CardLayout cardLayout;
+    ObservableCardLayout cardLayout;
     JPanel cardPanel;
-
 
     public void setCardLayout(String view) {
         switch (view) {
@@ -32,38 +33,45 @@ public class PlaylistPanel extends JPanelCustom {
         }
     }
 
-
-
-
     public PlaylistPanel(FolderEntities folderEntitiesSuper) {
         super(PanelType.BORDER);
         this.folderEntities = folderEntitiesSuper;
 
         contentSeeker = new ContentSeeker(folderEntities);
-        ContentSeeker contentSeeker = new ContentSeeker(folderEntities);
         cardLayout = new ObservableCardLayout(MANAGE_VIEW, contentSeeker);
         cardPanel = new JPanel(cardLayout);
 
+        // Создаем единственный экземпляр панели папочной системы
+        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.audioFiles);
+
+        // Добавляем слушатель изменений, который обновляет ту же панель
+        cardLayout.addPropertyChangeListener(evt -> {
+            if ("audioFiles".equals(evt.getPropertyName())) {
+                List<FileData> newAudioFiles = (List<FileData>) evt.getNewValue();
+                folderPanel.updateAudioFiles(newAudioFiles);
+            }
+        });
+
         setBackground(Color.LIGHT_GRAY);
 
-        //Playlist
-        JPanel playlistViewPanel = new JPanel(new BorderLayout());
-        playlistViewPanel.add(new JLabel("Обычный экран плейлиста", SwingConstants.CENTER), BorderLayout.CENTER);
-        playlistViewPanel.setBackground(Color.ORANGE);
+        // Создаем панель плейлиста и добавляем в cardPanel
+        JPanel playlistViewPanel = playlistViewPanel();
         cardPanel.add(playlistViewPanel, PLAYLIST_VIEW);
 
-        //Manage
-        JPanel manageViewPanel = new JPanel(new BorderLayout());
-        manageViewPanel.add(new JLabel("Экран управления плейлистом", SwingConstants.CENTER), BorderLayout.CENTER);
-        manageViewPanel.setBackground(Color.WHITE);
-        cardPanel.add(manageViewPanel, MANAGE_VIEW);
-
-        JLabel displayCountLabel = new JLabel();
-        manageViewPanel.add(displayCountLabel, BorderLayout.SOUTH); // например, снизу
+        // Используем созданную ранее folderPanel для управления
+        cardPanel.add(folderPanel, MANAGE_VIEW);
 
         cardLayout.show(cardPanel, PLAYLIST_VIEW);
         add(cardPanel, BorderLayout.CENTER);
-
-
     }
+
+    public JPanel playlistViewPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(new JLabel("Обычный экран плейлиста", SwingConstants.CENTER), BorderLayout.CENTER);
+        panel.setBackground(Color.ORANGE);
+        return panel;
+    }
+
+    // Если потребуется отдельный manageViewPanel, его можно сделать пустым,
+    // но в данном случае используем folderPanel
 }

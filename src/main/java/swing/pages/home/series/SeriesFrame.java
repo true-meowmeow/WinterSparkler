@@ -27,10 +27,14 @@ class ControlsPanel extends JPanelCustom {
         gbc.weightx = 0.5;
 
         JToggleButton favoritesToggle = new JToggleButton("Favorites");
+        favoritesToggle.setFocusable(false);
+        favoritesToggle.setFocusPainted(false);
         gbc.gridx = 0;
         add(favoritesToggle, gbc);
 
         JToggleButton manageToggle = new JToggleButton("Manage");
+        manageToggle.setFocusable(false);
+        manageToggle.setFocusPainted(false);
 
         manageToggle.setFocusPainted(false);
         gbc.gridx = 1;

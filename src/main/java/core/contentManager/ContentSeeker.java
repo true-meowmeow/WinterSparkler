@@ -1,18 +1,19 @@
 package core.contentManager;
 
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 public class ContentSeeker {
 
     FolderEntities folderEntities;
 
-
     public ContentSeeker(FolderEntities folderEntities) {
         this.folderEntities = folderEntities;
     }
 
-    public String seek() {
+    public List<FileData> seek() {
 
 
         FileDataProcessor processor = new FileDataProcessor();
@@ -38,6 +39,6 @@ public class ContentSeeker {
         }
         System.out.println();
         System.out.println();
-        return String.valueOf((folderEntities.getAllPaths()));
+        return audioFiles;
     }
 }

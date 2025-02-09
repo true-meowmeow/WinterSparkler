@@ -20,6 +20,8 @@ class SearchPanel extends JPanelCustom {
         super(PanelType.BORDER);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JTextField searchField = new JTextField("Введите текст...");
+
+        searchField.setFocusable(false);
         add(searchField, BorderLayout.CENTER);
         //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
