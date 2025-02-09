@@ -41,10 +41,14 @@ class InfoPanel extends JPanelCustom {
                 gbc.weightx = 0.5;
 
                 JButton btn1 = new JButton("1 1");
+                btn1.setFocusable(false);
+                btn1.setFocusPainted(false);
                 gbc.gridx = 0;
                 infoPanel.add(btn1, gbc);
 
                 JButton btn2 = new JButton("2 2");
+                btn2.setFocusable(false);
+                btn2.setFocusPainted(false);
                 gbc.gridx = 1;
                 infoPanel.add(btn2, gbc);
 
@@ -59,10 +63,14 @@ class InfoPanel extends JPanelCustom {
                 gbc.weightx = 0.5;
 
                 JButton btn1 = new JButton("21 1");
+                btn1.setFocusable(false);
+                btn1.setFocusPainted(false);
                 gbc.gridx = 0;
                 controlsPanel.add(btn1, gbc);
 
                 JButton btn2 = new JButton("22 2");
+                btn2.setFocusable(false);
+                btn2.setFocusPainted(false);
                 gbc.gridx = 1;
                 controlsPanel.add(btn2, gbc);
 
