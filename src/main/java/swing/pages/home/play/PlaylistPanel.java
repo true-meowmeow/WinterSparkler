@@ -1,7 +1,7 @@
 package swing.pages.home.play;
 
 import core.contentManager.ContentSeeker;
-import core.contentManager.FileData;
+import core.contentManager.FilesDataList;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.series.ObservableCardLayout;
@@ -42,13 +42,12 @@ public class PlaylistPanel extends JPanelCustom {
         cardPanel = new JPanel(cardLayout);
 
         // Создаем единственный экземпляр панели папочной системы
-        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.audioFiles);
+        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.filesDataList);
 
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
-            if ("audioFiles".equals(evt.getPropertyName())) {
-                List<FileData> newAudioFiles = (List<FileData>) evt.getNewValue();
-                folderPanel.updateAudioFiles(newAudioFiles);
+            if ("filesDataList".equals(evt.getPropertyName())) {
+                folderPanel.updateAudioFiles((FilesDataList) evt.getNewValue());
             }
         });
 

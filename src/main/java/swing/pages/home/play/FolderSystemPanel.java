@@ -1,6 +1,6 @@
 package swing.pages.home.play;
 
-import core.contentManager.FileData;
+import core.contentManager.FilesDataList;
 import swing.objects.JPanelCustom;
 import swing.objects.ScrollablePanel;
 
@@ -9,13 +9,13 @@ import java.awt.*;
 import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
-    private List<FileData> allFiles;
+    private FilesDataList filesDataList;
     private String currentRoot = null;
     private ScrollablePanel contentPanel; // Основной контейнер для панелей
 
-    public FolderSystemPanel(List<FileData> audioFiles) {
+    public FolderSystemPanel(FilesDataList filesDataList) {
         super(PanelType.BORDER);
-        this.allFiles = audioFiles;
+        this.filesDataList = filesDataList;
 
         // Создаем основной контейнер с вертикальным BoxLayout
         contentPanel = new ScrollablePanel();
@@ -33,8 +33,8 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
 
-    public void updateAudioFiles(List<FileData> newAudioFiles) {
-        this.allFiles = newAudioFiles;
+    public void updateAudioFiles(FilesDataList filesDataList) {
+        this.filesDataList = filesDataList;
 
 
         //todo Сделать метод который разбирает этот лист для кормления в новый интерфейс
