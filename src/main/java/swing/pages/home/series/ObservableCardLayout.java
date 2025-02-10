@@ -1,7 +1,8 @@
 package swing.pages.home.series;
 
 import core.contentManager.ContentSeeker;
-import core.contentManager.FileData;
+import core.contentManager.FilesDataList;
+
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -14,7 +15,7 @@ public class ObservableCardLayout extends CardLayout {
     private ContentSeeker contentSeeker;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    public List<FileData> audioFiles = new ArrayList<>();
+    public FilesDataList filesDataList = new FilesDataList();
 
     public ObservableCardLayout(String MANAGE_VIEW, ContentSeeker contentSeeker) {
         this.MANAGE_VIEW = MANAGE_VIEW;
@@ -39,11 +40,6 @@ public class ObservableCardLayout extends CardLayout {
     }
 
     private void fireBeforeSwitchEvent() {
-        // Сохраняем старое значение
-        List<FileData> oldAudioFiles = new ArrayList<>(audioFiles);
-        // Обновляем список (например, вызывая метод поиска)
-        audioFiles = contentSeeker.seek();
-        // Уведомляем всех слушателей об изменении свойства "audioFiles"
-        pcs.firePropertyChange("audioFiles", oldAudioFiles, audioFiles);
+        pcs.firePropertyChange("filesDataList", filesDataList, contentSeeker.seek());
     }
 }

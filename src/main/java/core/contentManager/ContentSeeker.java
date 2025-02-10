@@ -1,8 +1,6 @@
 package core.contentManager;
 
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContentSeeker {
@@ -13,32 +11,45 @@ public class ContentSeeker {
         this.folderEntities = folderEntities;
     }
 
-    public List<FileData> seek() {
-
-
+    /**
+     * Ищет файлы по всем заданным корневым путям, выводит статистику и фильтрует аудиофайлы.
+     *
+     * @return объект FilesDataList, содержащий найденные файлы для каждого корневого пути
+     */
+    public FilesDataList seek() {
         FileDataProcessor processor = new FileDataProcessor();
 
-        // Получаем все файлы из указанных корневых директорий (рекурсивно)
-        List<FileData> allFiles = processor.processRootPaths((folderEntities.getAllPaths()));
+        // Получаем список корневых путей из FolderEntities (предполагается, что возвращается List<String>)
+        FilesDataList filesDataList = processor.processRootPaths(folderEntities.getAllPaths());
 
-        // Выводим статистику по неотсортированным (полным) данным
-        processor.printFileStatistics(allFiles, "неотсортированных");
-        System.out.println();
-
-        // Фильтруем только аудиофайлы (wav, opus, flac, mp3)
-        List<FileData> audioFiles = processor.filterAudioFiles(allFiles);
-
-        // Выводим статистику по аудиофайлам
-        processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
-        System.out.println();
-
-        // Для демонстрации можно распечатать все найденные аудиофайлы:
-        System.out.println("Найденные аудиофайлы:");
-        for (FileData fd : audioFiles) {
-            System.out.println(fd);
+        // Для статистики «неотсортированных» собираем все FileData из всех корневых директорий
+        List<FilesData.FileData> allFiles = new ArrayList<>();
+        for (FilesData fd : filesDataList.getFilesDataListAll()) {
+            allFiles.addAll(fd.getFileData());
         }
+        //processor.printFileStatistics(allFiles, "неотсортированных");
         System.out.println();
+
+        // Фильтруем аудиофайлы (например, с расширениями wav, flac, opus, mp3)
+        List<FilesData.FileData> audioFiles = processor.filterAudioFiles(filesDataList);
+        //processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
         System.out.println();
-        return audioFiles;
+
+        // Демонстрация – вывод найденных аудиофайлов
+        //System.out.println("Найденные аудиофайлы:");
+        for (FilesData.FileData fd : audioFiles) {
+            //System.out.println(fd);
+        }
+
+/*
+        for (int i = 0; i < filesDataList.getFilesDataListFiltered().size(); i++) {
+            for (int j = 0; j < filesDataList.getFilesDataListFiltered().get(i).getFileData().size(); j++) {
+                System.out.print(filesDataList.getFilesDataListFiltered().get(i).getRootPath() + "    ");
+                System.out.println(filesDataList.getFilesDataListFiltered().get(i).getFileData().get(j));
+            }
+        }*/
+
+
+        return filesDataList;
     }
 }

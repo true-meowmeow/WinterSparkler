@@ -2,111 +2,119 @@ package core.contentManager;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FileDataProcessor {
+    private static final Set<String> AUDIO_EXTENSIONS = new HashSet<>(Arrays.asList("wav", "flac", "opus", "mp3"));
+
 
     /**
-     * Проходит по всем указанным корневым путям и собирает данные обо всех файлах.
-     * Для каждого корневого пути вычисляется относительный путь для найденных файлов.
+     * Обходит все указанные корневые пути и собирает данные о файлах.
+     * Для каждого корневого пути создаётся объект FilesData, куда добавляются найденные файлы.
      *
-     * @param rootPaths список корневых путей (например, "C:\\Music")
-     * @return список объектов FileData со всей информацией обо всех найденных файлах
+     * @param rootPaths список корневых путей (например, "C:\Music")
+     * @return объект FilesDataList, содержащий для каждого корневого пути список найденных файлов
      */
-    public List<FileData> processRootPaths(List<String> rootPaths) {
-        List<FileData> allFiles = new ArrayList<>();
+    public FilesDataList processRootPaths(List<String> rootPaths) {
+        FilesDataList filesDataList = new FilesDataList();
         for (String rootPath : rootPaths) {
             File root = new File(rootPath);
-            if (root.exists() && root.isDirectory()) {
-                allFiles.addAll(processDirectory(root, root));
-            } else {
+            if (!root.exists() || !root.isDirectory()) {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
+                continue;
+            }
+            // Создаем объект для всех найденных файлов
+            FilesData filesDataAll = new FilesData(rootPath);
+            processDirectory(root, root, filesDataAll);
+            // Добавляем в общий список (даже если файлов нет)
+            filesDataList.getFilesDataListAll().add(filesDataAll);
+
+            // Формируем объект с отфильтрованными (аудио) файлами
+            FilesData filesDataFiltered = new FilesData(rootPath);
+            for (FilesData.FileData fd : filesDataAll.getFileData()) {
+                if (AUDIO_EXTENSIONS.contains(fd.getExtension())) {
+                    filesDataFiltered.addFileData(fd);
+                }
+            }
+            // Добавляем в отфильтрованный список только если найдены аудиофайлы
+            if (!filesDataFiltered.getFileData().isEmpty()) {
+                filesDataList.getFilesDataListFiltered().add(filesDataFiltered);
             }
         }
-        return allFiles;
+        return filesDataList;
     }
 
+
     /**
-     * Рекурсивно обходит директорию.
+     * Рекурсивно обходит директорию и добавляет найденные файлы в переданный объект FilesData.
      *
      * @param currentDir текущая директория обхода
-     * @param baseDir    корневая директория, относительно которой будет вычисляться относительный путь
-     * @return список объектов FileData, найденных в данной директории и её подпапках
+     * @param baseDir    корневая директория, относительно которой вычисляется относительный путь
+     * @param filesData  объект, в который добавляются найденные данные о файлах
      */
-    private List<FileData> processDirectory(File currentDir, File baseDir) {
-        List<FileData> filesList = new ArrayList<>();
+    private void processDirectory(File currentDir, File baseDir, FilesData filesData) {
         File[] files = currentDir.listFiles();
         if (files == null) {
-            return filesList;
+            return;
         }
         for (File file : files) {
             if (file.isDirectory()) {
-                // Рекурсивно обрабатываем подпапки
-                filesList.addAll(processDirectory(file, baseDir));
+                // Рекурсивный обход подпапок
+                processDirectory(file, baseDir, filesData);
             } else if (file.isFile()) {
-                // Вычисляем полный относительный путь от baseDir до файла
+                // Вычисляем относительный путь от baseDir до файла
                 URI baseURI = baseDir.toURI();
                 URI fileURI = file.toURI();
                 String fullRelativePath = baseURI.relativize(fileURI).getPath();
-                // Убираем имя файла из полного относительного пути, оставляя только путь к папке
+                // Убираем из пути имя файла, оставляя только путь к папке
                 String folderRelative;
                 if (fullRelativePath.endsWith(file.getName())) {
                     folderRelative = fullRelativePath.substring(0, fullRelativePath.length() - file.getName().length());
                 } else {
-                    folderRelative = fullRelativePath; // На всякий случай
+                    folderRelative = fullRelativePath;
                 }
-                // Вычисляем расширение файла (без точки)
-                String extension;
+                // Определяем расширение файла (без точки)
                 int dotIndex = file.getName().lastIndexOf('.');
+                String extension;
                 if (dotIndex != -1 && dotIndex < file.getName().length() - 1) {
                     extension = file.getName().substring(dotIndex + 1).toLowerCase();
                 } else {
                     extension = "нет_расширения";
                 }
-                // Создаём объект FileData с корневым путем, именем файла, относительным путем (без имени) и расширением
-                filesList.add(new FileData(baseDir.getAbsolutePath(), file.getName(), folderRelative, extension));
+                // Добавляем данные о файле в текущий FilesData
+                filesData.addFileData(new FilesData.FileData(file.getName(), folderRelative, extension));
             }
         }
-        return filesList;
     }
 
     /**
-     * Фильтрует список файлов, оставляя только аудиофайлы с нужными расширениями.
+     * Фильтрует файлы, оставляя только аудиофайлы с указанными расширениями.
      *
-     * @param allFiles список всех найденных файлов
-     * @return список аудиофайлов (wav, opus, flac, mp3)
+     * @param filesDataList объект FilesDataList, содержащий данные по всем корневым путям
+     * @return список объектов FilesData.FileData, удовлетворяющих условию (например, расширения wav, flac, opus, mp3)
      */
-
-
-    public List<FileData> filterAudioFiles(List<FileData> allFiles) {
-        List<FileData> audioFiles = new ArrayList<>();
-        for (FileData fileData : allFiles) {
-
-            switch (fileData.getExtension()) {
-                case "wav", "flac" -> {
+    public List<FilesData.FileData> filterAudioFiles(FilesDataList filesDataList) {
+        List<FilesData.FileData> audioFiles = new ArrayList<>();
+        for (FilesData filesData : filesDataList.getFilesDataListFiltered()) {
+            for (FilesData.FileData fileData : filesData.getFileData()) {
+                if (AUDIO_EXTENSIONS.contains(fileData.getExtension())) {
                     audioFiles.add(fileData);
-                    break;
-                }
-                default -> {
-                    break;
                 }
             }
         }
         return audioFiles;
     }
 
+
     /**
-     * Выводит статистику в консоль – количество файлов для каждого расширения.
+     * Выводит в консоль статистику – количество файлов по каждому расширению.
      *
-     * @param files список файлов для анализа
-     * @param label метка, например "Неотсортированные" или "Отфильтрованные"
+     * @param fileDataList список файлов для анализа
+     * @param label        метка (например, "неотсортированных" или "отфильтрованных (аудио)")
      */
-    public void printFileStatistics(List<FileData> files, String label) {
+    public void printFileStatistics(List<FilesData.FileData> fileDataList, String label) {
         Map<String, Integer> extensionCount = new HashMap<>();
-        for (FileData fileData : files) {
+        for (FilesData.FileData fileData : fileDataList) {
             String ext = fileData.getExtension();
             extensionCount.put(ext, extensionCount.getOrDefault(ext, 0) + 1);
         }
