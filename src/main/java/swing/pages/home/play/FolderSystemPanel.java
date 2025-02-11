@@ -9,13 +9,12 @@ import java.awt.*;
 import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
-    private FilesDataList filesDataList;
+    //private FilesDataList filesDataList;
     private String currentRoot = null;
     private ScrollablePanel contentPanel; // Основной контейнер для панелей
 
     public FolderSystemPanel(FilesDataList filesDataList) {
         super(PanelType.BORDER);
-        this.filesDataList = filesDataList;
 
         // Создаем основной контейнер с вертикальным BoxLayout
         contentPanel = new ScrollablePanel();
@@ -27,21 +26,44 @@ public class FolderSystemPanel extends JPanelCustom {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(scrollPane, BorderLayout.CENTER);
 
+        updateAudioFiles(new FilesDataList());
+
         // Добавляем тестовые панели
-        contentPanel.add(addCorePanel("hihi"));
-        contentPanel.add(addPanel2());
+        //contentPanel.add(corePanel, BorderLayout.CENTER);
     }
 
 
+
+    private JPanelCustom corePanel() {
+        JPanelCustom jPanel = new JPanelCustom(PanelType.BORDER);
+        jPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // <-- Добавить выравнивание
+        jPanel.add(new Label("fdsfsferw"), BorderLayout.CENTER);
+        return jPanel;
+    }
+
+    JPanel corePanel = new JPanel();
+    int i = 11;
     public void updateAudioFiles(FilesDataList filesDataList) {
-        this.filesDataList = filesDataList;
+        contentPanel.removeAll(); // Полностью очищаем контейнер
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 
-        //todo Сделать метод который разбирает этот лист для кормления в новый интерфейс
+        for (int j = 0; j < filesDataList.getFilesDataListFiltered().size(); j++) {
+            System.out.println(j);
+        }
+
+        panel.add(addCorePanel1());
+        panel.add(addPanel2());
+        panel.add(addPanel2());
+
+        contentPanel.add(panel);
+        contentPanel.revalidate(); // Обязательно обновляем!
+        contentPanel.repaint();
     }
 
-
-    private JPanelCustom addCorePanel(String corePathName) {
+    private JPanelCustom addCorePanel1() {
         JPanelCustom jPanel = new JPanelCustom(PanelType.BORDER);
         jPanel.setBackground(Color.WHITE);
         jPanel.setLayout(new GridBagLayout()); // GridBagLayout для гибкости
@@ -58,11 +80,9 @@ public class FolderSystemPanel extends JPanelCustom {
 
         gbc.gridy++; // Следующий ряд
         gbc.gridwidth = 1; // Теперь компоненты идут по отдельности
-
         jPanel.add(new JLabel("sa"), gbc);
         gbc.gridx++; // Следующая колонка
         jPanel.add(new JLabel("sa"), gbc);
-        gbc.gridx++;
         jPanel.add(new JLabel("sa"), gbc);
 
         return jPanel;
