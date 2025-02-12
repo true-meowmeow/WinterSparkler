@@ -12,14 +12,20 @@ public class JPanelCustom extends JPanel {
 
     // Основной конструктор
     public JPanelCustom(PanelType type, boolean clearBorder) {
-        setLayoutByType(type);
+        this(type);
         //createBorder(this);
         handleClearBorder(clearBorder);
     }
 
+    // Основной конструктор
+    public JPanelCustom(PanelType type, String axis) {
+        this(type);
+        handleAXIS(type, axis);
+    }
+
     // Упрощенные конструкторы
     public JPanelCustom(PanelType type) {
-        this(type, false);
+        setLayoutByType(type);
     }
 
     private void setLayoutByType(PanelType type) {
@@ -35,6 +41,31 @@ public class JPanelCustom extends JPanel {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown panel type: " + type);
+        }
+    }
+
+    private void handleAXIS(PanelType type, String axis) {
+        if (type.equals(PanelType.BORDER)) {
+            switch (axis) {
+                case "X" -> {
+                    setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                    break;
+                }
+                case "PAGE" -> {
+                    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+                    break;
+                }
+                case "LINE" -> {
+                    setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+                    break;
+                }
+                case "Y" -> {
+                    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+                    break;
+                }
+            }
+        } else {
+            System.out.println("The layout is not the border type");
         }
     }
 
