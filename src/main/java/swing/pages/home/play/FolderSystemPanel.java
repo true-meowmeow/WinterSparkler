@@ -7,8 +7,10 @@ import swing.objects.ScrollablePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class FolderSystemPanel extends JPanelCustom {
     //private FilesDataList filesDataList;
@@ -43,7 +45,6 @@ public class FolderSystemPanel extends JPanelCustom {
 
         for (int i = 0; i < filesDataList.getFilesDataListFiltered().size(); i++) {
             panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
-            break;
         }
         contentPanel.add(panel);
         contentPanel.revalidate();
@@ -58,6 +59,28 @@ public class FolderSystemPanel extends JPanelCustom {
 
         panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
 
+
+
+        for (String path : filesData.getPathsHashSet()) {
+            System.out.println(path);
+        }
+
+
+
+        return panel;
+    }
+
+
+
+    private JPanel titlePanel(String rootPath) {
+        JPanel panel = new JPanel();
+        panel.add(new Label(rootPath));
+        return panel;
+    }
+
+    private JPanel foldersPanel() {
+
+        JPanel panel = new JPanel();
         // Создаем панель с CardLayout для навигации между экранами (рабочий стол и открытые папки)
         JPanel cardPanel = new JPanel(new CardLayout());
 
@@ -78,13 +101,6 @@ public class FolderSystemPanel extends JPanelCustom {
         // Добавляем cardPanel в основной контейнер
         panel.add(cardPanel, BorderLayout.CENTER);
 
-        return panel;
-    }
-
-
-    private JPanel titlePanel(String rootPath) {
-        JPanel panel = new JPanel();
-        panel.add(new Label(rootPath));
         return panel;
     }
 
@@ -110,14 +126,6 @@ public class FolderSystemPanel extends JPanelCustom {
         jPanel.add(new JLabel("sa"), gbc);
         jPanel.add(new JLabel("sa"), gbc);
 
-        return jPanel;
-    }
-
-    private JPanelCustom addPanel2() {
-        JPanelCustom jPanel = new JPanelCustom(PanelType.BORDER);
-        jPanel.setBackground(Color.ORANGE);
-        jPanel.add(new JLabel("222222222"));
-        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, jPanel.getPreferredSize().height));
         return jPanel;
     }
 }

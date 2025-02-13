@@ -28,12 +28,12 @@ public class ContentSeeker {
             allFiles.addAll(fd.getFileData());
         }
         //processor.printFileStatistics(allFiles, "неотсортированных");
-        System.out.println();
+        //System.out.println();
 
         // Фильтруем аудиофайлы (например, с расширениями wav, flac, opus, mp3)
         List<FilesData.FileData> audioFiles = processor.filterAudioFiles(filesDataList);
         //processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
-        System.out.println();
+        //System.out.println();
 
         // Демонстрация – вывод найденных аудиофайлов
         //System.out.println("Найденные аудиофайлы:");

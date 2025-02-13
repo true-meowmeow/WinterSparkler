@@ -1,25 +1,22 @@
 package swing.pages.home.play;
 
 
+import swing.objects.JPanelCustom;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class FolderPanel extends JPanel {
+class FolderPanel extends JPanelCustom {
     private String folderName;
     private ImageIcon icon;
     // Ссылка на основную панель (с CardLayout) для переключения между экранами
     private JPanel parentPanel;
 
-    /**
-     * Конструктор, задающий имя папки, путь к иконке и ссылку на контейнер.
-     *
-     * @param folderName  имя папки
-     * @param iconPath    путь к файлу иконки
-     * @param parentPanel контейнер с CardLayout, в котором происходит навигация
-     */
+
     public FolderPanel(String folderName, String iconPath, JPanel parentPanel) {
+        super(PanelType.BORDER);
         this.folderName = folderName;
         this.parentPanel = parentPanel;
         // Загрузка иконки (убедитесь, что файл существует)
@@ -27,13 +24,9 @@ class FolderPanel extends JPanel {
         initialize();
     }
 
-    /**
-     * Инициализация компонента: устанавливаем размер, границу и добавляем метку.
-     */
     private void initialize() {
         setPreferredSize(new Dimension(100, 100));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        setLayout(new BorderLayout());
 
         // Метка, отображающая иконку и имя
         JLabel label = new JLabel(folderName, icon, JLabel.CENTER);
@@ -51,10 +44,6 @@ class FolderPanel extends JPanel {
 
     }
 
-    /**
-     * Метод, который «открывает» папку: создаёт новую панель с содержимым папки
-     * и кнопкой "Назад", позволяющей вернуться на рабочий стол.
-     */
     private void openFolder() {
         // Получаем CardLayout из родительской панели
         CardLayout cl = (CardLayout) parentPanel.getLayout();

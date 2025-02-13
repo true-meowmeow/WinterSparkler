@@ -1,17 +1,18 @@
 package core.contentManager;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FilesData {
 
-    private String rootPath;     // Корневой путь, откуда начинается поиск
+    private String rootPath;     //Корневой путь
     private List<FileData> fileData;
+    private TreeSet<String> pathsHashSet;   //Список всех папок с сортировкой по имени
 
     public FilesData(String rootPath) {
         this.rootPath = rootPath;
         this.fileData = new ArrayList<>();
+        this.pathsHashSet = new TreeSet<>(String::compareToIgnoreCase);
     }
 
     public String getRootPath() {
@@ -24,6 +25,15 @@ public class FilesData {
 
     public void addFileData(FileData fd) {
         fileData.add(fd);
+        addPathHashSet(fd.relativePath);
+    }
+
+    private void addPathHashSet(String path) {
+        pathsHashSet.add(path);
+    }
+
+    public Set<String> getPathsHashSet() {
+        return pathsHashSet;
     }
 
     @Override
