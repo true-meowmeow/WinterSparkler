@@ -32,7 +32,7 @@ public class FilesData {
         pathsHashSet.add(path);
     }
 
-    public Set<String> getPathsHashSet() {
+    public TreeSet<String> getPathsHashSet() {
         return pathsHashSet;
     }
 
