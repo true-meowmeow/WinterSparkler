@@ -7,10 +7,11 @@ import swing.objects.ScrollablePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+
+import static swing.pages.home.play.objects.FolderUtil.getChildFolders;
+import static swing.pages.home.play.objects.FolderUtil.removeTrailingSlash;
 
 public class FolderSystemPanel extends JPanelCustom {
     //private FilesDataList filesDataList;
@@ -39,12 +40,14 @@ public class FolderSystemPanel extends JPanelCustom {
     JPanel corePanel = new JPanel();
     public void updateAudioFiles(FilesDataList filesDataList) {
         contentPanel.removeAll(); // Полностью очищаем контейнер
+        currentFolder = new String("");
 
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
 
         for (int i = 0; i < filesDataList.getFilesDataListFiltered().size(); i++) {
             panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
+            //System.exit(1);
         }
         contentPanel.add(panel);
         contentPanel.revalidate();
@@ -52,20 +55,33 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
 
-
+    String currentFolder;
     private JPanelCustom corePanel(FilesData filesData) {
         // Создаем общий контейнер (например, с BorderLayout)
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
 
+        String[] folders = getChildFolders(currentFolder, filesData.getPathsHashSet());
+        panel.add(createFoldersPanel(folders));
 
+        return panel;
+    }
 
-        for (String path : filesData.getPathsHashSet()) {
-            System.out.println(path);
+    private JPanelCustom createFoldersPanel(String[] folders) {
+        JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
+        JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);
+        JPanelCustom desktopPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT, 10, 10));
+
+        cardPanel.add(desktopPanel, "desktop");
+        String defaultIconPath = "anything";
+
+        for (String folder : folders) {
+            desktopPanel.add(new FolderPanel(removeTrailingSlash(folder), defaultIconPath, cardPanel));
         }
 
-
+        // Добавляем cardPanel в основной контейнер
+        panel.add(cardPanel, BorderLayout.CENTER);
 
         return panel;
     }
