@@ -14,7 +14,7 @@ import static swing.pages.home.play.objects.FolderUtil.getChildFolders;
 import static swing.pages.home.play.objects.FolderUtil.removeTrailingSlash;
 
 public class FolderSystemPanel extends JPanelCustom {
-    //private FilesDataList filesDataList;
+
     private String currentRoot = null;
     private ScrollablePanel contentPanel; // Основной контейнер для панелей
 
@@ -56,63 +56,41 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
     String currentFolder;
-    private JPanelCustom corePanel(FilesData filesData) {
-        // Создаем общий контейнер (например, с BorderLayout)
+    private JPanelCustom corePanel(FilesData filesData) {       //Core folder panel
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
 
-        String[] folders = getChildFolders(currentFolder, filesData.getPathsHashSet());
-        panel.add(createFoldersPanel(folders));
+
+        panel.add(createFoldersPanel(
+                getChildFolders(currentFolder, filesData.getPathsHashSet()))
+        );
 
         return panel;
     }
 
-    private JPanelCustom createFoldersPanel(String[] folders) {
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
-        JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);
-        JPanelCustom desktopPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT, 10, 10));
-
-        cardPanel.add(desktopPanel, "desktop");
-        String defaultIconPath = "anything";
-
-        for (String folder : folders) {
-            desktopPanel.add(new FolderPanel(removeTrailingSlash(folder), defaultIconPath, cardPanel));
-        }
-
-        // Добавляем cardPanel в основной контейнер
-        panel.add(cardPanel, BorderLayout.CENTER);
-
-        return panel;
-    }
-
-
-
-    private JPanel titlePanel(String rootPath) {
+    private JPanel titlePanel(String rootPath) {    //Title panel
         JPanel panel = new JPanel();
         panel.add(new Label(rootPath));
         return panel;
     }
 
-    private JPanel foldersPanel() {
+    private void initManage() {
 
-        JPanel panel = new JPanel();
-        // Создаем панель с CardLayout для навигации между экранами (рабочий стол и открытые папки)
-        JPanel cardPanel = new JPanel(new CardLayout());
+    }
 
-        // Рабочий стол с иконками папок
-        JPanel desktopPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+    private JPanelCustom createFoldersPanel(String[] folders) {
+        JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
 
-        // Создаем несколько панелей-папок
-        FolderPanel folder1 = new FolderPanel("Папка 1", "C:/path/to/your/icon1.png", cardPanel);
-        FolderPanel folder2 = new FolderPanel("Папка 2", "C:/path/to/your/icon2.png", cardPanel);
+        JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);
+        JPanelCustom foldersPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
-        // Добавляем папки на рабочий стол
-        desktopPanel.add(folder1);
-        desktopPanel.add(folder2);
+        cardPanel.add(foldersPanel, "coresMainWS");
+        String defaultIconPath = "anythingPathToIcon";
 
-        // Добавляем рабочий стол в cardPanel с именем "desktop"
-        cardPanel.add(desktopPanel, "desktop");
+        for (String folder : folders) {
+            foldersPanel.add(new FolderPanel(removeTrailingSlash(folder), defaultIconPath, cardPanel));
+        }
 
         // Добавляем cardPanel в основной контейнер
         panel.add(cardPanel, BorderLayout.CENTER);
