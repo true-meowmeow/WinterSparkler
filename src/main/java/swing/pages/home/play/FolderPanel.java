@@ -58,7 +58,7 @@ class FolderPanel extends JPanelCustom {
         folderContent.add(backButton, BorderLayout.SOUTH);
         backButton.addActionListener(e -> {
             // При нажатии показываем панель "desktop"
-            cl.show(parentPanel, "desktop");
+            cl.show(parentPanel, "coresMainWS");
         });
 
         // Добавляем новую панель в родительскую с уникальным именем
