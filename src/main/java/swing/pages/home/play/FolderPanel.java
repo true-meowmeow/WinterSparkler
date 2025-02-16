@@ -20,7 +20,7 @@ class FolderPanel extends JPanelCustom {
         super(PanelType.BORDER);
         this.folderName = folderName;
         this.parentPanel = parentPanel;
-        this.cardName = cardName; // Сохраняем имя карты
+        this.cardName = cardName; // Сохраняем имя карты        //todo ???? nado li??
         this.icon = new ImageIcon(iconPath);
         initialize();
     }
@@ -40,7 +40,9 @@ class FolderPanel extends JPanelCustom {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //openFolder();
-                ((CardLayout)parentPanel.getLayout()).show(parentPanel, cardName);
+                System.out.println(cardName);
+                System.out.println(folderName);
+                ((CardLayout)parentPanel.getLayout()).show(parentPanel, folderName);
             }
         });
 

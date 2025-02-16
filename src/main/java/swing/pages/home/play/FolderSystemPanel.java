@@ -55,7 +55,7 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.add(panel, "coreMainWinterSparkler");
 
         showCard("coreMainWinterSparkler");
-        //showCard("Новая папка/");
+        //showCard("тест пустой папки/вот эту папку надо/");
         contentPanel.add(cardPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -81,8 +81,11 @@ public class FolderSystemPanel extends JPanelCustom {
         String[] childFolders = getChildFolders(currentFolder, filesData.getPathsHashSet());
         panel.add(createFoldersPanel(childFolders));
 
-        // Добавляем карты для всех путей
+        // Добавляем карты для всех нужных путей
         for (String path : filesData.getPathsHashSet()) {
+            if (path.equals("")) {
+                continue;
+            }
             cardPanel.add(innerFolders(filesData, path), path);
         }
 
@@ -91,11 +94,17 @@ public class FolderSystemPanel extends JPanelCustom {
 
     private JPanelCustom innerFolders(FilesData filesData, String folderPath) {
 
-        //todo Добавить кнопку назад и пути перехода назад.
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
+        //todo Добавить кнопку назад и пути перехода назад. + отслеживать fullPath
+        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
+        panel.add(new Label(folderPath));
+        //System.out.println(folderPath);
 
-        //System.out.println(Arrays.toString(getChildFolders(folderPath, filesData.getPathsHashSet())));
-        //System.out.println();
+/*        System.out.println(folderPath);
+        System.out.println(Arrays.toString(new TreeSet[]{filesData.getPathsHashSet()}));
+        System.out.println(Arrays.toString(getChildFolders(folderPath, filesData.getPathsHashSet())));
+        System.out.println();*/
+
+
         panel.add(createFoldersPanel(
                 getChildFolders(folderPath, filesData.getPathsHashSet()))
         );
@@ -103,6 +112,9 @@ public class FolderSystemPanel extends JPanelCustom {
         return panel;
     }
 
+    // у меня должен быть список конечных папок и если
+
+    //todo короче надо всю структуру переписывать, это лажа какая-то, он пиздец короче удачи
 
     private JPanelCustom createFoldersPanel(String[] folders) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
@@ -110,39 +122,17 @@ public class FolderSystemPanel extends JPanelCustom {
 
         String defaultIconPath = "anythingPathToIcon";
 
+        System.out.println(Arrays.toString(folders));
         for (String folder : folders) {
             String fullPath = currentFolder.isEmpty() ? folder : currentFolder + "/" + folder;
             foldersPanel.add(new FolderPanel(folder, defaultIconPath, this.cardPanel, fullPath));
         }
+        //System.out.println();
 
-        // Исправлено: добавляем foldersPanel вместо cardPanel
+
+
         panel.add(foldersPanel, BorderLayout.CENTER);
 
         return panel;
-    }
-
-    private JPanelCustom addCorePanel1() {
-        JPanelCustom jPanel = new JPanelCustom(PanelType.BORDER);
-        jPanel.setBackground(Color.WHITE);
-        jPanel.setLayout(new GridBagLayout()); // GridBagLayout для гибкости
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER; // Занимает всю строку
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-
-        JLabel longLabel = new JLabel("String.valueOf(i)");
-        jPanel.add(longLabel, gbc); // Добавляем длинный текст
-
-        gbc.gridy++; // Следующий ряд
-        gbc.gridwidth = 1; // Теперь компоненты идут по отдельности
-        jPanel.add(new JLabel("sa"), gbc);
-        gbc.gridx++; // Следующая колонка
-        jPanel.add(new JLabel("sa"), gbc);
-        jPanel.add(new JLabel("sa"), gbc);
-
-        return jPanel;
     }
 }
