@@ -13,13 +13,14 @@ class FolderPanel extends JPanelCustom {
     private ImageIcon icon;
     // Ссылка на основную панель (с CardLayout) для переключения между экранами
     private JPanel parentPanel;
+    private String cardName; // Новое поле для хранения имени карты
 
 
-    public FolderPanel(String folderName, String iconPath, JPanel parentPanel) {
+    public FolderPanel(String folderName, String iconPath, JPanel parentPanel, String cardName) {
         super(PanelType.BORDER);
         this.folderName = folderName;
         this.parentPanel = parentPanel;
-        // Загрузка иконки (убедитесь, что файл существует)
+        this.cardName = cardName; // Сохраняем имя карты
         this.icon = new ImageIcon(iconPath);
         initialize();
     }
@@ -38,7 +39,8 @@ class FolderPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                openFolder();
+                //openFolder();
+                ((CardLayout)parentPanel.getLayout()).show(parentPanel, cardName);
             }
         });
 
@@ -57,8 +59,8 @@ class FolderPanel extends JPanelCustom {
         JButton backButton = new JButton("Назад");
         folderContent.add(backButton, BorderLayout.SOUTH);
         backButton.addActionListener(e -> {
-            // При нажатии показываем панель "desktop"
-            cl.show(parentPanel, "coresMainWS");
+            // При нажатии показываем панель "coreMainWinterSparkler"
+            cl.show(parentPanel, "coreMainWinterSparkler");
         });
 
         // Добавляем новую панель в родительскую с уникальным именем
