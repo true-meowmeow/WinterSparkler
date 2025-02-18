@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URI;
 import java.util.*;
 
+import static swing.pages.home.play.objects.FolderUtil.convertSlashes;
+
 public class FileDataProcessor {
     private static final Set<String> AUDIO_EXTENSIONS = new HashSet<>(Arrays.asList("wav", "flac", "opus", "mp3"));
 
@@ -15,9 +17,10 @@ public class FileDataProcessor {
      * @param rootPaths список корневых путей (например, "C:\Music")
      * @return объект FilesDataList, содержащий для каждого корневого пути список найденных файлов
      */
-    public FilesDataList processRootPaths(List<String> rootPaths) {
+    public FilesDataList processRootPaths(List<String> rootPaths) { //Проходит по корневым путям
         FilesDataList filesDataList = new FilesDataList();
         for (String rootPath : rootPaths) {
+            System.out.println("dfsfds");
             File root = new File(rootPath);
             if (!root.exists() || !root.isDirectory()) {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
@@ -65,25 +68,21 @@ public class FileDataProcessor {
                 // Вычисляем относительный путь от baseDir до файла
                 URI baseURI = baseDir.toURI();
                 URI fileURI = file.toURI();
+
                 String fullRelativePath = baseURI.relativize(fileURI).getPath();
+                //System.out.println(baseURI);
+                //System.out.println(fileURI);
                 // Убираем из пути имя файла, оставляя только путь к папке
                 String folderRelative;
                 if (fullRelativePath.endsWith(file.getName())) {
-                    folderRelative = fullRelativePath.substring(0, fullRelativePath.length() - file.getName().length());
+                    folderRelative = convertSlashes(fullRelativePath.substring(0, fullRelativePath.length() - file.getName().length()));
                 } else {
-                    folderRelative = fullRelativePath;
+                    folderRelative = convertSlashes(fullRelativePath);
                 }
-                // Определяем расширение файла (без точки)
-                int dotIndex = file.getName().lastIndexOf('.');
-                String extension;
-                if (dotIndex != -1 && dotIndex < file.getName().length() - 1) {
-                    extension = file.getName().substring(dotIndex + 1).toLowerCase();
-                } else {
-                    extension = "нет_расширения";
-                }
+
                 // Добавляем данные о файле в текущий FilesData
-                filesData.addFileData(new FilesData.FileData(file.getName(), folderRelative, extension));
-            }
+                filesData.addFileData(new FilesData.FileData("file.getPath()", folderRelative, file.getName()));
+            }//todo проверить работу напрямую в диске T:/
         }
     }
 
@@ -103,27 +102,5 @@ public class FileDataProcessor {
             }
         }
         return audioFiles;
-    }
-
-
-    /**
-     * Выводит в консоль статистику – количество файлов по каждому расширению.
-     *
-     * @param fileDataList список файлов для анализа
-     * @param label        метка (например, "неотсортированных" или "отфильтрованных (аудио)")
-     */
-    public void printFileStatistics(List<FilesData.FileData> fileDataList, String label) {
-        Map<String, Integer> extensionCount = new HashMap<>();
-        for (FilesData.FileData fileData : fileDataList) {
-            String ext = fileData.getExtension();
-            extensionCount.put(ext, extensionCount.getOrDefault(ext, 0) + 1);
-        }
-        System.out.println("Статистика для " + label + " файлов:");
-        int total = 0;
-        for (Map.Entry<String, Integer> entry : extensionCount.entrySet()) {
-            System.out.println("Расширение '" + entry.getKey() + "': " + entry.getValue() + " шт.");
-            total += entry.getValue();
-        }
-        System.out.println("Общее количество файлов: " + total);
     }
 }

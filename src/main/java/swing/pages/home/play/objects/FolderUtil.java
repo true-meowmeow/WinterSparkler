@@ -1,5 +1,8 @@
 package swing.pages.home.play.objects;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class FolderUtil {
@@ -82,4 +85,12 @@ public class FolderUtil {
         }
         return input;
     }
+
+    public static String convertSlashes(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replace('/', '\\');
+    }
+
 }
