@@ -60,39 +60,56 @@ public class FilesData {
     }
 
     public static class FileData {
-        private String pathRoot;     // Например, "song.mp3"
-        private String pathRelative; // Относительный путь от корня до папки (например, "Album1/")
-        private String name;     // Например, "song.mp3"
+        private String pathRoot;            // Например, "C:\Users\meowmeow\Music\testing\core 1 — копия\"
+        private String pathRelative;        // Относительный путь от корня до папки (например, "Album1\")
+        private String pathFull;            // Полный путь до папки (например, "C:\Users\meowmeow\Music\testing\Album1\")
+        private String pathFullName;        // Полный путь до папки (например, "C:\Users\meowmeow\Music\testing\Album1\WS.flac")
 
-        private String pathFull; // Полный путь до папки (например, "C:/Users/meowmeow/Music/testing/Album1/")
-        private String pathFullName; // Полный путь до папки (например, "C:/Users/meowmeow/Music/testing/Album1/WS.flac")
-        private String extension;    // Расширение файла без точки, например "mp3"
+        private String nameFull;            // Например, "song.mp3"
+        private String name;                // Например, "song"
+        private String extension;           // Расширение файла без точки, например "mp3"
 
-        public FileData(String pathRoot, String name, String pathRelative) {
+        public FileData(String pathRoot, String pathRelative, String nameFull) {
+            this.nameFull = nameFull;
+            this.name = extractFileName(nameFull);
+
             this.pathRoot = pathRoot;
             this.pathRelative = pathRelative;
-            this.name = name;
-
             this.pathFull = pathRoot + pathRelative;
-            this.pathFullName = pathRoot + pathRelative + name;
-            this.extension = extractExtension(name);
+            this.pathFullName = pathRoot + pathRelative + nameFull;
+            this.extension = extractExtension(nameFull);
         }
 
+        private String extractFileName(String fileName) {
+            int dotIndex = fileName.lastIndexOf('.');
+
+            if (dotIndex > 0) {
+                // Если точка найдена и не является первым символом,
+                // возвращаем часть строки до последней точки
+                return fileName.substring(0, dotIndex);
+            } else if (dotIndex == 0) {
+                // Если точка является первым символом,
+                // имя файла отсутствует (например, ".txt")
+                return "";
+            } else {
+                // Если точка не найдена, расширения нет — возвращаем всю строку
+                return fileName;
+            }
+        }
         private String extractExtension(String fileName) {
             // Определяем расширение файла (без точки)
             int dotIndex = fileName.lastIndexOf('.');
             if (dotIndex != -1 && dotIndex < fileName.length() - 1) {
                 return fileName.substring(dotIndex + 1).toLowerCase();
             } else {
-                //System.out.println("нет_расширения у файла " + fileName);   //todo Обработать файлы без расширения методом проб разных для работы с файлом.
+                //System.out.println("нет_расширения у файла " + fileName);   //todo Обработать файлы без расширения методом проб разных для работы с файлом, хотя они тогда не попадут в список, это можно делать если принудительно совать папку в WS
                 return "нет_расширения";
             }
         }
 
-        public String getName() {
-            return name;
+        public String getNameFull() {
+            return nameFull;
         }
-
         public String getPathRelative() {
             return pathRelative;
         }
@@ -102,14 +119,19 @@ public class FilesData {
         public String getPathFullName() {
             return pathFullName;
         }
-
         public String getExtension() {
             return extension;
+        }
+        public String getPathRoot() {
+            return pathRoot;
+        }
+        public String getName() {
+            return name;
         }
 
         @Override
         public String toString() {
-            return "FileData{fileName='" + name + "', fullNamePath='" + pathFullName + "', extension='" + extension + "'}";
+            return "FileData{fileName='" + nameFull + "', fullNamePath='" + pathFullName + "', extension='" + extension + "'}";
         }
     }
 }
