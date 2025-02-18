@@ -7,12 +7,14 @@ public class FilesData {
 
     private String rootPath;     //Корневой путь
     private List<FileData> fileData;
-    private TreeSet<String> pathsHashSet;   //Список всех папок с сортировкой по имени
+    private TreeSet<String> relativePathsHashSet;   //Список всех папок с сортировкой по имени
+    private TreeSet<String> fullPathsHashSet;   //Список всех папок с сортировкой по имени
 
     public FilesData(String rootPath) {
         this.rootPath = rootPath;
         this.fileData = new ArrayList<>();
-        this.pathsHashSet = new TreeSet<>(String::compareToIgnoreCase);
+        this.relativePathsHashSet = new TreeSet<>(String::compareToIgnoreCase);
+        this.fullPathsHashSet = new TreeSet<>(String::compareToIgnoreCase);     //todo нужен ли компаратор?
     }
 
     public String getRootPath() {
@@ -25,16 +27,27 @@ public class FilesData {
 
     public void addFileData(FileData fd) {
         fileData.add(fd);
-        addPathHashSet(fd.relativePath);
+        addRelativePathHashSet(fd.pathRelative);
+        addFullPathHashSet(rootPath + "\\" + fd.pathRelative);
     }
 
-    private void addPathHashSet(String path) {
-        pathsHashSet.add(path);
+    private void addRelativePathHashSet(String path) {
+        relativePathsHashSet.add(path);
     }
 
-    public TreeSet<String> getPathsHashSet() {
-        return pathsHashSet;
+    public TreeSet<String> getRelativePathsHashSet() {
+        return relativePathsHashSet;
     }
+
+    private void addFullPathHashSet(String path) {
+        fullPathsHashSet.add(path);
+    }
+
+    public TreeSet<String> getFullPathsHashSet() {
+        return fullPathsHashSet;
+    }
+
+
 
     @Override
     public String toString() {
@@ -47,22 +60,47 @@ public class FilesData {
     }
 
     public static class FileData {
-        private String fileName;     // Например, "song.mp3"
-        private String relativePath; // Относительный путь до папки (например, "Album1/")
+        private String pathRoot;     // Например, "song.mp3"
+        private String pathRelative; // Относительный путь от корня до папки (например, "Album1/")
+        private String name;     // Например, "song.mp3"
+
+        private String pathFull; // Полный путь до папки (например, "C:/Users/meowmeow/Music/testing/Album1/")
+        private String pathFullName; // Полный путь до папки (например, "C:/Users/meowmeow/Music/testing/Album1/WS.flac")
         private String extension;    // Расширение файла без точки, например "mp3"
 
-        public FileData(String fileName, String relativePath, String extension) {
-            this.fileName = fileName;
-            this.relativePath = relativePath;
-            this.extension = extension;
+        public FileData(String pathRoot, String name, String pathRelative) {
+            this.pathRoot = pathRoot;
+            this.pathRelative = pathRelative;
+            this.name = name;
+
+            this.pathFull = pathRoot + pathRelative;
+            this.pathFullName = pathRoot + pathRelative + name;
+            this.extension = extractExtension(name);
         }
 
-        public String getFileName() {
-            return fileName;
+        private String extractExtension(String fileName) {
+            // Определяем расширение файла (без точки)
+            int dotIndex = fileName.lastIndexOf('.');
+            if (dotIndex != -1 && dotIndex < fileName.length() - 1) {
+                return fileName.substring(dotIndex + 1).toLowerCase();
+            } else {
+                //System.out.println("нет_расширения у файла " + fileName);   //todo Обработать файлы без расширения методом проб разных для работы с файлом.
+                return "нет_расширения";
+            }
         }
 
-        public String getRelativePath() {
-            return relativePath;
+        public String getName() {
+            return name;
+        }
+
+        public String getPathRelative() {
+            return pathRelative;
+        }
+        public String getPathFull() {
+            return pathFull;
+        }
+        public String getPathFullName() {
+            return pathFullName;
         }
 
         public String getExtension() {
@@ -71,7 +109,7 @@ public class FilesData {
 
         @Override
         public String toString() {
-            return "FileData{fileName='" + fileName + "', relativePath='" + relativePath + "', extension='" + extension + "'}";
+            return "FileData{fileName='" + name + "', fullNamePath='" + pathFullName + "', extension='" + extension + "'}";
         }
     }
 }
