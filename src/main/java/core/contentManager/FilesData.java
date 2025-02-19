@@ -60,23 +60,23 @@ public class FilesData {
     }
 
     public static class FileData {
-        private String pathRoot;            // Например, "C:\Users\meowmeow\Music\testing\core 1 — копия\"
-        private String pathRelative;        // Относительный путь от корня до папки (например, "Album1\")
-        private String pathFull;            // Полный путь до папки (например, "C:\Users\meowmeow\Music\testing\Album1\")
-        private String pathFullName;        // Полный путь до папки (например, "C:\Users\meowmeow\Music\testing\Album1\WS.flac")
+        private String pathRoot;            // C:\Users\meowmeow\Music\testing\core 1 — копия\
+        private String pathRelative;        // dsadsadasd\
+        private String pathFull;            // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\
+        private String pathFullName;        // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\Winter Sparkler.flac
 
-        private String nameFull;            // Например, "song.mp3"
-        private String name;                // Например, "song"
-        private String extension;           // Расширение файла без точки, например "mp3"
+        private String nameFull;            // Winter Sparkler.flac
+        private String name;                // Winter Sparkler
+        private String extension;           // flac
 
         public FileData(String pathRoot, String pathRelative, String nameFull) {
-            this.nameFull = nameFull;
-            this.name = extractFileName(nameFull);
-
             this.pathRoot = pathRoot;
             this.pathRelative = pathRelative;
             this.pathFull = pathRoot + pathRelative;
             this.pathFullName = pathRoot + pathRelative + nameFull;
+
+            this.nameFull = nameFull;
+            this.name = extractFileName(nameFull);
             this.extension = extractExtension(nameFull);
         }
 
@@ -107,8 +107,8 @@ public class FilesData {
             }
         }
 
-        public String getNameFull() {
-            return nameFull;
+        public String getPathRoot() {
+            return pathRoot;
         }
         public String getPathRelative() {
             return pathRelative;
@@ -119,19 +119,26 @@ public class FilesData {
         public String getPathFullName() {
             return pathFullName;
         }
-        public String getExtension() {
-            return extension;
-        }
-        public String getPathRoot() {
-            return pathRoot;
+        public String getNameFull() {
+            return nameFull;
         }
         public String getName() {
             return name;
         }
+        public String getExtension() {
+            return extension;
+        }
 
         @Override
         public String toString() {
-            return "FileData{fileName='" + nameFull + "', fullNamePath='" + pathFullName + "', extension='" + extension + "'}";
+            return "pathRoot='" + pathRoot + '\'' +
+                    ", pathRelative='" + pathRelative + '\'' +
+                    ", pathFull='" + pathFull + '\'' +
+                    ", pathFullName='" + pathFullName + '\'' +
+                    ", nameFull='" + nameFull + '\'' +
+                    ", name='" + name + '\'' +
+                    ", extension='" + extension + '\'' +
+                    '}';
         }
     }
 }
