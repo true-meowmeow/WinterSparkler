@@ -49,7 +49,7 @@ public class FolderSystemPanel extends JPanelCustom {
             //panel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)));
 
 
-            //Проходит по папкам
+            //Формирует свою карту для каждой папки корневого пути
             for (String path : filesDataList.getFilesDataListFiltered().get(i).getFullPathsHashSet()) {
                 //System.out.println(path);
                 cardPanel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)), path);
@@ -57,6 +57,7 @@ public class FolderSystemPanel extends JPanelCustom {
             }
 
 
+            //System.out.println("hi");
 
         }
 
