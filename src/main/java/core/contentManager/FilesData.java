@@ -7,14 +7,14 @@ public class FilesData {
 
     private String rootPath;     //Корневой путь
     private List<FileData> fileData;
-    private TreeSet<String> relativePathsHashSet;   //Список всех папок с сортировкой по имени
-    private TreeSet<String> fullPathsHashSet;   //Список всех папок с сортировкой по имени
+    private TreeSet<String> relativePathsHashSet;   //Список всех папок
+    private TreeSet<String> fullPathsHashSet;   //Список всех папок
 
     public FilesData(String rootPath) {
         this.rootPath = rootPath;
         this.fileData = new ArrayList<>();
-        this.relativePathsHashSet = new TreeSet<>(String::compareToIgnoreCase);
-        this.fullPathsHashSet = new TreeSet<>(String::compareToIgnoreCase);     //todo нужен ли компаратор?
+        this.relativePathsHashSet = new TreeSet<>(/*String::compareToIgnoreCase*/);
+        this.fullPathsHashSet = new TreeSet<>(/*String::compareToIgnoreCase*/);     //todo нужен ли компаратор?
     }
 
     public String getRootPath() {
@@ -102,7 +102,8 @@ public class FilesData {
             if (dotIndex != -1 && dotIndex < fileName.length() - 1) {
                 return fileName.substring(dotIndex + 1).toLowerCase();
             } else {
-                //System.out.println("нет_расширения у файла " + fileName);   //todo Обработать файлы без расширения методом проб разных для работы с файлом, хотя они тогда не попадут в список, это можно делать если принудительно совать папку в WS
+                //System.out.println("нет_расширения у файла " + fileName);
+                // todo Обработать файлы без расширения методом проб разных для работы с файлом, хотя они тогда не попадут в список, это можно делать если принудительно совать папку в WS
                 return "нет_расширения";
             }
         }
@@ -129,7 +130,7 @@ public class FilesData {
             return extension;
         }
 
-        @Override
+/*        @Override
         public String toString() {
             return "pathRoot='" + pathRoot + '\'' +
                     ", pathRelative='" + pathRelative + '\'' +
@@ -138,6 +139,13 @@ public class FilesData {
                     ", nameFull='" + nameFull + '\'' +
                     ", name='" + name + '\'' +
                     ", extension='" + extension + '\'' +
+                    '}';
+        }*/
+
+        @Override
+        public String toString() {
+            return "{root='" + pathRoot +
+                    "' name='" + name + '\'' +
                     '}';
         }
     }
