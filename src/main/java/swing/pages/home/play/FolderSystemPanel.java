@@ -7,6 +7,7 @@ import swing.objects.JPanelCustom;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static swing.pages.home.play.objects.FolderUtil.getChildFolders;
 
@@ -51,24 +52,77 @@ public class FolderSystemPanel extends JPanelCustom {
 
             //Формирует свою карту для каждой папки корневого пути
             for (String path : filesDataList.getFilesDataListFiltered().get(i).getFullPathsHashSet()) {
-                //System.out.println(path);
-                cardPanel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)), path);
+                cardPanel.add(initCardPanel(findMatchingFiles(path, filesDataList.getFilesDataListFiltered().get(i).getFileData())), path);
 
+                System.out.println(path);
+                System.out.println(findDirectSubPaths(path, filesDataList.getFilesDataListFiltered().get(i).getFullPathsHashSet()));
+                System.out.println();
             }
-
-
-            //System.out.println("hi");
 
         }
 
 
     }
+    // Нормализует путь: добавляет завершающий слеш и заменяет множественные слеши
+    private String normalizePath(String path) {
+        if (path == null || path.isEmpty()) return path;
+        return path.replaceAll("\\\\+", "\\\\") // Заменяет множественные слеши на один
+                .replaceAll("\\\\$", "")     // Удаляет завершающий слеш, если есть
+                + "\\";                     // Добавляет один слеш в конец
+    }
+    private List<String> findDirectSubPaths(String path, TreeSet<String> relativePathsHashSet) {      //todo или можно создать объект имя - ссылка куда идти.
+        // Нормализуем базовый путь
+        String normalizedBasePath = normalizePath(path);
+        Set<String> resultSet = new LinkedHashSet<>();
 
+        for (String relativePath : relativePathsHashSet) {
+            // Нормализуем текущий путь из множества
+            String normalizedRelative = normalizePath(relativePath);
 
-    private JPanelCustom initCardPanel(FilesData filesData) {
+            if (normalizedRelative.startsWith(normalizedBasePath)) {
+                String remaining = normalizedRelative.substring(normalizedBasePath.length());
+                String[] parts = remaining.split("\\\\+"); // Учитываем возможные множественные слеши
+
+                if (parts.length == 0 || (parts.length == 1 && parts[0].isEmpty())) {
+                    continue; // Пропускаем путь, совпадающий с basePath
+                }
+
+                // Берём первый непустой сегмент
+                String firstSegment = parts[0];
+                String directSubPath = normalizedBasePath + firstSegment + "\\";
+                resultSet.add(directSubPath);
+            }
+        }
+
+        return new ArrayList<>(resultSet);
+    }
+
+    private List<FilesData.FileData> findMatchingFiles(String searchText, List<FilesData.FileData> files) {
+        List<FilesData.FileData> matchingFiles = new ArrayList<>();
+        for (FilesData.FileData file : files) {
+            if (file.getPathFull().equals(searchText)) {
+                matchingFiles.add(file);
+            }
+        }
+        return matchingFiles;
+    }
+
+    private JPanelCustom initCardPanel(List<FilesData.FileData> mediaDataList) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
+        //System.out.println(mediaDataList);
 
+
+
+
+
+
+
+
+
+
+
+        //System.out.println(filesData);
         //System.out.println(filesData);
 /*        panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
 
