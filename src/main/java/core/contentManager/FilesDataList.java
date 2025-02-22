@@ -2,9 +2,7 @@ package core.contentManager;
 
 import com.sun.jna.platform.unix.X11;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class FilesDataList {
@@ -17,7 +15,7 @@ public class FilesDataList {
         mediaDataListAll = new ArrayList<>();
         mediaDataListFiltered = new ArrayList<>();
 
-        foldersRootData = new TreeSet<>();
+        foldersRootData = new HashMap<>();
     }
 
     public List<MediaData> getMediaDataListAll() {
@@ -29,13 +27,16 @@ public class FilesDataList {
     }
 
 
-    private TreeSet<FoldersRootData> foldersRootData;
-
-    public void addFoldersRootData(FoldersRootData folderData) {
-        foldersRootData.add(folderData);
+    private HashMap<String, FolderRootsData> foldersRootData;
+    public void addFoldersData(FolderRootsData folderRootsData, FolderRootsData.FolderData folderData) {
+        foldersRootData.;
     }
 
-    public TreeSet<FoldersRootData> getFoldersRootData() {
+    public void createFolderRootData(String rootPath) {
+        foldersRootData.add(new FolderRootsData(rootPath));
+    }
+
+    public TreeSet<FolderRootsData> getFoldersRootData() {
         return foldersRootData;
     }
 }
