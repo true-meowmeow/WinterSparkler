@@ -1,7 +1,6 @@
 package core.contentManager;
 
 import java.io.File;
-import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,16 +24,56 @@ public class FileDataProcessor {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
                 continue;
             }
-            FilesData filesDataAll = new FilesData(rootPath);
-            FilesData filesDataFiltered = new FilesData(rootPath);
-            processDirectory(root, root, filesDataAll, filesDataFiltered);
-            filesDataList.getFilesDataListAll().add(filesDataAll);
-            if (!filesDataFiltered.getFileData().isEmpty()) {
-                filesDataList.getFilesDataListFiltered().add(filesDataFiltered);
+            MediaData mediaDataAll = new MediaData(rootPath);
+            MediaData mediaDataFiltered = new MediaData(rootPath);
+            processDirectory(root, root, mediaDataAll, mediaDataFiltered, filesDataList);
+            filesDataList.getMediaDataListAll().add(mediaDataAll);
+            if (!mediaDataFiltered.getMediaData().isEmpty()) {
+                filesDataList.getMediaDataListFiltered().add(mediaDataFiltered);
             }
+        }
+
+        for (FoldersRootData foldersRootData : filesDataList.getFoldersRootData()) {
+            addMissingParentFolders(foldersRootData.getFolderData());
         }
         return filesDataList;
     }
+
+    public void addMissingParentFolders(TreeSet<FolderData> folderDataList) {
+        Set<String> existingFullPaths = folderDataList.stream()
+                .map(FolderData::getFullPath)
+                .collect(Collectors.toCollection(HashSet::new));
+
+        Set<FolderData> foldersToAdd = new HashSet<>();
+        Set<String> newFullPaths = new HashSet<>();
+
+        for (FolderData folderData : folderDataList) {
+            String rootPath = folderData.getRootPath();
+            String relativePath = folderData.getRelativePath();
+
+            // Нормализуем относительный путь, удаляя завершающие слеши
+            String normalizedRelative = relativePath.replaceAll("\\\\+$", "");
+            if (normalizedRelative.isEmpty()) {
+                continue;
+            }
+
+            String[] relativeParts = normalizedRelative.split("\\\\");
+            for (int i = 1; i < relativeParts.length; i++) {
+                String[] currentParts = Arrays.copyOfRange(relativeParts, 0, i);
+                String currentRelative = String.join("\\", currentParts) + "\\";
+                String currentFullPath = rootPath + currentRelative;
+
+                if (!existingFullPaths.contains(currentFullPath) && !newFullPaths.contains(currentFullPath)) {
+                    FolderData newFolder = new FolderData(currentFullPath, rootPath, currentRelative);
+                    foldersToAdd.add(newFolder);
+                    newFullPaths.add(currentFullPath);
+                }
+            }
+        }
+
+        folderDataList.addAll(foldersToAdd);
+    }
+
 
     /**
      * Рекурсивно обходит директорию, добавляя информацию о файлах в общий список и,
@@ -42,15 +81,15 @@ public class FileDataProcessor {
      *
      * @param currentDir       текущая обрабатываемая директория
      * @param baseDir          корневая директория, относительно которой считается путь
-     * @param filesDataAll     объект для хранения информации обо всех файлах
-     * @param filesDataFiltered объект для хранения информации об аудиофайлах
+     * @param mediaDataAll     объект для хранения информации обо всех файлах
+     * @param mediaDataFiltered объект для хранения информации об аудиофайлах
      */
-    private void processDirectory(File currentDir, File baseDir, FilesData filesDataAll, FilesData filesDataFiltered) {
+    private void processDirectory(File currentDir, File baseDir, MediaData mediaDataAll, MediaData mediaDataFiltered, FilesDataList filesDataList) {
         File[] files = currentDir.listFiles();
         if (files == null) return;
         for (File file : files) {
             if (file.isDirectory()) {
-                processDirectory(file, baseDir, filesDataAll, filesDataFiltered);
+                processDirectory(file, baseDir, mediaDataAll, mediaDataFiltered, filesDataList);
             } else if (file.isFile()) {
                 // Вычисляем относительный путь папки, в которой находится файл
                 String folderRelative = "";
@@ -58,13 +97,15 @@ public class FileDataProcessor {
                 if (parent != null) {
                     folderRelative = convertSlashes(baseDir.toURI().relativize(parent.toURI()).getPath());
                 }
-                FilesData.FileData fileData = new FilesData.FileData(
+                MediaData.MediaFile mediaFile = new MediaData.MediaFile(
                         extractRootPath(file.getPath(), folderRelative, file.getName()),
                         folderRelative,
                         file.getName());
-                filesDataAll.addFileData(fileData);
-                if (AUDIO_EXTENSIONS.contains(fileData.getExtension())) {
-                    filesDataFiltered.addFileData(fileData);
+                mediaDataAll.addMediaData(mediaFile);
+                if (AUDIO_EXTENSIONS.contains(mediaFile.getExtension())) {
+                    mediaDataFiltered.addMediaData(mediaFile);  //Добавление медиа файла
+                    filesDataList.addFolderData(new FolderData(mediaFile.getPathFull(), mediaFile.getPathRoot(), mediaFile.getPathRelative()));    //Добавления папок
+
                 }
             }
         }
@@ -96,9 +137,9 @@ public class FileDataProcessor {
      * @param filesDataList объект с информацией о файлах
      * @return список аудиофайлов
      */
-    public List<FilesData.FileData> filterAudioFiles(FilesDataList filesDataList) {
-        return filesDataList.getFilesDataListFiltered().stream()
-                .flatMap(fd -> fd.getFileData().stream())
+    public List<MediaData.MediaFile> filterAudioFiles(FilesDataList filesDataList) {
+        return filesDataList.getMediaDataListFiltered().stream()
+                .flatMap(fd -> fd.getMediaData().stream())
                 .collect(Collectors.toList());
     }
 }
