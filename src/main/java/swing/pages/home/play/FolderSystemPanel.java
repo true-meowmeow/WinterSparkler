@@ -1,6 +1,6 @@
 package swing.pages.home.play;
 
-import core.contentManager.FilesData;
+import core.contentManager.MediaData;
 import core.contentManager.FilesDataList;
 import swing.objects.JPanelCustom;
 
@@ -45,23 +45,20 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.removeAll();  //Каждая карта - все фильтрованные файлы по выбранной папке
 
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-        for (int i = 0; i < filesDataList.getFilesDataListFiltered().size(); i++) { //Проходит по корневым путям
+        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) { //Проходит по корневым путям
             //panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
             //panel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)));
 
 
             //Формирует свою карту для каждой папки корневого пути
-            for (String path : filesDataList.getFilesDataListFiltered().get(i).getFullPathsHashSet()) {
-                cardPanel.add(initCardPanel(findMatchingFiles(path, filesDataList.getFilesDataListFiltered().get(i).getFileData())), path);
+/*            for (String path : filesDataList.getMediaDataListFiltered().get(i).getFullPathsHashSet()) {
+                cardPanel.add(initCardPanel(findMatchingFiles(path, filesDataList.getMediaDataListFiltered().get(i).getMediaData())), path);
 
                 System.out.println(path);
-                System.out.println(findDirectSubPaths(path, filesDataList.getFilesDataListFiltered().get(i).getFullPathsHashSet()));
+                //System.out.println(findDirectSubPaths(path, filesDataList.getFolderDataList()));
                 System.out.println();
-            }
-
+            }*/
         }
-
-
     }
     // Нормализует путь: добавляет завершающий слеш и заменяет множественные слеши
     private String normalizePath(String path) {
@@ -70,7 +67,7 @@ public class FolderSystemPanel extends JPanelCustom {
                 .replaceAll("\\\\$", "")     // Удаляет завершающий слеш, если есть
                 + "\\";                     // Добавляет один слеш в конец
     }
-    private List<String> findDirectSubPaths(String path, TreeSet<String> relativePathsHashSet) {      //todo или можно создать объект имя - ссылка куда идти.
+    private List<String> findDirectSubPaths(String path, TreeSet<String> relativePathsHashSet) {
         // Нормализуем базовый путь
         String normalizedBasePath = normalizePath(path);
         Set<String> resultSet = new LinkedHashSet<>();
@@ -97,29 +94,22 @@ public class FolderSystemPanel extends JPanelCustom {
         return new ArrayList<>(resultSet);
     }
 
-    private List<FilesData.FileData> findMatchingFiles(String searchText, List<FilesData.FileData> files) {
-        List<FilesData.FileData> matchingFiles = new ArrayList<>();
-        for (FilesData.FileData file : files) {
+    private List<MediaData.MediaFile> findMatchingFiles(String searchText, List<MediaData.MediaFile> files) {
+        List<MediaData.MediaFile> matchingFiles = new ArrayList<>();
+        for (MediaData.MediaFile file : files) {
             if (file.getPathFull().equals(searchText)) {
                 matchingFiles.add(file);
             }
         }
+
+        System.out.println(matchingFiles);
         return matchingFiles;
     }
 
-    private JPanelCustom initCardPanel(List<FilesData.FileData> mediaDataList) {
+    private JPanelCustom initCardPanel(List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         //System.out.println(mediaDataList);
-
-
-
-
-
-
-
-
-
 
 
         //System.out.println(filesData);
@@ -141,22 +131,17 @@ public class FolderSystemPanel extends JPanelCustom {
         return panel;
     }
 
-    private JPanelCustom innerFolders111(FilesData filesData, String folderPath) {
+    private JPanelCustom innerFolders111(MediaData mediaData, String folderPath) {
 
         //todo Добавить кнопку назад и пути перехода назад. + отслеживать fullPath
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
         panel.add(new Label(folderPath));
-        //System.out.println(folderPath);
-
-/*        System.out.println(folderPath);
-        System.out.println(Arrays.toString(new TreeSet[]{filesData.getPathsHashSet()}));
-        System.out.println(Arrays.toString(getChildFolders(folderPath, filesData.getPathsHashSet())));
-        System.out.println();*/
 
 
-        panel.add(createFoldersPanel(
-                getChildFolders(folderPath, filesData.getRelativePathsHashSet()))
-        );
+
+/*        panel.add(createFoldersPanel(
+                getChildFolders(folderPath, mediaData.getRelativePathsHashSet()))
+        );*/
 
         return panel;
     }
@@ -170,8 +155,8 @@ public class FolderSystemPanel extends JPanelCustom {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
 
-        for (int i = 0; i < filesDataList.getFilesDataListFiltered().size(); i++) {
-            panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
+        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) {
+            panel.add(corePanel(filesDataList.getMediaDataListFiltered().get(i)));
         }
         cardPanel.add(panel, "coreMainWinterSparkler");
 
@@ -194,41 +179,31 @@ public class FolderSystemPanel extends JPanelCustom {
         return panel;
     }
 
-    private JPanelCustom corePanel(FilesData filesData) {
+    private JPanelCustom corePanel(MediaData mediaData) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-        panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
+/*        panel.add(titlePanel(mediaData.getRootPath()), BorderLayout.NORTH);
 
         // Получаем подпапки для текущего пути (currentFolder)
-        String[] childFolders = getChildFolders(currentFolder, filesData.getRelativePathsHashSet());
+        String[] childFolders = getChildFolders(currentFolder, mediaData.getRelativePathsHashSet());
         panel.add(createFoldersPanel(childFolders));
 
         // Добавляем карты для всех нужных путей
-        for (String path : filesData.getRelativePathsHashSet()) {
+        for (String path : mediaData.getRelativePathsHashSet()) {
             if (path.equals("")) {
                 continue;
             }
-            cardPanel.add(innerFolders(filesData, path), path);
-        }
+            cardPanel.add(innerFolders(mediaData, path), path);
+        }*/
 
         return panel;
     }
 
-    private JPanelCustom innerFolders(FilesData filesData, String folderPath) {
+    private JPanelCustom innerFolders(MediaData mediaData, String folderPath) {
 
         //todo Добавить кнопку назад и пути перехода назад. + отслеживать fullPath
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
         panel.add(new Label(folderPath));
-        //System.out.println(folderPath);
 
-/*        System.out.println(folderPath);
-        System.out.println(Arrays.toString(new TreeSet[]{filesData.getPathsHashSet()}));
-        System.out.println(Arrays.toString(getChildFolders(folderPath, filesData.getPathsHashSet())));
-        System.out.println();*/
-
-
-        panel.add(createFoldersPanel(
-                getChildFolders(folderPath, filesData.getRelativePathsHashSet()))
-        );
 
         return panel;
     }

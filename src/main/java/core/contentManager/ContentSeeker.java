@@ -23,21 +23,21 @@ public class ContentSeeker {
         FilesDataList filesDataList = processor.processRootPaths(folderEntities.getAllPaths());
 
         // Для статистики «неотсортированных» собираем все FileData из всех корневых директорий
-        List<FilesData.FileData> allFiles = new ArrayList<>();
-        for (FilesData fd : filesDataList.getFilesDataListAll()) {
-            allFiles.addAll(fd.getFileData());
+        List<MediaData.MediaFile> allFiles = new ArrayList<>();
+        for (MediaData fd : filesDataList.getMediaDataListAll()) {
+            allFiles.addAll(fd.getMediaData());
         }
         //processor.printFileStatistics(allFiles, "неотсортированных");
         //System.out.println();
 
         // Фильтруем аудиофайлы (например, с расширениями wav, flac, opus, mp3)
-        List<FilesData.FileData> audioFiles = processor.filterAudioFiles(filesDataList);
+        List<MediaData.MediaFile> audioFiles = processor.filterAudioFiles(filesDataList);
         //processor.printFileStatistics(audioFiles, "отфильтрованных (аудио)");
         //System.out.println();
 
         // Демонстрация – вывод найденных аудиофайлов
         //System.out.println("Найденные аудиофайлы:");
-        for (FilesData.FileData fd : audioFiles) {
+        for (MediaData.MediaFile fd : audioFiles) {
             //System.out.println(fd);
         }
 
