@@ -3,63 +3,41 @@ package core.contentManager;
 
 import java.util.*;
 
-public class FilesData {
+public class MediaData {    //Содержит информацию о медиа файлах
 
     private String rootPath;     //Корневой путь
-    private List<FileData> fileData;
-    private TreeSet<String> relativePathsHashSet;   //Список всех папок
-    private TreeSet<String> fullPathsHashSet;   //Список всех папок
+    private List<MediaFile> mediaFileData;
 
-    public FilesData(String rootPath) {
+    public MediaData(String rootPath) {
         this.rootPath = rootPath;
-        this.fileData = new ArrayList<>();
-        this.relativePathsHashSet = new TreeSet<>(/*String::compareToIgnoreCase*/);
-        this.fullPathsHashSet = new TreeSet<>(/*String::compareToIgnoreCase*/);     //todo нужен ли компаратор?
+        this.mediaFileData = new ArrayList<>();
     }
 
     public String getRootPath() {
         return rootPath;
     }
 
-    public List<FileData> getFileData() {
-        return fileData;
+    public List<MediaFile> getMediaData() {
+        return mediaFileData;
     }
 
-    public void addFileData(FileData fd) {
-        fileData.add(fd);
-        addRelativePathHashSet(fd.pathRelative);
-        addFullPathHashSet(rootPath + "\\" + fd.pathRelative);
+    public void addMediaData(MediaFile mediaFile) {
+        mediaFileData.add(mediaFile);
+/*        addRelativePathHashSet(mediaFile.pathRelative);
+        addFullPathHashSet(rootPath + "\\" + mediaFile.pathRelative);*/
     }
-
-    private void addRelativePathHashSet(String path) {
-        relativePathsHashSet.add(path);
-    }
-
-    public TreeSet<String> getRelativePathsHashSet() {
-        return relativePathsHashSet;
-    }
-
-    private void addFullPathHashSet(String path) {
-        fullPathsHashSet.add(path);
-    }
-
-    public TreeSet<String> getFullPathsHashSet() {
-        return fullPathsHashSet;
-    }
-
-
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Root: ").append(rootPath).append("\n");
-        for (FileData fd : fileData) {
+        for (MediaFile fd : mediaFileData) {
             sb.append(fd).append("\n");
         }
         return sb.toString();
     }
 
-    public static class FileData {
+    public static class MediaFile {
         private String pathRoot;            // C:\Users\meowmeow\Music\testing\core 1 — копия\
         private String pathRelative;        // dsadsadasd\
         private String pathFull;            // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\
@@ -69,7 +47,7 @@ public class FilesData {
         private String name;                // Winter Sparkler
         private String extension;           // flac
 
-        public FileData(String pathRoot, String pathRelative, String nameFull) {
+        public MediaFile(String pathRoot, String pathRelative, String nameFull) {
             this.pathRoot = pathRoot;
             this.pathRelative = pathRelative;
             this.pathFull = pathRoot + pathRelative;

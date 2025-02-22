@@ -1,27 +1,43 @@
 package core.contentManager;
 
-import java.beans.PropertyChangeSupport;
+import com.sun.jna.platform.unix.X11;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 
 public class FilesDataList {
 
-    private List<FilesData> filesDataListAll;
-    private List<FilesData> filesDataListFiltered;
+
+    private List<MediaData> mediaDataListAll;
+    private List<MediaData> mediaDataListFiltered;
 
     public FilesDataList() {
-        filesDataListAll = new ArrayList<>();
-        filesDataListFiltered = new ArrayList<>();
+        mediaDataListAll = new ArrayList<>();
+        mediaDataListFiltered = new ArrayList<>();
+
+        foldersRootData = new TreeSet<>();
     }
 
-    public List<FilesData> getFilesDataListAll() {
-        return filesDataListAll;
+    public List<MediaData> getMediaDataListAll() {
+        return mediaDataListAll;
     }
 
-    public List<FilesData> getFilesDataListFiltered() {
-        return filesDataListFiltered;
+    public List<MediaData> getMediaDataListFiltered() {
+        return mediaDataListFiltered;
+    }
+
+
+    private TreeSet<FoldersRootData> foldersRootData;
+
+    public void addFoldersRootData(FoldersRootData folderData) {
+        foldersRootData.add(folderData);
+    }
+
+    public TreeSet<FoldersRootData> getFoldersRootData() {
+        return foldersRootData;
     }
 }
+
 
