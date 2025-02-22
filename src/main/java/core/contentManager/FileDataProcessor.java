@@ -39,17 +39,17 @@ public class FileDataProcessor {
         return filesDataList;
     }
 
-    public void addMissingParentFolders(TreeSet<FolderData> folderDataList) {
-        Set<String> existingFullPaths = folderDataList.stream()
-                .map(FolderData::getFullPath)
+    public void addMissingParentFolders(TreeSet<FolderRootsData> folderRootsDataList) {
+        Set<String> existingFullPaths = folderRootsDataList.stream()
+                .map(FolderRootsData::getFullPath)
                 .collect(Collectors.toCollection(HashSet::new));
 
-        Set<FolderData> foldersToAdd = new HashSet<>();
+        Set<FolderRootsData> foldersToAdd = new HashSet<>();
         Set<String> newFullPaths = new HashSet<>();
 
-        for (FolderData folderData : folderDataList) {
-            String rootPath = folderData.getRootPath();
-            String relativePath = folderData.getRelativePath();
+        for (FolderRootsData folderRootsData : folderRootsDataList) {
+            String rootPath = folderRootsData.getRootPath();
+            String relativePath = folderRootsData.getRelativePath();
 
             // Нормализуем относительный путь, удаляя завершающие слеши
             String normalizedRelative = relativePath.replaceAll("\\\\+$", "");
@@ -64,14 +64,14 @@ public class FileDataProcessor {
                 String currentFullPath = rootPath + currentRelative;
 
                 if (!existingFullPaths.contains(currentFullPath) && !newFullPaths.contains(currentFullPath)) {
-                    FolderData newFolder = new FolderData(currentFullPath, rootPath, currentRelative);
+                    FolderRootsData newFolder = new FolderRootsData(currentFullPath, rootPath, currentRelative);
                     foldersToAdd.add(newFolder);
                     newFullPaths.add(currentFullPath);
                 }
             }
         }
 
-        folderDataList.addAll(foldersToAdd);
+        folderRootsDataList.addAll(foldersToAdd);
     }
 
 
@@ -104,7 +104,7 @@ public class FileDataProcessor {
                 mediaDataAll.addMediaData(mediaFile);
                 if (AUDIO_EXTENSIONS.contains(mediaFile.getExtension())) {
                     mediaDataFiltered.addMediaData(mediaFile);  //Добавление медиа файла
-                    filesDataList.addFolderData(new FolderData(mediaFile.getPathFull(), mediaFile.getPathRoot(), mediaFile.getPathRelative()));    //Добавления папок
+                    filesDataList.addFolderData(new FolderRootsData(mediaFile.getPathFull(), mediaFile.getPathRoot(), mediaFile.getPathRelative()));    //Добавления папок
 
                 }
             }
