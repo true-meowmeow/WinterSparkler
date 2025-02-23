@@ -25,7 +25,7 @@ public class FileDataProcessor {
                 continue;
             }
             // Создаем контейнер для аудиоданных по данному корневому пути
-            filesDataList.createMediaDataValues(rootPath + "\\");
+            filesDataList.createMediaFolderDataValues(rootPath + "\\");
             processDirectory(root, root, filesDataList);
         }
         addMissingParentFolders(filesDataList);
@@ -60,8 +60,9 @@ public class FileDataProcessor {
                 // Обрабатываем только аудиофайлы
                 if (AUDIO_EXTENSIONS.contains(mediaData.getExtension())) {
                     filesDataList.addMediaData(pathRoot, mediaData);
-                    filesDataList.createFoldersDataValues(pathRoot);
-                    filesDataList.addFoldersData(pathRoot, new FolderData(
+                    //filesDataList.createFoldersDataValues(pathRoot);      //todo не нужен вроде)))
+                    //filesDataList.cre
+                    filesDataList.addFolderData(pathRoot, new FolderData(
                             pathFull,
                             pathRoot,
                             pathRelative,
@@ -78,9 +79,9 @@ public class FileDataProcessor {
      * @param filesDataList объект с данными о папках
      */
     private void addMissingParentFolders(FilesDataList filesDataList) {
-        for (Map.Entry<String, HashSet<FolderData>> entry : filesDataList.getFolderDataMap().entrySet()) {
+        for (Map.Entry<String, FilesDataList.MediaFolderData> entry : filesDataList.getMediaFolderDataHashMap().entrySet()) {
             String rootPath = entry.getKey();
-            HashSet<FolderData> folderSet = entry.getValue();
+            HashSet<FolderData> folderSet = entry.getValue().getFolderDataSet();
             // Собираем уже имеющиеся полные пути для быстрого поиска
             Set<String> existingFullPaths = folderSet.stream()
                     .map(FolderData::getPathFull)
@@ -95,6 +96,7 @@ public class FileDataProcessor {
                 if (normalizedRelative.isEmpty()) {
                     continue;
                 }
+                // Разбиваем относительный путь на части
                 String[] parts = normalizedRelative.split("[/\\\\]");
                 // Для многосоставных путей добавляем каждый промежуточный уровень
                 for (int i = 1; i < parts.length; i++) {
@@ -118,6 +120,7 @@ public class FileDataProcessor {
             }
         }
     }
+
 
     private long countChildFolders(Set<FolderData> folderSet, String parentRelative) {
         return folderSet.stream()
@@ -175,8 +178,9 @@ public class FileDataProcessor {
      * @return список аудиофайлов
      */
     public List<MediaData> filterAudioFiles(FilesDataList filesDataList) {
-        return filesDataList.getMediaDataMap().values().stream()
-                .flatMap(Set::stream)
+        return filesDataList.getMediaFolderDataHashMap().values().stream()
+                .flatMap(mfd -> mfd.getMediaDataSet().stream())
                 .collect(Collectors.toList());
     }
+
 }
