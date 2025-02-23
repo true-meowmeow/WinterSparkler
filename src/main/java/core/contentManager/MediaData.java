@@ -47,15 +47,17 @@ public class MediaData {    //Содержит информацию о меди�
         private String name;                // Winter Sparkler
         private String extension;           // flac
 
-        public MediaFile(String pathRoot, String pathRelative, String nameFull) {
+        public MediaFile(String pathFull, String pathRoot, String pathRelative, String nameFull) {
+            this.pathFull = pathFull;
             this.pathRoot = pathRoot;
             this.pathRelative = pathRelative;
-            this.pathFull = pathRoot + pathRelative;
             this.pathFullName = pathRoot + pathRelative + nameFull;
 
             this.nameFull = nameFull;
             this.name = extractFileName(nameFull);
             this.extension = extractExtension(nameFull);
+
+            //System.out.println(pathFull + " | " + pathRoot + " | " + pathRelative + " | " + nameFull);
         }
 
         private String extractFileName(String fileName) {

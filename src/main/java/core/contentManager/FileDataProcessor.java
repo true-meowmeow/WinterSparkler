@@ -33,46 +33,73 @@ public class FileDataProcessor {
             }
         }
 
-        for (FoldersRootData foldersRootData : filesDataList.getFoldersRootData()) {
-            addMissingParentFolders(foldersRootData.getFolderData());
-        }
+        addMissingParentFolders(filesDataList);
+
         return filesDataList;
     }
 
-    public void addMissingParentFolders(TreeSet<FolderRootsData> folderRootsDataList) {
-        Set<String> existingFullPaths = folderRootsDataList.stream()
-                .map(FolderRootsData::getFullPath)
-                .collect(Collectors.toCollection(HashSet::new));
+    private void addMissingParentFolders(FilesDataList filesDataList) {
+        // Проходим по всем записям в HashMap: ключ – rootPath, значение – HashSet с FolderData
+        for (Map.Entry<String, HashSet<FolderData>> entry : filesDataList.getFolderDataMap().entrySet()) {
+            String rootPath = entry.getKey();
+            HashSet<FolderData> folderSet = entry.getValue();
+            // Собираем уже имеющиеся полные пути для быстрого поиска
+            Set<String> existingFullPaths = folderSet.stream()
+                    .map(FolderData::getPathFull)
+                    .collect(Collectors.toSet());
+            // Множество для уже добавленных новых путей, чтобы не создавать дубликаты
+            Set<String> newFullPaths = new HashSet<>();
 
-        Set<FolderRootsData> foldersToAdd = new HashSet<>();
-        Set<String> newFullPaths = new HashSet<>();
+            // Создаем копию списка, чтобы не получить ConcurrentModificationException при добавлении новых элементов
+            List<FolderData> folderList = new ArrayList<>(folderSet);
 
-        for (FolderRootsData folderRootsData : folderRootsDataList) {
-            String rootPath = folderRootsData.getRootPath();
-            String relativePath = folderRootsData.getRelativePath();
+            for (FolderData folderData : folderList) {
+                String relativePath = folderData.getPathRelative();
+                // Удаляем завершающие слеши
+                String normalizedRelative = relativePath.replaceAll("[/\\\\]+$", "");
+                if (normalizedRelative.isEmpty()) {
+                    continue;
+                }
+                // Разбиваем относительный путь по разделителям (учитывая и "/" и "\")
+                String[] parts = normalizedRelative.split("[/\\\\]");
+                // Если в относительном пути несколько уровней, проверяем наличие каждого промежуточного уровня
+                // Например, для "Папка1\Папка2\Папка3" добавляем "Папка1\" и "Папка1\Папка2\"
+                for (int i = 1; i < parts.length; i++) {
+                    String parentRelative = String.join("\\", Arrays.copyOfRange(parts, 0, i)) + "\\";
+                    String parentFullPath = rootPath + parentRelative;
+                    if (!existingFullPaths.contains(parentFullPath) && !newFullPaths.contains(parentFullPath)) {
+                        FolderData parentFolder = new FolderData(
+                                parentFullPath,
+                                rootPath,
+                                parentRelative,
+                                FileDataProcessor.extractFolderName(parentFullPath)
+                        );
 
-            // Нормализуем относительный путь, удаляя завершающие слеши
-            String normalizedRelative = relativePath.replaceAll("\\\\+$", "");
-            if (normalizedRelative.isEmpty()) {
-                continue;
-            }
-
-            String[] relativeParts = normalizedRelative.split("\\\\");
-            for (int i = 1; i < relativeParts.length; i++) {
-                String[] currentParts = Arrays.copyOfRange(relativeParts, 0, i);
-                String currentRelative = String.join("\\", currentParts) + "\\";
-                String currentFullPath = rootPath + currentRelative;
-
-                if (!existingFullPaths.contains(currentFullPath) && !newFullPaths.contains(currentFullPath)) {
-                    FolderRootsData newFolder = new FolderRootsData(currentFullPath, rootPath, currentRelative);
-                    foldersToAdd.add(newFolder);
-                    newFullPaths.add(currentFullPath);
+                        // Подсчёт количества подпапок для данного родительского пути и деактивация папки для пропуска
+                        long childCount = countChildFolders(folderSet, parentRelative);
+                        if (childCount == 1) {
+                            parentFolder.deactivate();
+                        }
+                        folderSet.add(parentFolder);
+                        newFullPaths.add(parentFullPath);
+                    }
                 }
             }
         }
-
-        folderRootsDataList.addAll(foldersToAdd);
     }
+
+    private long countChildFolders(Set<FolderData> folderSet, String parentRelative) {
+        // Нормализуем parentRelative, если требуется
+        return folderSet.stream()
+                .filter(fd -> {
+                    String norm = fd.getPathRelative().replaceAll("[/\\\\]+$", "");
+                    // Проверяем, что путь начинается с parentRelative и сам не равен ему
+                    return norm.startsWith(parentRelative) && !norm.equals(parentRelative);
+                })
+                .count();
+    }
+
+
 
 
     /**
@@ -97,15 +124,22 @@ public class FileDataProcessor {
                 if (parent != null) {
                     folderRelative = convertSlashes(baseDir.toURI().relativize(parent.toURI()).getPath());
                 }
+
+                String pathRoot = extractRootPath(file.getPath(), folderRelative, file.getName());
+                String pathRelative = folderRelative;
+                String pathFull = pathRoot + pathRelative;
+
                 MediaData.MediaFile mediaFile = new MediaData.MediaFile(
-                        extractRootPath(file.getPath(), folderRelative, file.getName()),
-                        folderRelative,
+                        pathFull,
+                        pathRoot,
+                        pathRelative,
                         file.getName());
                 mediaDataAll.addMediaData(mediaFile);
                 if (AUDIO_EXTENSIONS.contains(mediaFile.getExtension())) {
                     mediaDataFiltered.addMediaData(mediaFile);  //Добавление медиа файла
-                    filesDataList.addFolderData(new FolderRootsData(mediaFile.getPathFull(), mediaFile.getPathRoot(), mediaFile.getPathRelative()));    //Добавления папок
 
+                    filesDataList.createFoldersDataValues(pathRoot);
+                    filesDataList.addFoldersData(pathRoot, new FolderData(pathFull, pathRoot, pathRelative, extractFolderName(pathFull)));  //Добавление папки
                 }
             }
         }
@@ -129,6 +163,24 @@ public class FileDataProcessor {
             return absolutePath.substring(0, index);
         }
         throw new IllegalArgumentException("Переданные данные не соответствуют ожиданиям");
+    }
+
+
+    public static String extractFolderName(String fullPath) {
+        if (fullPath == null || fullPath.isEmpty()) {
+            return "";
+        }
+        // Удаляем завершающие разделители
+        while (fullPath.endsWith("\\") || fullPath.endsWith("/")) {
+            fullPath = fullPath.substring(0, fullPath.length() - 1);
+        }
+        // Находим последний индекс разделителя
+        int lastSeparatorIndex = Math.max(fullPath.lastIndexOf("\\"), fullPath.lastIndexOf("/"));
+        if (lastSeparatorIndex == -1) {
+            // Если разделитель не найден, возвращаем всю строку
+            return fullPath;
+        }
+        return fullPath.substring(lastSeparatorIndex + 1);
     }
 
     /**

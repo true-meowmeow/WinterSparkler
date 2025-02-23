@@ -15,7 +15,7 @@ public class FilesDataList {
         mediaDataListAll = new ArrayList<>();
         mediaDataListFiltered = new ArrayList<>();
 
-        foldersRootData = new HashMap<>();
+        folderDataMap = new HashMap<>();
     }
 
     public List<MediaData> getMediaDataListAll() {
@@ -27,17 +27,18 @@ public class FilesDataList {
     }
 
 
-    private HashMap<String, FolderRootsData> foldersRootData;
-    public void addFoldersData(FolderRootsData folderRootsData, FolderRootsData.FolderData folderData) {
-        foldersRootData.;
+    private HashMap<String, HashSet<FolderData>> folderDataMap;     //rootPath, folderData
+
+    public void createFoldersDataValues(String rootPath) {
+        folderDataMap.putIfAbsent(rootPath, new HashSet<>());
     }
 
-    public void createFolderRootData(String rootPath) {
-        foldersRootData.add(new FolderRootsData(rootPath));
+    public void addFoldersData(String rootPath, FolderData folderData) {
+        folderDataMap.get(rootPath).add(folderData);
     }
 
-    public TreeSet<FolderRootsData> getFoldersRootData() {
-        return foldersRootData;
+    public HashMap<String, HashSet<FolderData>> getFolderDataMap() {
+        return folderDataMap;
     }
 }
 
