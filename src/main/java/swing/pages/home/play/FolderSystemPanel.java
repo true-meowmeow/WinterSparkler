@@ -1,5 +1,7 @@
 package swing.pages.home.play;
 
+import core.contentManager.FolderData;
+import core.contentManager.FolderEntry;
 import core.contentManager.MediaData;
 import core.contentManager.FilesDataList;
 import swing.objects.JPanelCustom;
@@ -45,54 +47,82 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.removeAll();  //Каждая карта - все фильтрованные файлы по выбранной папке
 
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) { //Проходит по корневым путям
+/*        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) { //Проходит по корневым путям
             //panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
             //panel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)));
 
 
+
             //Формирует свою карту для каждой папки корневого пути
-/*            for (String path : filesDataList.getMediaDataListFiltered().get(i).getFullPathsHashSet()) {
+*//*            for (String path : filesDataList.getMediaDataListFiltered().get(i).getFullPathsHashSet()) {
                 cardPanel.add(initCardPanel(findMatchingFiles(path, filesDataList.getMediaDataListFiltered().get(i).getMediaData())), path);
 
                 System.out.println(path);
                 //System.out.println(findDirectSubPaths(path, filesDataList.getFolderDataList()));
                 System.out.println();
-            }*/
+            }*//*
+        }*/
+
+
+
+        List<String> subPaths = new ArrayList<>();
+        for (Map.Entry<String, HashSet<FolderData>> root : filesDataList.getFolderDataMap().entrySet()) {
+
+
+
+
+            for (FolderData folder : root.getValue()) {
+                HashSet<FolderData> folderSet = root.getValue();
+                //System.out.println(folderSet);
+
+
+                findSubfolders(folder.getPathFull(), root.getValue());
+                System.out.println(folder.getPathFull() + "      |          " + Arrays.toString(findSubfolders(folder.getPathFull(), root.getValue())));
+
+
+
+                //subPaths = findDirectSubPaths(folder.getPathFull(), folderSet);
+/*                System.out.println(folder.getPathFull());
+                System.out.println(folderSet);
+                System.out.println();*/
+                //findDirectSubPaths(root.getKey(), subPaths);
+
+            }
         }
+        //System.out.println(subPaths);
+
+
     }
-    // Нормализует путь: добавляет завершающий слеш и заменяет множественные слеши
-    private String normalizePath(String path) {
-        if (path == null || path.isEmpty()) return path;
-        return path.replaceAll("\\\\+", "\\\\") // Заменяет множественные слеши на один
-                .replaceAll("\\\\$", "")     // Удаляет завершающий слеш, если есть
-                + "\\";                     // Добавляет один слеш в конец
-    }
-    private List<String> findDirectSubPaths(String path, TreeSet<String> relativePathsHashSet) {
-        // Нормализуем базовый путь
-        String normalizedBasePath = normalizePath(path);
-        Set<String> resultSet = new LinkedHashSet<>();
+    public String[] findSubfolders(String fullPath, HashSet<FolderData> folderDataSet) {
+        // Если путь не заканчивается на "\", добавляем его
+        if (!fullPath.endsWith("\\")) {
+            fullPath += "\\";
+        }
 
-        for (String relativePath : relativePathsHashSet) {
-            // Нормализуем текущий путь из множества
-            String normalizedRelative = normalizePath(relativePath);
+        List<String> subfolderNames = new ArrayList<>();
 
-            if (normalizedRelative.startsWith(normalizedBasePath)) {
-                String remaining = normalizedRelative.substring(normalizedBasePath.length());
-                String[] parts = remaining.split("\\\\+"); // Учитываем возможные множественные слеши
-
-                if (parts.length == 0 || (parts.length == 1 && parts[0].isEmpty())) {
-                    continue; // Пропускаем путь, совпадающий с basePath
+        for (FolderData folder : folderDataSet) {
+            String folderFull = folder.getPathFull();
+            // Проверяем, что папка находится внутри fullPath, но не является самой этой папкой
+            if (folderFull.startsWith(fullPath) && !folderFull.equals(fullPath)) {
+                // Получаем часть пути, которая идёт после fullPath
+                String relativePart = folderFull.substring(fullPath.length());
+                // Удаляем завершающий разделитель, если он есть
+                if (relativePart.endsWith("\\")) {
+                    relativePart = relativePart.substring(0, relativePart.length() - 1);
                 }
-
-                // Берём первый непустой сегмент
-                String firstSegment = parts[0];
-                String directSubPath = normalizedBasePath + firstSegment + "\\";
-                resultSet.add(directSubPath);
+                // Если оставшийся путь не содержит дополнительных "\",
+                // значит папка является непосредственной подпапкой
+                if (!relativePart.contains("\\")) {
+                    subfolderNames.add(folder.getName());
+                }
             }
         }
 
-        return new ArrayList<>(resultSet);
+        return subfolderNames.toArray(new String[0]);
     }
+
+
 
     private List<MediaData.MediaFile> findMatchingFiles(String searchText, List<MediaData.MediaFile> files) {
         List<MediaData.MediaFile> matchingFiles = new ArrayList<>();
@@ -106,7 +136,7 @@ public class FolderSystemPanel extends JPanelCustom {
         return matchingFiles;
     }
 
-    private JPanelCustom initCardPanel(List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate
+    private JPanelCustom initCardPanel(List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         //System.out.println(mediaDataList);
