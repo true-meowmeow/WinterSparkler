@@ -24,9 +24,14 @@ public class FileDataProcessor {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
                 continue;
             }
+            rootPath += "\\";
             // Создаем контейнер для аудиоданных по данному корневому пути
-            filesDataList.createMediaFolderDataValues(rootPath + "\\");
+            filesDataList.createMediaFolderDataValues(rootPath);
             processDirectory(root, root, filesDataList);
+
+            if (filesDataList.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet().size() == 0) {
+                filesDataList.terminate(rootPath);
+            }
         }
         addMissingParentFolders(filesDataList);
         return filesDataList;
@@ -60,8 +65,6 @@ public class FileDataProcessor {
                 // Обрабатываем только аудиофайлы
                 if (AUDIO_EXTENSIONS.contains(mediaData.getExtension())) {
                     filesDataList.addMediaData(pathRoot, mediaData);
-                    //filesDataList.createFoldersDataValues(pathRoot);      //todo не нужен вроде)))
-                    //filesDataList.cre
                     filesDataList.addFolderData(pathRoot, new FolderData(
                             pathFull,
                             pathRoot,
