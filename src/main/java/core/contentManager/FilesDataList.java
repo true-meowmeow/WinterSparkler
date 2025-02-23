@@ -22,11 +22,15 @@ public class FilesDataList {
         mediaFolderDataHashMap.get(rootPath).getFolderDataSet().add(folderData);
     }
 
+    public void terminate(String rootPath) {
+        mediaFolderDataHashMap.remove(rootPath);
+    }
+
     public HashMap<String, MediaFolderData> getMediaFolderDataHashMap() {
         return mediaFolderDataHashMap;
     }
 
-    public static class MediaFolderData {
+    public static class MediaFolderData {   //В каждом объекте есть как минимум одна корневая папка и файл, подходящий под критерии
 
         private String pathRoot;
 
