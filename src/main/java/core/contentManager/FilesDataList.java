@@ -7,26 +7,30 @@ import java.util.*;
 
 public class FilesDataList {
 
-
-    private List<MediaData> mediaDataListAll;
-    private List<MediaData> mediaDataListFiltered;
-
     public FilesDataList() {
-        mediaDataListAll = new ArrayList<>();
-        mediaDataListFiltered = new ArrayList<>();
-
+        mediaDataMap = new HashMap<>();
         folderDataMap = new HashMap<>();
     }
 
-    public List<MediaData> getMediaDataListAll() {
-        return mediaDataListAll;
+
+    //media
+    private HashMap<String, HashSet<MediaData>> mediaDataMap;     //rootPath, mediaData
+
+
+    public void createMediaDataValues(String rootPath) {
+        mediaDataMap.putIfAbsent(rootPath, new HashSet<>());
     }
 
-    public List<MediaData> getMediaDataListFiltered() {
-        return mediaDataListFiltered;
+    public void addMediaData(String rootPath, MediaData mediaData) {
+        mediaDataMap.get(rootPath).add(mediaData);
+    }
+
+    public HashMap<String, HashSet<MediaData>> getMediaDataMap() {
+        return mediaDataMap;
     }
 
 
+    //folders
     private HashMap<String, HashSet<FolderData>> folderDataMap;     //rootPath, folderData
 
     public void createFoldersDataValues(String rootPath) {
@@ -39,6 +43,11 @@ public class FilesDataList {
 
     public HashMap<String, HashSet<FolderData>> getFolderDataMap() {
         return folderDataMap;
+    }
+
+    private HashMap<String, MediaFolderData> mediaFolderDataHashMap;     //rootPath, mediaData
+
+    public static class MediaFolderData {
     }
 }
 

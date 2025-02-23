@@ -79,7 +79,7 @@ public class FolderSystemPanel extends JPanelCustom {
                 findSubfolders(folder.getPathFull(), root.getValue());
                 //System.out.println(folder.getPathFull() + "      |          " + Arrays.toString(findSubfolders(folder.getPathFull(), root.getValue()).toArray()));
 
-                cardPanel.add(initCardPanel(), folder.getPathFull());
+                //cardPanel.add(initCardPanel(), folder.getPathFull());
 
                 //subPaths = findDirectSubPaths(folder.getPathFull(), folderSet);
 /*                System.out.println(folder.getPathFull());
@@ -124,19 +124,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
 
-    private List<MediaData.MediaFile> findMatchingFiles(String searchText, List<MediaData.MediaFile> files) {
-        List<MediaData.MediaFile> matchingFiles = new ArrayList<>();
-        for (MediaData.MediaFile file : files) {
-            if (file.getPathFull().equals(searchText)) {
-                matchingFiles.add(file);
-            }
-        }
-
-        System.out.println(matchingFiles);
-        return matchingFiles;
-    }
-
-    private JPanelCustom initCardPanel(HashSet<FolderData> folders, List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate проверку и реализацию
+    private JPanelCustom initCardPanel(HashSet<FolderData> folders/*, List<MediaData.MediaFile> mediaDataList*/) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         //System.out.println(mediaDataList);
@@ -185,9 +173,9 @@ public class FolderSystemPanel extends JPanelCustom {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
 
-        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) {
+/*        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) {
             panel.add(corePanel(filesDataList.getMediaDataListFiltered().get(i)));
-        }
+        }*/
         cardPanel.add(panel, "coreMainWinterSparkler");
 
         showCard("coreMainWinterSparkler");

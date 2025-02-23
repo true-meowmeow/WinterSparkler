@@ -69,7 +69,7 @@ public class FolderData implements Comparable<FolderData> {
     public int compareTo(FolderData o) {
         return pathFull.compareTo(o.pathFull);
     }
-
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,5 +81,5 @@ public class FolderData implements Comparable<FolderData> {
     @Override
     public int hashCode() {
         return Objects.hash(pathFull);
-    }
+    }*/
 }
