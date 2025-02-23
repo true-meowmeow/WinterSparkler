@@ -77,9 +77,9 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
                 findSubfolders(folder.getPathFull(), root.getValue());
-                System.out.println(folder.getPathFull() + "      |          " + Arrays.toString(findSubfolders(folder.getPathFull(), root.getValue())));
+                //System.out.println(folder.getPathFull() + "      |          " + Arrays.toString(findSubfolders(folder.getPathFull(), root.getValue()).toArray()));
 
-
+                cardPanel.add(initCardPanel(), folder.getPathFull());
 
                 //subPaths = findDirectSubPaths(folder.getPathFull(), folderSet);
 /*                System.out.println(folder.getPathFull());
@@ -93,13 +93,13 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
     }
-    public String[] findSubfolders(String fullPath, HashSet<FolderData> folderDataSet) {
+    public HashSet<FolderData> findSubfolders(String fullPath, HashSet<FolderData> folderDataSet) {
         // Если путь не заканчивается на "\", добавляем его
         if (!fullPath.endsWith("\\")) {
             fullPath += "\\";
         }
 
-        List<String> subfolderNames = new ArrayList<>();
+        HashSet<FolderData> subfolders = new HashSet<>();
 
         for (FolderData folder : folderDataSet) {
             String folderFull = folder.getPathFull();
@@ -114,12 +114,12 @@ public class FolderSystemPanel extends JPanelCustom {
                 // Если оставшийся путь не содержит дополнительных "\",
                 // значит папка является непосредственной подпапкой
                 if (!relativePart.contains("\\")) {
-                    subfolderNames.add(folder.getName());
+                    subfolders.add(folder);
                 }
             }
         }
 
-        return subfolderNames.toArray(new String[0]);
+        return subfolders;
     }
 
 
@@ -136,7 +136,7 @@ public class FolderSystemPanel extends JPanelCustom {
         return matchingFiles;
     }
 
-    private JPanelCustom initCardPanel(List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate проверку и реализацию
+    private JPanelCustom initCardPanel(HashSet<FolderData> folders, List<MediaData.MediaFile> mediaDataList) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
         //System.out.println(mediaDataList);
