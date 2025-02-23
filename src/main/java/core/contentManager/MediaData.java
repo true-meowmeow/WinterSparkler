@@ -88,4 +88,17 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
     public int compareTo(MediaData o) {
         return pathFullName.compareTo(o.pathFullName);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MediaData)) return false;
+        MediaData that = (MediaData) o;
+        return Objects.equals(pathFullName, that.pathFullName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pathFullName);
+    }
 }

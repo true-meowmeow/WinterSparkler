@@ -1,15 +1,13 @@
 package swing.pages.home.play;
 
-import core.contentManager.FolderData;
-import core.contentManager.FolderEntry;
-import core.contentManager.MediaData;
-import core.contentManager.FilesDataList;
+import core.contentManager.*;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static swing.pages.home.play.objects.FolderUtil.getChildFolders;
 
@@ -43,56 +41,42 @@ public class FolderSystemPanel extends JPanelCustom {
     JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);      //todo изменить все имена в картах чтобы принимали путь корня чтобы избежать ошибки при одинаковом названии папок в разных корнях
 
     public void updateManagingPanel(FilesDataList filesDataList) {
-        //contentPanel.removeAll();
-        cardPanel.removeAll();  //Каждая карта - все фильтрованные файлы по выбранной папке
+        // Предполагается, что cardPanel и другие UI-компоненты уже объявлены
+        cardPanel.removeAll();  // Каждая карта — все фильтрованные файлы по выбранной папке
 
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-/*        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) { //Проходит по корневым путям
-            //panel.add(corePanel(filesDataList.getFilesDataListFiltered().get(i)));
-            //panel.add(initCardPanel(filesDataList.getFilesDataListFiltered().get(i)));
-
-
-
-            //Формирует свою карту для каждой папки корневого пути
-*//*            for (String path : filesDataList.getMediaDataListFiltered().get(i).getFullPathsHashSet()) {
-                cardPanel.add(initCardPanel(findMatchingFiles(path, filesDataList.getMediaDataListFiltered().get(i).getMediaData())), path);
-
-                System.out.println(path);
-                //System.out.println(findDirectSubPaths(path, filesDataList.getFolderDataList()));
-                System.out.println();
-            }*//*
-        }*/
-
 
 
         List<String> subPaths = new ArrayList<>();
-        for (Map.Entry<String, HashSet<FolderData>> root : filesDataList.getFolderDataMap().entrySet()) {
+        for (Map.Entry<String, FilesDataList.MediaFolderData> entry : filesDataList.getMediaFolderDataHashMap().entrySet()) {
+            FilesDataList.MediaFolderData mfd = entry.getValue();
+            HashSet<FolderData> folderSet = mfd.getFolderDataSet();
+
+            System.out.println();
+            System.out.println(entry.getKey());
+            System.out.println();
+            for (FolderData folder : folderSet) {
+
+                System.out.println(folder.getPathFull());
 
 
 
 
-            for (FolderData folder : root.getValue()) {
-                HashSet<FolderData> folderSet = root.getValue();
-                //System.out.println(folderSet);
-
-
-                findSubfolders(folder.getPathFull(), root.getValue());
-                //System.out.println(folder.getPathFull() + "      |          " + Arrays.toString(findSubfolders(folder.getPathFull(), root.getValue()).toArray()));
-
-                //cardPanel.add(initCardPanel(), folder.getPathFull());
-
-                //subPaths = findDirectSubPaths(folder.getPathFull(), folderSet);
-/*                System.out.println(folder.getPathFull());
-                System.out.println(folderSet);
-                System.out.println();*/
-                //findDirectSubPaths(root.getKey(), subPaths);
-
+                // Здесь вызываем метод поиска подпапок для текущей папки.
+                // Предполагается, что метод findSubfolders возвращает, например, HashSet<FolderData>
+                HashSet<FolderData> subfolders = findSubfolders(folder.getPathFull(), folderSet);
+                // Можно, например, собрать пути найденных подпапок для дальнейшей работы
+                subPaths.addAll(subfolders.stream().map(FolderData::getPathFull).collect(Collectors.toList()));
             }
         }
-        //System.out.println(subPaths);
 
-
+        // Здесь может идти дальнейшая логика по наполнению панели данными,
+        // например, добавление компонентов в panel, затем его размещение в cardPanel
+        // cardPanel.add(panel);
+        // cardPanel.revalidate();
+        // cardPanel.repaint();
     }
+
     public HashSet<FolderData> findSubfolders(String fullPath, HashSet<FolderData> folderDataSet) {
         // Если путь не заканчивается на "\", добавляем его
         if (!fullPath.endsWith("\\")) {

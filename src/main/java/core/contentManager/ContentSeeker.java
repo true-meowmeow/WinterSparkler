@@ -1,6 +1,7 @@
 package core.contentManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,9 +26,13 @@ public class ContentSeeker {
 
         // Для статистики «неотсортированных» собираем все MediaData из всех корневых директорий
         List<MediaData> allFiles = new ArrayList<>();
-        for (HashSet<MediaData> mediaSet : filesDataList.getMediaDataMap().values()) {
-            allFiles.addAll(mediaSet);
+        for (FilesDataList.MediaFolderData mediaFolderDataHashMap : filesDataList.getMediaFolderDataHashMap().values()) {
+            allFiles.addAll(mediaFolderDataHashMap.getMediaDataSet());
         }
+
+        //for (HashSet<MediaData> mediaData : )
+
+
         // processor.printFileStatistics(allFiles, "неотсортированных");
         // System.out.println();
 

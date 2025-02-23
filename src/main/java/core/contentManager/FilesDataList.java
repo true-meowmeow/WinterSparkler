@@ -1,54 +1,61 @@
 package core.contentManager;
 
-import com.sun.jna.platform.unix.X11;
-
 import java.util.*;
 
 
 public class FilesDataList {
 
     public FilesDataList() {
-        mediaDataMap = new HashMap<>();
-        folderDataMap = new HashMap<>();
-    }
-
-
-    //media
-    private HashMap<String, HashSet<MediaData>> mediaDataMap;     //rootPath, mediaData
-
-
-    public void createMediaDataValues(String rootPath) {
-        mediaDataMap.putIfAbsent(rootPath, new HashSet<>());
-    }
-
-    public void addMediaData(String rootPath, MediaData mediaData) {
-        mediaDataMap.get(rootPath).add(mediaData);
-    }
-
-    public HashMap<String, HashSet<MediaData>> getMediaDataMap() {
-        return mediaDataMap;
-    }
-
-
-    //folders
-    private HashMap<String, HashSet<FolderData>> folderDataMap;     //rootPath, folderData
-
-    public void createFoldersDataValues(String rootPath) {
-        folderDataMap.putIfAbsent(rootPath, new HashSet<>());
-    }
-
-    public void addFoldersData(String rootPath, FolderData folderData) {
-        folderDataMap.get(rootPath).add(folderData);
-    }
-
-    public HashMap<String, HashSet<FolderData>> getFolderDataMap() {
-        return folderDataMap;
+        mediaFolderDataHashMap = new HashMap<>();
     }
 
     private HashMap<String, MediaFolderData> mediaFolderDataHashMap;     //rootPath, mediaData
 
-    public static class MediaFolderData {
+    public void createMediaFolderDataValues(String rootPath) {
+        mediaFolderDataHashMap.putIfAbsent(rootPath, new MediaFolderData(rootPath));
     }
+
+    public void addMediaData(String rootPath, MediaData mediaData) {
+        mediaFolderDataHashMap.get(rootPath).getMediaDataSet().add(mediaData);
+    }
+    public void addFolderData(String rootPath, FolderData folderData) {
+        mediaFolderDataHashMap.get(rootPath).getFolderDataSet().add(folderData);
+    }
+
+    public HashMap<String, MediaFolderData> getMediaFolderDataHashMap() {
+        return mediaFolderDataHashMap;
+    }
+
+    public static class MediaFolderData {
+
+        private String pathRoot;
+
+        public MediaFolderData(String pathRoot) {
+            this.pathRoot = pathRoot;
+
+            mediaDataSet = new HashSet<>();
+            folderDataSet = new HashSet<>();
+        }
+
+        public String getPathRoot() {
+            return pathRoot;
+        }
+
+        //media
+        private HashSet<MediaData> mediaDataSet;
+
+        public HashSet<MediaData> getMediaDataSet() {
+            return mediaDataSet;
+        }
+
+        //folders
+        private HashSet<FolderData> folderDataSet;
+
+        public HashSet<FolderData> getFolderDataSet() {
+            return folderDataSet;
+        }
+    }
+
 }
 
 
