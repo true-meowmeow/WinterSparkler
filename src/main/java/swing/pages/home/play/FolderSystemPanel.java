@@ -47,26 +47,33 @@ public class FolderSystemPanel extends JPanelCustom {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
 
-        List<String> subPaths = new ArrayList<>();
-        for (Map.Entry<String, FilesDataList.MediaFolderData> entry : filesDataList.getMediaFolderDataHashMap().entrySet()) {
-            FilesDataList.MediaFolderData mfd = entry.getValue();
+        for (Map.Entry<String, FilesDataList.MediaFolderData> root : filesDataList.getMediaFolderDataHashMap().entrySet()) {
+
+            System.out.println();
+            System.out.println(root.getKey());
+            System.out.println();
+
+            FilesDataList.MediaFolderData mfd = root.getValue();
             HashSet<FolderData> folderSet = mfd.getFolderDataSet();
 
-            System.out.println();
-            System.out.println(entry.getKey());
-            System.out.println();
             for (FolderData folder : folderSet) {
+                //System.out.println(folder);
 
-                System.out.println(folder.getPathFull());
-
-
+                //System.out.println(folder.getPathFull());
 
 
                 // Здесь вызываем метод поиска подпапок для текущей папки.
                 // Предполагается, что метод findSubfolders возвращает, например, HashSet<FolderData>
-                HashSet<FolderData> subfolders = findSubfolders(folder.getPathFull(), folderSet);
+                HashSet<FolderData> subfolders = findSubFolders(folder.getPathFull(), folderSet);       //Получаю все папки в текущей папке
+                //System.out.println(folder.getPathFull() +"      |           "+ subfolders);
+
+
+                System.out.println();
+                HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataList.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());
+
+                System.out.println(folder.getPathFull() + "   |       " +  subMedias);
                 // Можно, например, собрать пути найденных подпапок для дальнейшей работы
-                subPaths.addAll(subfolders.stream().map(FolderData::getPathFull).collect(Collectors.toList()));
+
             }
         }
 
@@ -77,7 +84,7 @@ public class FolderSystemPanel extends JPanelCustom {
         // cardPanel.repaint();
     }
 
-    public HashSet<FolderData> findSubfolders(String fullPath, HashSet<FolderData> folderDataSet) {
+    public HashSet<FolderData> findSubFolders(String fullPath, HashSet<FolderData> folderDataSet) {
         // Если путь не заканчивается на "\", добавляем его
         if (!fullPath.endsWith("\\")) {
             fullPath += "\\";
@@ -106,7 +113,31 @@ public class FolderSystemPanel extends JPanelCustom {
         return subfolders;
     }
 
+    public HashSet<MediaData> findMediaFilesInFolder(String folderPath, HashSet<MediaData> mediaDataSet) {
+        // Нормализуем путь: если не заканчивается на разделитель, добавляем его
+        if (!folderPath.endsWith("\\") && !folderPath.endsWith("/")) {
+            folderPath += System.getProperty("file.separator");
+        }
 
+        HashSet<MediaData> result = new HashSet<>();
+        for (MediaData mediaData : mediaDataSet) {
+            // Сравниваем по полному пути папки, в которой находится файл
+            if (mediaData.getPathFull().equals(folderPath)) {
+                result.add(mediaData);
+            }
+        }
+
+        return result;
+    }
+
+/*    private List<MediaData.MediaFile> findMatchingFiles(String searchText, List<MediaData.MediaFile> files) {
+        List<MediaData.MediaFile> matchingFiles = new ArrayList<>();
+        for (MediaData.MediaFile file : files) {
+            if (file.getPathFull().equals(searchText)) {
+                matchingFiles.add(file);
+            }
+        }
+    }*/
 
     private JPanelCustom initCardPanel(HashSet<FolderData> folders/*, List<MediaData.MediaFile> mediaDataList*/) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
@@ -212,7 +243,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
     // у меня должен быть список конечных папок и если
 
-    //todo короче надо всю структуру переписывать, это лажа какая-то, он пиздец короче удачи
+    //todo короче надо всю структуру переписывать, это лажа какая-то, он пиздец короче удачи - дада уже переписал почти блять как будто мне делать нехер больше
 
     private JPanelCustom createFoldersPanel(String[] folders) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
