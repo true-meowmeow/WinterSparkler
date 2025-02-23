@@ -5,7 +5,7 @@ import swing.pages.home.settings.FolderPathsPanel;
 import javax.swing.*;
 import java.io.File;
 
-public class FolderEntities {
+public class FolderEntities {   //todo блять это вообще что делает
 
     // Модель списка хранит объекты FolderEntry
     public final DefaultListModel<FolderEntry> listModel = new DefaultListModel<>();
