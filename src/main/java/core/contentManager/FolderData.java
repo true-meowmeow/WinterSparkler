@@ -48,13 +48,13 @@ public class FolderData implements Comparable<FolderData> {
         this.active = false;
     }
 
-/*    @Override
+    @Override
     public String toString() {
         return "{path='" + pathFull + '\'' +
                 '}';
-    }*/
+    }
 
-    @Override
+/*    @Override
     public String toString() {
         return "FolderData{" +
                 "pathFull='" + pathFull + '\'' +
@@ -63,7 +63,7 @@ public class FolderData implements Comparable<FolderData> {
                 ", name='" + name + '\'' +
                 ", active=" + active +
                 '}';
-    }
+    }*/
 
     @Override
     public int compareTo(FolderData o) {

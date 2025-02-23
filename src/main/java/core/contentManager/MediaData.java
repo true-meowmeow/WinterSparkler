@@ -85,6 +85,13 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
     }
 
     @Override
+    public String toString() {
+        return "{" +
+                "nameFull='" + nameFull + '\'' +
+                '}';
+    }
+
+    @Override
     public int compareTo(MediaData o) {
         return pathFullName.compareTo(o.pathFullName);
     }
