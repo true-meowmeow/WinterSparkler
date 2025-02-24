@@ -13,7 +13,6 @@ target/
 *.ipr
 .idea/
 *.lnk
-ULTIMATE/
 
 
 ### Eclipse ###
