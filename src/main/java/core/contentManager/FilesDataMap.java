@@ -3,16 +3,16 @@ package core.contentManager;
 import java.util.*;
 
 
-public class FilesDataList {
+public class FilesDataMap {
 
-    public FilesDataList() {
+    public FilesDataMap() {
         mediaFolderDataHashMap = new HashMap<>();
     }
 
-    private HashMap<String, MediaFolderData> mediaFolderDataHashMap;     //rootPath, mediaData
+    private HashMap<String, FilesData> mediaFolderDataHashMap;     //rootPath, mediaData
 
     public void createMediaFolderDataValues(String rootPath) {
-        mediaFolderDataHashMap.putIfAbsent(rootPath, new MediaFolderData(rootPath));
+        mediaFolderDataHashMap.putIfAbsent(rootPath, new FilesData(rootPath));
     }
 
     public void addMediaData(String rootPath, MediaData mediaData) {
@@ -26,15 +26,15 @@ public class FilesDataList {
         mediaFolderDataHashMap.remove(rootPath);
     }
 
-    public HashMap<String, MediaFolderData> getMediaFolderDataHashMap() {
+    public HashMap<String, FilesData> getMediaFolderDataHashMap() {
         return mediaFolderDataHashMap;
     }
 
-    public static class MediaFolderData {   //В каждом объекте есть как минимум одна корневая папка и файл, подходящий под критерии
+    public static class FilesData {   //В каждом объекте есть как минимум одна корневая папка и файл, подходящий под критерии
 
         private String pathRoot;
 
-        public MediaFolderData(String pathRoot) {
+        public FilesData(String pathRoot) {
             this.pathRoot = pathRoot;
 
             mediaDataSet = new HashSet<>();
