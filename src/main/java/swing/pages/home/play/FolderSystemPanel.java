@@ -115,7 +115,7 @@ public class FolderSystemPanel extends JPanelCustom {
             }
         }
 
-        return result;
+        return result;//работает?
     }
 
     //todo String path заменить на метод из String[] разбирая путь на подпути для кнопок
