@@ -1,14 +1,13 @@
 package swing.pages.home.play;
 
 import core.contentManager.ContentSeeker;
-import core.contentManager.FilesDataList;
+import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.series.ObservableCardLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class PlaylistPanel extends JPanelCustom {
 
@@ -42,13 +41,13 @@ public class PlaylistPanel extends JPanelCustom {
         cardPanel = new JPanel(cardLayout);
 
         // Создаем единственный экземпляр панели папочной системы
-        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.filesDataList);
+        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.filesDataMap);
 
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
             if ("filesDataList".equals(evt.getPropertyName())) {
                 //folderPanel.updateAudioFiles((FilesDataList) evt.getNewValue());
-                folderPanel.updateManagingPanel(((FilesDataList)evt.getNewValue()));
+                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));
             }
         });
 

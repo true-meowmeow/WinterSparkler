@@ -16,8 +16,8 @@ public class FileDataProcessor {
      * @param rootPaths список абсолютных путей к корневым папкам
      * @return объект FilesDataList с информацией об аудиофайлах и папках
      */
-    public FilesDataList processRootPaths(List<String> rootPaths) {
-        FilesDataList filesDataList = new FilesDataList();
+    public FilesDataMap processRootPaths(List<String> rootPaths) {
+        FilesDataMap filesDataMap = new FilesDataMap();
         for (String rootPath : rootPaths) {
             File root = new File(rootPath);
             if (!root.exists() || !root.isDirectory()) {
@@ -26,15 +26,15 @@ public class FileDataProcessor {
             }
             rootPath += "\\";
             // Создаем контейнер для аудиоданных по данному корневому пути
-            filesDataList.createMediaFolderDataValues(rootPath);
-            processDirectory(root, root, filesDataList);
+            filesDataMap.createMediaFolderDataValues(rootPath);
+            processDirectory(root, root, filesDataMap);
 
-            if (filesDataList.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet().size() == 0) {
-                filesDataList.terminate(rootPath);
+            if (filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet().size() == 0) {
+                filesDataMap.terminate(rootPath);
             }
         }
-        addMissingParentFolders(filesDataList);
-        return filesDataList;
+        addMissingParentFolders(filesDataMap);
+        return filesDataMap;
     }
 
     /**
@@ -42,14 +42,14 @@ public class FileDataProcessor {
      *
      * @param currentDir    текущая директория для обработки
      * @param baseDir       базовая директория для вычисления относительного пути
-     * @param filesDataList объект для хранения аудиофайлов и данных о папках
+     * @param filesDataMap объект для хранения аудиофайлов и данных о папках
      */
-    private void processDirectory(File currentDir, File baseDir, FilesDataList filesDataList) {
+    private void processDirectory(File currentDir, File baseDir, FilesDataMap filesDataMap) {
         File[] files = currentDir.listFiles();
         if (files == null) return;
         for (File file : files) {
             if (file.isDirectory()) {
-                processDirectory(file, baseDir, filesDataList);
+                processDirectory(file, baseDir, filesDataMap);
             } else if (file.isFile()) {
                 // Вычисляем относительный путь папки, где находится файл
                 String folderRelative = "";
@@ -64,8 +64,8 @@ public class FileDataProcessor {
                 MediaData mediaData = new MediaData(pathFull, pathRoot, pathRelative, file.getName());
                 // Обрабатываем только аудиофайлы
                 if (AUDIO_EXTENSIONS.contains(mediaData.getExtension())) {
-                    filesDataList.addMediaData(pathRoot, mediaData);
-                    filesDataList.addFolderData(pathRoot, new FolderData(
+                    filesDataMap.addMediaData(pathRoot, mediaData);
+                    filesDataMap.addFolderData(pathRoot, new FolderData(
                             pathFull,
                             pathRoot,
                             pathRelative,
@@ -79,10 +79,10 @@ public class FileDataProcessor {
     /**
      * Добавляет недостающие родительские папки в FilesDataList.
      *
-     * @param filesDataList объект с данными о папках
+     * @param filesDataMap объект с данными о папках
      */
-    private void addMissingParentFolders(FilesDataList filesDataList) {
-        for (Map.Entry<String, FilesDataList.MediaFolderData> entry : filesDataList.getMediaFolderDataHashMap().entrySet()) {
+    private void addMissingParentFolders(FilesDataMap filesDataMap) {
+        for (Map.Entry<String, FilesDataMap.FilesData> entry : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
             String rootPath = entry.getKey();
             HashSet<FolderData> folderSet = entry.getValue().getFolderDataSet();
             // Собираем уже имеющиеся полные пути для быстрого поиска
@@ -113,7 +113,7 @@ public class FileDataProcessor {
                                 extractFolderName(parentFullPath)
                         );
                         long childCount = countChildFolders(folderSet, parentRelative);
-                        if (childCount == 1) {
+                        if (childCount == 1) {      //Боже спаси всех бедных музыкантов
                             parentFolder.deactivate();
                         }
                         folderSet.add(parentFolder);
@@ -180,10 +180,10 @@ public class FileDataProcessor {
      * @param filesDataList объект с информацией о медиа файлах
      * @return список аудиофайлов
      */
-    public List<MediaData> filterAudioFiles(FilesDataList filesDataList) {
+/*    public List<MediaData> filterAudioFiles(FilesDataList filesDataList) {
         return filesDataList.getMediaFolderDataHashMap().values().stream()
                 .flatMap(mfd -> mfd.getMediaDataSet().stream())
                 .collect(Collectors.toList());
-    }
+    }*/
 
 }

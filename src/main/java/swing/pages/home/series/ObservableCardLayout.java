@@ -1,13 +1,11 @@
 package swing.pages.home.series;
 
 import core.contentManager.ContentSeeker;
-import core.contentManager.FilesDataList;
+import core.contentManager.FilesDataMap;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ObservableCardLayout extends CardLayout {
 
@@ -15,7 +13,7 @@ public class ObservableCardLayout extends CardLayout {
     private ContentSeeker contentSeeker;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    public FilesDataList filesDataList = new FilesDataList();
+    public FilesDataMap filesDataMap = new FilesDataMap();
 
     public ObservableCardLayout(String MANAGE_VIEW, ContentSeeker contentSeeker) {
         this.MANAGE_VIEW = MANAGE_VIEW;
@@ -40,6 +38,6 @@ public class ObservableCardLayout extends CardLayout {
     }
 
     private void fireBeforeSwitchEvent() {
-        pcs.firePropertyChange("filesDataList", filesDataList, contentSeeker.seek());
+        pcs.firePropertyChange("filesDataList", filesDataMap, contentSeeker.seek());
     }
 }

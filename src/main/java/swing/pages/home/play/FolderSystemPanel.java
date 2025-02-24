@@ -6,19 +6,15 @@ import swing.objects.JPanelCustom;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static swing.pages.home.play.objects.FolderUtil.getChildFolders;
 
 public class FolderSystemPanel extends JPanelCustom {
 
-    private String currentRoot = null;
+    //private String currentRoot = null;
     //private ScrollablePanel contentPanel; // Основной контейнер для панелей
     private JScrollPane scrollPane;
 
 
-    public FolderSystemPanel(FilesDataList filesDataList) {
+    public FolderSystemPanel(FilesDataMap filesDataMap) {
         super(PanelType.BORDER);
 
         // Создаем основной контейнер с вертикальным BoxLayout
@@ -40,42 +36,34 @@ public class FolderSystemPanel extends JPanelCustom {
     String currentFolder;
     JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);      //todo изменить все имена в картах чтобы принимали путь корня чтобы избежать ошибки при одинаковом названии папок в разных корнях
 
-    public void updateManagingPanel(FilesDataList filesDataList) {
+    public void updateManagingPanel(FilesDataMap filesDataMap) {
         // Предполагается, что cardPanel и другие UI-компоненты уже объявлены
         cardPanel.removeAll();  // Каждая карта — все фильтрованные файлы по выбранной папке
 
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
+        JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");
+        for (Map.Entry<String, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
 
-        for (Map.Entry<String, FilesDataList.MediaFolderData> root : filesDataList.getMediaFolderDataHashMap().entrySet()) {
-
-            System.out.println();
-            System.out.println(root.getKey());
-            System.out.println();
-
-            FilesDataList.MediaFolderData mfd = root.getValue();
+            FilesDataMap.FilesData mfd = root.getValue();
             HashSet<FolderData> folderSet = mfd.getFolderDataSet();
 
             for (FolderData folder : folderSet) {
-                //System.out.println(folder);
-
-                //System.out.println(folder.getPathFull());
-
-
-                // Здесь вызываем метод поиска подпапок для текущей папки.
-                // Предполагается, что метод findSubfolders возвращает, например, HashSet<FolderData>
-                HashSet<FolderData> subfolders = findSubFolders(folder.getPathFull(), folderSet);       //Получаю все папки в текущей папке
-                //System.out.println(folder.getPathFull() +"      |           "+ subfolders);
+                HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);                                                                               //Получаю все папки в текущей папке
+                HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());    //Получаю все аудиофайлы в текущей папке
 
 
-                System.out.println();
-                HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataList.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());
+                cardPanel.add(initCardPanel(folder.getPathFull(), subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
 
-                System.out.println(folder.getPathFull() + "   |       " +  subMedias);
-                // Можно, например, собрать пути найденных подпапок для дальнейшей работы
 
+                //todo создать панель main меню
             }
+
+            panelMain.add(new JPanel()/*root.getKey()*/);   //Метод добавления в себя по оси y панелей главных меню
         }
+        cardPanel.add(panelMain, "MainPanelWS");
+        showCard("MainPanelWS");
+        showCard("C:\\Users\\meowmeow\\Music\\testing\\core 1\\");
 
         // Здесь может идти дальнейшая логика по наполнению панели данными,
         // например, добавление компонентов в panel, затем его размещение в cardPanel
@@ -130,26 +118,13 @@ public class FolderSystemPanel extends JPanelCustom {
         return result;
     }
 
-/*    private List<MediaData.MediaFile> findMatchingFiles(String searchText, List<MediaData.MediaFile> files) {
-        List<MediaData.MediaFile> matchingFiles = new ArrayList<>();
-        for (MediaData.MediaFile file : files) {
-            if (file.getPathFull().equals(searchText)) {
-                matchingFiles.add(file);
-            }
-        }
-    }*/
-
-    private JPanelCustom initCardPanel(HashSet<FolderData> folders/*, List<MediaData.MediaFile> mediaDataList*/) {           //todo здесь сделать deactivate проверку и реализацию
+    private JPanelCustom initCardPanel(String currentPath, HashSet<FolderData> subFolders, HashSet<MediaData> subMedias) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
-        //System.out.println(mediaDataList);
 
+        panel.add(titlePanel(currentPath), BorderLayout.NORTH);
 
-        //System.out.println(filesData);
-        //System.out.println(filesData);
-/*        panel.add(titlePanel(filesData.getRootPath()), BorderLayout.NORTH);
-
-        // Получаем подпапки для текущего пути (currentFolder)
+/*        // Получаем подпапки для текущего пути (currentFolder)
         String[] childFolders = getChildFolders(currentFolder, filesData.getRelativePathsHashSet());
         panel.add(createFoldersPanel(childFolders));
 
@@ -179,7 +154,7 @@ public class FolderSystemPanel extends JPanelCustom {
         return panel;
     }
 
-    public void updateAudioFiles(FilesDataList filesDataList) {
+    public void updateAudioFiles(FilesDataMap filesDataMap) {
         //contentPanel.removeAll();
         cardPanel.removeAll();
         currentFolder = new String("");
@@ -201,7 +176,7 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
     public void showCard(String path) {
-        this.currentFolder = path; // Обновляем текущий путь    //todo check надо ли?
+        //this.currentFolder = path; // Обновляем текущий путь    //todo check надо ли?
         ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
     }
 
