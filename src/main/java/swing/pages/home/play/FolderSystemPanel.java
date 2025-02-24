@@ -50,7 +50,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
             for (FolderData folder : folderSet) {
                 HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);                                                                               //Получаю все папки в текущей папке
-                HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());    //Получаю все аудиофайлы в текущей папке
+                HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());     //Получаю все аудиофайлы в текущей папке
 
 
                 cardPanel.add(initCardPanel(folder.getPathFull(), subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
@@ -118,6 +118,7 @@ public class FolderSystemPanel extends JPanelCustom {
         return result;
     }
 
+    //todo String path заменить на метод из String[] разбирая путь на подпути для кнопок
     private JPanelCustom initCardPanel(String currentPath, HashSet<FolderData> subFolders, HashSet<MediaData> subMedias) {           //todo здесь сделать deactivate проверку и реализацию
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
 
