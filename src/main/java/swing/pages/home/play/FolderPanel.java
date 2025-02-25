@@ -1,6 +1,7 @@
 package swing.pages.home.play;
 
 
+import core.contentManager.FolderData;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
@@ -12,12 +13,13 @@ class FolderPanel extends JPanelCustom {
     private String folderName;
     private ImageIcon icon;
     // Ссылка на основную панель (с CardLayout) для переключения между экранами
-    private JPanel parentPanel;
+    private JPanelCustom parentPanel;
     private String cardName; // Новое поле для хранения имени карты
+    private FolderData folderData;
 
-
-    public FolderPanel(String folderName, String iconPath, JPanel parentPanel, String cardName) {
+    public FolderPanel(FolderData folderData, String folderName, String iconPath, JPanelCustom parentPanel, String cardName) {
         super(PanelType.BORDER);
+        this.folderData = folderData;
         this.folderName = folderName;
         this.parentPanel = parentPanel;
         this.cardName = cardName; // Сохраняем имя карты        //todo ???? nado li??
@@ -35,41 +37,16 @@ class FolderPanel extends JPanelCustom {
         label.setHorizontalTextPosition(JLabel.CENTER);
         add(label, BorderLayout.CENTER);
 
-        // При двойном клике по метке открываем папку
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //openFolder();
-                System.out.println(cardName);
-                System.out.println(folderName);
-                ((CardLayout)parentPanel.getLayout()).show(parentPanel, folderName);
+                showCard(folderData.getLinkNextPathFull());
             }
         });
 
     }
 
-    private void openFolder() {
-        // Получаем CardLayout из родительской панели
-        CardLayout cl = (CardLayout) parentPanel.getLayout();
-
-        // Создаём панель содержимого папки
-        JPanel folderContent = new JPanel(new BorderLayout());
-        JLabel contentLabel = new JLabel("Содержимое папки: " + folderName, JLabel.CENTER);
-        folderContent.add(contentLabel, BorderLayout.CENTER);
-
-        // Кнопка "Назад" для возврата на рабочий стол
-        JButton backButton = new JButton("Назад");
-        folderContent.add(backButton, BorderLayout.SOUTH);
-        backButton.addActionListener(e -> {
-            // При нажатии показываем панель "coreMainWinterSparkler"
-            cl.show(parentPanel, "coreMainWinterSparkler");
-        });
-
-        // Добавляем новую панель в родительскую с уникальным именем
-        String cardName = folderName + "_content";
-        parentPanel.add(folderContent, cardName);
-
-        // Переключаемся на новую панель
-        cl.show(parentPanel, cardName);
+    public void showCard(String path) {
+        ((CardLayout) parentPanel.getLayout()).show(parentPanel, path);
     }
 }
