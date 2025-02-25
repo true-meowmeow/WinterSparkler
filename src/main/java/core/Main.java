@@ -9,7 +9,7 @@ import javax.swing.*;
 public class Main implements Variables {
 
     public static final String KEY_TAB = "tab";
-    public static final String link_github = "https://github.com/true-meowmeow/WinterSparkler/tree/main";
+    public static final String link_github = "https://github.com/true-meowmeow/WinterSparkler";
     //Сначала я набрасываю код, потом рефакторю, я всегда так работаю (meow meow)
 
     public static void main(String[] args) {

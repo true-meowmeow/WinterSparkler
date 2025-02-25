@@ -2,6 +2,7 @@ package swing.pages.home.play;
 
 import core.contentManager.*;
 import swing.objects.JPanelCustom;
+import swing.objects.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,26 +12,16 @@ public class FolderSystemPanel extends JPanelCustom {
 
     //private String currentRoot = null;
     //private ScrollablePanel contentPanel; // Основной контейнер для панелей
-    private JScrollPane scrollPane;
 
 
     public FolderSystemPanel(FilesDataMap filesDataMap) {
         super(PanelType.BORDER);
+        setLayout(new BorderLayout()); // Явно задаем BorderLayout
 
-        // Создаем основной контейнер с вертикальным BoxLayout
-        //contentPanel = new ScrollablePanel();
-        //contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        // Инициализируем cardPanel с CardLayout
+        cardPanel = new JPanelCustom(new CardLayout());
 
-
-        scrollPane = new JScrollPane(cardPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        add(scrollPane, BorderLayout.CENTER);
-
-        //updateAudioFiles(new FilesDataList());
-
-        // Добавляем тестовые панели
-        //contentPanel.add(corePanel, BorderLayout.CENTER);
+        add(cardPanel, BorderLayout.CENTER); // Добавляем скролл в центр
     }
 
     String currentFolder;
@@ -49,11 +40,16 @@ public class FolderSystemPanel extends JPanelCustom {
             HashSet<FolderData> folderSet = mfd.getFolderDataSet();
 
             for (FolderData folder : folderSet) {
+
+                if (root.getKey().equals(folder.getPathFull())) {   //Убирает создание корневых карт
+                    //continue;         //todo вернуть когда main карта будет сделана
+                }
+                //System.out.println(folder);
                 HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);                                                                               //Получаю все папки в текущей папке
                 HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());     //Получаю все аудиофайлы в текущей папке
 
 
-                cardPanel.add(initCardPanel(folder.getPathFull(), subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
+                cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
 
 
                 //todo создать панель main меню
@@ -68,8 +64,8 @@ public class FolderSystemPanel extends JPanelCustom {
         // Здесь может идти дальнейшая логика по наполнению панели данными,
         // например, добавление компонентов в panel, затем его размещение в cardPanel
         // cardPanel.add(panel);
-        // cardPanel.revalidate();
-        // cardPanel.repaint();
+        cardPanel.revalidate();
+        cardPanel.repaint();
     }
 
     public HashSet<FolderData> findSubFolders(String fullPath, HashSet<FolderData> folderDataSet) {
@@ -118,125 +114,80 @@ public class FolderSystemPanel extends JPanelCustom {
         return result;//работает?
     }
 
-    //todo String path заменить на метод из String[] разбирая путь на подпути для кнопок
-    private JPanelCustom initCardPanel(String currentPath, HashSet<FolderData> subFolders, HashSet<MediaData> subMedias) {           //todo здесь сделать deactivate проверку и реализацию
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
+    //todo String path заменить на метод из String[] разбирая путь на подпути для кнопок           //todo Если deactivated, то переход на следующую папку
+    private JPanelCustom initCardPanel(FolderData folder, HashSet<FolderData> subFolders, HashSet<MediaData> subMedias) {
+        JPanelCustom panel = new JPanelCustom(new BorderLayout());
+
+        //Control panel for title and buttons
+        JPanelCustom controlPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT));
+        controlPanel.add(backButtonPanel(folder));
+        controlPanel.add(titlePanel(folder.getPathFull()));
+        panel.add(controlPanel, BorderLayout.NORTH);
+
+        //Content scroll for media files
+        JScrollPane contentScroll = new JScrollPane();
+        contentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        contentScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        //Content panel
+        JPanelCustom contentPanel = new JPanelCustom(PanelType.BORDER);
+        contentScroll.setViewportView(contentPanel);
+
+        //Folder panel
+        JPanelCustom foldersPanel = createFoldersPanel(subFolders);
+        contentPanel.add(foldersPanel);
+
+        //Media panel
+
+        // Основная панель с папками (используем WrapLayout)
 
 
-        panel.add(titlePanel(currentPath), BorderLayout.NORTH);
+        panel.add(contentScroll, BorderLayout.CENTER);
+        return panel;
+    }
 
-/*        // Получаем подпапки для текущего пути (currentFolder)
-        String[] childFolders = getChildFolders(currentFolder, filesData.getRelativePathsHashSet());
-        panel.add(createFoldersPanel(childFolders));
 
-        // Добавляем карты для всех нужных путей
-        for (String path : filesData.getRelativePathsHashSet()) {
-            if (path.equals("")) {
-                continue;
-            }
-            cardPanel.add(innerFolders111(filesData, path), path);
-        }*/
+    private JPanelCustom backButtonPanel(FolderData folder) {
+        JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
+        JButton button = new JButton();
+
+        button.setText("back");
+        button.addActionListener(e -> {
+            showCard(folder.getLinkParentPathFull());
+        });
+
+        panel.add(button);
 
         return panel;
     }
 
-    private JPanelCustom innerFolders111(MediaData mediaData, String folderPath) {
-
-        //todo Добавить кнопку назад и пути перехода назад. + отслеживать fullPath
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-        panel.add(new Label(folderPath));
 
 
-
-/*        panel.add(createFoldersPanel(
-                getChildFolders(folderPath, mediaData.getRelativePathsHashSet()))
-        );*/
-
-        return panel;
-    }
-
-    public void updateAudioFiles(FilesDataMap filesDataMap) {
-        //contentPanel.removeAll();
-        cardPanel.removeAll();
-        currentFolder = new String("");
-
-
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-
-
-/*        for (int i = 0; i < filesDataList.getMediaDataListFiltered().size(); i++) {
-            panel.add(corePanel(filesDataList.getMediaDataListFiltered().get(i)));
-        }*/
-        cardPanel.add(panel, "coreMainWinterSparkler");
-
-        showCard("coreMainWinterSparkler");
-        //showCard("тест пустой папки/вот эту папку надо/");
-        //contentPanel.add(cardPanel);
-        //contentPanel.revalidate();
-        //contentPanel.repaint();
-    }
-
-    public void showCard(String path) {
-        //this.currentFolder = path; // Обновляем текущий путь    //todo check надо ли?
-        ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
-    }
-
-
-    private JPanel titlePanel(String rootPath) {    //Title panel
-        JPanel panel = new JPanel();
+    private JPanelCustom titlePanel(String rootPath) {    //Title panel
+        JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
         panel.add(new Label(rootPath));
         return panel;
     }
 
-    private JPanelCustom corePanel(MediaData mediaData) {
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-/*        panel.add(titlePanel(mediaData.getRootPath()), BorderLayout.NORTH);
 
-        // Получаем подпапки для текущего пути (currentFolder)
-        String[] childFolders = getChildFolders(currentFolder, mediaData.getRelativePathsHashSet());
-        panel.add(createFoldersPanel(childFolders));
-
-        // Добавляем карты для всех нужных путей
-        for (String path : mediaData.getRelativePathsHashSet()) {
-            if (path.equals("")) {
-                continue;
-            }
-            cardPanel.add(innerFolders(mediaData, path), path);
-        }*/
-
-        return panel;
+    public void showCard(String path) {
+        ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
     }
 
-    private JPanelCustom innerFolders(MediaData mediaData, String folderPath) {
-
-        //todo Добавить кнопку назад и пути перехода назад. + отслеживать fullPath
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER, "Y");
-        panel.add(new Label(folderPath));
-
-
-        return panel;
-    }
-
-    // у меня должен быть список конечных папок и если
-
-    //todo короче надо всю структуру переписывать, это лажа какая-то, он пиздец короче удачи - дада уже переписал почти блять как будто мне делать нехер больше
-
-    private JPanelCustom createFoldersPanel(String[] folders) {
+    private String defaultIconPath = "anythingPathToIcon";
+    private JPanelCustom createFoldersPanel(HashSet<FolderData> sortedFolders) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
-        JPanelCustom foldersPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
-        String defaultIconPath = "anythingPathToIcon";
+        // Используем WrapLayout (автоматический перенос) вместо FlowLayout
+        JPanelCustom foldersPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
 
-        System.out.println(Arrays.toString(folders));
-        for (String folder : folders) {
-            String fullPath = currentFolder.isEmpty() ? folder : currentFolder + "/" + folder;
-            foldersPanel.add(new FolderPanel(folder, defaultIconPath, this.cardPanel, fullPath));
+        for (FolderData folderData : sortedFolders) {
+            foldersPanel.add(new FolderPanel(folderData, folderData.getName(), defaultIconPath, this.cardPanel, folderData.getPathFull()));
         }
-        //System.out.println();
-
 
         panel.add(foldersPanel, BorderLayout.CENTER);
-
         return panel;
     }
+
+
 }
