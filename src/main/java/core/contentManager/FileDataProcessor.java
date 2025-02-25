@@ -29,12 +29,24 @@ public class FileDataProcessor {
             filesDataMap.createMediaFolderDataValues(rootPath);
             processDirectory(root, root, filesDataMap);
 
+            for (FolderData folderData : filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet()) {
+                folderData.setLinkParentPathFull(getClosestPath(filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet(), folderData.getPathFull()));
+            }
+
             if (filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet().size() == 0) {
                 filesDataMap.terminate(rootPath);
             }
         }
         addMissingParentFolders(filesDataMap);
         return filesDataMap;
+    }
+
+    public static String getClosestPath(HashSet<FolderData> folderSet, String pathFull) {
+        return folderSet.stream()
+                .map(FolderData::getPathFull)
+                .filter(p -> pathFull.startsWith(p) && !p.equals(pathFull))
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
     }
 
     /**
@@ -69,11 +81,33 @@ public class FileDataProcessor {
                             pathFull,
                             pathRoot,
                             pathRelative,
-                            extractFolderName(pathFull)
+                            extractFolderName(pathFull),
+                            getParentFolder(pathFull)
                     ));
                 }
             }
         }
+    }
+    private String getParentFolder(String path) {
+        if (path == null || path.isEmpty()) {
+            return path;
+        }
+
+        // Убираем завершающий символ '\' или '/', если он присутствует
+        String trimmedPath = path;
+        if (trimmedPath.endsWith("\\") || trimmedPath.endsWith("/")) {
+            trimmedPath = trimmedPath.substring(0, trimmedPath.length() - 1);
+        }
+
+        // Ищем индекс последнего разделителя '\'
+        int lastSeparatorIndex = trimmedPath.lastIndexOf("\\");
+        if (lastSeparatorIndex == -1) {
+            // Если разделитель не найден, возвращаем пустую строку или можно обработать иначе
+            return "";
+        }
+
+        // Возвращаем подстроку от начала до найденного разделителя включительно (для сохранения завершающего '\')
+        return trimmedPath.substring(0, lastSeparatorIndex + 1);
     }
 
     /**
@@ -110,14 +144,17 @@ public class FileDataProcessor {
                                 parentFullPath,
                                 rootPath,
                                 parentRelative,
-                                extractFolderName(parentFullPath)
+                                extractFolderName(parentFullPath),
+                                getParentFolder(parentFullPath)
                         );
-                        long childCount = countChildFolders(folderSet, parentRelative);
-                        if (childCount == 1) {      //Боже спаси всех бедных музыкантов
-                            parentFolder.deactivate();
+
+                        if (getChildFolderPaths(folderSet, parentFullPath).length == 1) {   //Если количество папок внутри равно одному, то задаём ссылку для пропуска этой папки и деактивируем её. В папке нет аудиофайлов так как нет её пути в объектах папок
+                            parentFolder.deactivate(getChildFolderPaths(folderSet, parentFullPath)[0]);
                         }
+
                         folderSet.add(parentFolder);
                         newFullPaths.add(parentFullPath);
+
                     }
                 }
             }
@@ -125,14 +162,14 @@ public class FileDataProcessor {
     }
 
 
-    private long countChildFolders(Set<FolderData> folderSet, String parentRelative) {
+    private String[] getChildFolderPaths(Set<FolderData> folderSet, String parentFullPath) {
         return folderSet.stream()
-                .filter(fd -> {
-                    String norm = fd.getPathRelative().replaceAll("[/\\\\]+$", "");
-                    return norm.startsWith(parentRelative) && !norm.equals(parentRelative);
-                })
-                .count();
+                .map(FolderData::getPathFull) // Теперь используем полный путь
+                .filter(path -> path.startsWith(parentFullPath) && !path.equals(parentFullPath)) // Сравниваем с полным путем
+                .toArray(String[]::new); // Преобразуем в массив строк
     }
+
+
 
     /**
      * Извлекает корневой путь из полного пути к файлу, удаляя из конца относительный путь и имя файла.
