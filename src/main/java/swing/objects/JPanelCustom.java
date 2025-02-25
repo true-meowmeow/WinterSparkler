@@ -73,6 +73,30 @@ public class JPanelCustom extends JPanel {
                 }
                 default -> System.out.println("Unsupported axis: " + axis);
             }
+        } else if (type.equals(PanelType.FLOW)) {
+            switch (axis) {
+                case "LEFT" -> {
+                    setLayout(new FlowLayout(FlowLayout.LEFT));
+                    break;
+                }
+                case "RIGHT" -> {
+                    setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    break;
+                }
+                case "LEADING" -> {
+                    setLayout(new FlowLayout(FlowLayout.LEADING));
+                    break;
+                }
+                case "CENTER" -> {
+                    setLayout(new FlowLayout(FlowLayout.CENTER));
+                    break;
+                }
+                case "TRAILING" -> {
+                    setLayout(new FlowLayout(FlowLayout.TRAILING));
+                    break;
+                }
+                default -> System.out.println("Unsupported axis: " + axis);
+            }
         } else {
             System.out.println("The layout is not the border type");
         }
