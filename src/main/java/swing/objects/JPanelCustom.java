@@ -34,6 +34,52 @@ public class JPanelCustom extends JPanel {
         setLayoutByType(type);
     }
 
+    public void setGridBagConstrains(JPanelCustom panel1,  JPanelCustom panel2) {   //Хуйня но да ладно
+        if (!getLayout().getClass().getName().contains("GridBagLayout")) {
+            System.out.println("Незаконная попытка установить GridBagConstraints");
+            return;
+        }
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weighty = 0; // Не растягиваем по вертикали
+
+        // Первая панель
+        gbc.gridy = 0;
+        this.add(panel1, gbc);
+
+        // Вторая панель
+        gbc.gridy = 1;
+        this.add(panel2, gbc);
+
+        // Добавляем "заполнитель", чтобы панели оставались вверху
+        gbc.gridy = 2;
+        gbc.weighty = 1; // Заполнитель займёт оставшееся пространство
+        gbc.fill = GridBagConstraints.BOTH;
+        this.add(Box.createGlue(), gbc);
+    }
+
+    //Ситуационная тема вполне норм, сейчас вообще впадлу это делать да и не надо
+    public GridBagConstraints menuGridBagConstraintsX(int gridX, double weightX) {
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = gridX;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = weightX;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        return gbc;
+    }
+    /*
+
+     */
+
     // Новый конструктор, позволяющий задавать любой LayoutManager
     public JPanelCustom(LayoutManager layout) {
         super(layout);

@@ -36,19 +36,6 @@ public class MethodsSwing {
     }
 
 
-    public static GridBagConstraints newGridBagConstraintsX(int gridX, double weightX) {
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.gridx = gridX;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.weightx = weightX;
-        gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        return gbc;
-    }
 
     public static JTextArea createTextArea(String name) {
         JTextArea textArea = new JTextArea();
