@@ -1,6 +1,7 @@
 package swing.pages.home.play.objects;
 
 import core.contentManager.FolderData;
+import core.contentManager.MediaData;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
@@ -9,27 +10,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MediaPanel extends JPanelCustom {
-    private String folderName;
+    private String mediaName;
     private ImageIcon icon;
     // Ссылка на основную панель (с CardLayout) для переключения между экранами
     private JPanelCustom parentPanel;
-    private FolderData folderData;
+    private MediaData mediaData;
 
-    public MediaPanel(FolderData folderData, String iconPath, JPanelCustom parentPanel) {
+    public MediaPanel(MediaData mediaData, String iconPath, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
-        this.folderData = folderData;
-        this.folderName = folderData.getName();
+        this.mediaData = mediaData;
+        this.mediaName = mediaData.getNameFull();
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
     }
 
     private void initialize() {
-        setPreferredSize(new Dimension(400, 50));
+        setPreferredSize(new Dimension(100, 30));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         // Метка, отображающая иконку и имя
-        JLabel label = new JLabel(folderName, icon, JLabel.CENTER);
+        JLabel label = new JLabel(mediaName, icon, JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.BOTTOM);
         label.setHorizontalTextPosition(JLabel.CENTER);
         add(label, BorderLayout.CENTER);
@@ -37,13 +38,9 @@ public class MediaPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showCard(folderData.getLinkNextPathFull());
+                System.out.println("hihi");
             }
         });
 
-    }
-
-    public void showCard(String path) {
-        ((CardLayout) parentPanel.getLayout()).show(parentPanel, path);
     }
 }

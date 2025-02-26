@@ -16,6 +16,12 @@ public class JPanelCustom extends JPanel {
         //createBorder(this);
         handleClearBorder(clearBorder);
     }
+/*    public JPanelCustom(PanelType type, String axis, boolean clearBorder) {     //todo не помню как и зачем это делать
+        this(type);
+        //createBorderPanel(clearBorder);
+        //handleClearBorder(clearBorder);
+        handleAXIS(type, axis);
+    }*/
 
     // Конструктор для использования с заранее определёнными типами (с enum) и осью для BoxLayout
     public JPanelCustom(PanelType type, String axis) {

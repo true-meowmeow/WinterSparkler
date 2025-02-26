@@ -4,6 +4,7 @@ import core.contentManager.*;
 import swing.objects.JPanelCustom;
 import swing.objects.WrapLayout;
 import swing.pages.home.play.objects.FolderPanel;
+import swing.pages.home.play.objects.MediaPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -181,17 +182,26 @@ public class FolderSystemPanel extends JPanelCustom {
     private JPanelCustom createContentPanel(HashSet<FolderData> folders, HashSet<MediaData> media) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
 
+        JPanelCustom contentPanel = new JPanelCustom(PanelType.BORDER, "Y");
         // Используем WrapLayout (автоматический перенос) вместо FlowLayout
         JPanelCustom foldersPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
+        JPanelCustom mediasPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
+        foldersPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        mediasPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
 
         for (FolderData folderData : folders) {
             foldersPanel.add(new FolderPanel(folderData, defaultIconPath, cardPanel));
         }
         for (MediaData mediaData : media) {
-
+            mediasPanel.add(new MediaPanel(mediaData, defaultIconPath, cardPanel));
         }
 
-        panel.add(foldersPanel, BorderLayout.CENTER);
+        foldersPanel.setMaximumSize(new Dimension(foldersPanel.getMaximumSize().width, (int) foldersPanel.getPreferredSize().getHeight()));
+        mediasPanel.setMaximumSize(new Dimension(mediasPanel.getMaximumSize().height, (int) mediasPanel.getPreferredSize().getHeight()));
+        contentPanel.add(foldersPanel);
+        contentPanel.add(mediasPanel);
+        panel.add(contentPanel, BorderLayout.CENTER);
         return panel;
     }
 }
