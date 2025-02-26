@@ -3,6 +3,7 @@ package swing.pages.home.play;
 import core.contentManager.*;
 import swing.objects.JPanelCustom;
 import swing.objects.WrapLayout;
+import swing.pages.home.play.objects.FolderPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,11 +45,10 @@ public class FolderSystemPanel extends JPanelCustom {
                 if (root.getKey().equals(folder.getPathFull())) {   //Убирает создание корневых карт
                     //continue;         //todo вернуть когда main карта будет сделана
                 }
-                //System.out.println(folder);
                 HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);                                                                               //Получаю все папки в текущей папке
                 HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());     //Получаю все аудиофайлы в текущей папке
 
-
+                //Вызываю метод создания карты, передавая текущий полный путь папки, все папки в ней и все медиафайлы в ней
                 cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
 
 
@@ -134,8 +134,13 @@ public class FolderSystemPanel extends JPanelCustom {
         contentScroll.setViewportView(contentPanel);
 
         //Folder panel
-        JPanelCustom foldersPanel = createFoldersPanel(subFolders);
-        contentPanel.add(foldersPanel);
+
+        //System.out.println(folder);
+        JPanelCustom contentChildPanel = createContentPanel(subFolders, subMedias);
+        contentPanel.add(contentChildPanel);
+
+        //JPanelCustom mediasPanel = createMediasPanel(subMedias);
+        //contentPanel.add(mediasPanel);
 
         //Media panel
 
@@ -162,32 +167,31 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
 
-
     private JPanelCustom titlePanel(String rootPath) {    //Title panel
         JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
         panel.add(new Label(rootPath));
         return panel;
     }
 
-
     public void showCard(String path) {
         ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
     }
 
     private String defaultIconPath = "anythingPathToIcon";
-    private JPanelCustom createFoldersPanel(HashSet<FolderData> sortedFolders) {
+    private JPanelCustom createContentPanel(HashSet<FolderData> folders, HashSet<MediaData> media) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
 
         // Используем WrapLayout (автоматический перенос) вместо FlowLayout
         JPanelCustom foldersPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
 
-        for (FolderData folderData : sortedFolders) {
-            foldersPanel.add(new FolderPanel(folderData, folderData.getName(), defaultIconPath, this.cardPanel, folderData.getPathFull()));
+        for (FolderData folderData : folders) {
+            foldersPanel.add(new FolderPanel(folderData, defaultIconPath, cardPanel));
+        }
+        for (MediaData mediaData : media) {
+
         }
 
         panel.add(foldersPanel, BorderLayout.CENTER);
         return panel;
     }
-
-
 }

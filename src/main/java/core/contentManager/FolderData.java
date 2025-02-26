@@ -67,8 +67,7 @@ public class FolderData implements Comparable<FolderData> {
 
     @Override
     public String toString() {
-        return "{path='" + pathFull + '\'' +
-                '}';
+        return pathFull;
     }
 
 /*    @Override
