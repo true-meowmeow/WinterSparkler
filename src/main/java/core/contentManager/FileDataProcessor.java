@@ -41,13 +41,90 @@ public class FileDataProcessor {
         return filesDataMap;
     }
 
+    //Работает и ладно :/
     public static String getClosestPath(HashSet<FolderData> folderSet, String pathFull) {
-        return folderSet.stream()
+        // Собираем все полные пути в множество для быстрого поиска
+        Set<String> paths = folderSet.stream()
                 .map(FolderData::getPathFull)
+                .collect(Collectors.toSet());
+
+        // Генерируем список всех родительских путей от ближайшего к корню
+        List<String> allParents = generateAllParents(pathFull);
+
+        for (String parent : allParents) {
+            // Если ближайший родитель уже присутствует в сете, возвращаем его
+            if (paths.contains(parent)) {
+                return parent;
+            } else {
+                // Если его нет, проверяем, образует ли этот уровень развилку
+                long count = paths.stream()
+                        .filter(p -> p.startsWith(parent) && p.length() > parent.length())
+                        .count();
+                if (count >= 2) {
+                    return parent;
+                }
+            }
+        }
+
+        // Если ничего не найдено – находим самый длинный префикс среди путей из сета
+        return paths.stream()
                 .filter(p -> pathFull.startsWith(p) && !p.equals(pathFull))
                 .max(Comparator.comparingInt(String::length))
                 .orElse("");
     }
+
+    /**
+     * Генерирует список всех родительских путей для заданного полного пути.
+     * Путь нормализуется (обязательно завершается "\"), затем последовательно удаляются
+     * последние сегменты, начиная с ближайшего родителя.
+     * Например, для "C:\Dir\Subdir\Child\" будет сгенерирован список:
+     * ["C:\Dir\Subdir\", "C:\Dir\"]
+     */
+    private static List<String> generateAllParents(String pathFull) {
+        List<String> parents = new ArrayList<>();
+        String normalizedPath = pathFull.endsWith("\\") ? pathFull : pathFull + "\\";
+        String current = normalizedPath;
+
+        while (true) {
+            int lastSeparatorIndex = current.lastIndexOf("\\", current.length() - 2);
+            if (lastSeparatorIndex == -1) {
+                break;
+            }
+            String parent = current.substring(0, lastSeparatorIndex + 1);
+            parents.add(parent);
+            current = parent;
+
+            // Если достигли корня, например, "C:\", выходим
+            if (parent.length() == 3 && parent.charAt(1) == ':') {
+                break;
+            }
+        }
+
+        return parents;
+    }
+
+
+    private static boolean isBranching(HashSet<FolderData> folderSet, String candidateFullPath) {
+        Set<String> immediateChildren = new HashSet<>();
+        for (FolderData fd : folderSet) {
+            String full = fd.getPathFull();
+            if (full.startsWith(candidateFullPath) && !full.equals(candidateFullPath)) {
+                // Получаем остаток после candidateFullPath
+                String remainder = full.substring(candidateFullPath.length());
+                // Убираем ведущие разделители (например, "\" или "/")
+                remainder = remainder.replaceAll("^[\\\\/]+", "");
+                if (!remainder.isEmpty()) {
+                    // Извлекаем первую часть (имя непосредственного ребенка)
+                    String[] tokens = remainder.split("[\\\\/]+");
+                    if (tokens.length > 0) {
+                        immediateChildren.add(tokens[0]);
+                    }
+                }
+            }
+        }
+        return immediateChildren.size() > 1;
+    }
+
 
     /**
      * Рекурсивно обходит директорию, добавляя информацию об аудиофайлах в FilesDataList.

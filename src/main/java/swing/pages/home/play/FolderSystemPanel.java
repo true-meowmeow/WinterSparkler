@@ -29,6 +29,8 @@ public class FolderSystemPanel extends JPanelCustom {
     String currentFolder;
     JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD);      //todo изменить все имена в картах чтобы принимали путь корня чтобы избежать ошибки при одинаковом названии папок в разных корнях
 
+
+    //todo Я не против поместить это в отдельный поток и отображать каждый корень папки по мере загрузки
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         // Предполагается, что cardPanel и другие UI-компоненты уже объявлены
         cardPanel.removeAll();  // Каждая карта — все фильтрованные файлы по выбранной папке
@@ -167,6 +169,8 @@ public class FolderSystemPanel extends JPanelCustom {
         return panel;
     }
 
+        //todo Изучить странное поведение при заходе в папку где две папки без медиа, выход из её чайлда ведёт почему-то не в разделение папок.
+        //В случае работы с производительностью Manage, нужно понять что больше всего кушает ресурсов
 
     private JPanelCustom titlePanel(String rootPath) {    //Title panel
         JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
@@ -182,8 +186,9 @@ public class FolderSystemPanel extends JPanelCustom {
     private JPanelCustom createContentPanel(HashSet<FolderData> folders, HashSet<MediaData> media) {
         JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
 
-        JPanelCustom contentPanel = new JPanelCustom(PanelType.BORDER, "Y");
-        // Используем WrapLayout (автоматический перенос) вместо FlowLayout
+        JPanelCustom contentPanel = new JPanelCustom(PanelType.GRID);
+
+        //Используем WrapLayout
         JPanelCustom foldersPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
         JPanelCustom mediasPanel = new JPanelCustom(new WrapLayout(FlowLayout.LEFT, 10, 10));
         foldersPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
@@ -196,11 +201,14 @@ public class FolderSystemPanel extends JPanelCustom {
         for (MediaData mediaData : media) {
             mediasPanel.add(new MediaPanel(mediaData, defaultIconPath, cardPanel));
         }
+        contentPanel.setGridBagConstrains(foldersPanel, mediasPanel);
 
-        foldersPanel.setMaximumSize(new Dimension(foldersPanel.getMaximumSize().width, (int) foldersPanel.getPreferredSize().getHeight()));
-        mediasPanel.setMaximumSize(new Dimension(mediasPanel.getMaximumSize().height, (int) mediasPanel.getPreferredSize().getHeight()));
-        contentPanel.add(foldersPanel);
-        contentPanel.add(mediasPanel);
+
+
+        //foldersPanel.setMaximumSize(new Dimension(foldersPanel.getMaximumSize().width, (int) foldersPanel.getPreferredSize().getHeight()));
+        //mediasPanel.setMaximumSize(new Dimension(mediasPanel.getMaximumSize().height, (int) mediasPanel.getPreferredSize().getHeight()));
+        //contentPanel.add(foldersPanel);
+        //contentPanel.add(mediasPanel);
         panel.add(contentPanel, BorderLayout.CENTER);
         return panel;
     }

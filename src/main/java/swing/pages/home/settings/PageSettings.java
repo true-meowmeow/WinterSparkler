@@ -5,16 +5,14 @@ import swing.objects.JPanelCustom;
 
 import java.awt.*;
 
-import static swing.objects.MethodsSwing.newGridBagConstraintsX;
-
 
 public class PageSettings extends JPanelCustom {
     public PageSettings(FolderEntities folderEntities) {
         super(JPanelCustom.PanelType.GRID, true);
 
-        add(new LeftPanel(), newGridBagConstraintsX(0, 40));
-        add(new CenterPanel(), newGridBagConstraintsX(1, 30));
-        add(new RightPanel(folderEntities), newGridBagConstraintsX(2, 30));
+        add(new LeftPanel(), menuGridBagConstraintsX(0, 40));
+        add(new CenterPanel(), menuGridBagConstraintsX(1, 30));
+        add(new RightPanel(folderEntities), menuGridBagConstraintsX(2, 30));
     }
 }
 
