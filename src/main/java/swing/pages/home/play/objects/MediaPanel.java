@@ -1,5 +1,4 @@
-package swing.pages.home.play;
-
+package swing.pages.home.play.objects;
 
 import core.contentManager.FolderData;
 import swing.objects.JPanelCustom;
@@ -9,26 +8,24 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class FolderPanel extends JPanelCustom {
+public class MediaPanel extends JPanelCustom {
     private String folderName;
     private ImageIcon icon;
     // Ссылка на основную панель (с CardLayout) для переключения между экранами
     private JPanelCustom parentPanel;
-    private String cardName; // Новое поле для хранения имени карты
     private FolderData folderData;
 
-    public FolderPanel(FolderData folderData, String folderName, String iconPath, JPanelCustom parentPanel, String cardName) {
+    public MediaPanel(FolderData folderData, String iconPath, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
         this.folderData = folderData;
-        this.folderName = folderName;
+        this.folderName = folderData.getName();
         this.parentPanel = parentPanel;
-        this.cardName = cardName; // Сохраняем имя карты        //todo ???? nado li??
         this.icon = new ImageIcon(iconPath);
         initialize();
     }
 
     private void initialize() {
-        setPreferredSize(new Dimension(100, 100));
+        setPreferredSize(new Dimension(400, 50));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         // Метка, отображающая иконку и имя
