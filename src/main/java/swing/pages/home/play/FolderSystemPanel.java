@@ -1,5 +1,6 @@
 package swing.pages.home.play;
 
+import core.Main;
 import core.contentManager.*;
 import swing.objects.JPanelCustom;
 import swing.objects.WrapLayout;
@@ -31,6 +32,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
     //todo Я не против поместить это в отдельный поток и отображать каждый корень папки по мере загрузки
+    //Сейчас есть проблема с большим количеством файлов, он отрабатывает неважно.
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         // Предполагается, что cardPanel и другие UI-компоненты уже объявлены
         cardPanel.removeAll();  // Каждая карта — все фильтрованные файлы по выбранной папке
@@ -51,6 +53,7 @@ public class FolderSystemPanel extends JPanelCustom {
                 HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);                                                                               //Получаю все папки в текущей папке
                 HashSet<MediaData> subMedias = findMediaFilesInFolder(folder.getPathFull(), filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet());     //Получаю все аудиофайлы в текущей папке
 
+
                 //Вызываю метод создания карты, передавая текущий полный путь папки, все папки в ней и все медиафайлы в ней
                 cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getPathFull());  //Создание панели для каждой папки с файлами
 
@@ -70,6 +73,8 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.revalidate();
         cardPanel.repaint();
     }
+
+
 
     public HashSet<FolderData> findSubFolders(String fullPath, HashSet<FolderData> folderDataSet) {
         // Если путь не заканчивается на "\", добавляем его
