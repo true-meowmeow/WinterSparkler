@@ -42,6 +42,17 @@ public class Main implements Variables {
         });
     }
 
+    private static long startTime;
+    public static void startTimeMethod() {
+        startTime = System.nanoTime(); // Начало отсчёта
+    }
+
+    public static void endTimeMethod() {
+        long endTime = System.nanoTime(); // Конец отсчёта
+
+        double duration = ((endTime - startTime) / 1_000_000_000.0); // Разница во времени
+        System.out.println("Время выполнения: " + duration + " секунд");
+    }
 
 
 }
