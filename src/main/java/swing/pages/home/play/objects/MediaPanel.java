@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 public class MediaPanel extends JPanelCustom {
     private String mediaName;
     private ImageIcon icon;
-    // Ссылка на основную панель (с CardLayout) для переключения между экранами
+
     private JPanelCustom parentPanel;
     private MediaData mediaData;
 

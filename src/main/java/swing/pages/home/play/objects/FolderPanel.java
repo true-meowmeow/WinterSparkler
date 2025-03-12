@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 public class FolderPanel extends JPanelCustom {     //Можно folders & media отнаследоваться от общего класса если будет больше общих частей
     private String folderName;
     private ImageIcon icon;
-    // Ссылка на основную панель (с CardLayout) для переключения между экранами
+
     private JPanelCustom parentPanel;
     private FolderData folderData;
 
