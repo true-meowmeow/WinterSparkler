@@ -39,10 +39,10 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showCard(folderData.getLinkNextPathFull());
+                showCard(folderData.getLinkNextPathFull()); //todo
             }
         });
-s
+
     }
     @Override
     protected Object getDragData() {
