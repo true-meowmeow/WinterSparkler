@@ -28,13 +28,4 @@ class SearchPanel extends JPanelCustom {
 
     }
 }
-class CollectionPanel extends JPanelCustom {
-
-    public CollectionPanel() {
-        super(PanelType.BORDER);
-        setBackground(Color.LIGHT_GRAY);
-        add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
-    }
-
-}
 

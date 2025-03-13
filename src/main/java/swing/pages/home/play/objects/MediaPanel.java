@@ -1,18 +1,14 @@
 package swing.pages.home.play.objects;
 
-import core.contentManager.FolderData;
 import core.contentManager.MediaData;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MediaPanel extends JPanelCustom {
     private String mediaName;
     private ImageIcon icon;
-
     private JPanelCustom parentPanel;
     private MediaData mediaData;
 
@@ -23,24 +19,28 @@ public class MediaPanel extends JPanelCustom {
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
+        setupDragAndDrop();
     }
 
     private void initialize() {
         setPreferredSize(new Dimension(100, 30));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-        // Метка, отображающая иконку и имя
+        // Создаём метку с иконкой и именем
         JLabel label = new JLabel(mediaName, icon, JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.BOTTOM);
         label.setHorizontalTextPosition(JLabel.CENTER);
         add(label, BorderLayout.CENTER);
+    }
 
-        label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("hihi");
-            }
-        });
+    // Переопределяем метод для передачи полного объекта для DnD
+    @Override
+    protected Object getDragData() {
+        return this;
+    }
 
+    @Override
+    public String toString() {
+        // Для отображения в окне перетаскивания возвращаем имя медиа
+        return mediaName;
     }
 }
