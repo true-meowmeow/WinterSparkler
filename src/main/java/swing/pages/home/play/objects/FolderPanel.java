@@ -23,6 +23,7 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
+        setupDragAndDrop();
     }
 
     private void initialize() {
@@ -43,7 +44,16 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
         });
 
     }
+    @Override
+    protected Object getDragData() {
+        return this;
+    }
 
+    @Override
+    public String toString() {
+        // Для отображения в окне перетаскивания возвращаем имя медиа
+        return folderName;
+    }
     public void showCard(String path) {
         ((CardLayout) parentPanel.getLayout()).show(parentPanel, path);
     }
