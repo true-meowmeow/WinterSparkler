@@ -1,6 +1,5 @@
 package swing.pages.home.play.objects;
 
-
 import core.contentManager.FolderData;
 import swing.objects.JPanelCustom;
 
@@ -9,12 +8,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class FolderPanel extends JPanelCustom {     //Можно folders & media отнаследоваться от общего класса если будет больше общих частей
+public class FolderPanel extends JPanelCustom {
     private String folderName;
     private ImageIcon icon;
-
     private JPanelCustom parentPanel;
     private FolderData folderData;
+    private boolean isSelected = false; // Флаг выделения
+
+    private static final Color DEFAULT_COLOR = Color.WHITE;
+    private static final Color SELECTED_COLOR = new Color(173, 216, 230); // Светло-голубой
 
     public FolderPanel(FolderData folderData, String iconPath, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
@@ -29,6 +31,8 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
     private void initialize() {
         setPreferredSize(new Dimension(100, 100));
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        setBackground(DEFAULT_COLOR);
+        setLayout(new BorderLayout());
 
         // Метка, отображающая иконку и имя
         JLabel label = new JLabel(folderName, icon, JLabel.CENTER);
@@ -39,11 +43,30 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showCard(folderData.getLinkNextPathFull());
+                if (e.isControlDown()) {
+                    SelectionManager.toggleFolderSelection(FolderPanel.this, true);
+                } else {
+                    // При обычном клике открываем папку
+                    showCard(folderData.getLinkNextPathFull());
+                }
             }
         });
-
     }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+        toggleSelection();
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    private void toggleSelection() {
+        setBackground(isSelected ? SELECTED_COLOR : DEFAULT_COLOR);
+        repaint();
+    }
+
     @Override
     protected Object getDragData() {
         return this;
@@ -51,9 +74,9 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
 
     @Override
     public String toString() {
-        // Для отображения в окне перетаскивания возвращаем имя медиа
         return folderName;
     }
+
     public void showCard(String path) {
         ((CardLayout) parentPanel.getLayout()).show(parentPanel, path);
     }
