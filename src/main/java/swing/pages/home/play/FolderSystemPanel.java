@@ -133,8 +133,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
     // Перед переключением карточки сбрасываем выделение как медиа, так и папок
     public void showCard(String path) {
-        SelectionManager.clearMediaSelection();
-        SelectionManager.clearFolderSelection();
+        SelectionManager.clearAllSelections(); // Теперь использует clearAllSelections
         ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
     }
 

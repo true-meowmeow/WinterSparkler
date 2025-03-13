@@ -1,9 +1,14 @@
 package swing.objects;
 
+import swing.pages.home.play.objects.FolderPanel;
+import swing.pages.home.play.objects.MediaPanel;
+import swing.pages.home.play.objects.SelectionManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.*;
+import java.awt.event.InputEvent;
 
 public class JPanelCustom extends JPanel {
     public enum PanelType {
@@ -167,19 +172,42 @@ public class JPanelCustom extends JPanel {
         repaint();
     }
 
-    // Обработчик распознавания жеста перетаскивания (drag)
+// Внутри класса JPanelCustom
+
     class DragGestureHandler implements DragGestureListener {
         @Override
         public void dragGestureRecognized(DragGestureEvent dge) {
             Object dragData = getDragData();
             if (dragData == null) {
-                return; // Если данных нет, перетаскивание не инициируется
+                return;
             }
-            String dragText = dragData.toString();
+
+            int modifiers = dge.getTriggerEvent().getModifiersEx();
+            boolean ctrlPressed = (modifiers & InputEvent.CTRL_DOWN_MASK) != 0;
+
+            boolean alreadySelected = false;
+            if (dragData instanceof FolderPanel) {
+                alreadySelected = ((FolderPanel) dragData).isSelected();
+            } else if (dragData instanceof MediaPanel) {
+                alreadySelected = ((MediaPanel) dragData).isSelected();
+            }
+
+            // Если объект НЕ был выделен ранее, сбрасываем выделение других объектов
+            if (!alreadySelected && !ctrlPressed) {
+                SelectionManager.clearAllSelections();
+            }
+
+            if (dragData instanceof FolderPanel) {
+                SelectionManager.toggleFolderSelection((FolderPanel) dragData, ctrlPressed);
+            } else if (dragData instanceof MediaPanel) {
+                SelectionManager.toggleMediaSelection((MediaPanel) dragData, ctrlPressed);
+            }
+
+            // Остальной код, создающий курсор и начинающий перетаскивание
             Point dragPoint = dge.getDragOrigin();
             SwingUtilities.convertPointToScreen(dragPoint, JPanelCustom.this);
             cursorWindow.getContentPane().removeAll();
-            JLabel cursorLabel = new JLabel(dragText, SwingConstants.CENTER);
+            JLabel cursorLabel = new JLabel(dragData.toString(), SwingConstants.CENTER);
             cursorLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             cursorWindow.getContentPane().add(cursorLabel);
             cursorWindow.pack();
@@ -188,15 +216,23 @@ public class JPanelCustom extends JPanel {
             cursorWindow.setLocation(dragPoint.x + 10, dragPoint.y + 10);
             cursorWindow.setAlwaysOnTop(true);
             cursorWindow.setVisible(true);
-            DragHandler dragHandler = new DragHandler();
+
+            DragHandler dragHandler = new DragHandler(dragData);
             dge.getDragSource().addDragSourceMotionListener(dragHandler);
             dge.startDrag(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
                     new TransferableData(dragData), dragHandler);
         }
     }
 
-    // Обработчик для обновления позиции курсора и завершения drag-операции
+
+    // Внутри класса JPanelCustom
     class DragHandler implements DragSourceListener, DragSourceMotionListener {
+        private Object dragData;
+
+        public DragHandler(Object dragData) {
+            this.dragData = dragData;
+        }
+
         @Override
         public void dragEnter(DragSourceDragEvent dsde) { }
         @Override
@@ -205,19 +241,35 @@ public class JPanelCustom extends JPanel {
         public void dropActionChanged(DragSourceDragEvent dsde) { }
         @Override
         public void dragExit(DragSourceEvent dse) { }
+
         @Override
         public void dragDropEnd(DragSourceDropEvent dsde) {
+            // Для FolderPanel: если выделена только одна панель, сбрасываем выделение
+            if (dragData instanceof FolderPanel) {
+                FolderPanel folderPanel = (FolderPanel) dragData;
+                if (SelectionManager.selectedFolderPanels.size() <= 1) {
+                    folderPanel.setSelected(false);
+                    SelectionManager.selectedFolderPanels.remove(folderPanel);
+                }
+            }
+            // Для MediaPanel: если выделена только одна панель, сбрасываем выделение
+            else if (dragData instanceof MediaPanel) {
+                MediaPanel mediaPanel = (MediaPanel) dragData;
+                if (SelectionManager.selectedMediaPanels.size() <= 1) {
+                    mediaPanel.setSelected(false);
+                    SelectionManager.selectedMediaPanels.remove(mediaPanel);
+                }
+            }
             cursorWindow.setVisible(false);
             dsde.getDragSourceContext().getDragSource().removeDragSourceMotionListener(this);
         }
+
         @Override
         public void dragMouseMoved(DragSourceDragEvent dsde) {
             Point newLocation = dsde.getLocation();
             cursorWindow.setLocation(newLocation.x + 10, newLocation.y + 10);
         }
     }
-
-
 
     // Обработчик drop-событий
     class DropTargetHandler extends DropTargetAdapter {
