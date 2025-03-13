@@ -42,7 +42,7 @@ public class FolderPanel extends JPanelCustom {     //Можно folders & media
                 showCard(folderData.getLinkNextPathFull());
             }
         });
-
+s
     }
     @Override
     protected Object getDragData() {
