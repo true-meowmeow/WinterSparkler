@@ -10,7 +10,7 @@ public class JPanelCustom extends JPanel {
         GRID, BORDER, FLOW, CARD
     }
 
-    // Окно для отображения перетаскиваемого объекта (будет показан результат вызова toString())
+    // Окно для отображения перетаскиваемого объекта (визуальный эффект во время drag)
     private final JWindow cursorWindow = new JWindow();
 
     // Конструкторы
@@ -26,10 +26,13 @@ public class JPanelCustom extends JPanel {
 
     public JPanelCustom(PanelType type) {
         setLayoutByType(type);
+        // В базовом классе drop-логика не инициализируется автоматически!
+        // Для включения drop нужно явно вызвать setupDropTarget() в подклассе.
     }
 
     public JPanelCustom(LayoutManager layout) {
         super(layout);
+        // Не инициализируем drop-логику автоматически
     }
 
     // Установка layout в зависимости от типа панели
@@ -56,23 +59,43 @@ public class JPanelCustom extends JPanel {
     private void handleAXIS(PanelType type, String axis) {
         if (type.equals(PanelType.BORDER)) {
             switch (axis) {
-                case "X" -> setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-                case "PAGE" -> setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-                case "LINE" -> setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-                case "Y" -> setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-                default -> System.out.println("Unsupported axis: " + axis);
+                case "X":
+                    setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                    break;
+                case "PAGE":
+                    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+                    break;
+                case "LINE":
+                    setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+                    break;
+                case "Y":
+                    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+                    break;
+                default:
+                    System.out.println("Unsupported axis: " + axis);
             }
         } else if (type.equals(PanelType.FLOW)) {
             switch (axis) {
-                case "LEFT" -> setLayout(new FlowLayout(FlowLayout.LEFT));
-                case "RIGHT" -> setLayout(new FlowLayout(FlowLayout.RIGHT));
-                case "LEADING" -> setLayout(new FlowLayout(FlowLayout.LEADING));
-                case "CENTER" -> setLayout(new FlowLayout(FlowLayout.CENTER));
-                case "TRAILING" -> setLayout(new FlowLayout(FlowLayout.TRAILING));
-                default -> System.out.println("Unsupported axis: " + axis);
+                case "LEFT":
+                    setLayout(new FlowLayout(FlowLayout.LEFT));
+                    break;
+                case "RIGHT":
+                    setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    break;
+                case "LEADING":
+                    setLayout(new FlowLayout(FlowLayout.LEADING));
+                    break;
+                case "CENTER":
+                    setLayout(new FlowLayout(FlowLayout.CENTER));
+                    break;
+                case "TRAILING":
+                    setLayout(new FlowLayout(FlowLayout.TRAILING));
+                    break;
+                default:
+                    System.out.println("Unsupported axis: " + axis);
             }
         } else {
-            System.out.println("The layout is not the border type");
+            System.out.println("The layout is not of border type");
         }
     }
 
@@ -96,7 +119,7 @@ public class JPanelCustom extends JPanel {
         return new JPanelCustom(PanelType.FLOW, clearBorder);
     }
 
-    // Регистрация DragGestureRecognizer для компонента и всех его потомков
+    // Регистрация DragGestureRecognizer для компонента и его потомков
     protected void registerDragGesture(Component comp) {
         DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(
                 comp, DnDConstants.ACTION_COPY, new DragGestureHandler());
@@ -107,20 +130,44 @@ public class JPanelCustom extends JPanel {
         }
     }
 
-    // Метод для настройки DnD, вызывается, например, в конструкторе наследника
+    // Метод для настройки DnD (drag) – вызывается явно, когда нужно инициировать перетаскивание
     public void setupDragAndDrop() {
         registerDragGesture(this);
     }
 
     /**
      * Метод для получения данных для перетаскивания.
-     * Наследники должны переопределить его для возврата нужного объекта.
+     * Подклассы должны переопределить его для возврата нужного объекта.
      */
     protected Object getDragData() {
         return null;
     }
 
-    // Обработчик распознавания жеста перетаскивания
+    // **** Drop-логика (вызывается только если явно включена) ****
+
+    /**
+     * Инициализация DropTarget.
+     * Вызовите этот метод в конструкторе подкласса, если хотите, чтобы панель принимала drop-события.
+     */
+    public void setupDropTarget() {
+        new DropTarget(this, DnDConstants.ACTION_COPY, new DropTargetHandler(), true);
+    }
+
+    /**
+     * Метод для обработки объекта, полученного при drop.
+     * Подклассы могут переопределить для специальной обработки.
+     *
+     * @param dropData объект, полученный при drop.
+     */
+    protected void handleDrop(Object dropData) {
+        JLabel label = new JLabel("Dropped: " + dropData.toString());
+        label.setForeground(Color.BLUE);
+        add(label);
+        revalidate();
+        repaint();
+    }
+
+    // Обработчик распознавания жеста перетаскивания (drag)
     class DragGestureHandler implements DragGestureListener {
         @Override
         public void dragGestureRecognized(DragGestureEvent dge) {
@@ -128,7 +175,6 @@ public class JPanelCustom extends JPanel {
             if (dragData == null) {
                 return; // Если данных нет, перетаскивание не инициируется
             }
-            // Для визуализации используем toString() объекта
             String dragText = dragData.toString();
             Point dragPoint = dge.getDragOrigin();
             SwingUtilities.convertPointToScreen(dragPoint, JPanelCustom.this);
@@ -149,26 +195,21 @@ public class JPanelCustom extends JPanel {
         }
     }
 
-    // Обработчик для обновления позиции курсора и завершения операции перетаскивания
+    // Обработчик для обновления позиции курсора и завершения drag-операции
     class DragHandler implements DragSourceListener, DragSourceMotionListener {
         @Override
         public void dragEnter(DragSourceDragEvent dsde) { }
-
         @Override
         public void dragOver(DragSourceDragEvent dsde) { }
-
         @Override
         public void dropActionChanged(DragSourceDragEvent dsde) { }
-
         @Override
         public void dragExit(DragSourceEvent dse) { }
-
         @Override
         public void dragDropEnd(DragSourceDropEvent dsde) {
             cursorWindow.setVisible(false);
             dsde.getDragSourceContext().getDragSource().removeDragSourceMotionListener(this);
         }
-
         @Override
         public void dragMouseMoved(DragSourceDragEvent dsde) {
             Point newLocation = dsde.getLocation();
@@ -177,7 +218,7 @@ public class JPanelCustom extends JPanel {
     }
 
     // Внутренний класс для передачи данных через Drag & Drop
-    static class TransferableData implements Transferable {
+    public static class TransferableData implements Transferable {
         private final Object data;
         public static final DataFlavor OBJECT_DATA_FLAVOR =
                 new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=java.lang.Object", "Local Object");
@@ -202,7 +243,27 @@ public class JPanelCustom extends JPanel {
         }
     }
 
-    // Прочие методы, например, для работы с GridBagLayout
+    // Обработчик drop-событий
+    class DropTargetHandler extends DropTargetAdapter {
+        @Override
+        public void drop(DropTargetDropEvent dtde) {
+            try {
+                if (dtde.isDataFlavorSupported(TransferableData.OBJECT_DATA_FLAVOR)) {
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                    Object data = dtde.getTransferable()
+                            .getTransferData(TransferableData.OBJECT_DATA_FLAVOR);
+                    handleDrop(data);
+                    dtde.dropComplete(true);
+                } else {
+                    dtde.rejectDrop();
+                }
+            } catch (Exception e) {
+                dtde.rejectDrop();
+            }
+        }
+    }
+
+    // Прочие методы для работы с layout (например, GridBagLayout)
     public void setGridBagConstrains(JPanelCustom panel1, JPanelCustom panel2) {
         if (!getLayout().getClass().getName().contains("GridBagLayout")) {
             System.out.println("Незаконная попытка установить GridBagConstraints");
