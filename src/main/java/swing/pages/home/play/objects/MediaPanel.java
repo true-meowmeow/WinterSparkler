@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class MediaPanel extends JPanelCustom {
     private String mediaName;
@@ -40,11 +41,13 @@ public class MediaPanel extends JPanelCustom {
         add(label, BorderLayout.CENTER);
         label.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 boolean ctrl = e.isControlDown();
                 SelectionManager.toggleMediaSelection(MediaPanel.this, ctrl);
+                System.out.println("hi");
             }
         });
+
     }
 
     public void setSelected(boolean selected) {
