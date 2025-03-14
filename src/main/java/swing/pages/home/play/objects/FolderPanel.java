@@ -42,7 +42,7 @@ public class FolderPanel extends JPanelCustom {
 
         label.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 if (e.isControlDown()) {
                     SelectionManager.toggleFolderSelection(FolderPanel.this, true);
                 } else {

@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class MediaPanel extends JPanelCustom {
-    private String mediaName;
+    public String mediaName;
     private ImageIcon icon;
     private JPanelCustom parentPanel;
     private MediaData mediaData;
@@ -41,11 +41,29 @@ public class MediaPanel extends JPanelCustom {
         add(label, BorderLayout.CENTER);
         label.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {    //todo mousePressed работает иначе, возможно потом заменить на него
                 boolean ctrl = e.isControlDown();
-                SelectionManager.toggleMediaSelection(MediaPanel.this, ctrl);
-                System.out.println("hi");
+                System.out.println("444");
+                SelectionManager.toggleMediaSelection(MediaPanel.this, ctrl, true);
             }
+/*            @Override
+            public void mousePressed(MouseEvent e) {
+                // Устанавливаем временный серый фон
+                MediaPanel.this.setBackground(Color.GRAY);
+                MediaPanel.this.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                MediaPanel.this.toggleSelection();
+                super.mouseExited(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // Возвращаем фон в исходное состояние (выделен или нет)
+                //MediaPanel.this.toggleSelection();
+            }*/
         });
 
     }
