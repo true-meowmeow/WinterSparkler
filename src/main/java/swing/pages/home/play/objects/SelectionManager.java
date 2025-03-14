@@ -11,6 +11,7 @@ public class SelectionManager {
     public static void clearMediaSelection() {
         // Сброс выделения для всех медиа-объектов
         for (MediaPanel mp : new HashSet<>(selectedMediaPanels)) {
+            //System.out.println(mp.mediaName);
             mp.setSelected(false);
         }
         selectedMediaPanels.clear();
@@ -24,12 +25,27 @@ public class SelectionManager {
         selectedFolderPanels.clear();
     }
 
-    public static void toggleMediaSelection(MediaPanel mp, boolean ctrl) {
+    public static void toggleMediaSelection(MediaPanel mp, boolean ctrl, boolean moving) {
+        System.out.println("toggle");
+        if (mp.isSelected() && ctrl) {
+            System.out.println("555");
+            //clearAllSelections(); // Очищаем все выделения
+            //mp.setSelected(false);
+            selectedMediaPanels.remove(mp);
+            return;
+        }
+        if (moving && mp.isSelected()) {
+            System.out.println("666");
+            selectedMediaPanels.add(mp);
+            return;
+        }
         if (!ctrl) {
+            System.out.println("777");
             clearAllSelections(); // Очищаем все выделения
             mp.setSelected(true);
             selectedMediaPanels.add(mp);
         } else {
+            System.out.println("888");
             if (mp.isSelected()) {
                 mp.setSelected(false);
                 selectedMediaPanels.remove(mp);
@@ -38,6 +54,7 @@ public class SelectionManager {
                 selectedMediaPanels.add(mp);
             }
         }
+        System.out.println("\n\n");
     }
     public static void clearAllSelections() {
         clearMediaSelection();
