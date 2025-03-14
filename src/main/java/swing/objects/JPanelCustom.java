@@ -200,7 +200,8 @@ public class JPanelCustom extends JPanel {
             if (dragData instanceof FolderPanel) {
                 SelectionManager.toggleFolderSelection((FolderPanel) dragData, ctrlPressed);
             } else if (dragData instanceof MediaPanel) {
-                SelectionManager.toggleMediaSelection((MediaPanel) dragData, ctrlPressed);
+                System.out.println("333");
+                SelectionManager.toggleMediaSelection((MediaPanel) dragData, ctrlPressed, true);
             }
 
             // Остальной код, создающий курсор и начинающий перетаскивание
