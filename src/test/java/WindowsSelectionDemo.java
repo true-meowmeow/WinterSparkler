@@ -20,7 +20,7 @@ public class WindowsSelectionDemo extends JFrame {
 
     // Список файлов (панелей) в левой области
     private List<SelectablePanel> panels = new ArrayList<>();
-    // Индекс последнего выбранного для Shift‑выделения
+    // Якорный индекс для диапазонного выделения (Shift)
     private int anchorIndex = -1;
     // Прямоугольник выделения при drag‑selection по фону
     private Rectangle selectionRect = null;
@@ -29,9 +29,9 @@ public class WindowsSelectionDemo extends JFrame {
     private Point groupDragStart = null;
     private boolean draggingGroup = false;
 
-    // Правая область – информационное окно (drop target), куда "передаются" ссылки
+    // Правая область – информационное окно (drop target)
     private DropTargetPanel dropTargetPanel;
-    // Glass pane для отображения ghost‑эффекта при перетаскивании
+    // Glass pane для ghost‑эффекта при перетаскивании
     private DragGlassPane dragGlassPane;
 
     public WindowsSelectionDemo() {
@@ -43,29 +43,30 @@ public class WindowsSelectionDemo extends JFrame {
         dragGlassPane = new DragGlassPane();
         setGlassPane(dragGlassPane);
 
-        // Создаем левую область – панель с файлами для выделения
+        // Левая область – панель с файлами для выделения
         SelectionPanel selectionPanel = new SelectionPanel();
         JScrollPane selectionScroll = new JScrollPane(selectionPanel);
 
-        // Создаем правую область – информационное окно для drop'а
+        // Правая область – информационное окно для drop'а
         dropTargetPanel = new DropTargetPanel();
         JScrollPane dropScroll = new JScrollPane(dropTargetPanel);
 
-        // Размещаем обе области в одном окне через разделитель
+        // Размещаем области через разделитель
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, selectionScroll, dropScroll);
         splitPane.setDividerLocation(700);
         add(splitPane);
 
-        // Key binding: при нажатии ESC снимаем выделение
+        // ESC – снимаем выделение
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "clearSelection");
         getRootPane().getActionMap().put("clearSelection", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 clearSelection();
+                anchorIndex = -1;
             }
         });
 
-        // Добавляем key binding для Ctrl+A: выделяет все панели
+        // Ctrl+A – выделить все панели
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectAll");
         getRootPane().getActionMap().put("selectAll", new AbstractAction() {
@@ -80,7 +81,7 @@ public class WindowsSelectionDemo extends JFrame {
         setVisible(true);
     }
 
-    // Сброс выделения для всех файлов
+    // Сброс выделения
     private void clearSelection() {
         for (SelectablePanel p : panels) {
             p.setSelected(false);
@@ -88,9 +89,12 @@ public class WindowsSelectionDemo extends JFrame {
     }
 
     /**
-     * Обработка клика по файлу с учётом Ctrl и Shift.
-     * Если файл уже выделен, оставляем группу выделенных файлов (как в Windows),
-     * иначе сбрасываем предыдущие выделения и выделяем только этот файл.
+     * Обработка клика по панели.
+     * Если зажат Shift (без Ctrl) и уже задан якорь, то предыдущие выделения сбрасываются
+     * и выбирается диапазон от якорного объекта до текущего.
+     * Ctrl+Shift – переключает состояние выделения для диапазона,
+     * Ctrl – переключает только выделение кликнутого объекта.
+     * При клике без модификаторов происходит сброс выделения и выбор только текущего объекта.
      */
     private void handlePanelClick(SelectablePanel panel, MouseEvent e) {
         boolean ctrl = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
@@ -98,39 +102,44 @@ public class WindowsSelectionDemo extends JFrame {
         int index = panel.getIndex();
 
         if (shift) {
-            // Если якорь не установлен, считаем его первым элементом
             if (anchorIndex == -1) {
-                anchorIndex = 0;
-            }
-            int start = Math.min(anchorIndex, index);
-            int end = Math.max(anchorIndex, index);
-            if (!ctrl) {
+                // Если якоря нет, устанавливаем его и выбираем текущий объект
+                anchorIndex = index;
                 clearSelection();
-            }
-            for (int i = start; i <= end; i++) {
-                panels.get(i).setSelected(true);
+                panel.setSelected(true);
+            } else {
+                if (!ctrl) {
+                    clearSelection(); // Сбрасываем предыдущее выделение
+                    int start = Math.min(anchorIndex, index);
+                    int end = Math.max(anchorIndex, index);
+                    for (int i = start; i <= end; i++) {
+                        panels.get(i).setSelected(true);
+                    }
+                } else {
+                    int start = Math.min(anchorIndex, index);
+                    int end = Math.max(anchorIndex, index);
+                    for (int i = start; i <= end; i++) {
+                        panels.get(i).setSelected(!panels.get(i).isSelected());
+                    }
+                }
+                // При shift‑выделении якорь остаётся прежним
             }
         } else if (ctrl) {
             panel.setSelected(!panel.isSelected());
             anchorIndex = index;
         } else {
-            // Если файл не выделен, сбрасываем все и выделяем только его.
-            // Если же он уже выделен, оставляем группу только при drag‑операции.
-            if (!panel.isSelected()) {
-                clearSelection();
-                panel.setSelected(true);
-            }
+            clearSelection();
+            panel.setSelected(true);
             anchorIndex = index;
         }
     }
 
-    // Файл – представляется панелью с уникальным именем, отображаемым по центру, с возможностью выделения и запуска drag‑операции
+    // Панель-файл с поддержкой выделения и drag‑перетаскивания
     class SelectablePanel extends JPanel {
         private int index;
         private boolean selected = false;
         private String name; // Уникальное имя
-        // Порядок выделения
-        private long selectionOrder = 0;
+        private long selectionOrder = 0; // Порядок выделения
 
         public SelectablePanel(int index, int x, int y) {
             this.index = index;
@@ -139,13 +148,16 @@ public class WindowsSelectionDemo extends JFrame {
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
             setBounds(x, y, 80, 80);
 
-            // Каждый объект использует свой MouseAdapter с отслеживанием перемещения
             MouseAdapter ma = new MouseAdapter() {
                 Point pressPoint = null;
                 boolean moved = false;
-                // Сохраняем начальное состояние модификаторов
+                // Состояния модификаторов при нажатии
                 boolean initialCtrl = false;
                 boolean initialShift = false;
+                // Флаг для отложенной обработки Shift‑клика
+                boolean pendingShiftClick = false;
+                // Флаг, указывающий, что перетаскивание начато с зажатым Shift
+                boolean dragStartedWithShift = false;
 
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -154,8 +166,30 @@ public class WindowsSelectionDemo extends JFrame {
                     moved = false;
                     initialCtrl = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
                     initialShift = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
-                    // Обработка выделения согласно логике Windows
-                    handlePanelClick(SelectablePanel.this, e);
+                    dragStartedWithShift = initialShift; // запоминаем, если перетаскивание начато с Shift
+                    pendingShiftClick = false;
+                    if (initialShift) {
+                        pendingShiftClick = true;
+                        if (anchorIndex == -1) {
+                            clearSelection();
+                            SelectablePanel.this.setSelected(true);
+                            anchorIndex = getIndex();
+                        }
+                        // Если якорь уже задан, оставляем группу (выбранными уже могут быть несколько объектов)
+                    } else if (initialCtrl) {
+                        handlePanelClick(SelectablePanel.this, e);
+                    } else {
+                        // Если нет модификаторов, то если текущий объект уже выделён – сохраняем выделение,
+                        // иначе сбрасываем и выбираем только его.
+                        if (!SelectablePanel.this.isSelected()) {
+                            clearSelection();
+                            SelectablePanel.this.setSelected(true);
+                            anchorIndex = getIndex();
+                        } else {
+                            // Обновляем якорь, но не сбрасываем выделение
+                            anchorIndex = getIndex();
+                        }
+                    }
                 }
 
                 @Override
@@ -166,9 +200,17 @@ public class WindowsSelectionDemo extends JFrame {
                         double dy = current.y - pressPoint.y;
                         if (Math.sqrt(dx * dx + dy * dy) > 5) {
                             moved = true;
+                            // Если нет модификаторов и текущая панель не выделена – сбрасываем старое выделение и выбираем её
+                            if (!initialCtrl && !initialShift && !SelectablePanel.this.isSelected()) {
+                                clearSelection();
+                                SelectablePanel.this.setSelected(true);
+                                anchorIndex = getIndex();
+                            }
+                            if (initialShift && pendingShiftClick) {
+                                pendingShiftClick = false;
+                            }
                         }
                     }
-                    // Если перемещение произошло и объект выделен, запускаем ghost‑перетаскивание
                     if (moved && !draggingGroup && isSelected()) {
                         draggingGroup = true;
                         groupDragStart = SwingUtilities.convertPoint(SelectablePanel.this, pressPoint, getGlassPane());
@@ -190,11 +232,9 @@ public class WindowsSelectionDemo extends JFrame {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     if (draggingGroup) {
-                        // Если перетаскивание произошло – выполняем drop-логику
-                        // Преобразуем координаты относительно drop‑target панели (учитывая возможную прокрутку)
+                        // Drop‑логика при групповом перетаскивании
                         Point dropPoint = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), dropTargetPanel);
                         if (new Rectangle(0, 0, dropTargetPanel.getWidth(), dropTargetPanel.getHeight()).contains(dropPoint)) {
-                            // Собираем выделенные файлы и сортируем по порядку выделения
                             List<SelectablePanel> selectedItems = new ArrayList<>();
                             for (SelectablePanel sp : panels) {
                                 if (sp.isSelected()) {
@@ -203,20 +243,28 @@ public class WindowsSelectionDemo extends JFrame {
                             }
                             Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
                             dropTargetPanel.dropItems(selectedItems);
+                            // Независимо от модификатора, очищаем выделение после drop
                             clearSelection();
+                            anchorIndex = -1;
                         }
                         draggingGroup = false;
                         groupDragStart = null;
                         dragGlassPane.clearGhost();
                     } else {
-                        // Если перетаскивание не произошло (простой клик)
-                        // Используем сохранённое начальное состояние модификаторов
-                        if (!initialCtrl && !initialShift) {
-                            clearSelection();
-                            SelectablePanel.this.setSelected(true);
+                        if (!moved) {
+                            if (initialShift && pendingShiftClick) {
+                                handlePanelClick(SelectablePanel.this, e);
+                            } else if (!initialCtrl && !initialShift) {
+                                if (!SelectablePanel.this.isSelected()) {
+                                    clearSelection();
+                                    SelectablePanel.this.setSelected(true);
+                                    anchorIndex = getIndex();
+                                }
+                            }
                         }
                     }
                 }
+
             };
             addMouseListener(ma);
             addMouseMotionListener(ma);
@@ -240,7 +288,6 @@ public class WindowsSelectionDemo extends JFrame {
 
         public void setSelected(boolean selected) {
             if (selected && !this.selected) {
-                // При установке выделения, если ранее не выделен, присваиваем порядок выделения
                 this.selectionOrder = globalSelectionCounter++;
             }
             if (!selected) {
@@ -258,7 +305,6 @@ public class WindowsSelectionDemo extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // Выводим имя по центру панели
             g.setColor(Color.BLACK);
             FontMetrics fm = g.getFontMetrics();
             int stringWidth = fm.stringWidth(name);
@@ -269,7 +315,7 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Левая панель, содержащая все файлы с возможностью выделения drag‑прямоугольником
+    // Панель для выделения drag‑прямоугольником (фоновое выделение)
     class SelectionPanel extends JPanel {
         public SelectionPanel() {
             setLayout(null);
@@ -283,11 +329,12 @@ public class WindowsSelectionDemo extends JFrame {
                 panels.add(sp);
                 add(sp);
             }
-            // Реализация выделения drag‑прямоугольником по фону
+            // Обработчик выделения drag‑прямоугольником по фону
             MouseAdapter ma = new MouseAdapter() {
                 Point dragStart = null;
                 boolean dragging = false;
                 boolean ctrlDownAtStart = false;
+                boolean shiftDownAtStart = false;
 
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -295,6 +342,7 @@ public class WindowsSelectionDemo extends JFrame {
                         dragStart = e.getPoint();
                         dragging = true;
                         ctrlDownAtStart = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
+                        shiftDownAtStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
                         selectionRect = new Rectangle(dragStart);
                     }
                 }
@@ -320,13 +368,27 @@ public class WindowsSelectionDemo extends JFrame {
                         if (selectionRect.width < 5 && selectionRect.height < 5) {
                             clearSelection();
                         } else {
-                            if (!ctrlDownAtStart) {
+                            if (!ctrlDownAtStart && !shiftDownAtStart) {
                                 clearSelection();
                             }
                             for (SelectablePanel sp : panels) {
                                 if (selectionRect.intersects(sp.getBounds())) {
-                                    sp.setSelected(true);
+                                    if (ctrlDownAtStart) {
+                                        sp.setSelected(!sp.isSelected());
+                                    } else {
+                                        sp.setSelected(true);
+                                    }
                                 }
+                            }
+                            // После area‑выделения устанавливаем якорь как минимальный индекс выделённого элемента
+                            int minIndex = Integer.MAX_VALUE;
+                            for (SelectablePanel sp : panels) {
+                                if (sp.isSelected() && sp.getIndex() < minIndex) {
+                                    minIndex = sp.getIndex();
+                                }
+                            }
+                            if (minIndex != Integer.MAX_VALUE) {
+                                anchorIndex = minIndex;
                             }
                         }
                         selectionRect = null;
@@ -356,7 +418,7 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Правая панель – информационное окно (drop target), где выводится информация о переданных файлах
+    // Правая панель – область для drop'а
     class DropTargetPanel extends JPanel {
         private JLabel infoLabel;
 
@@ -367,7 +429,6 @@ public class WindowsSelectionDemo extends JFrame {
             add(infoLabel, BorderLayout.CENTER);
         }
 
-        // Выводим список имён в порядке выделения и их количество
         public void dropItems(List<SelectablePanel> items) {
             StringBuilder namesList = new StringBuilder();
             for (SelectablePanel sp : items) {
@@ -382,7 +443,7 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Glass pane для отображения ghost‑эффекта при перетаскивании
+    // Glass pane для ghost‑эффекта при перетаскивании
     class DragGlassPane extends JComponent {
         private String ghostText;
         private Point ghostLocation;
