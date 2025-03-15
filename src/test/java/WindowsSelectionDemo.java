@@ -199,7 +199,10 @@ public class WindowsSelectionDemo extends JFrame {
         } else if (ctrl) {
             boolean newSelection = !panel.isSelected();
             panel.setSelected(newSelection);
-            if (newSelection) {
+            // Если в результате нажатия панель стала deselected, сбрасываем якорь.
+            if (!newSelection) {
+                anchorIndex = -1;
+            } else {
                 anchorIndex = index;
             }
         }
