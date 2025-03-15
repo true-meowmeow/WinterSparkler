@@ -88,11 +88,22 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
+    // Вспомогательный метод для подсчёта выделенных панелей
+    private int getSelectedCount() {
+        int count = 0;
+        for (SelectablePanel sp : panels) {
+            if (sp.isSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     /**
      * Обработка клика по панели.
      * Если зажат Shift (без Ctrl) и уже задан якорь, то предыдущие выделения сбрасываются
      * и выбирается диапазон от якорного объекта до текущего.
-     * Ctrl+Shift – переключает состояние выделения для диапазона,
+     * Ctrl+Shift – добавляет выделение для диапазона, не убирая существующих выделений.
      * Ctrl – переключает только выделение кликнутого объекта.
      * При клике без модификаторов происходит сброс выделения и выбор только текущего объекта.
      */
@@ -103,26 +114,14 @@ public class WindowsSelectionDemo extends JFrame {
 
         if (shift) {
             if (anchorIndex == -1) {
-                // Если якоря нет, устанавливаем его и выбираем текущий объект
                 anchorIndex = index;
-                clearSelection();
                 panel.setSelected(true);
             } else {
-                if (!ctrl) {
-                    clearSelection(); // Сбрасываем предыдущее выделение
-                    int start = Math.min(anchorIndex, index);
-                    int end = Math.max(anchorIndex, index);
-                    for (int i = start; i <= end; i++) {
-                        panels.get(i).setSelected(true);
-                    }
-                } else {
-                    int start = Math.min(anchorIndex, index);
-                    int end = Math.max(anchorIndex, index);
-                    for (int i = start; i <= end; i++) {
-                        panels.get(i).setSelected(!panels.get(i).isSelected());
-                    }
+                int start = Math.min(anchorIndex, index);
+                int end = Math.max(anchorIndex, index);
+                for (int i = start; i <= end; i++) {
+                    panels.get(i).setSelected(true);
                 }
-                // При shift‑выделении якорь остаётся прежним
             }
         } else if (ctrl) {
             panel.setSelected(!panel.isSelected());
@@ -158,6 +157,8 @@ public class WindowsSelectionDemo extends JFrame {
                 boolean pendingShiftClick = false;
                 // Флаг, указывающий, что перетаскивание начато с зажатым Shift
                 boolean dragStartedWithShift = false;
+                // Флаг, сигнализирующий, что при нажатии уже было снято выделение
+                boolean deselectedOnPress = false;
 
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -166,8 +167,10 @@ public class WindowsSelectionDemo extends JFrame {
                     moved = false;
                     initialCtrl = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
                     initialShift = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
-                    dragStartedWithShift = initialShift; // запоминаем, если перетаскивание начато с Shift
+                    dragStartedWithShift = initialShift;
                     pendingShiftClick = false;
+                    deselectedOnPress = false; // сбрасываем флаг при новом нажатии
+
                     if (initialShift) {
                         pendingShiftClick = true;
                         if (anchorIndex == -1) {
@@ -175,19 +178,25 @@ public class WindowsSelectionDemo extends JFrame {
                             SelectablePanel.this.setSelected(true);
                             anchorIndex = getIndex();
                         }
-                        // Если якорь уже задан, оставляем группу (выбранными уже могут быть несколько объектов)
+                        // Если якорь уже задан, оставляем группу
                     } else if (initialCtrl) {
                         handlePanelClick(SelectablePanel.this, e);
                     } else {
-                        // Если нет модификаторов, то если текущий объект уже выделён – сохраняем выделение,
-                        // иначе сбрасываем и выбираем только его.
+                        // Нет модификаторов
                         if (!SelectablePanel.this.isSelected()) {
                             clearSelection();
                             SelectablePanel.this.setSelected(true);
                             anchorIndex = getIndex();
                         } else {
-                            // Обновляем якорь, но не сбрасываем выделение
-                            anchorIndex = getIndex();
+                            /*  // Если объект уже выделен, проверяем, является ли он единственным выделенным
+                            if (getSelectedCount() == 1) {
+                                // Снимаем выделение и помечаем, что снятие произошло
+                                SelectablePanel.this.setSelected(false);
+                                anchorIndex = -1;
+                                deselectedOnPress = true;
+                            } else {    */
+                                anchorIndex = getIndex();
+                            /*}*/
                         }
                     }
                 }
@@ -200,7 +209,6 @@ public class WindowsSelectionDemo extends JFrame {
                         double dy = current.y - pressPoint.y;
                         if (Math.sqrt(dx * dx + dy * dy) > 5) {
                             moved = true;
-                            // Если нет модификаторов и текущая панель не выделена – сбрасываем старое выделение и выбираем её
                             if (!initialCtrl && !initialShift && !SelectablePanel.this.isSelected()) {
                                 clearSelection();
                                 SelectablePanel.this.setSelected(true);
@@ -231,8 +239,14 @@ public class WindowsSelectionDemo extends JFrame {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        System.out.println("Я открыт: " + SelectablePanel.this.getNameText());
+                        WindowsSelectionDemo.this.clearSelection();
+                        anchorIndex = -1;
+                        return;
+                    }
+
                     if (draggingGroup) {
-                        // Drop‑логика при групповом перетаскивании
                         Point dropPoint = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), dropTargetPanel);
                         if (new Rectangle(0, 0, dropTargetPanel.getWidth(), dropTargetPanel.getHeight()).contains(dropPoint)) {
                             List<SelectablePanel> selectedItems = new ArrayList<>();
@@ -243,7 +257,6 @@ public class WindowsSelectionDemo extends JFrame {
                             }
                             Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
                             dropTargetPanel.dropItems(selectedItems);
-                            // Независимо от модификатора, очищаем выделение после drop
                             clearSelection();
                             anchorIndex = -1;
                         }
@@ -255,7 +268,10 @@ public class WindowsSelectionDemo extends JFrame {
                             if (initialShift && pendingShiftClick) {
                                 handlePanelClick(SelectablePanel.this, e);
                             } else if (!initialCtrl && !initialShift) {
+                                // Если в mousePressed сняли выделение, то оставляем его снятым
                                 if (!SelectablePanel.this.isSelected()) {
+                                    // ничего не делаем
+                                } else {
                                     clearSelection();
                                     SelectablePanel.this.setSelected(true);
                                     anchorIndex = getIndex();
@@ -264,7 +280,6 @@ public class WindowsSelectionDemo extends JFrame {
                         }
                     }
                 }
-
             };
             addMouseListener(ma);
             addMouseMotionListener(ma);
@@ -365,31 +380,29 @@ public class WindowsSelectionDemo extends JFrame {
                 public void mouseReleased(MouseEvent e) {
                     if (dragging) {
                         dragging = false;
-                        if (selectionRect.width < 5 && selectionRect.height < 5) {
+                        // Если зажат только ctrl – не сбрасываем выделение,
+                        // если зажат только shift или нет модификаторов – сбрасываем выделение.
+                        if (!ctrlDownAtStart && !shiftDownAtStart) {
                             clearSelection();
-                        } else {
-                            if (!ctrlDownAtStart && !shiftDownAtStart) {
-                                clearSelection();
-                            }
-                            for (SelectablePanel sp : panels) {
-                                if (selectionRect.intersects(sp.getBounds())) {
-                                    if (ctrlDownAtStart) {
-                                        sp.setSelected(!sp.isSelected());
-                                    } else {
-                                        sp.setSelected(true);
-                                    }
+                        }
+                        for (SelectablePanel sp : panels) {
+                            if (selectionRect.intersects(sp.getBounds())) {
+                                if (ctrlDownAtStart && !shiftDownAtStart) {
+                                    sp.setSelected(!sp.isSelected());
+                                } else {
+                                    sp.setSelected(true);
                                 }
                             }
-                            // После area‑выделения устанавливаем якорь как минимальный индекс выделённого элемента
-                            int minIndex = Integer.MAX_VALUE;
-                            for (SelectablePanel sp : panels) {
-                                if (sp.isSelected() && sp.getIndex() < minIndex) {
-                                    minIndex = sp.getIndex();
-                                }
+                        }
+                        // После area‑выделения устанавливаем якорь как минимальный индекс выделённого элемента
+                        int minIndex = Integer.MAX_VALUE;
+                        for (SelectablePanel sp : panels) {
+                            if (sp.isSelected() && sp.getIndex() < minIndex) {
+                                minIndex = sp.getIndex();
                             }
-                            if (minIndex != Integer.MAX_VALUE) {
-                                anchorIndex = minIndex;
-                            }
+                        }
+                        if (minIndex != Integer.MAX_VALUE) {
+                            anchorIndex = minIndex;
                         }
                         selectionRect = null;
                         repaint();
