@@ -5,7 +5,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+/**
+  * @author meow meow
+  * Это демо имитирует поведение проводника Windows с расширенными возможностями управления выделением.
+  *
+  * Особенности:
+  * - Динамическое изменение якоря выделения: при выборе нового объекта якорь определяется не как последний выбранный,
+  *                                                                         а выбирается как ближайший к текущему элементу.
+  * - Управление выделением с помощью модификаторов:
+  *      • Ctrl   — инвертирует состояние выделения выбранного объекта.
+  *      • Alt    — снимает выделение с выбранного объекта.
+  *      • Shift  — расширяет выделение диапазона от текущего якоря до выбранного элемента.
+  * - Поддержка клавиатурных сочетаний: Ctrl+A, Ctrl+Shift+A, Ctrl+D и Esc для управления выделением.
+  *
+  * Дополнительно (опционально):
+  * // При одиночном выделении можно снять выделение повторным кликом:
+  * else if (getSelectedCount() == 1) {
+  *     SelectablePanel.this.setSelected(false);
+  *     anchorIndex = -1;
+  *     deselectedOnPress = true;
+  * }
+  * - (Возможная дополнительная функциональность) Реализация начала выделения при движении мыши над объектом вместо его перетаскивания.
+ */
 public class WindowsSelectionDemo extends JFrame {
     // Массив уникальных коротких английских имён (40 штук)
     private static final String[] NAMES = {
@@ -81,16 +102,38 @@ public class WindowsSelectionDemo extends JFrame {
             }
         });
 
-        // Ctrl+A – выделить все панели
+// Ctrl+A – выделять только объекты Person, у которых isFolder == false
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectAll");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectNotFolder");
+        getRootPane().getActionMap().put("selectNotFolder", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                int firstIndex = -1;
+                for (SelectablePanel sp : panels) {
+                    if (!sp.getIsFolder()) {
+                        sp.setSelected(true);
+                        if (firstIndex == -1) {
+                            firstIndex = sp.getIndex();
+                        }
+                    } else {
+                        sp.setSelected(false);
+                    }
+                }
+                anchorIndex = firstIndex; // Устанавливаем якорь в индекс первого подходящего объекта
+            }
+        });
+
+// Ctrl+Shift+A – выделить все панели (как было раньше для Ctrl+A)
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK), "selectAll");
         getRootPane().getActionMap().put("selectAll", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 for (SelectablePanel sp : panels) {
                     sp.setSelected(true);
                 }
+                anchorIndex = 0;  // Устанавливаем якорь в позицию 0
             }
         });
+
 
         setLocationRelativeTo(null);
         setVisible(true);
@@ -198,12 +241,14 @@ public class WindowsSelectionDemo extends JFrame {
                     panel.setSelected(true);
                 }
             } else {
-                // Если alt зажат, используем текущий якорь, иначе ищем ближайшую выделенную панель
-                int bestAnchor = alt ? anchorIndex : findNearestSelected(index);
-                if (ctrl) {
+                int bestAnchor;
+                // Если панель уже выбрана – используем якорь, иначе ищем ближайшую выбранную панель
+                if (panel.isSelected()) {
                     bestAnchor = anchorIndex;
+                } else {
+                    bestAnchor = findNearestSelected(index);
                 }
-
+                // Для Ctrl+Shift не переопределяем bestAnchor, а используем найденное значение
 
                 int start = Math.min(bestAnchor, index);
                 int end = Math.max(bestAnchor, index);
@@ -234,6 +279,8 @@ public class WindowsSelectionDemo extends JFrame {
             anchorIndex = index;
         }
     }
+
+
 
     // Панель, представляющая объект Person с поддержкой выделения и drag‑перетаскивания
     class SelectablePanel extends JPanel {
@@ -493,9 +540,9 @@ public class WindowsSelectionDemo extends JFrame {
                                 if (shiftDownAtStart) {
                                     if (altDownAtStart) {
                                         sp.setSelected(false);
-                                    } else if (ctrlDownAtStart) {
+                                    }/* else if (ctrlDownAtStart) {
                                         sp.setSelected(!sp.isSelected());
-                                    } else {
+                                    }*/ else {
                                         sp.setSelected(true);
                                     }
                                 } else {
