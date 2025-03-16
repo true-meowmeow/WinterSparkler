@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -98,6 +96,24 @@ public class WindowsSelectionDemo extends JFrame {
         setVisible(true);
     }
 
+    // Новый метод для поиска ближайшей выбранной панели к targetIndex
+    private int findNearestSelected(int targetIndex) {
+        int nearest = -1;
+        int minDiff = Integer.MAX_VALUE;
+        for (SelectablePanel sp : panels) {
+            if (sp.isSelected()) {
+                int diff = Math.abs(sp.getIndex() - targetIndex);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    nearest = sp.getIndex();
+                }
+            }
+        }
+        return (nearest == -1 ? targetIndex : nearest);
+    }
+
+    // Остальной код (updateAnchorAfterDeselection, clearSelection, getSelectedCount) остается без изменений
+
     private void updateAnchorAfterDeselection(int deselectedIndex) {
         int candidateAbove = -1;
         int candidateBelow = -1;
@@ -138,15 +154,12 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-
-    // Сброс выделения
     private void clearSelection() {
         for (SelectablePanel p : panels) {
             p.setSelected(false);
         }
     }
 
-    // Вспомогательный метод для подсчёта выделенных панелей
     private int getSelectedCount() {
         int count = 0;
         for (SelectablePanel sp : panels) {
@@ -159,7 +172,7 @@ public class WindowsSelectionDemo extends JFrame {
 
     /**
      * Обработка клика по панели.
-     * Если зажат Shift, выбирается диапазон от якорного объекта до текущего.
+     * Если зажат Shift, выбирается диапазон от ближайшего выбранного объекта до текущего.
      * При зажатых Alt+Shift – снимается выделение диапазона,
      * а при Ctrl+Shift – выделение в диапазоне инвертируется.
      * Ctrl – переключает выделение кликнутого объекта.
@@ -176,14 +189,24 @@ public class WindowsSelectionDemo extends JFrame {
                 anchorIndex = index;
                 if (alt) {
                     panel.setSelected(false);
+                    if (getSelectedCount() == 0) {
+                        anchorIndex = -1;
+                    }
                 } else if (ctrl) {
                     panel.setSelected(!panel.isSelected());
                 } else {
                     panel.setSelected(true);
                 }
             } else {
-                int start = Math.min(anchorIndex, index);
-                int end = Math.max(anchorIndex, index);
+                // Если alt зажат, используем текущий якорь, иначе ищем ближайшую выделенную панель
+                int bestAnchor = alt ? anchorIndex : findNearestSelected(index);
+                if (ctrl) {
+                    bestAnchor = anchorIndex;
+                }
+
+
+                int start = Math.min(bestAnchor, index);
+                int end = Math.max(bestAnchor, index);
                 for (int i = start; i <= end; i++) {
                     if (alt) {
                         panels.get(i).setSelected(false);
@@ -193,26 +216,24 @@ public class WindowsSelectionDemo extends JFrame {
                         panels.get(i).setSelected(true);
                     }
                 }
-                // Обновляем якорь на последний кликнутый объект
-                anchorIndex = index;        //Опциональный якорь для обновления позиции
+                if (alt && getSelectedCount() == 0) {
+                    anchorIndex = -1;
+                } else {
+                    anchorIndex = index;
+                }
             }
         } else if (ctrl) {
             boolean newSelection = !panel.isSelected();
             panel.setSelected(newSelection);
-            // Если в результате нажатия панель стала deselected, сбрасываем якорь.
-            if (!newSelection) {
-                anchorIndex = -1;
-            } else {
+            if (newSelection) {
                 anchorIndex = index;
             }
-        }
-        else {
+        } else {
             clearSelection();
             panel.setSelected(true);
             anchorIndex = index;
         }
     }
-
 
     // Панель, представляющая объект Person с поддержкой выделения и drag‑перетаскивания
     class SelectablePanel extends JPanel {
@@ -284,7 +305,6 @@ public class WindowsSelectionDemo extends JFrame {
 
                 @Override
                 public void mouseDragged(MouseEvent e) {
-                    // Если Alt был нажат при старте, не начинаем drag‑операцию
                     if (initialAlt) {
                         return;
                     }
@@ -329,7 +349,7 @@ public class WindowsSelectionDemo extends JFrame {
                 public void mouseReleased(MouseEvent e) {
                     if (e.getClickCount() == 2) {
                         System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
-                        if (SelectablePanel.this.getIsFolder()) {   // Снимает выделение, если это папка
+                        if (SelectablePanel.this.getIsFolder()) {
                             WindowsSelectionDemo.this.clearSelection();
                         }
                         anchorIndex = -1;
@@ -359,7 +379,7 @@ public class WindowsSelectionDemo extends JFrame {
                                 handlePanelClick(SelectablePanel.this, e);
                                 pendingShiftClick = false;
                                 return;
-                            } else if (!initialCtrl && !initialShift && !initialAlt) { // добавляем проверку !initialAlt
+                            } else if (!initialCtrl && !initialShift && !initialAlt) {
                                 if (SelectablePanel.this.isSelected()) {
                                     clearSelection();
                                     SelectablePanel.this.setSelected(true);
@@ -383,7 +403,6 @@ public class WindowsSelectionDemo extends JFrame {
             return selected;
         }
 
-        // Возвращает строку для отображения (имя и возраст)
         public String getDisplayText() {
             return person.getName() + " (" + person.getAge() + ")";
         }
@@ -392,13 +411,11 @@ public class WindowsSelectionDemo extends JFrame {
             return person.isFolder();
         }
 
-
         public long getSelectionOrder() {
             return selectionOrder;
         }
 
         public void setSelected(boolean selected) {
-            // Если снимаем выделение с панели и она является текущим якорем, обновляем якорь
             if (!selected && this.selected && WindowsSelectionDemo.this.anchorIndex == this.index) {
                 WindowsSelectionDemo.this.updateAnchorAfterDeselection(this.index);
             }
@@ -416,10 +433,8 @@ public class WindowsSelectionDemo extends JFrame {
             }
             repaint();
         }
-
     }
 
-    // Панель для выделения drag‑прямоугольником (фоновое выделение)
     class SelectionPanel extends JPanel {
         public SelectionPanel() {
             setLayout(null);
@@ -433,13 +448,12 @@ public class WindowsSelectionDemo extends JFrame {
                 panels.add(sp);
                 add(sp);
             }
-            // Обработчик выделения drag‑прямоугольником по фону
             MouseAdapter ma = new MouseAdapter() {
                 Point dragStart = null;
                 boolean dragging = false;
                 boolean ctrlDownAtStart = false;
                 boolean shiftDownAtStart = false;
-                boolean altDownAtStart = false; // флаг для Alt
+                boolean altDownAtStart = false;
 
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -449,7 +463,6 @@ public class WindowsSelectionDemo extends JFrame {
                         ctrlDownAtStart = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
                         shiftDownAtStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
                         altDownAtStart = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) != 0;
-                        // Если ни shift, ни ctrl, ни alt не зажаты – сбрасываем выделение
                         if (!ctrlDownAtStart && !shiftDownAtStart && !altDownAtStart) {
                             clearSelection();
                         }
@@ -532,7 +545,6 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Правая панель – область для drop'а
     class DropTargetPanel extends JPanel {
         private JLabel infoLabel;
 
@@ -557,7 +569,6 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Glass pane для ghost‑эффекта при перетаскивании
     class DragGlassPane extends JComponent {
         private String ghostText;
         private Point ghostLocation;
@@ -601,7 +612,6 @@ public class WindowsSelectionDemo extends JFrame {
         }
     }
 
-    // Класс Person – содержит имя и возраст
     static class Person {
         private String name;
         private int age;
