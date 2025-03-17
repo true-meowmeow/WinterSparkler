@@ -134,10 +134,14 @@ public class FileDataProcessor {
      * @param filesDataMap объект для хранения аудиофайлов и данных о папках
      */
     private void processDirectory(File currentDir, File baseDir, FilesDataMap filesDataMap) {
+        System.out.println();
+        System.out.println(currentDir);
         File[] files = currentDir.listFiles();
         if (files == null) return;
         for (File file : files) {
+            System.out.println(file);
             if (file.isDirectory()) {
+                System.out.println(baseDir + " hihi " + filesDataMap);
                 processDirectory(file, baseDir, filesDataMap);
             } else if (file.isFile()) {
                 // Вычисляем относительный путь папки, где находится файл
@@ -153,6 +157,7 @@ public class FileDataProcessor {
                 MediaData mediaData = new MediaData(pathFull, pathRoot, pathRelative, file.getName());
                 // Обрабатываем только аудиофайлы
                 if (AUDIO_EXTENSIONS.contains(mediaData.getExtension())) {
+                    //System.out.println(file);
                     filesDataMap.addMediaData(pathRoot, mediaData);
                     filesDataMap.addFolderData(pathRoot, new FolderData(
                             pathFull,
@@ -161,10 +166,15 @@ public class FileDataProcessor {
                             extractFolderName(pathFull),
                             getParentFolder(pathFull)
                     ));
+
                 }
             }
         }
+        System.out.println("exit directory");
+        System.out.println();
     }
+
+
     private String getParentFolder(String path) {
         if (path == null || path.isEmpty()) {
             return path;

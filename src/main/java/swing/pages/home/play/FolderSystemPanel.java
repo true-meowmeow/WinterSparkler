@@ -37,7 +37,7 @@ public class FolderSystemPanel extends JPanelCustom {
                 // Можно добавить условие для исключения корневых карточек
                 // if (root.getKey().equals(folder.getPathFull())) continue;
 
-                HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);
+                HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);       //todo вот эти два метода не нужны если исползовать поиск по инфе из даты папки
                 HashSet<MediaData> subMedias = findMediaFilesInFolder(
                         folder.getPathFull(),
                         filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet()
