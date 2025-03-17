@@ -25,7 +25,6 @@ public class FolderPanel extends JPanelCustom {
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
-        setupDragAndDrop();
     }
 
     private void initialize() {
@@ -44,11 +43,10 @@ public class FolderPanel extends JPanelCustom {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isControlDown()) {
-                    SelectionManager.toggleFolderSelection(FolderPanel.this, true);
-                } else {
+                } /*else {
                     // При обычном клике открываем папку
                     showCard(folderData.getLinkNextPathFull());
-                }
+                }*/
             }
         });
     }
@@ -65,11 +63,6 @@ public class FolderPanel extends JPanelCustom {
     private void toggleSelection() {
         setBackground(isSelected ? SELECTED_COLOR : DEFAULT_COLOR);
         repaint();
-    }
-
-    @Override
-    protected Object getDragData() {
-        return this;
     }
 
     @Override

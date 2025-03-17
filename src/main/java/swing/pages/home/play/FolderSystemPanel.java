@@ -5,7 +5,6 @@ import swing.objects.JPanelCustom;
 import swing.objects.WrapLayout;
 import swing.pages.home.play.objects.FolderPanel;
 import swing.pages.home.play.objects.MediaPanel;
-import swing.pages.home.play.objects.SelectionManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -133,7 +132,6 @@ public class FolderSystemPanel extends JPanelCustom {
 
     // Перед переключением карточки сбрасываем выделение как медиа, так и папок
     public void showCard(String path) {
-        SelectionManager.clearAllSelections(); // Теперь использует clearAllSelections
         ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
     }
 
