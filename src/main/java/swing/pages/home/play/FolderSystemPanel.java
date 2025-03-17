@@ -8,6 +8,7 @@ import swing.pages.home.play.objects.MediaPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 import java.util.*;
 
 public class FolderSystemPanel extends JPanelCustom {
@@ -29,23 +30,31 @@ public class FolderSystemPanel extends JPanelCustom {
 
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");
         // Пробегаем по корневым папкам и создаём карточки для каждой из них
-        for (Map.Entry<String, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
+        for (Map.Entry<Path, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
             FilesDataMap.FilesData mfd = root.getValue();
-            HashSet<FolderData> folderSet = mfd.getFolderDataSet();
+            HashMap<Path, FolderData> folderSet = mfd.getFolderDataMap();
 
-            for (FolderData folder : folderSet) {
+            for (Map.Entry<Path, FolderData> entry : folderSet.entrySet()) {
+                Path key = entry.getKey();
+                FolderData value = entry.getValue();
+                System.out.println("Путь: " + key + ", Данные: " + value);
+            }
+
+
+
+/*            for (FolderData folder : folderSet) {
                 // Можно добавить условие для исключения корневых карточек
                 // if (root.getKey().equals(folder.getPathFull())) continue;
 
-                HashSet<FolderData> subFolders = findSubFolders(folder.getPathFull(), folderSet);       //todo вот эти два метода не нужны если исползовать поиск по инфе из даты папки
+                HashSet<FolderData> subFolders = findSubFolders(folder.getFullPath(), folderSet);       //todo вот эти два метода не нужны если исползовать поиск по инфе из даты папки
                 HashSet<MediaData> subMedias = findMediaFilesInFolder(
-                        folder.getPathFull(),
+                        folder.getFullPath(),
                         filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet()
                 );
 
                 // Создаем карточку для текущей папки
-                cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getPathFull());
-            }
+                cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getFullPath());
+            }*/
 
             // Добавляем главную панель (например, для корневого меню)
             panelMain.add(new JPanel());
@@ -58,15 +67,15 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.repaint();
     }
 
-    public HashSet<FolderData> findSubFolders(String fullPath, HashSet<FolderData> folderDataSet) {
-        if (!fullPath.endsWith("\\")) {
+/*    public HashSet<FolderData> findSubFolders(Path fullPath, HashSet<FolderData> folderDataSet) {
+*//*        if (!fullPath.endsWith("\\")) {
             fullPath += "\\";
-        }
-        HashSet<FolderData> subfolders = new HashSet<>();
+        }*//*
+*//*         HashSet<FolderData> subfolders = new HashSet<>();
         for (FolderData folder : folderDataSet) {
-            String folderFull = folder.getPathFull();
+            Path folderFull = folder.getPathFull();
             if (folderFull.startsWith(fullPath) && !folderFull.equals(fullPath)) {
-                String relativePart = folderFull.substring(fullPath.length());
+               String relativePart = folderFull.substring(fullPath.length());
                 if (relativePart.endsWith("\\")) {
                     relativePart = relativePart.substring(0, relativePart.length() - 1);
                 }
@@ -75,21 +84,24 @@ public class FolderSystemPanel extends JPanelCustom {
                 }
             }
         }
-        return subfolders;
-    }
+        return subfolders;*//*
+        return new HashSet<FolderData>();
+    }*/
 
-    public HashSet<MediaData> findMediaFilesInFolder(String folderPath, HashSet<MediaData> mediaDataSet) {
+/*
+    public HashSet<MediaData> findMediaFilesInFolder(Path folderPath, HashSet<MediaData> mediaDataSet) {
         if (!folderPath.endsWith("\\") && !folderPath.endsWith("/")) {
-            folderPath += System.getProperty("file.separator");
+            //folderPath += System.getProperty("file.separator");
         }
         HashSet<MediaData> result = new HashSet<>();
         for (MediaData mediaData : mediaDataSet) {
-            if (mediaData.getPathFull().equals(folderPath)) {
+            if (mediaData.getFullPath().equals(folderPath)) {
                 result.add(mediaData);
             }
         }
         return result;
     }
+*/
 
     private JPanelCustom initCardPanel(FolderData folder, HashSet<FolderData> subFolders, HashSet<MediaData> subMedias) {
         JPanelCustom panel = new JPanelCustom(new BorderLayout());
@@ -97,7 +109,7 @@ public class FolderSystemPanel extends JPanelCustom {
         // Панель управления с кнопками и заголовком
         JPanelCustom controlPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT));
         controlPanel.add(backButtonPanel(folder));
-        controlPanel.add(titlePanel(folder.getPathFull()));
+        controlPanel.add(titlePanel(folder.getFullPath()));
         panel.add(controlPanel, BorderLayout.NORTH);
 
         // Прокручиваемая панель для контента
@@ -119,14 +131,14 @@ public class FolderSystemPanel extends JPanelCustom {
     private JPanelCustom backButtonPanel(FolderData folder) {
         JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
         JButton button = new JButton("back");
-        button.addActionListener(e -> showCard(folder.getLinkParentPathFull()));
+        button.addActionListener(e -> showCard(folder.getLinkParentPathFull().toString())); //todo redo to Path
         panel.add(button);
         return panel;
     }
 
-    private JPanelCustom titlePanel(String rootPath) {
+    private JPanelCustom titlePanel(Path rootPath) {
         JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
-        panel.add(new Label(rootPath));
+        panel.add(new Label(rootPath.toString()));  //todo redo to Path
         return panel;
     }
 

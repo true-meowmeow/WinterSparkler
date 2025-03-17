@@ -1,5 +1,6 @@
 package core.contentManager;
 
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -9,54 +10,54 @@ public class FilesDataMap {
         mediaFolderDataHashMap = new HashMap<>();
     }
 
-    private HashMap<String, FilesData> mediaFolderDataHashMap;     //rootPath, mediaData
+    private HashMap<Path, FilesData> mediaFolderDataHashMap;     //rootPath, FilesData
 
-    public void createMediaFolderDataValues(String rootPath) {
+    public void createMediaFolderDataValues(Path rootPath) {
         mediaFolderDataHashMap.putIfAbsent(rootPath, new FilesData(rootPath));
     }
 
-    public void addMediaData(String rootPath, MediaData mediaData) {
-        mediaFolderDataHashMap.get(rootPath).getMediaDataSet().add(mediaData);
+    public void addMediaData(Path rootPath, MediaData mediaData) {
+        mediaFolderDataHashMap.get(rootPath).getMediaDataSet().put(mediaData.getFullNamePath(), mediaData);
     }
-    public void addFolderData(String rootPath, FolderData folderData) {
-        mediaFolderDataHashMap.get(rootPath).getFolderDataSet().add(folderData);
+    public void addFolderData(Path rootPath, FolderData folderData) {
+        mediaFolderDataHashMap.get(rootPath).getFolderDataMap().put(folderData.getFullPath(), folderData);
     }
 
     public void terminate(String rootPath) {
         mediaFolderDataHashMap.remove(rootPath);
     }
 
-    public HashMap<String, FilesData> getMediaFolderDataHashMap() {
+    public HashMap<Path, FilesData> getMediaFolderDataHashMap() {
         return mediaFolderDataHashMap;
     }
 
     public static class FilesData {   //В каждом объекте есть как минимум одна корневая папка и файл, подходящий под критерии
 
-        private String pathRoot;
+        private Path pathRoot;
 
-        public FilesData(String pathRoot) {
+        public FilesData(Path pathRoot) {
             this.pathRoot = pathRoot;
 
-            mediaDataSet = new HashSet<>();
-            folderDataSet = new HashSet<>();
+            mediaDataSet = new HashMap<>();
+            folderDataMap = new HashMap<>();
         }
 
-        public String getPathRoot() {
+        public Path getPathRoot() {
             return pathRoot;
         }
 
-        //media
-        private HashSet<MediaData> mediaDataSet;
+        //media map
+        private HashMap<Path, MediaData> mediaDataSet;
 
-        public HashSet<MediaData> getMediaDataSet() {
+        public HashMap<Path, MediaData> getMediaDataSet() {
             return mediaDataSet;
         }
 
-        //folders
-        private HashSet<FolderData> folderDataSet;
+        //folders map
+        private HashMap<Path, FolderData> folderDataMap;
 
-        public HashSet<FolderData> getFolderDataSet() {
-            return folderDataSet;
+        public HashMap<Path, FolderData> getFolderDataMap() {
+            return folderDataMap;
         }
     }
 

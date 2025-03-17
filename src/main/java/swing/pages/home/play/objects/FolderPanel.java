@@ -7,10 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 import java.util.HashSet;
 
 public class FolderPanel extends JPanelCustom {
-    private String folderName;
+    private Path folderName;
     private ImageIcon icon;
     private JPanelCustom parentPanel;
     private FolderData folderData;
@@ -22,7 +23,7 @@ public class FolderPanel extends JPanelCustom {
     public FolderPanel(FolderData folderData, String iconPath, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
         this.folderData = folderData;
-        this.folderName = folderData.getName();
+        this.folderName = folderData.getNamePath();
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
@@ -35,7 +36,7 @@ public class FolderPanel extends JPanelCustom {
         setLayout(new BorderLayout());
 
         // Метка, отображающая иконку и имя
-        JLabel label = new JLabel(folderName, icon, JLabel.CENTER);
+        JLabel label = new JLabel(folderName.toString(), icon, JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.BOTTOM);
         label.setHorizontalTextPosition(JLabel.CENTER);
         add(label, BorderLayout.CENTER);
@@ -43,8 +44,8 @@ public class FolderPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.isControlDown()) {
-                } /*else {
+                /*if (e.isControlDown()) {
+                } else {
                     // При обычном клике открываем папку
                     showCard(folderData.getLinkNextPathFull());
                 }*/
@@ -68,7 +69,7 @@ public class FolderPanel extends JPanelCustom {
 
     @Override
     public String toString() {
-        return folderName;
+        return folderName.toString();
     }
 
     public void showCard(String path) {

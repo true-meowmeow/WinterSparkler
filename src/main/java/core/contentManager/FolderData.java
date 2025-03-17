@@ -1,31 +1,33 @@
 package core.contentManager;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
 
 
 public class FolderData implements Comparable<FolderData> {
 
-    private String pathFull;
-    private String pathRoot;
-    private String pathRelative;
-    private String name;            //folder name
+    private Path fullPath;
+    private Path rootPath;
+    private Path relativePath;
+    private Path namePath;            //folder name
 
-    private boolean active = true;        //Переключается на false при соответствии условии (Нет медиафайлов и одна папка)        ///todo maybe delete; no idea
-    private String linkParentPathFull;    //Текстовая ссылка на предыдущую папку, при условии деактивации она меняется на следующую папку
-    private String linkNextPathFull;      //Текстовая ссылка на следующую папку, при условии деактивации она меняется на следующую папку
+    private boolean active = false;        //Переключается на false при соответствии условии (Нет медиафайлов и одна папка)
+    //todo Может boolean есть ли в нём active чтобы пустую папку выключенную просто так не показывать
+    private Path linkParentPathFull;    //Текстовая ссылка на предыдущую папку, при условии деактивации она меняется на следующую папку
+    private Path linkNextPathFull;      //Текстовая ссылка на следующую папку, при условии деактивации она меняется на следующую папку
 
     private Info info = new Info();       //Содержит информацию о папках и медиа файлах внутри папки в виде их полных путей
 
 
-    public FolderData(String pathFull, String pathRoot, String pathRelative, String name, String linkParentPathFull) {
-        this.pathFull = pathFull;
-        this.pathRoot = pathRoot;
-        this.pathRelative = pathRelative;
-        this.name = name;
+    public FolderData(Path fullPath, Path rootPath, Path relativePath, Path namePath, Path linkParentPathFull) {
+        this.fullPath = fullPath;
+        this.rootPath = rootPath;
+        this.relativePath = relativePath;
+        this.namePath = namePath;
 
         this.linkParentPathFull = linkParentPathFull;
-        this.linkNextPathFull = pathFull;
+        this.linkNextPathFull = fullPath;
 
 /*        System.out.println(pathFull);
         System.out.println(info);
@@ -35,47 +37,47 @@ public class FolderData implements Comparable<FolderData> {
         //System.out.println(pathFull + " | " + pathRoot + " | " + pathRelative + " | " + name);
     }
 
-    public String getPathFull() {
-        return pathFull;
+    public Path getFullPath() {
+        return fullPath;
     }
 
-    public String getPathRoot() {
-        return pathRoot;
+    public Path getRootPath() {
+        return rootPath;
     }
 
-    public String getPathRelative() {
-        return pathRelative;
+    public Path getRelativePath() {
+        return relativePath;
     }
 
-    public String getName() {
-        return name;
+    public Path getNamePath() {
+        return namePath;
+    }
+
+    public Path getLinkParentPathFull() {
+        return linkParentPathFull;
+    }
+
+    public Path getLinkNextPathFull() {
+        return linkNextPathFull;
     }
 
     public boolean isActive() {
         return active;
     }
 
-    public void deactivate(String linkNextPathFull/*, String linkParentPathFull*/) {
+    public void activate() {
+        active = true;
+    }
+
+/*    public void deactivate(Path linkNextPathFull*//*, String linkParentPathFull*//*) {
         this.active = false;
         this.linkNextPathFull = linkNextPathFull;
         //this.linkParentPathFull = linkParentPathFull;
-    }
-
-    public String getLinkNextPathFull() {
-        return linkNextPathFull;
-    }
-
-    public String getLinkParentPathFull() {
-        return linkParentPathFull;
-    }
-
-    public void setLinkParentPathFull(String linkParentPathFull) {
-        this.linkParentPathFull = linkParentPathFull;
-    }
+    }*/
 
     @Override
     public String toString() {
-        return pathFull;
+        return namePath.toString() + " [isActive : " + isActive() + "]";
     }
 
 /*    @Override
@@ -91,19 +93,19 @@ public class FolderData implements Comparable<FolderData> {
 
     @Override
     public int compareTo(FolderData o) {
-        return pathFull.compareTo(o.pathFull);
+        return fullPath.compareTo(o.fullPath);
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FolderData)) return false;
         FolderData that = (FolderData) o;
-        return Objects.equals(pathFull, that.pathFull);
+        return Objects.equals(fullPath, that.fullPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pathFull);
+        return Objects.hash(fullPath);
     }
     class Info {
         private HashSet<String> folders = new HashSet<>();

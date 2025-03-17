@@ -1,45 +1,87 @@
 package core.contentManager;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static swing.pages.home.play.objects.FolderUtil.convertSlashes;
+import static swing.pages.home.play.objects.FolderUtil.*;
 
 public class FileDataProcessor {
     private static final Set<String> AUDIO_EXTENSIONS = new HashSet<>(Arrays.asList("wav", "flac", "opus", "mp3"));
 
-    /**
-     * Обходит список корневых директорий, собирает информацию об аудиофайлах,
-     * формируя структуру в FilesDataList.
-     *
-     * @param rootPaths список абсолютных путей к корневым папкам
-     * @return объект FilesDataList с информацией об аудиофайлах и папках
-     */
-    public FilesDataMap processRootPaths(List<String> rootPaths) {
+    public FilesDataMap processRootPaths(List<Path> rootPathList) {
         FilesDataMap filesDataMap = new FilesDataMap();
-        for (String rootPath : rootPaths) {
-            File root = new File(rootPath);
+        for (Path rootPath : rootPathList) {
+            File root = rootPath.toFile();
             if (!root.exists() || !root.isDirectory()) {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
                 continue;
             }
-            rootPath += "\\";
             // Создаем контейнер для аудиоданных по данному корневому пути
             filesDataMap.createMediaFolderDataValues(rootPath);
+
+
             processDirectory(root, root, filesDataMap);
 
-            for (FolderData folderData : filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet()) {
+/*            for (FolderData folderData : filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet()) {
                 folderData.setLinkParentPathFull(getClosestPath(filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet(), folderData.getPathFull()));
             }
 
             if (filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet().size() == 0) {
                 filesDataMap.terminate(rootPath);
-            }
+            }*/
         }
-        addMissingParentFolders(filesDataMap);
+        //addMissingParentFolders(filesDataMap);
         return filesDataMap;
     }
+
+    private String applyBackslash(File name) {
+        return applyBackslash(name.toString());
+    }
+
+    private String applyBackslash(String name) {
+        return name + "\\";
+    }
+
+
+    private void processDirectory(File rootFile, File currentFile, FilesDataMap filesDataMap) {
+        Path rootPath = Paths.get(rootFile.getPath()).normalize();
+        Path currentPath = Paths.get(currentFile.getPath()).normalize();
+        Path relativePath = rootPath.relativize(currentPath);
+        Path namePath = currentPath.getFileName();
+
+
+        filesDataMap.addFolderData(rootPath,
+                new FolderData(currentPath, rootPath, relativePath, namePath, relativePath));
+
+        File[] files = currentFile.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+            if (file.isDirectory()) {
+                // Рекурсивный вызов для обхода поддиректорий
+                processDirectory(rootFile, file, filesDataMap);
+            } else {
+                Path fullNamePath = Paths.get(file.getPath()).normalize();
+                String nameFull = fullNamePath.getFileName().toString();
+                String name = getName(nameFull);
+                String extension = getExtension(nameFull);
+
+
+                if (AUDIO_EXTENSIONS.contains(extension)) {
+                    filesDataMap.addMediaData(rootPath,
+                            new MediaData(fullNamePath, currentPath, rootPath, relativePath, nameFull, name, extension));
+
+                    filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataMap().get(currentPath).activate();
+                    //todo Нужно будет parrent and next links ставить
+                }
+            }
+        }
+    }
+}
+
+    /*
 
     //Работает и ладно :/
     public static String getClosestPath(HashSet<FolderData> folderSet, String pathFull) {
@@ -73,13 +115,6 @@ public class FileDataProcessor {
                 .orElse("");
     }
 
-    /**
-     * Генерирует список всех родительских путей для заданного полного пути.
-     * Путь нормализуется (обязательно завершается "\"), затем последовательно удаляются
-     * последние сегменты, начиная с ближайшего родителя.
-     * Например, для "C:\Dir\Subdir\Child\" будет сгенерирован список:
-     * ["C:\Dir\Subdir\", "C:\Dir\"]
-     */
     private static List<String> generateAllParents(String pathFull) {
         List<String> parents = new ArrayList<>();
         String normalizedPath = pathFull.endsWith("\\") ? pathFull : pathFull + "\\";
@@ -125,56 +160,6 @@ public class FileDataProcessor {
         return immediateChildren.size() > 1;
     }
 
-
-    /**
-     * Рекурсивно обходит директорию, добавляя информацию об аудиофайлах в FilesDataList.
-     *
-     * @param currentDir    текущая директория для обработки
-     * @param baseDir       базовая директория для вычисления относительного пути
-     * @param filesDataMap объект для хранения аудиофайлов и данных о папках
-     */
-    private void processDirectory(File currentDir, File baseDir, FilesDataMap filesDataMap) {
-        System.out.println();
-        System.out.println(currentDir);
-        File[] files = currentDir.listFiles();
-        if (files == null) return;
-        for (File file : files) {
-            System.out.println(file);
-            if (file.isDirectory()) {
-                System.out.println(baseDir + " hihi " + filesDataMap);
-                processDirectory(file, baseDir, filesDataMap);
-            } else if (file.isFile()) {
-                // Вычисляем относительный путь папки, где находится файл
-                String folderRelative = "";
-                File parent = file.getParentFile();
-                if (parent != null) {
-                    folderRelative = convertSlashes(baseDir.toURI().relativize(parent.toURI()).getPath());
-                }
-                String pathRoot = extractRootPath(file.getPath(), folderRelative, file.getName());
-                String pathRelative = folderRelative;
-                String pathFull = pathRoot + pathRelative;
-
-                MediaData mediaData = new MediaData(pathFull, pathRoot, pathRelative, file.getName());
-                // Обрабатываем только аудиофайлы
-                if (AUDIO_EXTENSIONS.contains(mediaData.getExtension())) {
-                    //System.out.println(file);
-                    filesDataMap.addMediaData(pathRoot, mediaData);
-                    filesDataMap.addFolderData(pathRoot, new FolderData(
-                            pathFull,
-                            pathRoot,
-                            pathRelative,
-                            extractFolderName(pathFull),
-                            getParentFolder(pathFull)
-                    ));
-
-                }
-            }
-        }
-        System.out.println("exit directory");
-        System.out.println();
-    }
-
-
     private String getParentFolder(String path) {
         if (path == null || path.isEmpty()) {
             return path;
@@ -196,12 +181,6 @@ public class FileDataProcessor {
         // Возвращаем подстроку от начала до найденного разделителя включительно (для сохранения завершающего '\')
         return trimmedPath.substring(0, lastSeparatorIndex + 1);
     }
-
-    /**
-     * Добавляет недостающие родительские папки в FilesDataList.
-     *
-     * @param filesDataMap объект с данными о папках
-     */
     private void addMissingParentFolders(FilesDataMap filesDataMap) {
         for (Map.Entry<String, FilesDataMap.FilesData> entry : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
             String rootPath = entry.getKey();
@@ -256,16 +235,6 @@ public class FileDataProcessor {
                 .toArray(String[]::new); // Преобразуем в массив строк
     }
 
-
-
-    /**
-     * Извлекает корневой путь из полного пути к файлу, удаляя из конца относительный путь и имя файла.
-     *
-     * @param absolutePath полный путь к файлу
-     * @param relativePath относительный путь до файла
-     * @param fileName     имя файла
-     * @return корневой путь
-     */
     private String extractRootPath(String absolutePath, String relativePath, String fileName) {
         String endPart = relativePath + fileName;
         if (absolutePath.endsWith(endPart)) {
@@ -278,12 +247,6 @@ public class FileDataProcessor {
         throw new IllegalArgumentException("Переданные данные не соответствуют ожиданиям");
     }
 
-    /**
-     * Извлекает имя папки из полного пути.
-     *
-     * @param fullPath полный путь к папке
-     * @return имя папки
-     */
     public static String extractFolderName(String fullPath) {
         if (fullPath == null || fullPath.isEmpty()) {
             return "";
@@ -297,17 +260,10 @@ public class FileDataProcessor {
         }
         return fullPath.substring(lastSeparatorIndex + 1);
     }
-
-    /**
-     * Собирает все аудиофайлы из FilesDataList.
-     *
-     * @param filesDataList объект с информацией о медиа файлах
-     * @return список аудиофайлов
-     */
-/*    public List<MediaData> filterAudioFiles(FilesDataList filesDataList) {
+*//*    public List<MediaData> filterAudioFiles(FilesDataList filesDataList) {
         return filesDataList.getMediaFolderDataHashMap().values().stream()
                 .flatMap(mfd -> mfd.getMediaDataSet().stream())
                 .collect(Collectors.toList());
-    }*/
+    }
 
-}
+}*/

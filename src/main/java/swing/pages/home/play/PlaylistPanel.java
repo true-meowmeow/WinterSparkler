@@ -46,8 +46,7 @@ public class PlaylistPanel extends JPanelCustom {
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
             if ("filesDataList".equals(evt.getPropertyName())) {
-                //folderPanel.updateAudioFiles((FilesDataList) evt.getNewValue());
-                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));
+                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));       //todo Убрал
             }
         });
 
