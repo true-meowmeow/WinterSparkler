@@ -1,30 +1,31 @@
 package core.contentManager;
 
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class MediaData implements Comparable<MediaData> {    //Содержит информацию о медиа файлах
 
-    private String pathRoot;            // C:\Users\meowmeow\Music\testing\core 1 — копия\
-    private String pathRelative;        // dsadsadasd\
-    private String pathFull;            // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\
-    private String pathFullName;        // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\Winter Sparkler.flac
+    private Path fullPath;            // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd
+    private Path rootPath;            // C:\Users\meowmeow\Music\testing\core 1 — копия
+    private Path relativePath;        // dsadsadasd
+    private Path fullNamePath;        // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd\Winter Sparkler.flac
 
     private String nameFull;            // Winter Sparkler.flac
     private String name;                // Winter Sparkler
     private String extension;           // flac
 
-    public MediaData(String pathFull, String pathRoot, String pathRelative, String nameFull) {
-        this.pathFull = pathFull;
-        this.pathRoot = pathRoot;
-        this.pathRelative = pathRelative;
-        this.pathFullName = pathRoot + pathRelative + nameFull;
+    public MediaData(Path fullNamePath, Path fullPath, Path rootPath, Path relativePath, String nameFull, String name, String extension) {
+        this.fullPath = fullPath;
+        this.rootPath = rootPath;
+        this.relativePath = relativePath;
+        this.fullNamePath = fullNamePath;
 
         this.nameFull = nameFull;
         this.name = extractFileName(nameFull);
         this.extension = extractExtension(nameFull);
 
-        //System.out.println(pathFull + " | " + pathRoot + " | " + pathRelative + " | " + nameFull);
+        //System.out.println(fullPath + " | " + rootPath + " | " + relativePath + " | " + nameFull + " | " + fullNamePath );
     }
 
     private String extractFileName(String fileName) {
@@ -56,20 +57,20 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
         }
     }
 
-    public String getPathRoot() {
-        return pathRoot;
+    public Path getFullPath() {
+        return fullPath;
     }
 
-    public String getPathRelative() {
-        return pathRelative;
+    public Path getRootPath() {
+        return rootPath;
     }
 
-    public String getPathFull() {
-        return pathFull;
+    public Path getRelativePath() {
+        return relativePath;
     }
 
-    public String getPathFullName() {
-        return pathFullName;
+    public Path getFullNamePath() {
+        return fullNamePath;
     }
 
     public String getNameFull() {
@@ -93,7 +94,7 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
 
     @Override
     public int compareTo(MediaData o) {
-        return pathFullName.compareTo(o.pathFullName);
+        return fullNamePath.compareTo(o.fullNamePath);
     }
 
     @Override
@@ -101,11 +102,11 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
         if (this == o) return true;
         if (!(o instanceof MediaData)) return false;
         MediaData that = (MediaData) o;
-        return Objects.equals(pathFullName, that.pathFullName);
+        return Objects.equals(fullNamePath, that.fullNamePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pathFullName);
+        return Objects.hash(fullNamePath);
     }
 }

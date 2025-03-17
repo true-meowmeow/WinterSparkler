@@ -3,6 +3,8 @@ package swing.pages.home.play.objects;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class FolderUtil {
@@ -10,7 +12,7 @@ public class FolderUtil {
      * Метод возвращает массив строк с непосредственными подкаталогами для заданного родительского пути.
      * Если parentPath некорректен (не заканчивается на "/" или не найден ни один элемент, начинающийся с него),
      * то возвращаются все корневые папки.
-     *
+     * <p>
      * При не корневом вызове, если для заданного parentPath обнаруживается ровно одна дочерняя папка,
      * метод рекурсивно переходит к ней и возвращает ее дочерние папки («папки внутри неё»).
      *
@@ -93,4 +95,19 @@ public class FolderUtil {
         return input.replace('/', '\\');
     }
 
+    public static String getName(String nameFull) {
+        if (nameFull.contains(".")) {
+            int lastDotIndex = nameFull.lastIndexOf('.');
+            return nameFull.substring(0, lastDotIndex);
+        }
+        return nameFull;
+    }
+
+    public static String getExtension(String nameFull) {
+        if (nameFull.contains(".")) {
+            int lastDotIndex = nameFull.lastIndexOf('.');
+            return nameFull.substring(lastDotIndex + 1);
+        }
+        return "";
+    }
 }
