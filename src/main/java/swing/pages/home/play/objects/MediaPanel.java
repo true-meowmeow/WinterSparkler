@@ -26,7 +26,6 @@ public class MediaPanel extends JPanelCustom {
         this.parentPanel = parentPanel;
         this.icon = new ImageIcon(iconPath);
         initialize();
-        setupDragAndDrop();
     }
 
     private void initialize() {
@@ -42,28 +41,8 @@ public class MediaPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {    //todo mousePressed работает иначе, возможно потом заменить на него
-                boolean ctrl = e.isControlDown();
-                System.out.println("444");
-                SelectionManager.toggleMediaSelection(MediaPanel.this, ctrl, true);
-            }
-/*            @Override
-            public void mousePressed(MouseEvent e) {
-                // Устанавливаем временный серый фон
-                MediaPanel.this.setBackground(Color.GRAY);
-                MediaPanel.this.repaint();
-            }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                MediaPanel.this.toggleSelection();
-                super.mouseExited(e);
             }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // Возвращаем фон в исходное состояние (выделен или нет)
-                //MediaPanel.this.toggleSelection();
-            }*/
         });
 
     }
@@ -82,11 +61,6 @@ public class MediaPanel extends JPanelCustom {
         repaint();
     }
 
-    // Переопределяем метод для передачи полного объекта для DnD
-    @Override
-    protected Object getDragData() {
-        return this;
-    }
 
     @Override
     public String toString() {
