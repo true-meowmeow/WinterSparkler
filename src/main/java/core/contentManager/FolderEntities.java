@@ -4,6 +4,10 @@ import swing.pages.home.settings.FolderPathsPanel;
 
 import javax.swing.*;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FolderEntities {   //todo блять это вообще что делает
 
@@ -23,13 +27,12 @@ public class FolderEntities {   //todo блять это вообще что д�
 
 
 
-    // Метод для получения всех путей (без элемента "Добавить папку")
-    public java.util.List<String> getAllPaths() {
-        java.util.List<String> paths = new java.util.ArrayList<>();
+    public List<Path> getAllPaths() {       //todo change to HashSet
+        List<Path> paths = new ArrayList<>();
         for (int i = 0; i < listModel.getSize(); i++) {
             FolderEntry fe = listModel.getElementAt(i);
             if (!fe.isAddButton()) {
-                paths.add(fe.getPath());
+                paths.add(Paths.get(fe.getPath()).normalize()); // Преобразуем строку в Path и нормализуем
             }
         }
         return paths;
