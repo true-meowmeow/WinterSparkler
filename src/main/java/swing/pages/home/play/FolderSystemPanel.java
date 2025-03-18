@@ -30,19 +30,47 @@ public class FolderSystemPanel extends JPanelCustom {
 
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");
         // Пробегаем по корневым папкам и создаём карточки для каждой из них
-/*        for (Map.Entry<Path, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {        //fixme запросить очередной пробег у gpt когда всё остальное встанет нормик.
-            FilesDataMap.FilesData mfd = root.getValue();
-            HashMap<Path, FolderData> folderSet = mfd.getFolderDataMap();
 
-            for (Map.Entry<Path, FolderData> entry : folderSet.entrySet()) {
-                Path key = entry.getKey();
-                FolderData value = entry.getValue();
-                System.out.println("Путь: " + key + ", Данные: " + value);
+
+
+
+        for (Map.Entry<Path, FilesDataMap.CatalogData> catalogEntry : filesDataMap.getCatalogDataHashMap().entrySet()) {
+            Path rootPath = catalogEntry.getKey();
+            FilesDataMap.CatalogData catalogData = catalogEntry.getValue();
+            System.out.println("Root path: " + rootPath);
+
+            // Получаем внутреннюю мапу FilesData из CatalogData через публичный геттер
+            for (Map.Entry<Path, FilesDataMap.CatalogData.FilesData> fileEntry : catalogData.getFilesDataHashMap().entrySet()) {
+                Path folderPath = fileEntry.getKey();
+                FilesDataMap.CatalogData.FilesData filesData = fileEntry.getValue();
+                System.out.println("  Folder: " + folderPath);
+                System.out.println("    FolderData: " + filesData.getFolderData());
+
+                // Выводим информацию о медиа-данных
+                for (MediaData mediaData : filesData.getMediaDataHashSet()) {
+                    System.out.println("      MediaData: " + mediaData);
+                }
+
+                // Выводим информацию о вложенных папках
+                for (FilesDataMap.CatalogData.FilesData.SubFolder subFolder : filesData.getFoldersDataHashSet()) {
+                    System.out.println("      SubFolder: " + subFolder.getName() +
+                            " (path: " + subFolder.getPath() + ")");
+                }
+                System.out.println();
+                System.out.println();
             }
+        }
 
 
 
-*//*            for (FolderData folder : folderSet) {
+
+
+
+
+
+
+
+/*            for (FolderData folder : folderSet) {
                 // Можно добавить условие для исключения корневых карточек
                 // if (root.getKey().equals(folder.getPathFull())) continue;
 
