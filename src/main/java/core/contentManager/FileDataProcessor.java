@@ -18,11 +18,11 @@ public class FileDataProcessor {
                 System.out.println("Путь не является допустимой директорией: " + rootPath);
                 continue;
             }
-            // Создаем контейнер для аудиоданных по данному корневому пути
-            filesDataMap.createMediaFolderDataValues(rootPath);
+            rootPath = rootPath.normalize();
 
 
-            processDirectory(root, root, filesDataMap);
+            filesDataMap.createCatalogDataHashMap(rootPath);
+            processDirectory(rootPath, root, filesDataMap);
 
 /*            for (FolderData folderData : filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet()) {
                 folderData.setLinkParentPathFull(getClosestPath(filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet(), folderData.getPathFull()));
@@ -36,32 +36,23 @@ public class FileDataProcessor {
         return filesDataMap;
     }
 
-    private String applyBackslash(File name) {
-        return applyBackslash(name.toString());
-    }
-
-    private String applyBackslash(String name) {
-        return name + "\\";
-    }
-
-
-    private void processDirectory(File rootFile, File currentFile, FilesDataMap filesDataMap) {
-        Path rootPath = Paths.get(rootFile.getPath()).normalize();
+    private void processDirectory(Path rootPath, File currentFile, FilesDataMap filesDataMap) {
         Path currentPath = Paths.get(currentFile.getPath()).normalize();
         Path relativePath = rootPath.relativize(currentPath);
         Path namePath = currentPath.getFileName();
 
-
-        filesDataMap.addFolderData(rootPath,
-                new FolderData(currentPath, rootPath, relativePath, namePath, relativePath));
+        filesDataMap.getCatalogDataWithPath(rootPath)
+                .createFilesData(
+                        new FolderData(currentPath, rootPath, relativePath, namePath, relativePath));
 
         File[] files = currentFile.listFiles();
         if (files == null) return;
+        FilesDataMap.CatalogData.FilesData filesData = filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath);
 
         for (File file : files) {
             if (file.isDirectory()) {
-                // Рекурсивный вызов для обхода поддиректорий
-                processDirectory(rootFile, file, filesDataMap);
+                processDirectory(rootPath, file, filesDataMap);     // Рекурсивный вызов для обхода поддиректорий
+                filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addSubFolder(currentPath, currentPath.getFileName());
             } else {
                 Path fullNamePath = Paths.get(file.getPath()).normalize();
                 String nameFull = fullNamePath.getFileName().toString();
@@ -70,17 +61,21 @@ public class FileDataProcessor {
 
 
                 if (AUDIO_EXTENSIONS.contains(extension)) {
-                    filesDataMap.addMediaData(rootPath,
-                            new MediaData(fullNamePath, currentPath, rootPath, relativePath, nameFull, name, extension));
-
-                    filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataMap().get(currentPath).activate();
                     //todo Нужно будет parrent and next links ставить
+
+                    filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addMediaData(new MediaData(fullNamePath, currentPath, rootPath, relativePath, nameFull, name, extension));
                 }
             }
         }
     }
 }
+/*    private String applyBackslash(File name) {
+        return applyBackslash(name.toString());
+    }
 
+    private String applyBackslash(String name) {
+        return name + "\\";
+    }*/
     /*
 
     //Работает и ладно :/
