@@ -4,63 +4,98 @@ import java.nio.file.Path;
 import java.util.*;
 
 
-public class FilesDataMap {
+public class FilesDataMap { //Объект корневых путей
 
-    public FilesDataMap() {
-        mediaFolderDataHashMap = new HashMap<>();
+    private HashMap<Path, CatalogData> catalogDataHashMap = new HashMap<>();     //rootPath, FolderData
+
+    public HashMap<Path, CatalogData> getCatalogDataHashMap() {
+        return catalogDataHashMap;
     }
 
-    private HashMap<Path, FilesData> mediaFolderDataHashMap;     //rootPath, FilesData
-
-    public void createMediaFolderDataValues(Path rootPath) {
-        mediaFolderDataHashMap.putIfAbsent(rootPath, new FilesData(rootPath));
+    public void createCatalogDataHashMap(Path path) {
+        catalogDataHashMap.put(path, new CatalogData());
     }
 
-    public void addMediaData(Path rootPath, MediaData mediaData) {
-        mediaFolderDataHashMap.get(rootPath).getMediaDataSet().put(mediaData.getFullNamePath(), mediaData);
-    }
-    public void addFolderData(Path rootPath, FolderData folderData) {
-        mediaFolderDataHashMap.get(rootPath).getFolderDataMap().put(folderData.getFullPath(), folderData);
+    public void terminate(Path rootPath) {  //fixme or deactivate??
+        catalogDataHashMap.remove(rootPath);
     }
 
-    public void terminate(String rootPath) {
-        mediaFolderDataHashMap.remove(rootPath);
+
+    public CatalogData getCatalogDataWithPath(Path path) {
+        return catalogDataHashMap.get(path);
     }
 
-    public HashMap<Path, FilesData> getMediaFolderDataHashMap() {
-        return mediaFolderDataHashMap;
-    }
+    public class CatalogData {  //fixme Объект всех папок
 
-    public static class FilesData {   //В каждом объекте есть как минимум одна корневая папка и файл, подходящий под критерии
+        private HashMap<Path, FilesData> filesDataHashMap = new HashMap<>();
 
-        private Path pathRoot;
-
-        public FilesData(Path pathRoot) {
-            this.pathRoot = pathRoot;
-
-            mediaDataSet = new HashMap<>();
-            folderDataMap = new HashMap<>();
+        public FilesData getFilesDataWithPath(Path path) {
+            return filesDataHashMap.get(path);
         }
 
-        public Path getPathRoot() {
-            return pathRoot;
+        public void createFilesData(FolderData folderData) {
+            filesDataHashMap.put(folderData.getFullPath(), new FilesData(folderData));
         }
 
-        //media map
-        private HashMap<Path, MediaData> mediaDataSet;
+        class FilesData {
 
-        public HashMap<Path, MediaData> getMediaDataSet() {
-            return mediaDataSet;
+            private FolderData folderData;
+
+            public FilesData(FolderData folderData) {
+                this.folderData = folderData;
+            }
+
+            private HashSet<MediaData> mediaDataHashSet = new HashSet<>();
+            private HashSet<SubFolder> foldersDataHashSet = new HashSet<>();
+
+
+            public FolderData getFolderData() {
+                return folderData;
+            }
+
+            public HashSet<MediaData> getMediaDataHashSet() {
+                return mediaDataHashSet;
+            }
+
+            public void addMediaData(MediaData data) {
+                if (!folderData.isActive()) folderData.activate();
+                mediaDataHashSet.add(data);
+            }
+
+            public HashSet<SubFolder> getFoldersDataHashSet() {
+                return foldersDataHashSet;
+            }
+
+            class SubFolder {
+                Path path;
+                Path name;
+
+                public SubFolder(Path path, Path name) {
+                    this.path = path;
+                    this.name = name;
+                }
+
+                public void setPath(Path path) {
+                    this.path = path;
+                }
+
+                public void setName(Path name) {
+                    this.name = name;
+                }
+
+                public Path getPath() {
+                    return path;
+                }
+
+                public Path getName() {
+                    return name;
+                }
+            }
+
+            public void addSubFolder(Path path, Path name) {
+                foldersDataHashSet.add(new SubFolder(path, name));
+            }
         }
 
-        //folders map
-        private HashMap<Path, FolderData> folderDataMap;
-
-        public HashMap<Path, FolderData> getFolderDataMap() {
-            return folderDataMap;
-        }
     }
-
 }
-
-

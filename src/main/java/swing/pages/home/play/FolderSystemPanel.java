@@ -30,7 +30,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");
         // Пробегаем по корневым папкам и создаём карточки для каждой из них
-        for (Map.Entry<Path, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {
+/*        for (Map.Entry<Path, FilesDataMap.FilesData> root : filesDataMap.getMediaFolderDataHashMap().entrySet()) {        //fixme запросить очередной пробег у gpt когда всё остальное встанет нормик.
             FilesDataMap.FilesData mfd = root.getValue();
             HashMap<Path, FolderData> folderSet = mfd.getFolderDataMap();
 
@@ -42,7 +42,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
 
 
-/*            for (FolderData folder : folderSet) {
+*//*            for (FolderData folder : folderSet) {
                 // Можно добавить условие для исключения корневых карточек
                 // if (root.getKey().equals(folder.getPathFull())) continue;
 
@@ -54,11 +54,11 @@ public class FolderSystemPanel extends JPanelCustom {
 
                 // Создаем карточку для текущей папки
                 cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getFullPath());
-            }*/
+            }*//*
 
             // Добавляем главную панель (например, для корневого меню)
             panelMain.add(new JPanel());
-        }
+        }*/
         cardPanel.add(panelMain, "MainPanelWS");
         showCard("MainPanelWS");
         // Пример: переход на определённую карточку
