@@ -3,7 +3,7 @@ package core.contentManager;
 import java.nio.file.Path;
 import java.util.*;
 
-
+//todo Есть вариант отсортировать все карты по старшинству имени и запустить в поток чтобы чем ближе к корню файлы, тем больше приоритет
 public class FilesDataMap { //Объект корневых путей
 
     private HashMap<Path, CatalogData> catalogDataHashMap = new HashMap<>();     //rootPath, FolderData
@@ -20,6 +20,7 @@ public class FilesDataMap { //Объект корневых путей
         catalogDataHashMap.remove(rootPath);
     }
 
+    //fixme Есть вероятность реализации isActive здесь включительно
 
     public CatalogData getCatalogDataWithPath(Path path) {
         return catalogDataHashMap.get(path);
@@ -37,7 +38,11 @@ public class FilesDataMap { //Объект корневых путей
             filesDataHashMap.put(folderData.getFullPath(), new FilesData(folderData));
         }
 
-        class FilesData {
+        public HashMap<Path, FilesData> getFilesDataHashMap() {
+            return filesDataHashMap;
+        }
+
+        public class FilesData {        //todo Можно реализацию isActive отложить до лучших времён чтобы линки сейчас не писать
 
             private FolderData folderData;
 
@@ -66,7 +71,7 @@ public class FilesDataMap { //Объект корневых путей
                 return foldersDataHashSet;
             }
 
-            class SubFolder {
+            public class SubFolder {
                 Path path;
                 Path name;
 

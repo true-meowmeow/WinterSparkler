@@ -50,11 +50,12 @@ public class FileDataProcessor {
         FilesDataMap.CatalogData.FilesData filesData = filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath);
 
         for (File file : files) {
+            Path pathFile = Paths.get(file.getPath()).normalize();
             if (file.isDirectory()) {
                 processDirectory(rootPath, file, filesDataMap);     // Рекурсивный вызов для обхода поддиректорий
-                filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addSubFolder(currentPath, currentPath.getFileName());
+                filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addSubFolder(pathFile, pathFile.getFileName());
             } else {
-                Path fullNamePath = Paths.get(file.getPath()).normalize();
+                Path fullNamePath = pathFile;
                 String nameFull = fullNamePath.getFileName().toString();
                 String name = getName(nameFull);
                 String extension = getExtension(nameFull);
