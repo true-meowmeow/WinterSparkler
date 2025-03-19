@@ -73,7 +73,7 @@ public class FilesDataMap { //Объект корневых путей
 
             public class SubFolder {
                 Path path;
-                Path name;      //test
+                Path name;      //test2
 
                 public SubFolder(Path path, Path name) {
                     this.path = path;
