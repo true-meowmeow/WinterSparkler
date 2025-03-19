@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class FolderData implements Comparable<FolderData> {
 
+    private String fullPathString;
+
     private Path fullPath;
     private Path rootPath;
     private Path relativePath;
@@ -17,10 +19,9 @@ public class FolderData implements Comparable<FolderData> {
     private Path linkParentPathFull;    //Текстовая ссылка на предыдущую папку, при условии деактивации она меняется на следующую папку
     private Path linkNextPathFull;      //Текстовая ссылка на следующую папку, при условии деактивации она меняется на следующую папку
 
-    private Info info = new Info();       //Содержит информацию о папках и медиа файлах внутри папки в виде их полных путей
-
-
     public FolderData(Path fullPath, Path rootPath, Path relativePath, Path namePath, Path linkParentPathFull) {
+        this.fullPathString = fullPath.toString();
+
         this.fullPath = fullPath;
         this.rootPath = rootPath;
         this.relativePath = relativePath;
@@ -35,6 +36,10 @@ public class FolderData implements Comparable<FolderData> {
         System.out.println();*/
 
         //System.out.println(pathFull + " | " + pathRoot + " | " + pathRelative + " | " + name);
+    }
+
+    public String getFullPathString() {
+        return fullPathString;
     }
 
     public Path getFullPath() {
@@ -106,36 +111,5 @@ public class FolderData implements Comparable<FolderData> {
     @Override
     public int hashCode() {
         return Objects.hash(fullPath);
-    }
-    class Info {
-        private HashSet<String> folders = new HashSet<>();
-        private HashSet<String> medias = new HashSet<>();
-
-        public void addFolder(String path) {
-            folders.add(path);
-        }
-        public void addMedia(String path) {
-            medias.add(path);
-        }
-
-        public HashSet<String> getFolders() {
-            return folders;
-        }
-
-        public HashSet<String> getMedias() {
-            return medias;
-        }
-
-        @Override
-        public String toString() {
-            return "Info{" +
-                    "folders=" + folders +
-                    ", medias=" + medias +
-                    '}';
-        }
-    }
-
-    public Info getInfo() {
-        return info;
     }
 }
