@@ -1,5 +1,6 @@
 package swing.pages.home.play.objects;
 
+import core.contentManager.FilesDataMap;
 import core.contentManager.FolderData;
 import swing.objects.JPanelCustom;
 
@@ -14,18 +15,18 @@ public class FolderPanel extends JPanelCustom {
     private Path folderName;
     private ImageIcon icon;
     private JPanelCustom parentPanel;
-    private FolderData folderData;
+    private FilesDataMap.CatalogData.FilesData.SubFolder subFolder;
     private boolean isSelected = false; // Флаг выделения
 
     private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final Color SELECTED_COLOR = new Color(173, 216, 230); // Светло-голубой
 
-    public FolderPanel(FolderData folderData, String iconPath, JPanelCustom parentPanel) {
+    public FolderPanel(FilesDataMap.CatalogData.FilesData.SubFolder subFolder, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
-        this.folderData = folderData;
-        this.folderName = folderData.getNamePath();
+        this.subFolder = subFolder;
+        this.folderName = subFolder.getName();
         this.parentPanel = parentPanel;
-        this.icon = new ImageIcon(iconPath);
+        this.icon = new ImageIcon(defaultIconPath);
         initialize();
     }
 

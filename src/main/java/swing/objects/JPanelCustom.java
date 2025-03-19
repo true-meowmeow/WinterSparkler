@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class JPanelCustom extends JPanel {
+
+    public String defaultIconPath = "anythingPathToIcon";
+
     public enum PanelType {
         GRID, BORDER, FLOW, CARD
     }

@@ -19,12 +19,12 @@ public class MediaPanel extends JPanelCustom {
     private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final Color SELECTED_COLOR = new Color(173, 216, 230); // Светло-голубой
 
-    public MediaPanel(MediaData mediaData, String iconPath, JPanelCustom parentPanel) {
+    public MediaPanel(MediaData mediaData, JPanelCustom parentPanel) {
         super(PanelType.BORDER);
         this.mediaData = mediaData;
         this.mediaName = mediaData.getNameFull();
         this.parentPanel = parentPanel;
-        this.icon = new ImageIcon(iconPath);
+        this.icon = new ImageIcon(defaultIconPath);
         initialize();
     }
 
