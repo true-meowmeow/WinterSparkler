@@ -18,18 +18,8 @@ public class ContentSeeker {
      */
     @Deprecated
     public FilesDataMap seek() {
-        FileDataProcessor processor = new FileDataProcessor();
-
-        // Получаем список корневых путей из FolderEntities (предполагается, что возвращается List<String>)
+        FileDataProcessor processor = new FileDataProcessor();                                  //todo Жиденький класс, избавиться!
         FilesDataMap filesDataMap = processor.processRootPaths(folderEntities.getAllPaths());
-
-/*        // Для статистики «неотсортированных» собираем все MediaData из всех корневых директорий
-        List<MediaData> allFiles = new ArrayList<>();
-        for (FilesDataMap.FilesData filesDataHashMap : filesDataMap.getMediaFolderDataHashMap().values()) { //fixme Какой в пизду статистики, иди к чёрту
-            allFiles.addAll(filesDataHashMap.getMediaDataSet());
-        }*/
-
-
         return filesDataMap;
     }
 }
