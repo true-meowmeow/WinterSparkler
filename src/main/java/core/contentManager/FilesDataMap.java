@@ -20,13 +20,13 @@ public class FilesDataMap { //Объект корневых путей
         catalogDataHashMap.remove(rootPath);
     }
 
-    //fixme Есть вероятность реализации isActive здесь включительно
+                                                                                                         //fixme Есть вероятность реализации isActive здесь включительно
 
     public CatalogData getCatalogDataWithPath(Path path) {
         return catalogDataHashMap.get(path);
     }
 
-    public class CatalogData {  //fixme Объект всех папок
+    public class CatalogData {                                                                           //fixme Объект всех папок
 
         private HashMap<Path, FilesData> filesDataHashMap = new HashMap<>();
 
@@ -42,7 +42,7 @@ public class FilesDataMap { //Объект корневых путей
             return filesDataHashMap;
         }
 
-        public class FilesData {        //todo Можно реализацию isActive отложить до лучших времён чтобы линки сейчас не писать
+        public class FilesData {                                                                          //todo Можно реализацию isActive отложить до лучших времён чтобы линки сейчас не писать
 
             private FolderData folderData;
 

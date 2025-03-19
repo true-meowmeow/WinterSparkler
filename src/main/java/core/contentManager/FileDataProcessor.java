@@ -47,7 +47,7 @@ public class FileDataProcessor {
 
         File[] files = currentFile.listFiles();
         if (files == null) return;
-        FilesDataMap.CatalogData.FilesData filesData = filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath);
+        //FilesDataMap.CatalogData.FilesData filesData = filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath);
 
         for (File file : files) {
             Path pathFile = Paths.get(file.getPath()).normalize();
@@ -62,7 +62,7 @@ public class FileDataProcessor {
 
 
                 if (AUDIO_EXTENSIONS.contains(extension)) {
-                    //dtodo Нужно будет parrent and next links ставить
+                    //todo Нужно будет parrent and next links ставить
 
                     filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addMediaData(new MediaData(fullNamePath, currentPath, rootPath, relativePath, nameFull, name, extension));
                 }
