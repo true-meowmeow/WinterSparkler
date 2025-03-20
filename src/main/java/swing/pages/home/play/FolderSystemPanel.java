@@ -10,10 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
 
-    String currentFolder;
     JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD); // панель-карточек
 
     public FolderSystemPanel(FilesDataMap filesDataMap) {
@@ -23,6 +23,8 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel = new JPanelCustom(new CardLayout());
         add(cardPanel, BorderLayout.CENTER); // Добавляем карточки в центр
     }
+
+    int j = 0;
 
     // Метод обновления панели управления
     public void updateManagingPanel(FilesDataMap filesDataMap) {
@@ -40,10 +42,14 @@ public class FolderSystemPanel extends JPanelCustom {
             for (Map.Entry<Path, FilesDataMap.CatalogData.FilesData> fileEntry : catalogData.getFilesDataHashMap().entrySet()) {
                 FilesDataMap.CatalogData.FilesData filesData = fileEntry.getValue();
 
+                System.out.println(j++);
 
-                addCard(createFolderPanel(filesData), fileEntry.getKey());
+                //addCard(createFolderPanel(filesData), fileEntry.getKey());
+                addCardsWithoutRepainting(createFolderPanel(filesData), fileEntry.getKey());
 
 
+                //fileEntry.getKey();
+                //createFolderPanel(filesData);
             }
         }
 
@@ -72,6 +78,19 @@ public class FolderSystemPanel extends JPanelCustom {
         cardPanel.revalidate();
         cardPanel.repaint();
     }
+
+    private void addCardsWithoutRepainting(JPanel panel, Path path) {
+        RepaintManager currentManager = RepaintManager.currentManager(cardPanel);
+        currentManager.setDoubleBufferingEnabled(false);  // Отключаем двойную буферизацию
+
+        try {
+            addCard(panel, path);
+        } finally {
+            currentManager.setDoubleBufferingEnabled(true);  // Включаем обратно
+            cardPanel.repaint();  // Перерисовываем панель
+        }
+    }
+
 
     private void addCard(JPanel panel, Path path) {
         cardPanel.add(panel, path.toString());
@@ -122,11 +141,11 @@ public class FolderSystemPanel extends JPanelCustom {
         public CoreInsides(FilesDataMap.CatalogData.FilesData filesData) {      //todo передалть под отработанную папочную систему демо
 
             for (FilesDataMap.CatalogData.FilesData.SubFolder folders : filesData.getFoldersDataHashSet()) {
-                foldersPanel.add(new FolderPanel(folders, cardPanel));
+                //foldersPanel.add(new FolderPanel(folders, cardPanel));
             }
 
             for (MediaData mediaData : filesData.getMediaDataHashSet()) {
-                mediasPanel.add(new MediaPanel(mediaData, cardPanel));
+                //mediasPanel.add(new MediaPanel(mediaData, cardPanel));
             }
         }
 
@@ -136,7 +155,6 @@ public class FolderSystemPanel extends JPanelCustom {
             }
         }
     }
-
 
 
     private JPanelCustom backButtonPanel(FolderData folder) {
