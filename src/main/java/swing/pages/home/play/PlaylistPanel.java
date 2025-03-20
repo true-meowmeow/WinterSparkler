@@ -1,6 +1,5 @@
 package swing.pages.home.play;
 
-import core.contentManager.ContentSeeker;
 import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
@@ -15,7 +14,6 @@ public class PlaylistPanel extends JPanelCustom {
     private final String MANAGE_VIEW = "MANAGE_VIEW";
 
     FolderEntities folderEntities;
-    ContentSeeker contentSeeker;
 
     ObservableCardLayout cardLayout;
     JPanel cardPanel;
@@ -36,8 +34,7 @@ public class PlaylistPanel extends JPanelCustom {
         super(PanelType.BORDER);
         this.folderEntities = folderEntitiesSuper;
 
-        contentSeeker = new ContentSeeker(folderEntities);
-        cardLayout = new ObservableCardLayout(MANAGE_VIEW, contentSeeker);
+        cardLayout = new ObservableCardLayout(MANAGE_VIEW, folderEntities);
         cardPanel = new JPanel(cardLayout);
 
         // Создаем единственный экземпляр панели папочной системы
@@ -46,7 +43,7 @@ public class PlaylistPanel extends JPanelCustom {
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
             if ("filesDataList".equals(evt.getPropertyName())) {
-                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));       //todo Убрал
+                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));
             }
         });
 
