@@ -1,7 +1,8 @@
 package swing.pages.home.series;
 
-import core.contentManager.ContentSeeker;
+import core.contentManager.FileDataProcessor;
 import core.contentManager.FilesDataMap;
+import core.contentManager.FolderEntities;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
@@ -10,14 +11,13 @@ import java.beans.PropertyChangeSupport;
 public class ObservableCardLayout extends CardLayout {
 
     private String MANAGE_VIEW;
-    private ContentSeeker contentSeeker;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    public FilesDataMap filesDataMap = new FilesDataMap();
 
-    public ObservableCardLayout(String MANAGE_VIEW, ContentSeeker contentSeeker) {
+    private FolderEntities folderEntities;
+    public ObservableCardLayout(String MANAGE_VIEW, FolderEntities folderEntities) {
         this.MANAGE_VIEW = MANAGE_VIEW;
-        this.contentSeeker = contentSeeker;
+        this.folderEntities = folderEntities;
     }
 
     // Методы для добавления/удаления слушателей
@@ -37,7 +37,15 @@ public class ObservableCardLayout extends CardLayout {
         super.show(parent, name);
     }
 
+    public FilesDataMap filesDataMap = new FilesDataMap();
     private void fireBeforeSwitchEvent() {
-        pcs.firePropertyChange("filesDataList", filesDataMap, contentSeeker.seek());
+        pcs.firePropertyChange("filesDataList", filesDataMap, seek());
+    }
+
+    @Deprecated
+    private FilesDataMap seek() {
+        FileDataProcessor processor = new FileDataProcessor();
+        FilesDataMap filesDataMap = processor.processRootPaths(folderEntities.getAllPaths());
+        return filesDataMap;
     }
 }
