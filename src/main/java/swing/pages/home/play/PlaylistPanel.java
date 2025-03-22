@@ -38,7 +38,7 @@ public class PlaylistPanel extends JPanelCustom {
         cardPanel = new JPanel(cardLayout);
 
         // Создаем единственный экземпляр панели папочной системы
-        FolderSystemPanel folderPanel = new FolderSystemPanel(cardLayout.filesDataMap);
+        FolderSystemPanel folderPanel = new FolderSystemPanel();
 
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
