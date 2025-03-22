@@ -45,11 +45,12 @@ public class FolderPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                /*if (e.isControlDown()) {
+                if (e.isControlDown()) {
                 } else {
                     // При обычном клике открываем папку
-                    showCard(folderData.getLinkNextPathFull());
-                }*/
+                    showCard(subFolder.getPath().toString());
+                }
+                System.out.println(folderName);
             }
         });
     }
