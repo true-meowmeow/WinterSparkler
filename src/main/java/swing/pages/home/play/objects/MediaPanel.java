@@ -41,7 +41,7 @@ public class MediaPanel extends JPanelCustom {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {    //todo mousePressed работает иначе, возможно потом заменить на него
-
+                System.out.println(mediaName);
             }
         });
 

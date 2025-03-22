@@ -14,23 +14,21 @@ import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
 
-    JPanelCustom cardPanel = new JPanelCustom(PanelType.CARD); // панель-карточек
+    JPanelCustom cardPanel;
 
-    public FolderSystemPanel(FilesDataMap filesDataMap) {
-        super(PanelType.BORDER);
-        setLayout(new BorderLayout()); // Явно задаем BorderLayout
-        // Инициализируем cardPanel с CardLayout
-        cardPanel = new JPanelCustom(new CardLayout());
-        add(cardPanel, BorderLayout.CENTER); // Добавляем карточки в центр
+    public FolderSystemPanel() {
+        super(PanelType.BORDER, "Y");
+        add(createFrameFolderPanel());
+        add(createFrameFolderBottomPanel());
     }
 
     int j = 0;
-
-    // Метод обновления панели управления
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         cardPanel.removeAll();  // Очистка карточек
 
-        JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");
+        JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");   //Это панель со всеми root's
+
+
         // Пробегаем по корневым папкам и создаём карточки для каждой из них
 
         for (Map.Entry<Path, FilesDataMap.CatalogData> catalogEntry : filesDataMap.getCatalogDataHashMap().entrySet()) {
@@ -44,93 +42,62 @@ public class FolderSystemPanel extends JPanelCustom {
 
                 System.out.println(j++);
 
-                //addCard(createFolderPanel(filesData), fileEntry.getKey());
-                addCardsWithoutRepainting(createFolderPanel(filesData), fileEntry.getKey());
-
-
-                //fileEntry.getKey();
-                //createFolderPanel(filesData);
+                addCard(createFolderPanel(filesData), fileEntry.getKey());
             }
         }
 
-/*            for (FolderData folder : folderSet) {
-                // Можно добавить условие для исключения корневых карточек
-                // if (root.getKey().equals(folder.getPathFull())) continue;
-
-                HashSet<FolderData> subFolders = findSubFolders(folder.getFullPath(), folderSet);       //todo вот эти два метода не нужны если исползовать поиск по инфе из даты папки
-                HashSet<MediaData> subMedias = findMediaFilesInFolder(
-                        folder.getFullPath(),
-                        filesDataMap.getMediaFolderDataHashMap().get(root.getKey()).getMediaDataSet()
-                );
-
-                // Создаем карточку для текущей папки
-                cardPanel.add(initCardPanel(folder, subFolders, subMedias), folder.getFullPath());
-            }*//*
-
-            // Добавляем главную панель (например, для корневого меню)
-            panelMain.add(new JPanel());
-        }*/
-
-        cardPanel.add(panelMain, "MainPanelWS");
-        showCard("MainPanelWS");
+        //cardPanel.add(panelMain, "MainPanelWS");
+        //showCard("MainPanelWS");
         // Пример: переход на определённую карточку
         showCard("C:\\Users\\meowmeow\\Music\\testing\\core 1");
         cardPanel.revalidate();
         cardPanel.repaint();
     }
 
-    private void addCardsWithoutRepainting(JPanel panel, Path path) {
-        RepaintManager currentManager = RepaintManager.currentManager(cardPanel);
-        currentManager.setDoubleBufferingEnabled(false);  // Отключаем двойную буферизацию
 
-        try {
-            addCard(panel, path);
-        } finally {
-            currentManager.setDoubleBufferingEnabled(true);  // Включаем обратно
-            cardPanel.repaint();  // Перерисовываем панель
-        }
+    private void addCard(JScrollPane panel, Path path) {
+        String key = path.toString();
+        cardPanel.add(panel, key);
     }
 
-
-    private void addCard(JPanel panel, Path path) {
-        cardPanel.add(panel, path.toString());
-    }
-
-
-    private JPanelCustom createFolderPanel(FilesDataMap.CatalogData.FilesData filesData) {
+    private JPanelCustom createFrameFolderPanel() {
         JPanelCustom panel = new JPanelCustom(new BorderLayout());
+
 
         // Панель управления с кнопками и заголовком
         JPanelCustom controlPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT));
-        controlPanel.add(backButtonPanel(filesData.getFolderData()));
-        controlPanel.add(titlePanel(filesData.getFolderData().getFullPathString()));
+        //controlPanel.add(backButtonPanel(filesData.getFolderData()));
+        controlPanel.add(titlePanel("title"));
         panel.add(controlPanel, BorderLayout.NORTH);
+/*        controlPanel.add(backButtonPanel(filesData.getFolderData()));
+        controlPanel.add(titlePanel(filesData.getFolderData().getFullPathString()));*/
 
+        return panel;
+    }
+
+    private JPanelCustom createFrameFolderBottomPanel() {
+        cardPanel = new JPanelCustom(new CardLayout());
+        return cardPanel;
+    }
+
+
+    private JScrollPane createFolderPanel(FilesDataMap.CatalogData.FilesData filesData) {
         // Прокручиваемая панель для контента
         JScrollPane contentScroll = new JScrollPane();
         contentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         contentScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // Панель контента
-        JPanelCustom contentPanel = new JPanelCustom(PanelType.BORDER);
-        contentScroll.setViewportView(contentPanel);
-
-        JPanelCustom contentChildPanel = createContentPanel(filesData);
-        contentPanel.add(contentChildPanel);
-
-        panel.add(contentScroll, BorderLayout.CENTER);
-        return panel;
+        contentScroll.setViewportView(createContentPanel(filesData));
+        return contentScroll;
     }
 
     private JPanelCustom createContentPanel(FilesDataMap.CatalogData.FilesData filesData) {
-        JPanelCustom panel = new JPanelCustom(PanelType.BORDER);
         JPanelCustom contentPanel = new JPanelCustom(PanelType.GRID);
 
         CoreInsides coreInsides = new CoreInsides(filesData);
         contentPanel.setGridBagConstrains(coreInsides.foldersPanel, coreInsides.mediasPanel);
 
-        panel.add(contentPanel, BorderLayout.CENTER);
-        return panel;
+        return contentPanel;
     }
 
 
@@ -141,11 +108,11 @@ public class FolderSystemPanel extends JPanelCustom {
         public CoreInsides(FilesDataMap.CatalogData.FilesData filesData) {      //todo передалть под отработанную папочную систему демо
 
             for (FilesDataMap.CatalogData.FilesData.SubFolder folders : filesData.getFoldersDataHashSet()) {
-                //foldersPanel.add(new FolderPanel(folders, cardPanel));
+                foldersPanel.add(new FolderPanel(folders, cardPanel));
             }
 
             for (MediaData mediaData : filesData.getMediaDataHashSet()) {
-                //mediasPanel.add(new MediaPanel(mediaData, cardPanel));
+                mediasPanel.add(new MediaPanel(mediaData, cardPanel));
             }
         }
 
@@ -160,7 +127,7 @@ public class FolderSystemPanel extends JPanelCustom {
     private JPanelCustom backButtonPanel(FolderData folder) {
         JPanelCustom panel = new JPanelCustom(PanelType.FLOW, "LEFT");
         JButton button = new JButton("back");
-        button.addActionListener(e -> showCard(folder.getFullPathString())); //todo fixme LATER LATER LATER LATER LATER LATER LATER                  showCard(folder.getLinkParentPathFull()));
+        button.addActionListener(e -> showCard(folder.getFullPathString()));             //todo fixme LATER LATER LATER LATER LATER LATER LATER                  showCard(folder.getLinkParentPathFull()));
         panel.add(button);
         return panel;
     }
@@ -173,5 +140,5 @@ public class FolderSystemPanel extends JPanelCustom {
 
     public void showCard(String path) {
         ((CardLayout) cardPanel.getLayout()).show(cardPanel, path);
-    }
+    }                                                                                             //todo Установить в changeCard новый viewport & names & links
 }
