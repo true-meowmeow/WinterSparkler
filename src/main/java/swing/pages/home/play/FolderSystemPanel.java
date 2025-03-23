@@ -19,20 +19,21 @@ import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
     private static FolderSystemPanel instance;
+    private Component glassPane; // Поле для glassPane
+
 
     public static FolderSystemPanel FolderSystemPanelInstance() {
         return instance;
     }
+
     JPanelCustom cardPanel;
 
 
     // Глобальный счётчик для порядка выделения
     public static long globalSelectionCounter = 1;
 
-    // Список объектов Person (40 штук)
-    public List<Person> persons = new ArrayList<>();
-    // Список панелей в левой области
-    public List<SelectablePanel> panels = new ArrayList<>();
+    // Список панелей
+    public ArrayList<SelectablePanel> panels;
     // Якорный индекс для диапазонного выделения (Shift)
     public int anchorIndex = -1;
     // Прямоугольник выделения при drag‑selection по фону
@@ -47,16 +48,17 @@ public class FolderSystemPanel extends JPanelCustom {
     // Glass pane для ghost‑эффекта при перетаскивании
     public DragGlassPane dragGlassPane;
 
-
+    public Component getGlassPane() {
+        return glassPane;
+    }
     @Override
     public void addNotify() {
         super.addNotify();
 
-
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window instanceof JFrame) {
             JFrame frame = (JFrame) window;
-            // Теперь можно использовать frame, например, установить glass pane:
+            // Устанавливаем glassPane для ghost‑эффекта
             frame.setGlassPane(dragGlassPane);
         }
 
@@ -64,6 +66,7 @@ public class FolderSystemPanel extends JPanelCustom {
         // Теперь корневой элемент уже должен быть доступен
         JRootPane rootPane = SwingUtilities.getRootPane(this);
         if (rootPane != null) {
+            glassPane = rootPane.getGlassPane();
             // ESC – снимаем выделение
             rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "clearSelection");
@@ -111,63 +114,55 @@ public class FolderSystemPanel extends JPanelCustom {
             });
         }
     }
-    private static final String[] NAMES = {
-            "Ace", "Ben", "Cam", "Dan", "Eve", "Fay", "Gus", "Hal", "Ivy", "Jay",
-            "Kay", "Lee", "Max", "Ned", "Oli", "Pam", "Quin", "Ray", "Sam", "Tia",
-            "Uma", "Vic", "Wes", "Xen", "Yen", "Zed", "Amy", "Bob", "Cox", "Dex",
-            "Eli", "Fox", "Gem", "Hex", "Ian", "Jax", "Kit", "Lux", "Moe", "Neo"
-    };
+
     public FolderSystemPanel() {
         super(PanelType.BORDER, "Y");
         instance = this;
         add(createFrameFolderPanel());
         add(createFrameFolderBottomPanel());
 
-
-        // Создаем 40 объектов Person с именем и папкой ли это
-        for (int i = 0; i < 40; i++) {
-            if (i < 10) {
-                persons.add(new Person(NAMES[i], i, true));
-            } else {
-                persons.add(new Person(NAMES[i], i, false));
-            }
-        }
-
-
         dragGlassPane = new DragGlassPane();    // Инициализируем glass pane для ghost‑эффекта
-
-        SelectionPanel selectionPanel = new SelectionPanel();
-        JScrollPane selectionScroll = new JScrollPane(selectionPanel);
-
-        add(selectionScroll);
-
-
     }
+
+    SelectionPanel selectionPanel;
 
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         cardPanel.removeAll();  // Очистка карточек
 
+        //todo создать подпанель чтообы очищать её ->
+        selectionPanel = new SelectionPanel();
+        JScrollPane selectionScroll = new JScrollPane(selectionPanel);
+        add(selectionScroll);
+        panels = new ArrayList<>(12);   //todo создавать на основе размера требуемого hashset или прекратить его использование
+
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");   //Это панель со всеми root's
+        // Создаем 40 объектов Person с именем и папкой ли это
 
 
         // Пробегаем по корневым папкам и создаём карточки для каждой из них
 
-/*        for (Map.Entry<Path, FilesDataMap.CatalogData> catalogEntry : filesDataMap.getCatalogDataHashMap().entrySet()) {
+
+        for (Map.Entry<Path, FilesDataMap.CatalogData> catalogEntry : filesDataMap.getCatalogDataHashMap().entrySet()) {
             FilesDataMap.CatalogData catalogData = catalogEntry.getValue();
 
             // Получаем внутреннюю мапу FilesData из CatalogData через публичный геттер
             for (Map.Entry<Path, FilesDataMap.CatalogData.FilesData> fileEntry : catalogData.getFilesDataHashMap().entrySet()) {
                 FilesDataMap.CatalogData.FilesData filesData = fileEntry.getValue();
 
+                //persons.add(new Person(filesData.getFolderData().getNamePath().toString(), 100, false));
 
-                addCard(createFolderPanel(filesData), fileEntry.getKey());
+
+                //addCard(createFolderPanel(filesData), fileEntry.getKey());
             }
-        }*/
+        }
 
+        Path path = Path.of("C:\\Users\\meowmeow\\Music\\testing\\core 1");
+
+        selectionPanel.updateSet(filesDataMap.getFilesDataByFullPath(path));
         //cardPanel.add(panelMain, "MainPanelWS");
         //showCard("MainPanelWS");
         // Пример: переход на определённую карточку
-        showCard("C:\\Users\\meowmeow\\Music\\testing\\core 1");
+        //showCard("C:\\Users\\meowmeow\\Music\\testing\\core 1");
         cardPanel.revalidate();
         cardPanel.repaint();
     }

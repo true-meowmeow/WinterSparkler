@@ -1,26 +1,54 @@
 package swing.objects.selection;
 
+import core.contentManager.FilesDataMap;
+import core.contentManager.MediaData;
+import swing.objects.JPanelCustom;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 
-public class SelectionPanel extends JPanel {
+public class SelectionPanel extends JPanelCustom {
+
     public SelectionPanel() {
-        setLayout(null);
-        int margin = 10;
-        int panelSize = 80;
-        int panelsPerRow = 8;
-        for (int i = 0; i < FolderSystemPanelInstance().persons.size(); i++) {
-            int x = margin + (i % panelsPerRow) * (panelSize + margin);
-            int y = margin + (i / panelsPerRow) * (panelSize + margin);
-            SelectablePanel sp = new SelectablePanel(i, FolderSystemPanelInstance().persons.get(i), x, y);
+        super(PanelType.FLOW, "Left", 10, 10);
+
+        setAlignmentY(Component.LEFT_ALIGNMENT);
+    }
+
+    public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
+
+        int index = 0;      //wtf is this for?
+        for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
+            FolderPanel sp = new FolderPanel(index++, folder.getName().toString());
             FolderSystemPanelInstance().panels.add(sp);
             add(sp);
         }
+
+        for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
+            MediaPanel sp = new MediaPanel(index++, media.getName().toString());
+            FolderSystemPanelInstance().panels.add(sp);
+            add(sp);
+        }
+
+
+
+/*        for (FilesDataMap.CatalogData.FilesData fileData : filesDataHashSet) {      //fixme здесь должен пройтись по медиа и папкам отдельно
+            SelectablePanel sp = new SelectablePanel(i, fileData, x, y);
+            FolderSystemPanelInstance().panels.add(sp);
+            add(sp);
+            i++;
+        }*/
+
+
+
+
+
         MouseAdapter ma = new MouseAdapter() {
             Point dragStart = null;
             boolean dragging = false;
