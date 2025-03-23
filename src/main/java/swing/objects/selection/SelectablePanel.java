@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static swing.objects.selection.SelectionManager.SelectionInstance;
+import static swing.objects.selection.DropPanel.DropPanelInstance;
+import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 public class SelectablePanel extends JPanel {
     private int index;
@@ -60,26 +61,37 @@ public class SelectablePanel extends JPanel {
 
                 if (initialShift) {
                     pendingShiftClick = true;
-                    if (SelectionInstance().anchorIndex == -1) {
-                        SelectionInstance().clearSelection();
+                    if (FolderSystemPanelInstance().anchorIndex == -1) {
+                        FolderSystemPanelInstance().clearSelection();
                         SelectablePanel.this.setSelected(true);
-                        SelectionInstance().anchorIndex = getIndex();
+                        FolderSystemPanelInstance().anchorIndex = getIndex();
                     }
                 } else if (initialCtrl) {
-                    SelectionInstance().handlePanelClick(SelectablePanel.this, e);
+                    FolderSystemPanelInstance().handlePanelClick(SelectablePanel.this, e);
                 } else {
                     if (!SelectablePanel.this.isSelected()) {
-                        SelectionInstance().clearSelection();
+                        FolderSystemPanelInstance().clearSelection();
                         SelectablePanel.this.setSelected(true);
-                        SelectionInstance().anchorIndex = getIndex();
+                        FolderSystemPanelInstance().anchorIndex = getIndex();
                     } else {
-                        SelectionInstance().anchorIndex = getIndex();
+                        FolderSystemPanelInstance().anchorIndex = getIndex();
                     }
                 }
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
+
+                Component glassPane = null;
+                JRootPane rootPane = SwingUtilities.getRootPane(FolderSystemPanelInstance());
+                if (rootPane != null) {     //todo перенести
+                    glassPane = rootPane.getGlassPane();
+                }
+
+
+
+
+
                 if (initialAlt) {
                     return;
                 }
@@ -90,33 +102,33 @@ public class SelectablePanel extends JPanel {
                     if (Math.sqrt(dx * dx + dy * dy) > 5) {
                         moved = true;
                         if (!initialCtrl && !initialShift && !SelectablePanel.this.isSelected()) {
-                            SelectionInstance().clearSelection();
+                            FolderSystemPanelInstance().clearSelection();
                             SelectablePanel.this.setSelected(true);
-                            SelectionInstance().anchorIndex = getIndex();
+                            FolderSystemPanelInstance().anchorIndex = getIndex();
                         }
                         if (initialShift && pendingShiftClick && !SelectablePanel.this.isSelected()) {
-                            SelectionInstance().handlePanelClick(SelectablePanel.this, e);
+                            FolderSystemPanelInstance().handlePanelClick(SelectablePanel.this, e);
                             pendingShiftClick = false;
                         } else if (initialShift && pendingShiftClick) {
                             pendingShiftClick = false;
                         }
                     }
                 }
-                if (moved && !SelectionInstance().draggingGroup && isSelected()) {
-                    SelectionInstance().draggingGroup = true;
-                    SelectionInstance().groupDragStart = SwingUtilities.convertPoint(SelectablePanel.this, pressPoint, SelectionInstance().getGlassPane());
+                if (moved && !FolderSystemPanelInstance().draggingGroup && isSelected()) {
+                    FolderSystemPanelInstance().draggingGroup = true;
+                    FolderSystemPanelInstance().groupDragStart = SwingUtilities.convertPoint(SelectablePanel.this, pressPoint, glassPane);
                     int count = 0;
-                    for (SelectablePanel sp : SelectionInstance().panels) {
+                    for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
                         if (sp.isSelected()) count++;
                     }
                     String ghostText = (count > 1) ? "Dragging " + count + " objects" : "Dragging object";
-                    SelectionInstance().dragGlassPane.setGhostText(ghostText);
-                    SelectionInstance().dragGlassPane.setGhostLocation(new Point(SelectionInstance().groupDragStart.x + 10, SelectionInstance().groupDragStart.y + 10));
-                    SelectionInstance().dragGlassPane.setVisible(true);
+                    FolderSystemPanelInstance().dragGlassPane.setGhostText(ghostText);
+                    FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(FolderSystemPanelInstance().groupDragStart.x + 10, FolderSystemPanelInstance().groupDragStart.y + 10));
+                    FolderSystemPanelInstance().dragGlassPane.setVisible(true);
                 }
-                if (SelectionInstance().draggingGroup) {
-                    Point glassPt = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), SelectionInstance().getGlassPane());
-                    SelectionInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
+                if (FolderSystemPanelInstance().draggingGroup) {
+                    Point glassPt = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), glassPane);
+                    FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
                 }
             }
 
@@ -125,40 +137,40 @@ public class SelectablePanel extends JPanel {
                 if (e.getClickCount() == 2) {
                     System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
                     if (SelectablePanel.this.getIsFolder()) {
-                        SelectionInstance().clearSelection();
+                        FolderSystemPanelInstance().clearSelection();
                     }
-                    SelectionInstance().anchorIndex = -1;
+                    FolderSystemPanelInstance().anchorIndex = -1;
                     return;
                 }
 
-                if (SelectionInstance().draggingGroup) {
-                    Point dropPoint = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), SelectionInstance().dropTargetPanel);
-                    if (new Rectangle(0, 0, SelectionInstance().dropTargetPanel.getWidth(), SelectionInstance().dropTargetPanel.getHeight()).contains(dropPoint)) {
+                if (FolderSystemPanelInstance().draggingGroup) {
+                    Point dropPoint = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), FolderSystemPanelInstance().dropTargetPanel);
+                    if (new Rectangle(0, 0, DropPanelInstance().dropTargetPanel.getWidth(), DropPanelInstance().dropTargetPanel.getHeight()).contains(dropPoint)) {
                         List<SelectablePanel> selectedItems = new ArrayList<>();
-                        for (SelectablePanel sp : SelectionInstance().panels) {
+                        for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
                             if (sp.isSelected()) {
                                 selectedItems.add(sp);
                             }
                         }
                         Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
-                        SelectionInstance().dropTargetPanel.dropItems(selectedItems);
-                        SelectionInstance().clearSelection();
-                        SelectionInstance().anchorIndex = -1;
+                        DropPanelInstance().dropTargetPanel.dropItems(selectedItems);
+                        FolderSystemPanelInstance().clearSelection();
+                        FolderSystemPanelInstance().anchorIndex = -1;
                     }
-                    SelectionInstance().draggingGroup = false;
-                    SelectionInstance().groupDragStart = null;
-                    SelectionInstance().dragGlassPane.clearGhost();
+                    FolderSystemPanelInstance().draggingGroup = false;
+                    FolderSystemPanelInstance().groupDragStart = null;
+                    FolderSystemPanelInstance().dragGlassPane.clearGhost();
                 } else {
                     if (!moved) {
                         if (initialShift && pendingShiftClick) {
-                            SelectionInstance().handlePanelClick(SelectablePanel.this, e);
+                            FolderSystemPanelInstance().handlePanelClick(SelectablePanel.this, e);
                             pendingShiftClick = false;
                             return;
                         } else if (!initialCtrl && !initialShift && !initialAlt) {
                             if (SelectablePanel.this.isSelected()) {
-                                SelectionInstance().clearSelection();
+                                FolderSystemPanelInstance().clearSelection();
                                 SelectablePanel.this.setSelected(true);
-                                SelectionInstance().anchorIndex = getIndex();
+                                FolderSystemPanelInstance().anchorIndex = getIndex();
                             }
                         }
                     }
@@ -191,11 +203,11 @@ public class SelectablePanel extends JPanel {
     }
 
     public void setSelected(boolean selected) {
-        if (!selected && this.selected && SelectionInstance().anchorIndex == this.index) {
-            SelectionInstance().updateAnchorAfterDeselection(this.index);
+        if (!selected && this.selected && FolderSystemPanelInstance().anchorIndex == this.index) {
+            FolderSystemPanelInstance().updateAnchorAfterDeselection(this.index);
         }
         if (selected && !this.selected) {
-            this.selectionOrder = SelectionInstance().globalSelectionCounter++;
+            this.selectionOrder = FolderSystemPanelInstance().globalSelectionCounter++;
         }
         if (!selected) {
             this.selectionOrder = 0;

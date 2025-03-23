@@ -1,6 +1,8 @@
 package swing.pages.home.collections;
 
 import swing.objects.JPanelCustom;
+import swing.objects.selection.DropPanel;
+import swing.objects.selection.DropTargetPanel;
 import swing.pages.home.play.objects.FolderPanel;
 import swing.pages.home.play.objects.MediaPanel;
 
@@ -16,6 +18,11 @@ class CollectionPanel extends JPanelCustom {            //todo Дропать н
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         setPreferredSize(new Dimension(300, 200));
         add(new JLabel("Перетащите объекты сюда", SwingConstants.CENTER), BorderLayout.CENTER);
-    }
 
+        add(new DropPanel());
+        // Правая область – информационное окно для drop'а
+
+
+
+    }
 }
