@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
-import static swing.objects.selection.SelectionManager.SelectionInstance;
+import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
+
 
 public class SelectionPanel extends JPanel {
     public SelectionPanel() {
@@ -14,11 +14,11 @@ public class SelectionPanel extends JPanel {
         int margin = 10;
         int panelSize = 80;
         int panelsPerRow = 8;
-        for (int i = 0; i < SelectionInstance().persons.size(); i++) {
+        for (int i = 0; i < FolderSystemPanelInstance().persons.size(); i++) {
             int x = margin + (i % panelsPerRow) * (panelSize + margin);
             int y = margin + (i / panelsPerRow) * (panelSize + margin);
-            SelectablePanel sp = new SelectablePanel(i, SelectionInstance().persons.get(i), x, y);
-            SelectionInstance().panels.add(sp);
+            SelectablePanel sp = new SelectablePanel(i, FolderSystemPanelInstance().persons.get(i), x, y);
+            FolderSystemPanelInstance().panels.add(sp);
             add(sp);
         }
         MouseAdapter ma = new MouseAdapter() {
@@ -37,9 +37,9 @@ public class SelectionPanel extends JPanel {
                     shiftDownAtStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
                     altDownAtStart = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) != 0;
                     if (!ctrlDownAtStart && !shiftDownAtStart && !altDownAtStart) {
-                        SelectionInstance().clearSelection();
+                        FolderSystemPanelInstance().clearSelection();
                     }
-                    SelectionInstance().selectionRect = new Rectangle(dragStart);
+                    FolderSystemPanelInstance().selectionRect = new Rectangle(dragStart);
                 }
             }
 
@@ -47,7 +47,7 @@ public class SelectionPanel extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 if (dragging) {
                     Point current = e.getPoint();
-                    SelectionInstance().selectionRect.setBounds(
+                    FolderSystemPanelInstance().selectionRect.setBounds(
                             Math.min(dragStart.x, current.x),
                             Math.min(dragStart.y, current.y),
                             Math.abs(dragStart.x - current.x),
@@ -61,8 +61,8 @@ public class SelectionPanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (dragging) {
                     dragging = false;
-                    for (SelectablePanel sp : SelectionInstance().panels) {
-                        if (SelectionInstance().selectionRect.intersects(sp.getBounds())) {
+                    for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
+                        if (FolderSystemPanelInstance().selectionRect.intersects(sp.getBounds())) {
                             if (shiftDownAtStart) {
                                 if (altDownAtStart) {
                                     sp.setSelected(false);
@@ -83,15 +83,15 @@ public class SelectionPanel extends JPanel {
                         }
                     }
                     int minIndex = Integer.MAX_VALUE;
-                    for (SelectablePanel sp : SelectionInstance().panels) {
+                    for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
                         if (sp.isSelected() && sp.getIndex() < minIndex) {
                             minIndex = sp.getIndex();
                         }
                     }
                     if (minIndex != Integer.MAX_VALUE) {
-                        SelectionInstance().anchorIndex = minIndex;
+                        FolderSystemPanelInstance().anchorIndex = minIndex;
                     }
-                    SelectionInstance().selectionRect = null;
+                    FolderSystemPanelInstance().selectionRect = null;
                     repaint();
                 }
             }
@@ -103,12 +103,12 @@ public class SelectionPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (SelectionInstance().selectionRect != null) {
+        if (FolderSystemPanelInstance().selectionRect != null) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(new Color(0, 0, 255, 50));
-            g2.fill(SelectionInstance().selectionRect);
+            g2.fill(FolderSystemPanelInstance().selectionRect);
             g2.setColor(Color.BLUE);
-            g2.draw(SelectionInstance().selectionRect);
+            g2.draw(FolderSystemPanelInstance().selectionRect);
         }
     }
 
