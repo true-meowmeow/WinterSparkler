@@ -20,6 +20,22 @@ public class FilesDataMap { //Объект корневых путей
         catalogDataHashMap.remove(rootPath);
     }
 
+    public FilesDataMap.CatalogData.FilesData getFilesDataByFullPath(Path fullPath) {
+        // Если можно однозначно определить корневой путь по началу полного пути, то:
+        for (Map.Entry<Path, CatalogData> entry : catalogDataHashMap.entrySet()) {
+            Path rootPath = entry.getKey();
+            // Если полный путь начинается с этого корневого пути
+            if (fullPath.startsWith(rootPath)) {
+                FilesDataMap.CatalogData catalogData = entry.getValue();
+                FilesDataMap.CatalogData.FilesData filesData = catalogData.getFilesDataWithPath(fullPath);
+                if (filesData != null) {
+                    return filesData;
+                }
+            }
+        }
+        // Если ничего не найдено, возвращаем null или можно выбросить исключение
+        return null;
+    }
                                                                                                          //fixme Есть вероятность реализации isActive здесь включительно
 
     public CatalogData getCatalogDataWithPath(Path path) {
