@@ -1,5 +1,8 @@
 package swing.objects.selection;
 
+import core.contentManager.FilesDataMap;
+import swing.objects.JPanelCustom;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,24 +15,24 @@ import java.util.List;
 import static swing.objects.selection.DropPanel.DropPanelInstance;
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
-public class SelectablePanel extends JPanel {
+public class SelectablePanel extends JPanelCustom {
     private int index;
     private boolean selected = false;
-    private Person person;
     private long selectionOrder = 0; // Порядок выделения
 
-    public SelectablePanel(int index, Person person, int x, int y) {
+    private String name;
+
+    public SelectablePanel(int index, String name, Dimension sizes) {
         this.index = index;
-        this.person = person;
+        this.name = name;
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        setBounds(x, y, 80, 80);
-        setLayout(new GridLayout(2, 1));
+        setSize(new Dimension(80, 80));
 
-        JLabel nameLabel = new JLabel(person.getName(), SwingConstants.CENTER);
-        JLabel ageLabel = new JLabel("Age: " + person.getAge(), SwingConstants.CENTER);
+        setPreferredSize(sizes);
+
+        JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         add(nameLabel);
-        add(ageLabel);
 
         MouseAdapter ma = new MouseAdapter() {
             Point pressPoint = null;
@@ -81,17 +84,6 @@ public class SelectablePanel extends JPanel {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-
-                Component glassPane = null;
-                JRootPane rootPane = SwingUtilities.getRootPane(FolderSystemPanelInstance());
-                if (rootPane != null) {     //todo перенести
-                    glassPane = rootPane.getGlassPane();
-                }
-
-
-
-
-
                 if (initialAlt) {
                     return;
                 }
@@ -116,7 +108,7 @@ public class SelectablePanel extends JPanel {
                 }
                 if (moved && !FolderSystemPanelInstance().draggingGroup && isSelected()) {
                     FolderSystemPanelInstance().draggingGroup = true;
-                    FolderSystemPanelInstance().groupDragStart = SwingUtilities.convertPoint(SelectablePanel.this, pressPoint, glassPane);
+                    FolderSystemPanelInstance().groupDragStart = SwingUtilities.convertPoint(SelectablePanel.this, pressPoint, FolderSystemPanelInstance().getGlassPane());
                     int count = 0;
                     for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
                         if (sp.isSelected()) count++;
@@ -127,7 +119,7 @@ public class SelectablePanel extends JPanel {
                     FolderSystemPanelInstance().dragGlassPane.setVisible(true);
                 }
                 if (FolderSystemPanelInstance().draggingGroup) {
-                    Point glassPt = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), glassPane);
+                    Point glassPt = SwingUtilities.convertPoint(SelectablePanel.this, e.getPoint(), FolderSystemPanelInstance().getGlassPane());
                     FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
                 }
             }
@@ -190,12 +182,17 @@ public class SelectablePanel extends JPanel {
         return selected;
     }
 
-    public String getDisplayText() {
-        return person.getName() + " (" + person.getAge() + ")";
+    public String getDisplayText() {        //Только для отладки
+        return name;
     }
 
+
+    private boolean isFolder;
+    public void setFolderActive() {
+        isFolder = true;
+    }
     public boolean getIsFolder() {
-        return person.isFolder();
+        return isFolder;
     }
 
     public long getSelectionOrder() {

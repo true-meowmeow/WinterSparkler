@@ -8,7 +8,7 @@ public class JPanelCustom extends JPanel {
     public String defaultIconPath = "anythingPathToIcon";
 
     public enum PanelType {
-        GRID, BORDER, FLOW, CARD
+        GRID, BORDER, FLOW, CARD, BOX
     }
 
     // Окно для отображения перетаскиваемого объекта (визуальный эффект во время drag)
@@ -25,10 +25,20 @@ public class JPanelCustom extends JPanel {
         handleAXIS(type, axis);
     }
 
+    public JPanelCustom(PanelType type, String axis, int a, int b) {
+        this(type);
+        handleAXIS(type, axis, a, b);
+    }
+
+
+    public JPanelCustom() {
+        setLayoutByType(PanelType.BORDER);
+    }
+
     public JPanelCustom(PanelType type) {
         setLayoutByType(type);
         // В базовом классе drop-логика не инициализируется автоматически!
-        // Для включения drop нужно явно вызвать setupDropTarget() в подклассе.
+        // Для включения drop нужно явно вызвать setupDropTarget() в подклассе.         актуально ли я не помню
     }
 
     public JPanelCustom(LayoutManager layout) {
@@ -51,8 +61,38 @@ public class JPanelCustom extends JPanel {
             case CARD:
                 setLayout(new CardLayout());
                 break;
+            case BOX:
+                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+                break;
             default:
                 throw new IllegalArgumentException("Unknown panel type: " + type);
+        }
+    }
+
+    // Настройка оси для BoxLayout и FlowLayout
+    private void handleAXIS(PanelType type, String axis, int a, int b) {
+        if (type.equals(PanelType.FLOW)) {
+            switch (axis) {
+                case "LEFT":
+                    setLayout(new FlowLayout(FlowLayout.LEFT, a, b));
+                    break;
+                case "RIGHT":
+                    setLayout(new FlowLayout(FlowLayout.RIGHT, a, b));
+                    break;
+                case "LEADING":
+                    setLayout(new FlowLayout(FlowLayout.LEADING, a, b));
+                    break;
+                case "CENTER":
+                    setLayout(new FlowLayout(FlowLayout.CENTER, a, b));
+                    break;
+                case "TRAILING":
+                    setLayout(new FlowLayout(FlowLayout.TRAILING, a, b));
+                    break;
+                default:
+                    System.out.println("Unsupported axis: " + axis);
+            }
+        } else {
+            System.out.println("The layout is not of border type");
         }
     }
 
@@ -91,6 +131,23 @@ public class JPanelCustom extends JPanel {
                     break;
                 case "TRAILING":
                     setLayout(new FlowLayout(FlowLayout.TRAILING));
+                    break;
+                default:
+                    System.out.println("Unsupported axis: " + axis);
+            }
+        } else if (type.equals(PanelType.BOX)) {
+            switch (axis) {
+                case "PAGE":
+                    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+                    break;
+                case "LINE":
+                    setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+                    break;
+                case "X":
+                    setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                    break;
+                case "Y":
+                    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                     break;
                 default:
                     System.out.println("Unsupported axis: " + axis);
