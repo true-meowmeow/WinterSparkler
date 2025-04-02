@@ -43,11 +43,11 @@ public class ResponsivePanelsExample extends JFrame {
 
         // Добавляем полосы прокрутки для доступа ко всем панелям
         scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Добавляем слушатель изменения размера для ScrollPane
-        scrollPane.getViewport().addComponentListener(new ComponentAdapter() {
+        mainPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 adjustLayout();

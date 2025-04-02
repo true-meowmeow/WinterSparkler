@@ -30,6 +30,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         setSize(1600, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        //pack();
         setTitle(appName + "  " + appVersion);
         setIconImages(FlatSVGUtils.createWindowIconImages("/FlatLaf.svg"));
 
