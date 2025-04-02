@@ -47,7 +47,7 @@ public class ResponsivePanelsExample extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Добавляем слушатель изменения размера для ScrollPane
-        mainPanel.addComponentListener(new ComponentAdapter() {
+        scrollPane.getViewport().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 adjustLayout();

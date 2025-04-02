@@ -119,7 +119,7 @@ public class FolderSystemPanel extends JPanelCustom {
         super(PanelType.BORDER, "Y");
         instance = this;
         add(createFrameFolderPanel());
-        add(createFrameFolderBottomPanel());
+        //add(createFrameFolderBottomPanel());
 
         dragGlassPane = new DragGlassPane();    // Инициализируем glass pane для ghost‑эффекта
     }
@@ -127,9 +127,9 @@ public class FolderSystemPanel extends JPanelCustom {
     SelectionPanel selectionPanel;
 
     public void updateManagingPanel(FilesDataMap filesDataMap) {
-        cardPanel.removeAll();  // Очистка карточек
+        //cardPanel.removeAll();  // Очистка карточек
 
-        setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        //setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
         //todo создать подпанель чтообы очищать её ->
         selectionPanel = new SelectionPanel();
@@ -166,8 +166,8 @@ public class FolderSystemPanel extends JPanelCustom {
         //showCard("MainPanelWS");
         // Пример: переход на определённую карточку
         //showCard("C:\\Users\\meowmeow\\Music\\testing\\core 1");
-        cardPanel.revalidate();
-        cardPanel.repaint();
+/*        cardPanel.revalidate();
+        cardPanel.repaint();*/
     }
 
 
@@ -177,22 +177,29 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
     private JPanelCustom createFrameFolderPanel() {
-        JPanelCustom panel = new JPanelCustom(new BorderLayout());
 
+        JPanelCustom panel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT));
+        panel.add(titlePanel("rootPath\nrootPath\n"));
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        panel.setMaximumSize(new Dimension(panel.getMaximumSize().width, panel.getPreferredSize().height));     //todo fixme
 
+        return panel;
+        //JPanelCustom panel = new JPanelCustom(new BorderLayout());
+
+/*
         // Панель управления с кнопками и заголовком
         JPanelCustom controlPanel = new JPanelCustom(new FlowLayout(FlowLayout.LEFT));
         //controlPanel.add(backButtonPanel(filesData.getFolderData()));
         controlPanel.add(titlePanel("title"));
-        panel.add(controlPanel, BorderLayout.NORTH);
-/*        controlPanel.add(backButtonPanel(filesData.getFolderData()));
-        controlPanel.add(titlePanel(filesData.getFolderData().getFullPathString()));*/
-
-        return panel;
+        panel.add(controlPanel*//*, BorderLayout.NORTH*//*);
+*//*        controlPanel.add(backButtonPanel(filesData.getFolderData()));
+        controlPanel.add(titlePanel(filesData.getFolderData().getFullPathString()));*//*
+        return panel;*/
     }
 
     private JPanelCustom createFrameFolderBottomPanel() {
         cardPanel = new JPanelCustom(new CardLayout());
+        cardPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
         return cardPanel;
     }
 
