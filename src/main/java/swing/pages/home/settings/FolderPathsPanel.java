@@ -29,11 +29,11 @@ public class FolderPathsPanel extends JPanel {
 
 
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+        //todo Нужно обработать исключение на отсутствие путей и попытку вызова manage дополнительным экраном что ничего нет
         // Добавляем несколько демонстрационных путей
-        folderEntities.addListModel("C:\\Users\\meowmeow\\Music\\testing\\core 1");
-        folderEntities.addListModel("C:\\Users\\meowmeow\\Music\\testing\\core 1 — копия");
-        folderEntities.addListModel("C:\\Users\\meowmeow\\Music\\testing\\1c4324x2");
+        folderEntities.addListModel("T:\\testing\\core 1");
+        folderEntities.addListModel("T:\\testing\\core 1 — копия");
+        folderEntities.addListModel("T:\\testing\\1c4324x2");
         //folderEntities.addListModel("T:\\DistributeFiles");
 
         // Добавляем специальный элемент "Добавить папку"

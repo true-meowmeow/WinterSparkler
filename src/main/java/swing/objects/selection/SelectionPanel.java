@@ -6,47 +6,65 @@ import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 
 public class SelectionPanel extends JPanelCustom {
 
-    public SelectionPanel() {
-        super(PanelType.FLOW, "Left", 10, 10);
+    private int PANEL_COUNT;
+    private int PANEL_WIDTH = 160;  // Новая фиксированная ширина
+    private int PANEL_HEIGHT = 80;  // Высота панели (можно изменить при необходимости)
 
-        setAlignmentY(Component.LEFT_ALIGNMENT);
-    }
-
+    private JPanelCustom folderPanel;
+    private JPanelCustom mediaPanel;
+    private List<JPanel> smallPanels = new ArrayList<>();
+    private JScrollPane scrollPane;
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
+        scrollPane = new JScrollPane();
+        folderPanel = new JPanelCustom(PanelType.BORDER);
+        folderPanel.setLayout(new GridBagLayout());
+        mediaPanel = new JPanelCustom(PanelType.BORDER);
+        mediaPanel.setLayout(new GridBagLayout());
+
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.add(folderPanel);
+        container.add(mediaPanel);
+
+
+        // Добавляем слушатель изменения размера для ScrollPane
+        scrollPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustLayout();
+            }
+        });
 
         int index = 0;      //wtf is this for?
         for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
+            PANEL_COUNT++;
             FolderPanel sp = new FolderPanel(index++, folder.getName().toString());
-            FolderSystemPanelInstance().panels.add(sp);
-            add(sp);
+            FolderSystemPanelInstance().panels.add(sp);     // Вроде для учитывании в системе переноса и выделении
+            folderPanel.add(sp);
         }
-
         for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
             MediaPanel sp = new MediaPanel(index++, media.getName().toString());
             FolderSystemPanelInstance().panels.add(sp);
-            add(sp);
+            mediaPanel.add(sp);
         }
-
-
-
-/*        for (FilesDataMap.CatalogData.FilesData fileData : filesDataHashSet) {      //fixme здесь должен пройтись по медиа и папкам отдельно
-            SelectablePanel sp = new SelectablePanel(i, fileData, x, y);
-            FolderSystemPanelInstance().panels.add(sp);
-            add(sp);
-            i++;
-        }*/
-
-
-
+        scrollPane.setViewportView(container);
+        add(scrollPane);
 
 
         MouseAdapter ma = new MouseAdapter() {
@@ -126,6 +144,47 @@ public class SelectionPanel extends JPanelCustom {
         };
         addMouseListener(ma);
         addMouseMotionListener(ma);
+    }
+
+    private void adjustLayout() {
+        // Получаем доступную ширину области просмотра
+        int viewportWidth = scrollPane.getViewport().getWidth();
+
+        // Если ширина еще не определена, используем оценочное значение
+        if (viewportWidth <= 0) {
+            viewportWidth = getWidth() - 30;
+        }
+
+        int spacing = 10; //todo Переместить отступ между панелями
+
+        // Вычисляем количество панелей в строке (учитывая отступы)
+        int panelsPerRow = Math.max(1, viewportWidth / (PANEL_WIDTH + spacing));
+
+        // Рассчитываем требуемую высоту контента
+        int rows = (int) Math.ceil((double) PANEL_COUNT / panelsPerRow);
+        int contentHeight = rows * (PANEL_HEIGHT + spacing) + spacing;
+
+        // Обновляем предпочтительный размер mainPanel для правильной работы прокрутки
+        folderPanel.setPreferredSize(new Dimension(viewportWidth, contentHeight));
+
+        // Размещаем все панели в сетке
+        for (int i = 0; i < smallPanels.size(); i++) {
+            JPanel panel = smallPanels.get(i);
+            int row = i / panelsPerRow;
+            int col = i % panelsPerRow;
+
+            int x = spacing + col * (PANEL_WIDTH + spacing);
+            int y = spacing + row * (PANEL_HEIGHT + spacing);
+
+            panel.setBounds(x, y, PANEL_WIDTH, PANEL_HEIGHT);
+        }
+
+        // Обновляем интерфейс
+        folderPanel.revalidate();
+        folderPanel.repaint();
+
+        System.out.println("Resize: Width=" + viewportWidth +
+                ", Panels per row=" + panelsPerRow);
     }
 
     @Override
