@@ -27,9 +27,9 @@ public class SelectablePanel extends JPanelCustom {
         this.name = name;
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        setSize(new Dimension(80, 80));
 
         setPreferredSize(sizes);
+        setSize(sizes);
 
         JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         add(nameLabel);

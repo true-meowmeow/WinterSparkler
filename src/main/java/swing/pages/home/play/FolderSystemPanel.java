@@ -129,10 +129,13 @@ public class FolderSystemPanel extends JPanelCustom {
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         cardPanel.removeAll();  // Очистка карточек
 
+        setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
         //todo создать подпанель чтообы очищать её ->
         selectionPanel = new SelectionPanel();
-        JScrollPane selectionScroll = new JScrollPane(selectionPanel);
-        add(selectionScroll);
+        //JScrollPane selectionScroll = new JScrollPane(selectionPanel);
+        //add(selectionScroll);
+        add(selectionPanel);
         panels = new ArrayList<>(12);   //todo создавать на основе размера требуемого hashset или прекратить его использование
 
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");   //Это панель со всеми root's
@@ -156,7 +159,7 @@ public class FolderSystemPanel extends JPanelCustom {
             }
         }
 
-        Path path = Path.of("C:\\Users\\meowmeow\\Music\\testing\\core 1");
+        Path path = Path.of("T:\\testing\\core 1");
 
         selectionPanel.updateSet(filesDataMap.getFilesDataByFullPath(path));
         //cardPanel.add(panelMain, "MainPanelWS");
@@ -194,6 +197,7 @@ public class FolderSystemPanel extends JPanelCustom {
     }
 
 
+/*
     private JScrollPane createFolderPanel(FilesDataMap.CatalogData.FilesData filesData) {
         // Прокручиваемая панель для контента
         JScrollPane contentScroll = new JScrollPane();
@@ -212,6 +216,7 @@ public class FolderSystemPanel extends JPanelCustom {
 
         return contentPanel;
     }
+*/
 
 
     private class CoreInsides {

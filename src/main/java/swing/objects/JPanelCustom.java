@@ -135,7 +135,7 @@ public class JPanelCustom extends JPanel {
                 default:
                     System.out.println("Unsupported axis: " + axis);
             }
-        } else if (type.equals(PanelType.BOX)) {
+        } else if (type.equals(PanelType.BOX)) {        //fixme what?
             switch (axis) {
                 case "PAGE":
                     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
