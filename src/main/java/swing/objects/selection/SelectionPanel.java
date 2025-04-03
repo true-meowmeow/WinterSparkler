@@ -32,7 +32,7 @@ public class SelectionPanel extends JPanelCustom {
         // Create containers with WrapLayout which behaves like FlowLayout but with proper wrapping
         folderContainer = new JPanel(new WrapLayout(FlowLayout.LEFT, 10, 10));
         folderContainer.setOpaque(false);
-        this.setBorder(BorderFactory.createLineBorder(Color.RED));
+        //this.setBorder(BorderFactory.createLineBorder(Color.RED));
         //folderContainer.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
         mediaContainer = new JPanel(new WrapLayout(FlowLayout.LEFT, 10, 10));
@@ -44,7 +44,7 @@ public class SelectionPanel extends JPanelCustom {
         add(folderContainer);
         add(Box.createVerticalGlue());
         add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());      //fixme айайайай
         add(Box.createVerticalGlue());
         //add(mediaContainer);
 
