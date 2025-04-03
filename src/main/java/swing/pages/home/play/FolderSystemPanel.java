@@ -118,7 +118,7 @@ public class FolderSystemPanel extends JPanelCustom {
     public FolderSystemPanel() {
         super(PanelType.BORDER, "Y");
         instance = this;
-        add(createFrameFolderPanel());
+        //add(createFrameFolderPanel());
         //add(createFrameFolderBottomPanel());
 
         dragGlassPane = new DragGlassPane();    // Инициализируем glass pane для ghost‑эффекта
