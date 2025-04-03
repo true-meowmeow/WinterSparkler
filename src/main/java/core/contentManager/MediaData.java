@@ -4,6 +4,7 @@ package core.contentManager;
 import java.nio.file.Path;
 import java.util.*;
 
+            //fixme Есть некоторая информация из закрытых источников, что такая реализация компаратора - плохая идея и требуется TreeSet для хранения элементов в отсортированном виде, но это не точно
 public class MediaData implements Comparable<MediaData> {    //Содержит информацию о медиа файлах
 
     private Path fullPath;            // C:\Users\meowmeow\Music\testing\core 1 — копия\dsadsadasd

@@ -11,28 +11,7 @@ import java.awt.*;
 public class PlaylistPanel extends JPanelCustom {
 
     public PlaylistPanel() {
-
-/*        // Создаем единственный экземпляр панели папочной системы
-        FolderSystemPanel folderPanel = new FolderSystemPanel();
-
-        // Добавляем слушатель изменений, который обновляет ту же панель
-        cardLayout.addPropertyChangeListener(evt -> {
-            if ("filesDataList".equals(evt.getPropertyName())) {
-                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));
-            }
-        });
-
-        setBackground(Color.LIGHT_GRAY);
-
-        // Создаем панель плейлиста и добавляем в cardPanel
-        JPanel playlistViewPanel = playlistViewPanel();
-        cardPanel.add(playlistViewPanel, PLAYLIST_VIEW);
-
-        // Используем созданную ранее folderPanel для управления
-        cardPanel.add(folderPanel, MANAGE_VIEW);
-
-        cardLayout.show(cardPanel, PLAYLIST_VIEW);
-        add(cardPanel, BorderLayout.CENTER);*/
+        add(playlistViewPanel());
     }
 
     public JPanel playlistViewPanel() {
