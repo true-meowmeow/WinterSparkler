@@ -16,7 +16,6 @@ public class FolderEntities {   //todo блять это вообще что д�
     // JList для отображения элементов
     public final JList<FolderEntry> pathsList = new JList<>(listModel);
 
-
     public void addListModel(String path) {
         listModel.addElement(new FolderEntry(path));
     }
@@ -24,8 +23,6 @@ public class FolderEntities {   //todo блять это вообще что д�
     public void addListModel(boolean addButton) {
         listModel.addElement(new FolderEntry(addButton));
     }
-
-
 
     public List<Path> getAllPaths() {       //todo change to HashSet
         List<Path> paths = new ArrayList<>();

@@ -1,6 +1,8 @@
 package swing.pages.home.series;
 
 import swing.objects.JPanelCustom;
+import swing.pages.home.play.CombinedPanel;
+import swing.pages.home.play.PlayFrame;
 import swing.pages.home.play.PlaylistPanel;
 
 import javax.swing.*;
@@ -8,18 +10,17 @@ import java.awt.*;
 
 import static swing.pages.home.play.PlaylistPanel.*;
 
-
 public class SeriesFrame extends JPanelCustom {
 
-    public SeriesFrame(PlaylistPanel playlistPanel) {
+    public SeriesFrame(CombinedPanel combinedPanel) {
         super(PanelType.BORDER, true);
-        add(new ControlsPanel(playlistPanel), BorderLayout.NORTH);
+        add(new ControlsPanel(combinedPanel), BorderLayout.NORTH);
         add(new SeriesPanel(), BorderLayout.CENTER);
     }
 }
 
-class ControlsPanel extends JPanelCustom {
-    public ControlsPanel(PlaylistPanel playlistPanel) {
+ class ControlsPanel extends JPanelCustom {
+    public ControlsPanel(CombinedPanel combinedPanel) {
         super(PanelType.GRID);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,15 +36,15 @@ class ControlsPanel extends JPanelCustom {
         JToggleButton manageToggle = new JToggleButton("Manage");
         manageToggle.setFocusable(false);
         manageToggle.setFocusPainted(false);
-
-        manageToggle.setFocusPainted(false);
         gbc.gridx = 1;
         add(manageToggle, gbc);
+
+        // При переключении кнопки меняем карточку в CombinedPanel
         manageToggle.addActionListener(e -> {
             if (manageToggle.isSelected()) {
-                playlistPanel.setCardLayout("MANAGE");
+                combinedPanel.showCard(CombinedPanel.MANAGE_VIEW);
             } else {
-                playlistPanel.setCardLayout("PLAYLIST");
+                combinedPanel.showCard(CombinedPanel.PLAYLIST_VIEW);
             }
         });
     }

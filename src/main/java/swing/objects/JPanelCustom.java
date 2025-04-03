@@ -2,6 +2,7 @@ package swing.objects;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class JPanelCustom extends JPanel {
 
@@ -17,6 +18,11 @@ public class JPanelCustom extends JPanel {
     // Конструкторы
     public JPanelCustom(PanelType type, boolean clearBorder) {
         this(type);
+        handleClearBorder(clearBorder);
+    }
+    // Конструкторы
+    public JPanelCustom(boolean clearBorder) {
+        this();
         handleClearBorder(clearBorder);
     }
 
@@ -209,5 +215,12 @@ public class JPanelCustom extends JPanel {
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
         return gbc;
+    }
+
+
+    public void createBorder() {
+        Random rand = new Random();
+        Color randomColor = new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        this.setBorder(BorderFactory.createLineBorder(randomColor, 2));
     }
 }
