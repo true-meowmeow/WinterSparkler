@@ -122,9 +122,10 @@ public class FolderSystemPanel extends JPanelCustom {
         //add(createFrameFolderBottomPanel());
 
         dragGlassPane = new DragGlassPane();    // Инициализируем glass pane для ghost‑эффекта
+        add(selectionPanel);
     }
 
-    SelectionPanel selectionPanel;
+    SelectionPanel selectionPanel = new SelectionPanel();
 
     public void updateManagingPanel(FilesDataMap filesDataMap) {
         //cardPanel.removeAll();  // Очистка карточек
@@ -132,10 +133,8 @@ public class FolderSystemPanel extends JPanelCustom {
         //setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
         //todo создать подпанель чтообы очищать её ->
-        selectionPanel = new SelectionPanel();
         //JScrollPane selectionScroll = new JScrollPane(selectionPanel);
         //add(selectionScroll);
-        add(selectionPanel);
         panels = new ArrayList<>(12);   //todo создавать на основе размера требуемого hashset или прекратить его использование
 
         JPanelCustom panelMain = new JPanelCustom(PanelType.BORDER, "Y");   //Это панель со всеми root's

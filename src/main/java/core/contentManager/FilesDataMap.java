@@ -87,7 +87,7 @@ public class FilesDataMap { //Объект корневых путей
                 return foldersDataHashSet;
             }
 
-            public class SubFolder {
+            public class SubFolder implements Comparable<SubFolder> {
                 Path path;
                 Path name;      //test2
 
@@ -110,6 +110,23 @@ public class FilesDataMap { //Объект корневых путей
 
                 public Path getName() {
                     return name;
+                }
+
+                @Override
+                public int compareTo(SubFolder o) {
+                    return name.compareTo(o.name);
+                }
+                @Override
+                public boolean equals(Object o) {
+                    if (this == o) return true;
+                    if (!(o instanceof SubFolder)) return false;
+                    SubFolder that = (SubFolder) o;
+                    return Objects.equals(name, that.name);
+                }
+
+                @Override
+                public int hashCode() {
+                    return Objects.hash(name);
                 }
             }
 
