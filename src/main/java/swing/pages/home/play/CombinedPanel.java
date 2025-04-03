@@ -1,5 +1,6 @@
 package swing.pages.home.play;
 
+import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.pages.home.series.ObservableCardLayout;
@@ -12,7 +13,7 @@ public class CombinedPanel extends JPanelCustom {
     public static final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
     public static final String MANAGE_VIEW = "MANAGE_VIEW";
 
-    private CardLayout cardLayout;
+    private ObservableCardLayout cardLayout;
     private JPanel cardPanel;
 
 
@@ -22,6 +23,15 @@ public class CombinedPanel extends JPanelCustom {
 
         cardLayout = new ObservableCardLayout(MANAGE_VIEW, folderEntities);
         cardPanel = new JPanel(cardLayout);
+
+        FolderSystemPanel folderPanel = new FolderSystemPanel();
+
+        // Добавляем слушатель изменений, который обновляет ту же панель
+        cardLayout.addPropertyChangeListener(evt -> {
+            if ("filesDataList".equals(evt.getPropertyName())) {
+                folderPanel.updateManagingPanel(((FilesDataMap)evt.getNewValue()));
+            }
+        });
 
         {           // Карточка для режима плейлиста: объединяем InfoPanel и PlaylistPanel
             JPanel playlistCard = new JPanel(new BorderLayout());
@@ -36,7 +46,7 @@ public class CombinedPanel extends JPanelCustom {
             manageCard.add(new InfoPanel(), BorderLayout.NORTH);
 
 
-            manageCard.add(new ManagePanel(), BorderLayout.CENTER);
+            manageCard.add(folderPanel, BorderLayout.CENTER);
 
             cardPanel.add(manageCard, MANAGE_VIEW);
         }

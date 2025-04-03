@@ -31,6 +31,10 @@ public class JPanelCustom extends JPanel {
         handleAXIS(type, axis);
     }
 
+    public JPanelCustom(String axis) {
+        handleAXIS(PanelType.BORDER, axis);
+    }
+
     public JPanelCustom(PanelType type, String axis, int a, int b) {
         this(type);
         handleAXIS(type, axis, a, b);

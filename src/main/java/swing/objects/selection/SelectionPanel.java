@@ -21,13 +21,10 @@ public class SelectionPanel extends JPanelCustom {
 
     public SelectionPanel() {
         // Keep original FLOW layout for compatibility with existing code
-        super(PanelType.BORDER, "Y");
+        super("Y");
 
         // Remove all components that might be added by the parent constructor
         removeAll();
-
-        // Configure this panel with a BoxLayout for vertical stacking
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Create containers with WrapLayout which behaves like FlowLayout but with proper wrapping
         folderContainer = new JPanel(new WrapLayout(FlowLayout.LEFT, 10, 10));
@@ -42,10 +39,11 @@ public class SelectionPanel extends JPanelCustom {
         folderContainer.setAlignmentY(Component.TOP_ALIGNMENT);
         // Add containers to the main panel
         add(folderContainer);
-        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());
+        add(mediaContainer);
+        add(Box.createVerticalGlue());       //Клей нужен для сохранения выделения снизу включительно
+/*        add(Box.createVerticalGlue());
         add(Box.createVerticalGlue());      //fixme айайайай
-        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());*/
         //add(mediaContainer);
 
         // Add component listener to handle resize events
@@ -65,6 +63,7 @@ public class SelectionPanel extends JPanelCustom {
         folderContainer.removeAll();
         mediaContainer.removeAll();
         FolderSystemPanelInstance().panels.clear();
+        //removeAll();
 
         int index = 0;
         // Add folder panels to the folder container
@@ -72,7 +71,10 @@ public class SelectionPanel extends JPanelCustom {
             FolderPanel fp = new FolderPanel(index++, folder.getName().toString());
             FolderSystemPanelInstance().panels.add(fp);
             folderContainer.add(fp);
+            System.out.println(folder.getName());
         }
+        System.out.println();
+        System.out.println();
         folderContainer.setMaximumSize(folderContainer.getPreferredSize());
 
         // Add media panels to the media container
