@@ -223,8 +223,12 @@ public class JPanelCustom extends JPanel {
 
 
     public void createBorder() {
+        createBorder(this);
+    }
+
+    public void createBorder(JPanel jPanel) {
         Random rand = new Random();
         Color randomColor = new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
-        this.setBorder(BorderFactory.createLineBorder(randomColor, 2));
+        jPanel.setBorder(BorderFactory.createLineBorder(randomColor, 2));
     }
 }

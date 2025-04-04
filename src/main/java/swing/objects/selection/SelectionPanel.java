@@ -34,17 +34,18 @@ public class SelectionPanel extends JPanelCustom {
 
         mediaContainer = new JPanel(new WrapLayout(FlowLayout.LEFT, 10, 10));
         mediaContainer.setOpaque(false);
+        createBorder(folderContainer);
+        createBorder(mediaContainer);
 
 
-        folderContainer.setAlignmentY(Component.TOP_ALIGNMENT);
+
+
         // Add containers to the main panel
         add(folderContainer);
+        add(Box.createVerticalStrut(10)); // Отступ 10 пикселей между folderContainer и mediaContainer
         add(mediaContainer);
+
         add(Box.createVerticalGlue());       //Клей нужен для сохранения выделения снизу включительно
-/*        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());      //fixme айайайай
-        add(Box.createVerticalGlue());*/
-        //add(mediaContainer);
 
         // Add component listener to handle resize events
         addComponentListener(new ComponentAdapter() {
@@ -54,8 +55,6 @@ public class SelectionPanel extends JPanelCustom {
                 repaint();
             }
         });
-
-        setAlignmentY(Component.TOP_ALIGNMENT);
     }
 
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
@@ -71,11 +70,7 @@ public class SelectionPanel extends JPanelCustom {
             FolderPanel fp = new FolderPanel(index++, folder.getName().toString());
             FolderSystemPanelInstance().panels.add(fp);
             folderContainer.add(fp);
-            System.out.println(folder.getName());
         }
-        System.out.println();
-        System.out.println();
-        folderContainer.setMaximumSize(folderContainer.getPreferredSize());
 
         // Add media panels to the media container
         for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
