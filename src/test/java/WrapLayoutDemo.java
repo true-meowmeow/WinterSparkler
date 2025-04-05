@@ -9,16 +9,22 @@ public class WrapLayoutDemo {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(500, 300);
 
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BorderLayout());
+
+
             // Создаем панель с WrapLayout
             WrapLayout wrapLayout = new WrapLayout(FlowLayout.LEFT);
             JPanel panel = new JPanel(wrapLayout);
+
+            panel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
             // Добавляем компоненты до первого разделителя
             for (int i = 1; i <= 12; i++) {
                 panel.add(createLabel("A" + i));
             }
 
-//wrapLayout.setBlockHgap(50);
+//wrapLayout.setBlockHgap(50);a
             // Добавляем первый разделитель
             panel.add(createSeparator());
 
@@ -37,7 +43,14 @@ public class WrapLayoutDemo {
 
             // Оборачиваем в JScrollPane для возможности скроллинга
             JScrollPane scrollPane = new JScrollPane(panel);
-            frame.add(scrollPane);
+            mainPanel.add(scrollPane);
+
+
+            frame.add(mainPanel);
+
+
+
+
 
             frame.setVisible(true);
         });
