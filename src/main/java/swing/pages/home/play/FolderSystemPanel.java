@@ -2,7 +2,7 @@ package swing.pages.home.play;
 
 import core.contentManager.*;
 import swing.objects.JPanelCustom;
-import swing.objects.WrapLayout;
+import swing.objects.selection.WrapLayout;
 import swing.objects.selection.*;
 import swing.pages.home.play.objects.FolderPanel;
 import swing.pages.home.play.objects.MediaPanel;
@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.List;
 
 public class FolderSystemPanel extends JPanelCustom {
     private static FolderSystemPanel instance;

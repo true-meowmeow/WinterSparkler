@@ -43,7 +43,7 @@ public class CombinedPanel extends JPanelCustom {
 
         {           // Карточка для режима управления: объединяем InfoPanel и дополнительную панель управления
             JPanel manageCard = new JPanel(new BorderLayout());
-            manageCard.add(new InfoPanel(), BorderLayout.NORTH);
+            //manageCard.add(new InfoPanel(), BorderLayout.NORTH);
 
 
             manageCard.add(folderPanel, BorderLayout.CENTER);
