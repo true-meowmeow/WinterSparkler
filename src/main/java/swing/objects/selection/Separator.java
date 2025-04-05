@@ -1,0 +1,15 @@
+package swing.objects.selection;
+
+import java.awt.*;
+import javax.swing.*;
+
+// Изменённый Separator – теперь задаёт ненулевую высоту, чтобы обеспечить разрыв строки
+public class Separator extends JPanel {
+    public Separator() {
+        setOpaque(false);
+        // Например, пусть высота сепаратора равна 10 пикселям,
+        // а ширина может игнорироваться менеджером компоновки
+        setPreferredSize(new Dimension(0, 10));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
+    }
+}
