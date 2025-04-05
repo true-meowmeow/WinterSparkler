@@ -13,13 +13,14 @@ public class JPanelCustom extends JPanel {
     }
 
     // Окно для отображения перетаскиваемого объекта (визуальный эффект во время drag)
-    private final JWindow cursorWindow = new JWindow();
+    //private final JWindow cursorWindow = new JWindow();
 
     // Конструкторы
     public JPanelCustom(PanelType type, boolean clearBorder) {
         this(type);
         handleClearBorder(clearBorder);
     }
+
     // Конструкторы
     public JPanelCustom(boolean clearBorder) {
         this();
@@ -222,6 +223,7 @@ public class JPanelCustom extends JPanel {
     }
 
 
+    //for testing ->
     public void createBorder() {
         createBorder(this);
     }

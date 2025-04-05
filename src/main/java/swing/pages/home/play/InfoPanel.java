@@ -11,7 +11,7 @@ public class InfoPanel extends JPanelCustom {
     public InfoPanel() {
         JTextArea textArea = new JTextArea("Многострочный\nтекст");
 
-        JPanel infoControlsPanel = new JPanelCustom(PanelType.BORDER);
+        JPanel infoControlsPanel = new JPanelCustom();
         {
             JPanel infoPanel = new JPanelCustom(PanelType.GRID);
             infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

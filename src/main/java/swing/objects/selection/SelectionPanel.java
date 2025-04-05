@@ -20,16 +20,8 @@ public class SelectionPanel extends JPanelCustom {
     private JScrollPane scrollPane;
 
     public SelectionPanel() {
-        setLayout(new BorderLayout());
-        removeAll();
-
-        // Создаём контейнер с WrapLayout внутри ScrollablePanel
         container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
 
-        createBorder();
-
-
-        // Оборачиваем контейнер в JScrollPane
         scrollPane = new JScrollPane(container,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -50,33 +42,18 @@ public class SelectionPanel extends JPanelCustom {
             }
         });
 
-        //scrollPane.setPreferredSize(new Dimension(100,100));
-
-
-
         add(jlayer, BorderLayout.CENTER);
         add(Box.createVerticalGlue(), BorderLayout.SOUTH);
 
-        // Обновление компонентов при изменении размеров окна
-// В SelectionPanel.java
-// ...
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                // Используем invokeLater для гарантии выполнения в EDT
-                // после завершения текущей обработки события изменения размера.
                 SwingUtilities.invokeLater(() -> {
                     if (container != null) {
-                        // 1. Устанавливаем флаг недействительности компоновки
                         container.invalidate();
-                        // 2. Запрашиваем пересчет и применение компоновки
                         container.validate();
-                        // --- Или попробуйте принудительное выполнение ---
-                        // container.doLayout(); // Принудительно выполняет layoutContainer
-                        // 3. Запрашиваем перерисовку
                         container.repaint();
                     }
-                    // Перерисовка родителя (если JLayer или фон SelectionPanel важны)
                     SelectionPanel.this.repaint();
                 });
             }

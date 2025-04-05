@@ -3,6 +3,7 @@ package swing.pages.home.play;
 import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
+import swing.objects.selection.SelectionMenuPanel;
 import swing.pages.home.series.ObservableCardLayout;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class CombinedPanel extends JPanelCustom {
         });
 
         {           // Карточка для режима плейлиста: объединяем InfoPanel и PlaylistPanel
-            JPanel playlistCard = new JPanel(new BorderLayout());
+            JPanelCustom playlistCard = new JPanelCustom();
             playlistCard.add(new InfoPanel(), BorderLayout.NORTH);
             playlistCard.add(new PlaylistPanel(), BorderLayout.CENTER);
 
@@ -42,10 +43,8 @@ public class CombinedPanel extends JPanelCustom {
         }
 
         {           // Карточка для режима управления: объединяем InfoPanel и дополнительную панель управления
-            JPanel manageCard = new JPanel(new BorderLayout());
-            //manageCard.add(new InfoPanel(), BorderLayout.NORTH);
-
-
+            JPanelCustom manageCard = new JPanelCustom();
+            manageCard.add(new SelectionMenuPanel(), BorderLayout.NORTH);
             manageCard.add(folderPanel, BorderLayout.CENTER);
 
             cardPanel.add(manageCard, MANAGE_VIEW);
