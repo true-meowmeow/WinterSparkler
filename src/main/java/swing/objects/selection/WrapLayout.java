@@ -23,14 +23,6 @@ public class WrapLayout extends FlowLayout {
         this.blockVgap = vgap;
     }
 
-    public void setScrollAdjustment(int adjustment) {
-        this.scrollAdjustment = adjustment;
-    }
-
-    public int getScrollAdjustment() {
-        return this.scrollAdjustment;
-    }
-
     @Override
     public Dimension preferredLayoutSize(Container target) {
         return layoutSize(target, true);
@@ -107,25 +99,11 @@ public class WrapLayout extends FlowLayout {
         }
         dim.height += rowHeight;
     }
-
-    private int scrollAdjustment = 20;
-    //fixme Я блять не знаю что это за волшебное число и откуда оно такое, просто исправляет ситуацию переноса
-    //fixme Пытался его привязать к скроллу, потому что именно после него перестало нормально это работать но несмотря на разный размер скролла
-    //fixme Он всё равно adjustment число должен сохранять равным двадцати чтобы адекватно работал, я не знаю почему.
-
     @Override
     public void layoutContainer(Container target) {
         synchronized (target.getTreeLock()) {
             Insets insets = target.getInsets();
-/*            // Пытаемся найти JScrollPane, в котором находится target
-            JScrollPane scrollPane = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, target);
-            if (scrollPane != null) {
-                JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-                if (verticalScrollBar != null) {
-                    scrollAdjustment = verticalScrollBar.getPreferredSize().width;
-                }
-            }*/
-            int maxWidth = target.getWidth() - (insets.left + insets.right + blockHgap * 2) + scrollAdjustment;
+            int maxWidth = target.getWidth();
             int x = insets.left + blockHgap;
             int y = insets.top + blockVgap;
             int rowHeight = 0;
