@@ -48,6 +48,7 @@ public class FolderSystemPanel extends JPanelCustom {
     public Component getGlassPane() {
         return glassPane;
     }
+
     @Override
     public void addNotify() {
         super.addNotify();
@@ -120,17 +121,22 @@ public class FolderSystemPanel extends JPanelCustom {
         add(selectionPanel);
 
         PathManager.getInstance().addPropertyChangeListener(evt -> {
-            if (currentFilesDataMap != null) {
-                selectionPanel.updateSet(currentFilesDataMap.getFilesDataByFullPath(PathManager.getInstance().getPath()));
+            if (filesDataMap != null) {
+                if (PathManager.getInstance().getPath().equals(Path.of("Home"))) {
+                    selectionPanel.updateSetHome(filesDataMap);
+                } else {
+                    selectionPanel.updateSet(filesDataMap.getFilesDataByFullPath(PathManager.getInstance().getPath()));
+                }
             }
         });
     }
 
-    private FilesDataMap currentFilesDataMap;
+    private FilesDataMap filesDataMap;
     SelectionPanel selectionPanel = new SelectionPanel();
-    public void updateManagingPanel(FilesDataMap filesDataMap) {
 
-        currentFilesDataMap = filesDataMap;
+    public void updateManagingPanel(FilesDataMap filesDataMapObj) {
+
+        this.filesDataMap = filesDataMapObj;
         //todo создать подпанель чтообы очищать её ->
         panels = new ArrayList<>(12);   //todo создавать на основе размера требуемого hashset или прекратить его использование
 
@@ -144,12 +150,15 @@ public class FolderSystemPanel extends JPanelCustom {
             for (Map.Entry<Path, FilesDataMap.CatalogData.FilesData> fileEntry : catalogData.getFilesDataHashMap().entrySet()) {
                 FilesDataMap.CatalogData.FilesData filesData = fileEntry.getValue();
 
+
+                //System.out.println();
                 //persons.add(new Person(filesData.getFolderData().getNamePath().toString(), 100, false));
-
-
                 //addCard(createFolderPanel(filesData), fileEntry.getKey());
             }
         }
+
+        PathManager.getInstance().setCorePaths(new HashSet<>(filesDataMapObj.getCatalogDataHashMap().keySet()));
+
 
         PathManager.getInstance().setPath(Paths.get("T:\\testing\\core 1"));
 
@@ -183,7 +192,7 @@ public class FolderSystemPanel extends JPanelCustom {
         //controlPanel.add(backButtonPanel(filesData.getFolderData()));
         controlPanel.add(titlePanel("title"));
         panel.add(controlPanel*//*, BorderLayout.NORTH*//*);
-*//*        controlPanel.add(backButtonPanel(filesData.getFolderData()));
+         *//*        controlPanel.add(backButtonPanel(filesData.getFolderData()));
         controlPanel.add(titlePanel(filesData.getFolderData().getFullPathString()));*//*
         return panel;*/
     }
