@@ -12,6 +12,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
+import java.util.Map;
 
 public class SelectionPanel extends JPanelCustom {
 
@@ -89,6 +91,53 @@ public class SelectionPanel extends JPanelCustom {
             container.add(mp);
         }
 
+        container.revalidate();
+        container.repaint();
+    }
+
+    public void updateSetHome(FilesDataMap filesDataMap) {
+        container.removeAll();
+        FolderSystemPanel.FolderSystemPanelInstance().panels.clear();
+
+
+        int index = 0;
+        outerLoop:
+        for (Map.Entry<Path, FilesDataMap.CatalogData> entry : filesDataMap.getCatalogDataHashMap().entrySet()) {
+            Path path = entry.getKey();
+            FilesDataMap.CatalogData catalogData = entry.getValue();
+
+
+            if (catalogData.getFilesDataHashMap().size() <= 1) {
+                for (FilesDataMap.CatalogData.FilesData filesData : catalogData.getFilesDataHashMap().values()) {
+                    if (filesData.getMediaDataHashSet().size() <= 0 && filesData.getFoldersDataHashSet().size() <= 0) {
+                        continue outerLoop;
+                    }
+                }
+            }
+
+
+            container.add(new Label(String.valueOf(path)));
+            container.add(createSeparator());
+
+            FilesDataMap.CatalogData.FilesData filesDataHashSet = catalogData.getFilesDataWithPath(path);
+
+            // Добавляем панели папок
+            for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
+                FolderPanel fp = new FolderPanel(index++, folder);
+                FolderSystemPanel.FolderSystemPanelInstance().panels.add(fp);
+                container.add(fp);
+            }
+            // Добавляем сепаратор для завершения строки в WrapLayout
+            container.add(createSeparator());
+            // Добавляем панели медиа
+            for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
+                MediaPanel mp = new MediaPanel(index++, media);
+                FolderSystemPanel.FolderSystemPanelInstance().panels.add(mp);
+                container.add(mp);
+            }
+
+            container.add(createSeparator());
+        }
         container.revalidate();
         container.repaint();
     }
@@ -194,6 +243,10 @@ public class SelectionPanel extends JPanelCustom {
 
     private static Component createSeparator() {
         return new Separator();
+    }
+
+    private static Component createSeparatorHome() {
+        return new Separator(true);
     }
 
     // Вложенные классы для создания панели папки и медиа остаются без изменений.
