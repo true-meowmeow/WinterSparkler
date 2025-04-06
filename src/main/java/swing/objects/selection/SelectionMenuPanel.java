@@ -33,6 +33,9 @@ public class SelectionMenuPanel extends JPanelCustom {
             btn2.addActionListener(e -> {
                 PathManager.getInstance().goToParentDirectory();
             });
+            btn1.addActionListener(e -> {
+                PathManager.getInstance().goToHome();
+            });
 
 
             infoControlsPanel.add(infoPanel, BorderLayout.WEST);

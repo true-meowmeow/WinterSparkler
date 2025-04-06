@@ -54,7 +54,7 @@ public class SelectablePanel extends JPanelCustom {
         }
 
 
-        System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
+        //System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
         if (SelectablePanel.this.getIsFolder()) {
             FolderSystemPanelInstance().clearSelection();
         }

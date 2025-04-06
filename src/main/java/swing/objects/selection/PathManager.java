@@ -3,14 +3,23 @@ package swing.objects.selection;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class PathManager {
     private static final PathManager instance = new PathManager(); // один экземпляр
     private Path path;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    private HashSet<Path> corePaths;
+
     private PathManager() {
-        // приватный конструктор — никто не сможет создать объект извне
+        corePaths = new HashSet<>();
+    }
+
+    public void setCorePaths(HashSet<Path> corePaths) {
+        this.corePaths = corePaths;
     }
 
     public static PathManager getInstance() {
@@ -28,17 +37,18 @@ public class PathManager {
     }
 
     public void goToParentDirectory() {
-        if (path != null) {
-            Path parent = path.getParent();
-            if (parent != null) {
-                setPath(parent);
-            } else {
-                System.out.println("Нет родительской директории — вы уже в корне.");
-            }
+        if (corePaths.contains(path) || path.equals(Path.of("Home"))) {
+        } else if (corePaths.contains(path.getParent())) {
+            goToHome();
         } else {
-            System.out.println("Текущий путь не установлен.");
+            setPath(path.getParent());
         }
     }
+
+    public void goToHome() {
+        setPath(Path.of("Home"));
+    }
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
