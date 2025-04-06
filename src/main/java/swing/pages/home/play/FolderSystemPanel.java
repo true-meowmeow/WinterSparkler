@@ -21,7 +21,6 @@ public class FolderSystemPanel extends JPanelCustom {
     private static FolderSystemPanel instance;
     private Component glassPane; // Поле для glassPane
 
-
     public static FolderSystemPanel FolderSystemPanelInstance() {
         return instance;
     }
@@ -36,8 +35,6 @@ public class FolderSystemPanel extends JPanelCustom {
     public ArrayList<SelectablePanel> panels;
     // Якорный индекс для диапазонного выделения (Shift)
     public int anchorIndex = -1;
-    // Прямоугольник выделения при drag‑selection по фону
-    //public Rectangle selectionRect = null;
 
     // Переменные для группового перетаскивания (ghost‑эффект)
     public Point groupDragStart = null;
@@ -118,17 +115,22 @@ public class FolderSystemPanel extends JPanelCustom {
     public FolderSystemPanel() {
         super(PanelType.BORDER, "Y");
         instance = this;
-        //add(createFrameFolderPanel());
-        //add(createFrameFolderBottomPanel());
 
-        dragGlassPane = new DragGlassPane();    // Инициализируем glass pane для ghost‑эффекта
+        dragGlassPane = new DragGlassPane();
         add(selectionPanel);
+
+        PathManager.getInstance().addPropertyChangeListener(evt -> {
+            if (currentFilesDataMap != null) {
+                selectionPanel.updateSet(currentFilesDataMap.getFilesDataByFullPath(PathManager.getInstance().getPath()));
+            }
+        });
     }
 
+    private FilesDataMap currentFilesDataMap;
     SelectionPanel selectionPanel = new SelectionPanel();
-    private boolean isPathListenerAdded = false;
     public void updateManagingPanel(FilesDataMap filesDataMap) {
 
+        currentFilesDataMap = filesDataMap;
         //todo создать подпанель чтообы очищать её ->
         panels = new ArrayList<>(12);   //todo создавать на основе размера требуемого hashset или прекратить его использование
 
@@ -149,18 +151,7 @@ public class FolderSystemPanel extends JPanelCustom {
             }
         }
 
-
-        if (!isPathListenerAdded) {
-            pathManager.addPropertyChangeListener(evt -> {
-                if ("path".equals(evt.getPropertyName())) {
-                    System.out.println("Path изменён на: " + evt.getNewValue());
-                    selectionPanel.updateSet(filesDataMap.getFilesDataByFullPath(pathManager.getPath()));
-                }
-            });
-            isPathListenerAdded = true;
-        }
-
-        pathManager.setPath(Paths.get("T:\\testing\\core 1"));
+        PathManager.getInstance().setPath(Paths.get("T:\\testing\\core 1"));
 
         //cardPanel.add(panelMain, "MainPanelWS");
         //showCard("MainPanelWS");
@@ -169,8 +160,6 @@ public class FolderSystemPanel extends JPanelCustom {
 /*        cardPanel.revalidate();
         cardPanel.repaint();*/
     }
-
-    PathManager pathManager = PathManager.getInstance();
 
 
     private void addCard(JScrollPane panel, Path path) {
