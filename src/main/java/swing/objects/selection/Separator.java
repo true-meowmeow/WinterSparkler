@@ -11,5 +11,15 @@ public class Separator extends JPanel {
         // а ширина может игнорироваться менеджером компоновки
         setPreferredSize(new Dimension(0, 10));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
+
     }
+    public Separator(boolean isHome) {
+        if (isHome) {
+            setPreferredSize(new Dimension(100, 100));
+            setMaximumSize(new Dimension(100, 100));
+            setBackground(Color.GRAY);
+        }
+    }
+
+
 }
