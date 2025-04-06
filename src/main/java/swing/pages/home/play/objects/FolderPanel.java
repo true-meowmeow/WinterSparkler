@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 
 public class FolderPanel extends JPanelCustom {
-    private Path folderName;
+    private String folderName;
     private ImageIcon icon;
     private JPanelCustom parentPanel;
     private FilesDataMap.CatalogData.FilesData.SubFolder subFolder;
@@ -50,7 +50,6 @@ public class FolderPanel extends JPanelCustom {
                     // При обычном клике открываем папку
                     showCard(subFolder.getPath().toString());
                 }
-                System.out.println(folderName);
             }
         });
     }

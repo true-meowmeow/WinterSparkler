@@ -1,12 +1,15 @@
 package swing.objects.selection;
 
 import core.contentManager.FilesDataMap;
+import core.contentManager.MediaData;
 import swing.objects.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,15 +19,50 @@ import static swing.objects.selection.DropPanel.DropPanelInstance;
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 public class SelectablePanel extends JPanelCustom {
-    private int index;
     private boolean selected = false;
     private long selectionOrder = 0; // Порядок выделения
 
+    private int index;
     private String name;
+    private Path folderPath;
 
-    public SelectablePanel(int index, String name, Dimension sizes) {
+
+    public SelectablePanel(int index, FilesDataMap.CatalogData.FilesData.SubFolder folder) {    //Folder
         this.index = index;
-        this.name = name;
+        this.name = folder.getName();
+        this.folderPath = folder.getPath();
+
+        isFolder = true;
+
+
+        init(new Dimension(70, 70));
+    }
+
+    public SelectablePanel(int index, MediaData mediaData) {    ///Media
+        this.index = index;
+        this.name = mediaData.getName();
+
+
+        init(new Dimension(110, 25));
+    }
+
+    private void action() {
+        if (isFolder) {
+            PathManager.getInstance().setPath(folderPath);
+        } else {
+
+        }
+
+
+        System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
+        if (SelectablePanel.this.getIsFolder()) {
+            FolderSystemPanelInstance().clearSelection();
+        }
+        FolderSystemPanelInstance().anchorIndex = -1;
+    }
+
+
+    public void init(Dimension sizes) {
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -127,11 +165,7 @@ public class SelectablePanel extends JPanelCustom {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    System.out.println("Я открыт: " + SelectablePanel.this.getDisplayText());
-                    if (SelectablePanel.this.getIsFolder()) {
-                        FolderSystemPanelInstance().clearSelection();
-                    }
-                    FolderSystemPanelInstance().anchorIndex = -1;
+                    action();
                     return;
                 }
 
@@ -188,9 +222,7 @@ public class SelectablePanel extends JPanelCustom {
 
 
     private boolean isFolder;
-    public void setFolderActive() {
-        isFolder = true;
-    }
+
     public boolean getIsFolder() {
         return isFolder;
     }

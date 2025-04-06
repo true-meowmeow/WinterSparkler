@@ -89,9 +89,9 @@ public class FilesDataMap { //Объект корневых путей
 
             public class SubFolder implements Comparable<SubFolder> {
                 Path path;
-                Path name;      //test2
+                String name;      //test2
 
-                public SubFolder(Path path, Path name) {
+                public SubFolder(Path path, String name) {
                     this.path = path;
                     this.name = name;
                 }
@@ -100,7 +100,7 @@ public class FilesDataMap { //Объект корневых путей
                     this.path = path;
                 }
 
-                public void setName(Path name) {
+                public void setName(String name) {
                     this.name = name;
                 }
 
@@ -108,7 +108,7 @@ public class FilesDataMap { //Объект корневых путей
                     return path;
                 }
 
-                public Path getName() {
+                public String getName() {
                     return name;
                 }
 
@@ -131,7 +131,7 @@ public class FilesDataMap { //Объект корневых путей
             }
 
             public void addSubFolder(Path path, Path name) {
-                foldersDataHashSet.add(new SubFolder(path, name));
+                foldersDataHashSet.add(new SubFolder(path, name.toString()));
             }
         }
 

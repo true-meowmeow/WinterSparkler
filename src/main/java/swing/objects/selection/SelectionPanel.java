@@ -3,6 +3,7 @@ package swing.objects.selection;
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
 import swing.objects.JPanelCustom;
+import swing.pages.home.play.FolderSystemPanel;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -12,32 +13,34 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
-
 public class SelectionPanel extends JPanelCustom {
 
     private WrapScrollablePanel container;
     private JScrollPane scrollPane;
+    // Локальная переменная для выделения
+    private Rectangle selectionRect = null;
 
     public SelectionPanel() {
-        container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
+        // Используем BorderLayout для корректного размещения компонентов
+        setLayout(new BorderLayout());
 
+        container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
         scrollPane = new JScrollPane(container,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getViewport().setOpaque(false);
 
-        // Если требуется наложение выделения, оборачиваем в JLayer:
+        // JLayer для наложения эффекта выделения
         JLayer<JComponent> jlayer = new JLayer<>(scrollPane, new LayerUI<JComponent>() {
             @Override
             public void paint(Graphics g, JComponent c) {
                 super.paint(g, c);
-                if (FolderSystemPanelInstance().selectionRect != null) {
+                if (selectionRect != null) {
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setColor(new Color(0, 0, 255, 50));
-                    g2.fill(FolderSystemPanelInstance().selectionRect);
+                    g2.fill(selectionRect);
                     g2.setColor(Color.BLUE);
-                    g2.draw(FolderSystemPanelInstance().selectionRect);
+                    g2.draw(selectionRect);
                 }
             }
         });
@@ -45,47 +48,55 @@ public class SelectionPanel extends JPanelCustom {
         add(jlayer, BorderLayout.CENTER);
         add(Box.createVerticalGlue(), BorderLayout.SOUTH);
 
+        // Перерисовка при изменении размеров
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    if (container != null) {
-                        container.invalidate();
-                        container.validate();
-                        container.repaint();
-                    }
+                    container.invalidate();
+                    container.validate();
+                    container.repaint();
                     SelectionPanel.this.repaint();
                 });
             }
         });
-// ...
+
+        // Регистрируем обработчики мыши один раз в конструкторе
+        addMouseHandlers();
     }
 
+    /**
+     * Метод updateSet только обновляет содержимое контейнера,
+     * а обработчики мыши уже зарегистрированы в конструкторе.
+     */
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
-        // Очищаем содержимое контейнера и списки панелей
         container.removeAll();
-        FolderSystemPanelInstance().panels.clear();
+        FolderSystemPanel.FolderSystemPanelInstance().panels.clear();
 
         int index = 0;
         // Добавляем панели папок
         for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
-            FolderPanel fp = new FolderPanel(index++, folder.getName().toString());
-            FolderSystemPanelInstance().panels.add(fp);
+            FolderPanel fp = new FolderPanel(index++, folder);
+            FolderSystemPanel.FolderSystemPanelInstance().panels.add(fp);
             container.add(fp);
         }
         // Добавляем сепаратор для завершения строки в WrapLayout
         container.add(createSeparator());
         // Добавляем панели медиа
         for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
-            MediaPanel mp = new MediaPanel(index++, media.getName().toString());
-            FolderSystemPanelInstance().panels.add(mp);
+            MediaPanel mp = new MediaPanel(index++, media);
+            FolderSystemPanel.FolderSystemPanelInstance().panels.add(mp);
             container.add(mp);
         }
 
         container.revalidate();
         container.repaint();
+    }
 
-        // Обработка выделения мышью через viewport
+    /**
+     * Регистрирует обработчики мыши в viewport.
+     */
+    private void addMouseHandlers() {
         JViewport viewport = scrollPane.getViewport();
         MouseAdapter ma = new MouseAdapter() {
             Point dragStart = null;
@@ -102,16 +113,17 @@ public class SelectionPanel extends JPanelCustom {
                 shiftDownAtStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
                 altDownAtStart = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) != 0;
                 if (!ctrlDownAtStart && !shiftDownAtStart && !altDownAtStart) {
-                    FolderSystemPanelInstance().clearSelection();
+                    FolderSystemPanel.FolderSystemPanelInstance().clearSelection();
                 }
-                FolderSystemPanelInstance().selectionRect = new Rectangle(dragStart);
+                // Инициализируем выделение локально
+                selectionRect = new Rectangle(dragStart);
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (dragging) {
+                if (dragging && selectionRect != null) {
                     Point current = e.getPoint();
-                    FolderSystemPanelInstance().selectionRect.setBounds(
+                    selectionRect.setBounds(
                             Math.min(dragStart.x, current.x),
                             Math.min(dragStart.y, current.y),
                             Math.abs(dragStart.x - current.x),
@@ -123,12 +135,13 @@ public class SelectionPanel extends JPanelCustom {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (dragging) {
+                if (dragging && selectionRect != null) {
                     dragging = false;
-                    for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
+                    // Обработка выделения для каждой панели
+                    for (SelectablePanel sp : FolderSystemPanel.FolderSystemPanelInstance().panels) {
                         Rectangle compBounds = SwingUtilities.convertRectangle(
                                 sp.getParent(), sp.getBounds(), viewport);
-                        if (FolderSystemPanelInstance().selectionRect.intersects(compBounds)) {
+                        if (selectionRect.intersects(compBounds)) {
                             if (shiftDownAtStart) {
                                 sp.setSelected(!altDownAtStart);
                             } else {
@@ -142,16 +155,18 @@ public class SelectionPanel extends JPanelCustom {
                             }
                         }
                     }
+                    // Устанавливаем якорный индекс для диапазонного выделения
                     int minIndex = Integer.MAX_VALUE;
-                    for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
+                    for (SelectablePanel sp : FolderSystemPanel.FolderSystemPanelInstance().panels) {
                         if (sp.isSelected() && sp.getIndex() < minIndex) {
                             minIndex = sp.getIndex();
                         }
                     }
                     if (minIndex != Integer.MAX_VALUE) {
-                        FolderSystemPanelInstance().anchorIndex = minIndex;
+                        FolderSystemPanel.FolderSystemPanelInstance().anchorIndex = minIndex;
                     }
-                    FolderSystemPanelInstance().selectionRect = null;
+                    // Сбрасываем выделение
+                    selectionRect = null;
                     repaint();
                 }
             }
@@ -163,12 +178,12 @@ public class SelectionPanel extends JPanelCustom {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (FolderSystemPanelInstance().selectionRect != null) {
+        if (selectionRect != null) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(new Color(0, 0, 255, 50));
-            g2.fill(FolderSystemPanelInstance().selectionRect);
+            g2.fill(selectionRect);
             g2.setColor(Color.BLUE);
-            g2.draw(FolderSystemPanelInstance().selectionRect);
+            g2.draw(selectionRect);
         }
     }
 
@@ -179,5 +194,18 @@ public class SelectionPanel extends JPanelCustom {
 
     private static Component createSeparator() {
         return new Separator();
+    }
+
+    // Вложенные классы для создания панели папки и медиа остаются без изменений.
+    class FolderPanel extends SelectablePanel {
+        public FolderPanel(int index, FilesDataMap.CatalogData.FilesData.SubFolder folder) {
+            super(index, folder);
+        }
+    }
+
+    class MediaPanel extends SelectablePanel {
+        public MediaPanel(int index, MediaData mediaData) {
+            super(index, mediaData);
+        }
     }
 }

@@ -30,6 +30,11 @@ public class SelectionMenuPanel extends JPanelCustom {
             gbc.gridx = 1;
             infoPanel.add(btn2, gbc);
 
+            btn2.addActionListener(e -> {
+                PathManager.getInstance().goToParentDirectory();
+            });
+
+
             infoControlsPanel.add(infoPanel, BorderLayout.WEST);
         }
         add(infoControlsPanel, BorderLayout.WEST);
