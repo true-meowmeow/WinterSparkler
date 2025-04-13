@@ -24,6 +24,7 @@ public class FileDataProcessor {
             filesDataMap.createCatalogDataHashMap(rootPath);
             processDirectory(rootPath, root, filesDataMap);
 
+
 /*            for (FolderData folderData : filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet()) {
                 folderData.setLinkParentPathFull(getClosestPath(filesDataMap.getMediaFolderDataHashMap().get(rootPath).getFolderDataSet(), folderData.getPathFull()));
             }

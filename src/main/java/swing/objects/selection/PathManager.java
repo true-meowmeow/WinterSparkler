@@ -3,9 +3,7 @@ package swing.objects.selection;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class PathManager {
     private static final PathManager instance = new PathManager(); // один экземпляр
@@ -36,8 +34,14 @@ public class PathManager {
         pcs.firePropertyChange("path", oldPath, newPath);
     }
 
+    public void setPathHome() {
+        Path oldPath = this.path;
+        this.path = pathHome;
+        pcs.firePropertyChange("path", oldPath, pathHome);
+    }
+
     public void goToParentDirectory() {
-        if (corePaths.contains(path) || path.equals(Path.of("Home"))) {
+        if (corePaths.contains(path) || path.equals(pathHome)) {
         } else if (corePaths.contains(path.getParent())) {
             goToHome();
         } else {
@@ -45,8 +49,14 @@ public class PathManager {
         }
     }
 
+    private Path pathHome = Path.of("Home");
+
+    public boolean isPathHome() {
+        return path.equals(pathHome);
+    }
+
     public void goToHome() {
-        setPath(Path.of("Home"));
+        setPath(pathHome);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
