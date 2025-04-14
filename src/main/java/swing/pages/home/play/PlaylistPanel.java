@@ -1,9 +1,6 @@
 package swing.pages.home.play;
 
-import core.contentManager.FilesDataMap;
-import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
-import swing.pages.home.series.ObservableCardLayout;
 
 import javax.swing.*;
 import java.awt.*;

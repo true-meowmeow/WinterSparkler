@@ -1,4 +1,4 @@
-package swing.pages.home.series;
+package swing.objects;
 
 import core.contentManager.FileDataProcessor;
 import core.contentManager.FilesDataMap;

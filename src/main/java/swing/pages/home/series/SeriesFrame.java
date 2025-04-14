@@ -1,6 +1,9 @@
 package swing.pages.home.series;
 
 import swing.objects.JPanelCustom;
+import swing.objects.selection.DropPanel;
+import swing.objects.selection.DropTargetCollection;
+import swing.objects.selection.DropTargetSeries;
 import swing.pages.home.play.CombinedPanel;
 import swing.pages.home.play.PlayFrame;
 import swing.pages.home.play.PlaylistPanel;
@@ -51,8 +54,10 @@ public class SeriesFrame extends JPanelCustom {
 }
 class SeriesPanel extends JPanelCustom {
     public SeriesPanel() {
-        super(PanelType.GRID);
         setBackground(Color.LIGHT_GRAY);
+
+        DropPanel seriesDropPanel = new DropPanel("series", new DropTargetSeries());
+        add(seriesDropPanel);
     }
 
 }
