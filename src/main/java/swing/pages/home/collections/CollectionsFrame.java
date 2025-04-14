@@ -8,7 +8,7 @@ import java.awt.*;
 public class CollectionsFrame extends JPanelCustom {
 
     public CollectionsFrame() {
-        super(PanelType.BORDER, true);
+        super(true);
         add(new SearchPanel(), BorderLayout.NORTH);
         add(new CollectionPanel(), BorderLayout.CENTER);
     }
@@ -17,15 +17,11 @@ public class CollectionsFrame extends JPanelCustom {
 class SearchPanel extends JPanelCustom {
 
     public SearchPanel() {
-        super(PanelType.BORDER);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JTextField searchField = new JTextField("Введите текст...");
 
         searchField.setFocusable(false);
         add(searchField, BorderLayout.CENTER);
-        //setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
     }
 }
 
