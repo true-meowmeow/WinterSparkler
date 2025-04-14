@@ -114,7 +114,6 @@ public class FolderSystemPanel extends JPanelCustom {
         add(selectionPanel);
 
         PathManager.getInstance().addPropertyChangeListener(evt -> {
-            System.out.println("1");
             if (filesDataMap != null) {
                 if (PathManager.getInstance().getPath().equals(Path.of("Home"))) {
                     selectionPanel.updateSetHome(filesDataMap);
