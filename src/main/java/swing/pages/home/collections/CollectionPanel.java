@@ -2,27 +2,19 @@ package swing.pages.home.collections;
 
 import swing.objects.JPanelCustom;
 import swing.objects.selection.DropPanel;
-import swing.objects.selection.DropTargetPanel;
-import swing.pages.home.play.objects.FolderPanel;
-import swing.pages.home.play.objects.MediaPanel;
+import swing.objects.selection.DropTargetCollection;
 
-import javax.swing.*;
 import java.awt.*;
 
 
-class CollectionPanel extends JPanelCustom {            //todo Дропать не объект, а лист из его объектов, создать класс содержащий list<media> list<folders> для выбора папок и медиа одновременно
+class CollectionPanel extends JPanelCustom {
 
     public CollectionPanel() {
-        super(PanelType.BORDER);
         setBackground(Color.LIGHT_GRAY);
-        setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        //setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         setPreferredSize(new Dimension(300, 200));
-        add(new JLabel("Перетащите объекты сюда", SwingConstants.CENTER), BorderLayout.CENTER);
 
-        add(new DropPanel());
-        // Правая область – информационное окно для drop'а
-
-
-
+        DropPanel collectionDropPanel = new DropPanel("collection", new DropTargetCollection());
+        add(collectionDropPanel);
     }
 }
