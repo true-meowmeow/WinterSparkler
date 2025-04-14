@@ -1,6 +1,7 @@
 package core;
 
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import swing.DemoPrefs;
 import swing.MainJFrame;
 
@@ -20,7 +21,9 @@ public class Main implements Variables {
             MainJFrame frame = new MainJFrame();
 
             try {
-                UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+                FlatLightLaf.setup(); // или FlatDarkLaf.setup()
+                UIManager.put("ScrollPane.smoothScrolling", true);
+                //UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
                 UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -2,7 +2,7 @@ package swing.objects.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
-import swing.objects.JPanelCustom;
+import swing.objects.*;
 import swing.pages.home.play.FolderSystemPanel;
 
 import javax.swing.*;
@@ -19,16 +19,22 @@ public class SelectionPanel extends JPanelCustom {
     private JScrollPane scrollPane;
     // Удаляем локальное поле selectionRect. Теперь оно содержится в SelectionHandler.
     private SelectionHandler selectionHandler;
+    private final static int scrollSpeedThrottle = 60; // delay in milli seconds
 
     public SelectionPanel() {
         // Используем BorderLayout для корректного размещения компонентов
         setLayout(new BorderLayout());
 
         container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
-        scrollPane = new JScrollPane(container,
+/*        scrollPane = new JScrollPane(container,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);*/
+        //scrollPane = new SmoothScrollPane2(container);
+        scrollPane = new SmoothScrollPane(container);
         scrollPane.getViewport().setOpaque(false);
+
+
+
 
         // Создаём JLayer для наложения эффекта выделения, используя информацию из selectionHandler
         selectionHandler = new SelectionHandler(scrollPane.getViewport());
@@ -46,6 +52,7 @@ public class SelectionPanel extends JPanelCustom {
                 }
             }
         });
+
 
         add(jlayer, BorderLayout.CENTER);
         add(Box.createVerticalGlue(), BorderLayout.SOUTH);
@@ -73,7 +80,6 @@ public class SelectionPanel extends JPanelCustom {
      */
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
         container.removeAll();
-        System.out.println("fds");
         FolderSystemPanel.FolderSystemPanelInstance().panels.clear();
 
         int index = 0;
