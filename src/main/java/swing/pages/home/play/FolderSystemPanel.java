@@ -34,7 +34,7 @@ public class FolderSystemPanel extends JPanelCustom {
     public boolean draggingGroup = false;
 
     // Правая область – информационное окно (drop target)
-    public DropTargetPanel dropTargetPanel;
+    public DropTargetCollection dropTargetCollection;
     // Glass pane для ghost‑эффекта при перетаскивании
     public DragGlassPane dragGlassPane;
 

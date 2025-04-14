@@ -5,20 +5,19 @@ import swing.objects.JPanelCustom;
 import javax.swing.*;
 
 public class DropPanel extends JPanelCustom {
-    private static DropPanel instance;
+    public DropPanelChild dropTargetPanel;
 
-    public static DropPanel DropPanelInstance() {
-        return instance;
-    }
-
-    public DropTargetPanel dropTargetPanel;
-
-    public DropPanel() {
+    // Конструктор принимает имя и конкретный компонент для drop'а.
+    public DropPanel(String name, DropPanelChild dropTargetPanel) {
+        // Можно вызвать конструктор базового класса с нужной раскладкой, если требуется.
         super(PanelType.BORDER);
-        instance = this;
-        dropTargetPanel = new DropTargetPanel();
+        this.dropTargetPanel = dropTargetPanel;
+        // Например, можно добавить scrollPane, если это нужно
         JScrollPane dropScroll = new JScrollPane(dropTargetPanel);
         add(dropScroll);
 
+        // Регистрируем панель по имени.
+        DropPanelRegistry.register(name, this);
     }
 }
+

@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static swing.objects.selection.DropPanel.DropPanelInstance;
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 public class MovementHandler extends MouseAdapter {
@@ -118,13 +117,29 @@ public class MovementHandler extends MouseAdapter {
         }
 
         if (FolderSystemPanelInstance().draggingGroup) {
-            Point dropPoint = SwingUtilities.convertPoint(panel, e.getPoint(), FolderSystemPanelInstance().dropTargetPanel);
-            Rectangle dropRect = new Rectangle(
-                    0, 0,
-                    DropPanelInstance().dropTargetPanel.getWidth(),
-                    DropPanelInstance().dropTargetPanel.getHeight()
-            );
-            if (dropRect.contains(dropPoint)) {
+            // Переводим точку события в экранные координаты
+            Point dropScreenPoint = e.getLocationOnScreen();
+            DropPanel targetPanel = null;
+
+            // Ищем подходящую DropPanel
+            for (DropPanel dp : DropPanelRegistry.getAll()) {
+                try {
+                    // Определяем область панели на экране
+                    Point panelLocation = dp.getLocationOnScreen();
+                    Dimension panelSize = dp.getSize();
+                    Rectangle panelBounds = new Rectangle(panelLocation, panelSize);
+                    if (panelBounds.contains(dropScreenPoint)) {
+                        targetPanel = dp;
+                        break;
+                    }
+                } catch (IllegalComponentStateException ex) {
+                    // Если панель не отображается, getLocationOnScreen() может выбросить исключение
+                    ex.printStackTrace();
+                }
+            }
+
+            if (targetPanel != null) {
+                // Собираем выбранные элементы для дропа
                 List<SelectablePanel> selectedItems = new ArrayList<>();
                 for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
                     if (sp.isSelected()) {
@@ -132,14 +147,23 @@ public class MovementHandler extends MouseAdapter {
                     }
                 }
                 Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
-                DropPanelInstance().dropTargetPanel.dropItems(selectedItems);
+
+                //todo Вот это действие нужно будет к каждому своё сделать в зависимости от того кто использует MovementHandler
+                targetPanel.dropTargetPanel.action(selectedItems);
+
+
                 FolderSystemPanelInstance().clearSelection();
                 FolderSystemPanelInstance().anchorIndex = -1;
+            } else {
+                // Можно обработать ситуацию, если ни одна панель не обнаружена
+                System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
             }
+
             FolderSystemPanelInstance().draggingGroup = false;
             FolderSystemPanelInstance().groupDragStart = null;
             FolderSystemPanelInstance().dragGlassPane.clearGhost();
         } else {
+            // Обработка одиночного клика и других вариантов
             if (!moved) {
                 if (initialShift && pendingShiftClick) {
                     FolderSystemPanelInstance().handlePanelClick(panel, e);
@@ -155,4 +179,5 @@ public class MovementHandler extends MouseAdapter {
             }
         }
     }
+
 }

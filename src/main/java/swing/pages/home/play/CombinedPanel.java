@@ -4,7 +4,7 @@ import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
 import swing.objects.JPanelCustom;
 import swing.objects.selection.SelectionMenuPanel;
-import swing.pages.home.series.ObservableCardLayout;
+import swing.objects.ObservableCardLayout;
 
 import javax.swing.*;
 import java.awt.*;

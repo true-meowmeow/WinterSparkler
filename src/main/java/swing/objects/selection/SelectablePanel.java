@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
 
-import static swing.objects.selection.DropPanel.DropPanelInstance;
 import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 public class SelectablePanel extends JPanelCustom {
