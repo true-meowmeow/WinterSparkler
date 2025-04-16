@@ -1,6 +1,6 @@
 package swing.objects.selection;
 
-import swing.objects.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;

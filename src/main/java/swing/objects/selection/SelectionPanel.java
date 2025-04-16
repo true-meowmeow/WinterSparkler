@@ -3,7 +3,9 @@ package swing.objects.selection;
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
 import swing.objects.*;
-import swing.pages.home.play.FolderSystemPanel;
+import swing.objects.general.JPanelCustom;
+import swing.objects.general.SmoothScrollPane;
+import swing.ui.pages.home.play.FolderSystemPanel;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;

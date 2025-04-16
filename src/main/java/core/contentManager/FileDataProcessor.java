@@ -5,7 +5,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static swing.pages.home.play.objects.FolderUtil.*;
+import static core.contentManager.FolderUtil.getExtension;
+import static core.contentManager.FolderUtil.getName;
 
 public class FileDataProcessor {
     private static final Set<String> AUDIO_EXTENSIONS = new HashSet<>(Arrays.asList("wav", "flac", "opus", "mp3"));

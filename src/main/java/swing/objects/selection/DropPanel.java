@@ -1,14 +1,14 @@
 package swing.objects.selection;
 
-import swing.objects.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 
 import javax.swing.*;
 
 public class DropPanel extends JPanelCustom {
-    public DropPanelChild dropTargetPanel;
+    public DropPanelAbstract dropTargetPanel;
 
     // Конструктор принимает имя и конкретный компонент для drop'а.
-    public DropPanel(String name, DropPanelChild dropTargetPanel) {
+    public DropPanel(String name, DropPanelAbstract dropTargetPanel) {
         // Можно вызвать конструктор базового класса с нужной раскладкой, если требуется.
         super(PanelType.BORDER);
         this.dropTargetPanel = dropTargetPanel;
