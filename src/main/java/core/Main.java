@@ -1,9 +1,8 @@
 package core;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import swing.DemoPrefs;
-import swing.MainJFrame;
+import swing.objects.general.DemoPrefs;
+import swing.ui.MainJFrame;
 
 import javax.swing.*;
 

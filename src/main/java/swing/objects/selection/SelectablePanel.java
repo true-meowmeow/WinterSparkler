@@ -2,13 +2,14 @@ package swing.objects.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
-import swing.objects.JPanelCustom;
+import swing.objects.general.JPanelCustom;
+import swing.objects.movement.MovementHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
 
-import static swing.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
+import static swing.ui.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
 
 public class SelectablePanel extends JPanelCustom {
     private boolean selected = false;
