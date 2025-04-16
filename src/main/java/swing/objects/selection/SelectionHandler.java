@@ -1,6 +1,6 @@
 package swing.objects.selection;
 
-import swing.pages.home.play.FolderSystemPanel;
+import swing.ui.pages.home.play.FolderSystemPanel;
 
 import javax.swing.*;
 import java.awt.*;
