@@ -2,7 +2,7 @@ package swing.objects.movement;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
-import swing.objects.selection.SelectablePanel;
+import swing.ui.pages.home.play.SelectablePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static swing.ui.pages.home.play.FolderSystemPanel.FolderSystemPanelInstance;
+import static swing.ui.pages.home.play.ManagePanel.FolderSystemPanelInstance;
 
 public class MovementHandler extends MouseAdapter {
     private final SelectablePanel panel;
@@ -153,6 +153,7 @@ public class MovementHandler extends MouseAdapter {
                 Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
 
                 //todo Вот это действие нужно будет к каждому своё сделать в зависимости от того кто использует MovementHandler
+                //fixme Это важно, но нужно сделать после остального чтобы это протестировать нормлаьно и подключить объект TransferableData вместе с enum для передачи этого объекта чтобы его обрабатывать а не разную дичь везде свою.
                 targetPanel.dropTargetPanel.dropAction(selectedItems);
                 targetPanel.dropTargetPanel.dropAction();
 
