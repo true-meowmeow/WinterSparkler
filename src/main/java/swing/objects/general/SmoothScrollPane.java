@@ -7,12 +7,12 @@ import java.awt.event.*;
 /**
  * A {@link JScrollPane} with smooth, inertial scrolling similar to modern IDEs.
  * <p>
- *     <b>Tunable at runtime</b> – the three key parameters that control the feel of the scroll
+ *     <b>Tunable at runtime</b> –the three key parameters that control the feel of the scroll
  *     are exposed via setters and an extended constructor:
  *     <ul>
- *         <li><strong>scrollFactor</strong> – how many <em>pixels of velocity</em> are added per wheel "notch".</li>
- *         <li><strong>friction</strong> – multiplier (0 &lt; f &lt; 1) applied every frame. Lower values stop faster.</li>
- *         <li><strong>minVelocity</strong> – velocity threshold below which motion is considered finished.</li>
+ *         <li><strong>scrollFactor</strong>– how many <em>pixels of velocity</em> are added per wheel "notch".</li>
+ *         <li><strong>friction</strong>– multiplier(0&lt;f&lt;1) applied every frame. Lower values stop faster.</li>
+ *         <li><strong>minVelocity</strong>– velocity threshold below which motion is considered finished.</li>
  *     </ul>
  */
 public class SmoothScrollPane extends JScrollPane {
@@ -25,7 +25,7 @@ public class SmoothScrollPane extends JScrollPane {
     private static final int TIMER_DELAY = 1000 / FPS;       // ms between frames
 
     private double scrollFactor;                      // px velocity per wheel notch
-    private double friction;                      // 0 < f < 1
+    private double friction;                          // 0<f<1
     private double minVelocity ;                      // px / frame
 
     // ────────────────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ public class SmoothScrollPane extends JScrollPane {
     // ────────────────────────────────────────────────────────────────────────────
 
     private double velocityY = 0.0; // px / frame
-    private double velocityX = 0.0; // px / frame (⇧ + wheel)
+    private double velocityX = 0.0; // px / frame (⇧+wheel)
 
     private final Timer animationTimer;
 
@@ -51,7 +51,7 @@ public class SmoothScrollPane extends JScrollPane {
      *
      * @param view         the component to display
      * @param scrollFactor pixels of velocity added per wheel notch (positive = faster)
-     * @param friction     0 &lt; f &lt; 1, smaller = stronger deceleration
+     * @param friction     0&lt;f&lt;1, smaller = stronger deceleration
      * @param minVelocity  below this (px / frame) the animation stops
      */
     public SmoothScrollPane(Component view,
@@ -103,13 +103,13 @@ public class SmoothScrollPane extends JScrollPane {
             if (moved) {
                 velocityY *= friction;
             } else {
-                velocityY = 0.0; // clamp at limit – drop inertia so direction change is instant
+                velocityY = 0.0; // clamp at limit –drop inertia so direction change is instant
             }
         } else {
             velocityY = 0.0;
         }
 
-        // ── Horizontal (⇧ + wheel) ──────────────────────────────────────────
+        // ── Horizontal (⇧+wheel) ──────────────────────────────────────────
         JScrollBar hBar = getHorizontalScrollBar();
         if (hBar != null && hBar.isVisible() && Math.abs(velocityX) >= minVelocity) {
             boolean moved = scrollBarBy(hBar, velocityX);
