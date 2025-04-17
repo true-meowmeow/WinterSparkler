@@ -1,9 +1,6 @@
 package swing.objects;
 
-import swing.objects.selection.Separator;
-
 import java.awt.*;
-import java.util.Random;
 import javax.swing.*;
 
 public class WrapLayout extends FlowLayout {

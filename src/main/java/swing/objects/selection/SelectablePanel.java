@@ -2,6 +2,7 @@ package swing.objects.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
+import swing.objects.PathManager;
 import swing.objects.general.JPanelCustom;
 import swing.objects.movement.MovementHandler;
 
