@@ -5,7 +5,8 @@ import core.contentManager.MediaData;
 import swing.objects.*;
 import swing.objects.general.JPanelCustom;
 import swing.objects.general.SmoothScrollPane;
-import swing.ui.pages.home.play.FolderSystemPanel;
+import swing.ui.pages.home.play.ManagePanel;
+import swing.ui.pages.home.play.SelectablePanel;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class SelectionPanel extends JPanelCustom {
 
-    private WrapScrollablePanel container;
+    private JPanelCustom container;
     private JScrollPane scrollPane;
     // Удаляем локальное поле selectionRect. Теперь оно содержится в SelectionHandler.
     private SelectionHandler selectionHandler;
@@ -27,11 +28,9 @@ public class SelectionPanel extends JPanelCustom {
         // Используем BorderLayout для корректного размещения компонентов
         setLayout(new BorderLayout());
 
-        container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
+        container = new JPanelCustom(PanelType.WRAP, "LEFT");
         scrollPane = new SmoothScrollPane(container);
         scrollPane.getViewport().setOpaque(false);
-
-
 
 
         // Создаём JLayer для наложения эффекта выделения, используя информацию из selectionHandler
@@ -78,13 +77,13 @@ public class SelectionPanel extends JPanelCustom {
      */
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
         container.removeAll();
-        FolderSystemPanel.FolderSystemPanelInstance().panels.clear();
+        ManagePanel.FolderSystemPanelInstance().panels.clear();
 
         int index = 0;
         // Добавляем панели папок
         for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
             FolderPanel fp = new FolderPanel(index++, folder);
-            FolderSystemPanel.FolderSystemPanelInstance().panels.add(fp);
+            ManagePanel.FolderSystemPanelInstance().panels.add(fp);
             container.add(fp);
         }
         // Добавляем сепаратор для завершения строки в WrapLayout
@@ -92,7 +91,7 @@ public class SelectionPanel extends JPanelCustom {
         // Добавляем панели медиа
         for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
             MediaPanel mp = new MediaPanel(index++, media);
-            FolderSystemPanel.FolderSystemPanelInstance().panels.add(mp);
+            ManagePanel.FolderSystemPanelInstance().panels.add(mp);
             container.add(mp);
         }
 
@@ -102,7 +101,7 @@ public class SelectionPanel extends JPanelCustom {
 
     public void updateSetHome(FilesDataMap filesDataMap) {
         container.removeAll();
-        FolderSystemPanel.FolderSystemPanelInstance().panels.clear();
+        ManagePanel.FolderSystemPanelInstance().panels.clear();
 
         int index = 0;
         outerLoop:
@@ -127,7 +126,7 @@ public class SelectionPanel extends JPanelCustom {
             // Добавляем панели папок
             for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
                 FolderPanel fp = new FolderPanel(index++, folder);
-                FolderSystemPanel.FolderSystemPanelInstance().panels.add(fp);
+                ManagePanel.FolderSystemPanelInstance().panels.add(fp);
                 container.add(fp);
             }
             // Добавляем сепаратор для завершения строки в WrapLayout
@@ -135,7 +134,7 @@ public class SelectionPanel extends JPanelCustom {
             // Добавляем панели медиа
             for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
                 MediaPanel mp = new MediaPanel(index++, media);
-                FolderSystemPanel.FolderSystemPanelInstance().panels.add(mp);
+                ManagePanel.FolderSystemPanelInstance().panels.add(mp);
                 container.add(mp);
             }
 

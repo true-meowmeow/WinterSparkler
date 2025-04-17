@@ -16,11 +16,11 @@ import java.awt.event.MouseEvent;
 import java.nio.file.Path;
 import java.util.*;
 
-public class FolderSystemPanel extends JPanelCustom {
-    private static FolderSystemPanel instance;
+public class ManagePanel extends JPanelCustom {
+    private static ManagePanel instance;
     private Component glassPane; // Поле для glassPane
 
-    public static FolderSystemPanel FolderSystemPanelInstance() {
+    public static ManagePanel FolderSystemPanelInstance() {
         return instance;
     }
 
@@ -109,7 +109,7 @@ public class FolderSystemPanel extends JPanelCustom {
         }
     }
 
-    public FolderSystemPanel() {
+    public ManagePanel() {
         super("Y");
         instance = this;
 
@@ -129,8 +129,6 @@ public class FolderSystemPanel extends JPanelCustom {
 
     private FilesDataMap filesDataMap;
     SelectionPanel selectionPanel = new SelectionPanel();
-
-
 
     public void updateManagingPanel(FilesDataMap filesDataMapObj) {
         this.filesDataMap = filesDataMapObj;

@@ -1,6 +1,7 @@
 package swing.objects.selection;
 
-import swing.ui.pages.home.play.FolderSystemPanel;
+import swing.ui.pages.home.play.ManagePanel;
+import swing.ui.pages.home.play.SelectablePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class SelectionHandler extends MouseAdapter {
         shiftDownAtStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
         altDownAtStart = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) != 0;
         if (!ctrlDownAtStart && !shiftDownAtStart && !altDownAtStart) {
-            FolderSystemPanel.FolderSystemPanelInstance().clearSelection();
+            ManagePanel.FolderSystemPanelInstance().clearSelection();
         }
         selectionRect = new Rectangle(dragStart);
     }
@@ -56,7 +57,7 @@ public class SelectionHandler extends MouseAdapter {
         if (dragging && selectionRect != null) {
             dragging = false;
             // Обработка выделения для каждой панели
-            for (SelectablePanel sp : FolderSystemPanel.FolderSystemPanelInstance().panels) {
+            for (SelectablePanel sp : ManagePanel.FolderSystemPanelInstance().panels) {
                 Rectangle compBounds = SwingUtilities.convertRectangle(
                         sp.getParent(), sp.getBounds(), viewport);
                 if (selectionRect.intersects(compBounds)) {
@@ -75,13 +76,13 @@ public class SelectionHandler extends MouseAdapter {
             }
             // Устанавливаем якорный индекс для диапазонного выделения
             int minIndex = Integer.MAX_VALUE;
-            for (SelectablePanel sp : FolderSystemPanel.FolderSystemPanelInstance().panels) {
+            for (SelectablePanel sp : ManagePanel.FolderSystemPanelInstance().panels) {
                 if (sp.isSelected() && sp.getIndex() < minIndex) {
                     minIndex = sp.getIndex();
                 }
             }
             if (minIndex != Integer.MAX_VALUE) {
-                FolderSystemPanel.FolderSystemPanelInstance().anchorIndex = minIndex;
+                ManagePanel.FolderSystemPanelInstance().anchorIndex = minIndex;
             }
             // Сбрасываем выделение
             selectionRect = null;
