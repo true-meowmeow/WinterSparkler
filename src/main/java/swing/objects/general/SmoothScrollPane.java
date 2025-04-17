@@ -58,7 +58,7 @@ public class SmoothScrollPane extends JScrollPane {
                             double scrollFactor,
                             double friction,
                             double minVelocity) {
-        super(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        super(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
         setWheelScrollingEnabled(false);
 
         this.scrollFactor = scrollFactor;

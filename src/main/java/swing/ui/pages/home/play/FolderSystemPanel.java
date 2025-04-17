@@ -1,6 +1,7 @@
 package swing.ui.pages.home.play;
 
 import core.contentManager.*;
+import swing.objects.PathManager;
 import swing.objects.general.JPanelCustom;
 import swing.objects.movement.DragGlassPane;
 import swing.objects.selection.*;
