@@ -1,16 +1,21 @@
 package swing.objects.general;
 
+import swing.objects.WrapLayout;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
 public class JPanelCustom extends JPanel {
 
-    public String defaultIconPath = "anythingPathToIcon";
+    private PanelType defaultPanel  = PanelType.BORDER;
+
+    private String defaultIconPath = "anythingPathToIcon";
 
     public enum PanelType {
-        GRID, BORDER, FLOW, CARD, BOX
+        GRID, BORDER, FLOW, CARD, BOX, WRAP
     }
+
 
     // Окно для отображения перетаскиваемого объекта (визуальный эффект во время drag)
     //private final JWindow cursorWindow = new JWindow();
@@ -28,12 +33,11 @@ public class JPanelCustom extends JPanel {
     }
 
     public JPanelCustom(PanelType type, String axis) {
-        this(type);
         handleAXIS(type, axis);
     }
 
     public JPanelCustom(String axis) {
-        handleAXIS(PanelType.BORDER, axis);
+        handleAXIS(defaultPanel, axis);
     }
 
     public JPanelCustom(PanelType type, String axis, int a, int b) {
@@ -43,7 +47,7 @@ public class JPanelCustom extends JPanel {
 
 
     public JPanelCustom() {
-        setLayoutByType(PanelType.BORDER);
+        setLayoutByType(defaultPanel);
     }
 
     public JPanelCustom(PanelType type) {
@@ -74,6 +78,9 @@ public class JPanelCustom extends JPanel {
                 break;
             case BOX:
                 setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+                break;
+            case WRAP:
+                setLayout(new WrapLayout());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown panel type: " + type);
@@ -142,6 +149,26 @@ public class JPanelCustom extends JPanel {
                     break;
                 case "TRAILING":
                     setLayout(new FlowLayout(FlowLayout.TRAILING));
+                    break;
+                default:
+                    System.out.println("Unsupported axis: " + axis);
+            }
+        } else if (type.equals(PanelType.WRAP)) {
+            switch (axis) {
+                case "LEFT":
+                    setLayout(new WrapLayout(FlowLayout.LEFT));
+                    break;
+                case "RIGHT":
+                    setLayout(new WrapLayout(FlowLayout.RIGHT));
+                    break;
+                case "LEADING":
+                    setLayout(new WrapLayout(FlowLayout.LEADING));
+                    break;
+                case "CENTER":
+                    setLayout(new WrapLayout(FlowLayout.CENTER));
+                    break;
+                case "TRAILING":
+                    setLayout(new WrapLayout(FlowLayout.TRAILING));
                     break;
                 default:
                     System.out.println("Unsupported axis: " + axis);

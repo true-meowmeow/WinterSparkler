@@ -24,7 +24,7 @@ public class CombinedPanel extends JPanelCustom {
         cardLayout = new ObservableCardLayout(MANAGE_VIEW, folderEntities);
         cardPanel = new JPanel(cardLayout);
 
-        FolderSystemPanel folderPanel = new FolderSystemPanel();
+        ManagePanel folderPanel = new ManagePanel();
 
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
