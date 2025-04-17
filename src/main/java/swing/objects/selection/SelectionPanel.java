@@ -28,10 +28,6 @@ public class SelectionPanel extends JPanelCustom {
         setLayout(new BorderLayout());
 
         container = new WrapScrollablePanel(new WrapLayout(FlowLayout.LEFT));
-/*        scrollPane = new JScrollPane(container,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);*/
-        //scrollPane = new SmoothScrollPane2(container);
         scrollPane = new SmoothScrollPane(container);
         scrollPane.getViewport().setOpaque(false);
 

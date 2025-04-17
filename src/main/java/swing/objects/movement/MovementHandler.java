@@ -1,7 +1,7 @@
 package swing.objects.movement;
 
-import swing.objects.selection.DropPanel;
-import swing.objects.selection.DropPanelRegistry;
+import swing.objects.dropper.DropPanel;
+import swing.objects.dropper.DropPanelRegistry;
 import swing.objects.selection.SelectablePanel;
 
 import javax.swing.*;
