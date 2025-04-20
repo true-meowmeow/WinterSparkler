@@ -10,12 +10,6 @@ import java.util.List;
 public class DropTargetCollection extends DropPanelAbstract {
     private JLabel infoLabel;
 
-    public DropTargetCollection() {
-        setBackground(Color.WHITE);
-        infoLabel = new JLabel("Drop items here", SwingConstants.CENTER);
-        add(infoLabel, BorderLayout.CENTER);
-    }
-
     public void dropItems(List<SelectablePanel> items) {
         StringBuilder namesList = new StringBuilder();
         for (SelectablePanel sp : items) {
