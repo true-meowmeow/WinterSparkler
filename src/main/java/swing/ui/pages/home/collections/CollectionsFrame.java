@@ -1,6 +1,7 @@
 package swing.ui.pages.home.collections;
 
 import swing.objects.general.JPanelCustom;
+import swing.objects.general.SmoothScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,4 +25,3 @@ class SearchPanel extends JPanelCustom {
         add(searchField, BorderLayout.CENTER);
     }
 }
-

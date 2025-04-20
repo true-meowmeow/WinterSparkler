@@ -118,6 +118,7 @@ public class ManagePanel extends JPanelCustom {
 
         PathManager.getInstance().addPropertyChangeListener(evt -> {
             if (filesDataMap != null) {
+                dragGlassPane.clearGhost();
                 if (PathManager.getInstance().getPath().equals(Path.of("Home"))) {
                     selectionPanel.updateSetHome(filesDataMap);
                 } else {
