@@ -34,6 +34,7 @@ public class FolderPathsPanel extends JPanelCustom {
         folderEntities.addListModel("T:\\testing\\core 1");
         folderEntities.addListModel("T:\\testing\\core 1 — копия");
         folderEntities.addListModel("T:\\testing\\1c4324x2");
+        folderEntities.addListModel("T:\\DistributeFiles");
         //folderEntities.addListModel("T:\\DistributeFiles");
 
         // Добавляем специальный элемент "Добавить папку"
