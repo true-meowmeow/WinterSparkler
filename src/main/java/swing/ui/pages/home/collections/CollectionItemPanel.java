@@ -54,7 +54,7 @@ public class CollectionItemPanel extends JPanelCustom {
                 if (!dragging && shouldStartDragging(e)) {
                     dragging            = true;
                     isDraggingHighlight = true;
-                    //setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));        :/
+                    //setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));           :/
                     setBackground(BG_DRAG_HIGHLIGHT);
                 }
                 if (!dragging) return;
