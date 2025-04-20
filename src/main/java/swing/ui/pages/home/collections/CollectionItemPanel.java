@@ -16,13 +16,12 @@ public class CollectionItemPanel extends JPanelCustom {
     private static final Color BG_DRAG_HIGHLIGHT = new Color(0xDCDCDC); // нажатая / перетаскиваемая
     private static final Color BG_FOCUS          = new Color(0xE0E0E0); // фон во время перемещения
 
-    /** коллекция, которая реально открыта */
     private static CollectionItemPanel openedPanel = null;
 
     private Point pressPoint;
     private boolean dragging            = false;
     private boolean isDraggingHighlight = false;
-    private int lastY;              // ← перенесли сюда
+    private int lastY;
     private final String title;
 
     public CollectionItemPanel(String title) {
@@ -55,7 +54,7 @@ public class CollectionItemPanel extends JPanelCustom {
                 if (!dragging && shouldStartDragging(e)) {
                     dragging            = true;
                     isDraggingHighlight = true;
-                    setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                    //setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));        :/
                     setBackground(BG_DRAG_HIGHLIGHT);
                 }
                 if (!dragging) return;
@@ -105,7 +104,7 @@ public class CollectionItemPanel extends JPanelCustom {
         if (parent == null) return;
 
         int currentY = e.getYOnScreen();
-        int deltaY   = currentY - lastY;  // ← lastY из поля
+        int deltaY   = currentY - lastY;
 
         Component[] comps = parent.getComponents();
         int fromIndex      = parent.getComponentZOrder(this);
