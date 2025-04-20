@@ -114,6 +114,10 @@ public class JPanelCustom extends JPanel {
         }
     }
 
+    public void setAXIS(PanelType type, String axis) {
+        handleAXIS(type, axis);
+    }
+
     // Настройка оси для BoxLayout и FlowLayout
     private void handleAXIS(PanelType type, String axis) {
         if (type.equals(PanelType.BORDER)) {

@@ -1,19 +1,47 @@
 package swing.ui.pages.home.collections;
 
-import swing.objects.general.JPanelCustom;
 import swing.objects.dropper.DropPanel;
+import swing.objects.general.JPanelCustom;
+import swing.objects.general.SmoothScrollPane;
 
-import java.awt.*;
+import java.util.ArrayList;
 
 
-class CollectionPanel extends JPanelCustom {
+class CollectionPanel extends DropPanel {
 
     public CollectionPanel() {
-        setBackground(Color.LIGHT_GRAY);
-        //setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-        setPreferredSize(new Dimension(300, 200));
+        super("collection", new DropTargetCollection());
+        setAXIS(PanelType.BORDER, "Y");
 
-        DropPanel collectionDropPanel = new DropPanel("collection", new DropTargetCollection());
-        add(collectionDropPanel);
+        //CollectionsListPanel list = new CollectionsListPanel();
+        //for (int i = 1; i <= 6; i++) list.addCollection("Коллекция " + i);
+
+        CollectionsListPanel collectionsListPanel = new CollectionsListPanel();
+
+        for (int i = 1; i <= 4; i++) {
+            collectionsListPanel.addCollection("Коллекция " + i);
+        }
+        SmoothScrollPane scroller = new SmoothScrollPane(collectionsListPanel);
+        add(scroller);
+
+
+
     }
+
+    class CollectionsListPanel extends JPanelCustom {
+
+        ArrayList<CollectionItemPanel> collectionPanelObjArrayList;
+        int selected;
+
+        CollectionsListPanel() {
+            super("Y");
+            collectionPanelObjArrayList = new ArrayList<>();
+        }
+        public void addCollection(String title) {
+            add(new CollectionItemPanel(title));
+        }
+    }
+
+
 }
+

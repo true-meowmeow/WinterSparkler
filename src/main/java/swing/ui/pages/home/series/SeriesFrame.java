@@ -46,12 +46,10 @@ public class SeriesFrame extends JPanelCustom {
         });
     }
 }
-class SeriesPanel extends JPanelCustom {
+class SeriesPanel extends DropPanel {
     public SeriesPanel() {
+        super("series", new DropTargetSeries());
         setBackground(Color.LIGHT_GRAY);
-
-        DropPanel seriesDropPanel = new DropPanel("series", new DropTargetSeries());
-        add(seriesDropPanel);
     }
 
 }

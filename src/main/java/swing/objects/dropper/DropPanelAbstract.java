@@ -5,7 +5,7 @@ import swing.ui.pages.home.play.SelectablePanel;
 
 import java.util.List;
 
-public abstract class DropPanelAbstract extends JPanelCustom {
+public abstract class DropPanelAbstract {
 
     public void dropAction(List<SelectablePanel> selectedItems) {
     }
