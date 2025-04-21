@@ -13,19 +13,12 @@ import java.util.List;
 
 public class MainJFrame extends MainJFrameElements implements Variables {
 
-    static int controlButtonSizeHeight = 28;
-    static int controlButtonSizeWidth = 47;
-    static int buttonPreferredSizeWidth = 90;
 
     private ButtonGroup navButtonGroup;
     private JToggleButton btnHome;
     private JToggleButton btnComponent;
     private JToggleButton btnFavorites;
 
-    static {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        UIManager.put("TitlePane.buttonSize", new Dimension(controlButtonSizeWidth, controlButtonSizeHeight));
-    }
 
     public MainJFrame() {
         setSize(1600, 900);
@@ -34,7 +27,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         setTitle(appName + "  " + appVersion);
 
         try {
-            setIconImages(loadAndScaleIcons("/WinterSparkler.png", new int[]{16, 32, 48, 64, 128, 256, 512, 1024}));
+            setIconImages(loadAndScaleIcons("/icon/Winter Sparkler and Musical Glow2.png", new int[]{16, 32, 48, 64, 128, 256, 512, 1024}));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +54,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
     }
 
     private void configureMenuBar() {
-        menuBar.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        menuBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
         JPanel navButtonPanel = createNavigationButtons();
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         leftPanel.add(navButtonPanel);
@@ -117,6 +110,8 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         return panel;
     }
 
+    private final int controlButtonSizeHeight = 28;
+    private final int buttonPreferredSizeWidth = 90;
     private JToggleButton createNavButton(String title, Color bg, Color selectedColor) {
         JToggleButton button = new JToggleButton(title);
         button.setFocusable(false);
