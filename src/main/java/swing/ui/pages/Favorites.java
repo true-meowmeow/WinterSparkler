@@ -2,6 +2,11 @@ package swing.ui.pages;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static core.Main.link_github;
 
 public class Favorites extends JPanel {
 
@@ -61,10 +66,27 @@ public class Favorites extends JPanel {
 
 
 
-        setPageVisibility(true);
+        //setPageVisibility(true);
     }
 
     public void setPageVisibility(boolean visible) {
         setVisible(visible);
     }
+    @Override
+    public void setVisible(boolean aFlag) {
+        super.setVisible(aFlag);
+        if (aFlag) {
+            System.out.println("Favorites panel is now visible");
+            try {
+                Desktop.getDesktop().browse(new URI(link_github));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+
 }

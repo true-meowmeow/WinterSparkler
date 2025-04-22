@@ -61,7 +61,7 @@ public class PageComponent extends JPanel {
 
 
 
-        setPageVisibility(true);
+        //setPageVisibility(true);
     }
 
     public void setPageVisibility(boolean visible) {

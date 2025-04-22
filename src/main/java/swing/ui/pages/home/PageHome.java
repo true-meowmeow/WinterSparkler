@@ -1,5 +1,6 @@
 package swing.ui.pages.home;
 
+import swing.objects.dropper.DropPanelAbstract;
 import swing.objects.general.JPanelCustom;
 import swing.ui.pages.home.collections.CollectionsFrame;
 import swing.ui.pages.home.play.CombinedPanel;
