@@ -12,5 +12,18 @@ public class DropPanel extends JPanelCustom {
 
         DropPanelRegistry.register(name, this);
     }
+
+    public DropPanel() {}
+
+    public void setDropTargetPanel(DropPanelAbstract dropTargetPanel) {
+        this.dropTargetPanel = dropTargetPanel;
+    }
+
+    public void registerCollectionID(int any) {
+        DropPanelRegistry.register(String.valueOf(any), this);
+    }
+    public void registerCollectionID(String any) {
+        DropPanelRegistry.register(any, this);
+    }
 }
 

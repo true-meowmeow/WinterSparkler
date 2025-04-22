@@ -30,4 +30,16 @@ public class DropPanelRegistry {
     public static void clear() {
         panels.clear();
     }
+
+    public static void printAllNames() {
+        if (panels.isEmpty()) {
+            System.out.println("Нет зарегистрированных панелей.");
+            return;
+        }
+        System.out.println("Зарегистрированные имена панелей:");
+        for (String name : panels.keySet()) {
+            System.out.println(" - " + name);
+        }
+    }
+
 }
