@@ -2,6 +2,8 @@ package swing.objects.movement;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
+import swing.ui.pages.home.collections.CollectionItemPanel;
+import swing.ui.pages.home.collections.DropTargetCollection;
 import swing.ui.pages.home.play.SelectablePanel;
 
 import javax.swing.*;
@@ -156,6 +158,7 @@ public class MovementHandler extends MouseAdapter {
                 //fixme Это важно, но нужно сделать после остального чтобы это протестировать нормлаьно и подключить объект TransferableData вместе с enum для передачи этого объекта чтобы его обрабатывать а не разную дичь везде свою.
                 targetPanel.dropTargetPanel.dropAction(selectedItems);
                 targetPanel.dropTargetPanel.dropAction();
+                targetPanel.dropTargetPanel.dropAction("fdsfsd");
 
 
                 FolderSystemPanelInstance().clearSelection();
