@@ -2,6 +2,7 @@ package swing.ui.pages.home.series;
 
 import swing.objects.general.JPanelCustom;
 import swing.objects.dropper.DropPanel;
+import swing.objects.general.PanelType;
 import swing.ui.pages.home.play.CombinedPanel;
 
 import javax.swing.*;

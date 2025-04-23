@@ -2,6 +2,7 @@ package swing.ui.pages.home.play;
 
 import core.contentManager.*;
 import swing.objects.PathManager;
+import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
 import swing.objects.movement.DragGlassPane;
 import swing.objects.selection.*;
@@ -110,7 +111,7 @@ public class ManagePanel extends JPanelCustom {
     }
 
     public ManagePanel() {
-        super("Y");
+        super(Axis.Y_AX);
         instance = this;
 
         dragGlassPane = new DragGlassPane();

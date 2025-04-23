@@ -1,6 +1,7 @@
 package swing.ui.pages.home.queue;
 
 import swing.objects.general.JPanelCustom;
+import swing.objects.general.PanelType;
 
 import javax.swing.*;
 import java.awt.*;

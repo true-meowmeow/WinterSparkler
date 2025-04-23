@@ -3,7 +3,9 @@ package swing.objects.selection;
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
 import swing.objects.*;
+import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
+import swing.objects.general.PanelType;
 import swing.objects.general.SmoothScrollPane;
 import swing.ui.pages.home.play.ManagePanel;
 import swing.ui.pages.home.play.SelectablePanel;
@@ -28,7 +30,7 @@ public class SelectionPanel extends JPanelCustom {
         // Используем BorderLayout для корректного размещения компонентов
         setLayout(new BorderLayout());
 
-        container = new JPanelCustom(PanelType.WRAP, "LEFT");
+        container = new JPanelCustom(PanelType.WRAP/*, Axis.CENTER*/);
         scrollPane = new SmoothScrollPane(container);
         scrollPane.getViewport().setOpaque(false);
 

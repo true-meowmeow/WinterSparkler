@@ -3,6 +3,7 @@ package swing.ui.pages.home.collections;
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelAbstract;
 import swing.objects.general.JPanelCustom;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,9 +15,10 @@ public class CollectionItemPanel extends DropPanel {
         super(title, new DropTargetCollection());
         this.title = title;
 
-        dropTargetPanel.setCollectionItem(this);
+        setMaximumSize(MAX_INT, HEIGHT);
+        setPreferredSize(ZERO_INT, HEIGHT);
 
-        //registerCollectionID(title);
+        dropTargetPanel.setCollectionItem(this);
 
 
         setLayout(new BorderLayout());
@@ -41,7 +43,7 @@ public class CollectionItemPanel extends DropPanel {
     }
 
     // геттеры для title и размеров
-    public String getTitle() { return title; }
-    @Override public Dimension getMaximumSize()   { return new Dimension(Integer.MAX_VALUE, HEIGHT); }
-    @Override public Dimension getPreferredSize() { return new Dimension(0, HEIGHT); }
+    public String getTitle() {
+        return title;
+    }
 }
