@@ -27,6 +27,8 @@ public class MovementHandler extends MouseAdapter {
     private boolean pendingShiftClick = false;
     private boolean dragStartedWithShift = false;
 
+    private static DropPanel lastHoverPanel = null;
+
     public MovementHandler(SelectablePanel panel) {
         this.panel = panel;
     }
@@ -97,21 +99,34 @@ public class MovementHandler extends MouseAdapter {
         if (moved && !FolderSystemPanelInstance().draggingGroup && panel.isSelected()) {
             FolderSystemPanelInstance().draggingGroup = true;
             FolderSystemPanelInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, FolderSystemPanelInstance().getGlassPane());
-            int count = 0;
-            for (SelectablePanel sp : FolderSystemPanelInstance().panels) {
-                if (sp.isSelected()) count++;
-            }
-            String ghostText = (count > 1) ? "Dragging " + count + " objects" : "Dragging object";
-            FolderSystemPanelInstance().dragGlassPane.setGhostText(ghostText);
-            FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(
-                    FolderSystemPanelInstance().groupDragStart.x + 10,
-                    FolderSystemPanelInstance().groupDragStart.y + 10
-            ));
+
+            int cnt = (int) FolderSystemPanelInstance().panels.stream().filter(SelectablePanel::isSelected).count();
+            FolderSystemPanelInstance().dragGlassPane.setGhostText(cnt > 1 ? "Dragging " + cnt + " objects" : "Dragging object");
+            FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(FolderSystemPanelInstance().groupDragStart.x + 10, FolderSystemPanelInstance().groupDragStart.y + 10));
             FolderSystemPanelInstance().dragGlassPane.setVisible(true);
         }
-        if (FolderSystemPanelInstance().draggingGroup) {
+
+        if (FolderSystemPanelInstance().draggingGroup) {          // выполняется на КАЖДОМ drag-событии
             Point glassPt = SwingUtilities.convertPoint(panel, e.getPoint(), FolderSystemPanelInstance().getGlassPane());
             FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
+
+            /* обновляем подсветку целевой коллекции */
+            Point dropScreenPoint = e.getLocationOnScreen();
+            DropPanel hoverPanel = null;
+            for (DropPanel dp : DropPanelRegistry.getAll()) {
+                try {
+                    Rectangle r = new Rectangle(dp.getLocationOnScreen(), dp.getSize());
+                    if (r.contains(dropScreenPoint)) {
+                        hoverPanel = dp;
+                        break;
+                    }
+                } catch (IllegalComponentStateException ex) {/* панель скрыта */}
+            }
+            if (hoverPanel != lastHoverPanel) {
+                if (lastHoverPanel != null) lastHoverPanel.setHovered(false);
+                if (hoverPanel != null) hoverPanel.setHovered(true);
+                lastHoverPanel = hoverPanel;
+            }
         }
     }
 
@@ -163,6 +178,12 @@ public class MovementHandler extends MouseAdapter {
 
                 FolderSystemPanelInstance().clearSelection();
                 FolderSystemPanelInstance().anchorIndex = -1;
+
+                if (lastHoverPanel != null) {
+                    lastHoverPanel.setHovered(false);
+                    lastHoverPanel = null;
+                }
+
             } else {
                 // Можно обработать ситуацию, если ни одна панель не обнаружена
                 System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
