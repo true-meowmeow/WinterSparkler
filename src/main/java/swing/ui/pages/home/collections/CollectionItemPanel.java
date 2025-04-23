@@ -1,8 +1,6 @@
 package swing.ui.pages.home.collections;
 
 import swing.objects.dropper.DropPanel;
-import swing.objects.dropper.DropPanelAbstract;
-import swing.objects.general.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
