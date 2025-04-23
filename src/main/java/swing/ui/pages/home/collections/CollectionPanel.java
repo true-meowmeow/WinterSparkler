@@ -49,6 +49,7 @@ class CollectionPanel extends JPanelCustom {
         public EmptyDropPanel() {
             super("_EMPTY_SLOT_", new DropTargetNewCollection());
             setDimensions(ZERO, ZERO, MAX);
+            setHoverBorderEnabled(false);
 
             setOpaque(false);
         }
@@ -69,7 +70,6 @@ class CollectionPanel extends JPanelCustom {
             int height = 100;
             setPreferredSize(MAX_INT, height);
             add(new JLabel("+ Add collection"));
-            //setVisible(false);
         }
     }
 }
