@@ -2,6 +2,7 @@ package swing.ui.pages.home.play;
 
 import swing.objects.general.JPanelCustom;
 import swing.objects.PathManager;
+import swing.objects.general.PanelType;
 
 import javax.swing.*;
 import java.awt.*;

@@ -19,9 +19,12 @@ class CollectionPanel extends JPanelCustom {
 
         SmoothScrollPane scroller = new SmoothScrollPane(collectionsListPanel);
         add(scroller);
+
+
+        add(new BottomAddCollectionPanel(), BorderLayout.SOUTH);
     }
 
-    class CollectionsListPanel extends JPanelCustom {
+    private static class CollectionsListPanel extends JPanelCustom {
         CollectionsListPanel() {
             super();
             setLayout(new BorderLayout());
@@ -29,8 +32,9 @@ class CollectionPanel extends JPanelCustom {
             // 1. Панель со списком стандартных CollectionItemPanel
             JPanel listHolder = new JPanel();
             listHolder.setLayout(new BoxLayout(listHolder, BoxLayout.Y_AXIS));
-            for (int i = 1; i <= 11; i++) {
+            for (int i = 1; i <= 9; i++) {
                 CollectionItemPanel panel = new CollectionItemPanel("Коллекция " + i);
+                new CollectionItemController(panel);
                 listHolder.add(panel);
             }
             add(listHolder, BorderLayout.NORTH);
@@ -41,35 +45,31 @@ class CollectionPanel extends JPanelCustom {
         }
     }
 
-    // Прозрачная панель‑ловушка: расширяется, но может сжаться до 0
     private static class EmptyDropPanel extends DropPanel {
         public EmptyDropPanel() {
-            super("_EMPTY_SLOT_", new DropTargetEmpty());
+            super("_EMPTY_SLOT_", new DropTargetNewCollection());
+            setDimensions(ZERO, ZERO, MAX);
+
             setOpaque(false);
-            createBorder();
-        }
-
-        @Override
-        public Dimension getMinimumSize() {
-            return new Dimension(0, 0);
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(0, 0);
-        }
-
-        @Override
-        public Dimension getMaximumSize() {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
     }
 
-    private static class DropTargetEmpty extends DropPanelAbstract {
+    private static class DropTargetNewCollection extends DropPanelAbstract {
         @Override
         public void dropAction() {
-            System.out.println("Drop в пустое место — показать «Добавить новую коллекцию»");
+            System.out.println("«Добавить новую коллекцию»");
             // TODO: вызвать отображение вашей временной панели
+        }
+    }
+
+    private static class BottomAddCollectionPanel extends DropPanel {
+
+        public BottomAddCollectionPanel() {
+            super("_EMPTY_SLOT_2", new DropTargetNewCollection());
+            int height = 100;
+            setPreferredSize(MAX_INT, height);
+            add(new JLabel("+ Add collection"));
+            //setVisible(false);
         }
     }
 }

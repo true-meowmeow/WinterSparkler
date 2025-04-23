@@ -2,13 +2,15 @@ package swing.ui.pages.settings;
 
 import core.contentManager.FolderEntities;
 import swing.objects.general.JPanelCustom;
+import swing.objects.general.Pages;
+import swing.objects.general.PanelType;
 
 import java.awt.*;
 
 
-public class PageSettings extends JPanelCustom {
+public class PageSettings extends Pages {
     public PageSettings(FolderEntities folderEntities) {
-        super(JPanelCustom.PanelType.GRID, true);
+        super(PanelType.GRID, true);
 
         add(new LeftPanel(), menuGridBagConstraintsX(0, 40));
         add(new CenterPanel(), menuGridBagConstraintsX(1, 30));

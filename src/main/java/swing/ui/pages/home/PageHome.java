@@ -2,6 +2,8 @@ package swing.ui.pages.home;
 
 import swing.objects.dropper.DropPanelAbstract;
 import swing.objects.general.JPanelCustom;
+import swing.objects.general.Pages;
+import swing.objects.general.PanelType;
 import swing.ui.pages.home.collections.CollectionsFrame;
 import swing.ui.pages.home.play.CombinedPanel;
 import swing.ui.pages.home.play.PlayFrame;
@@ -9,7 +11,7 @@ import swing.ui.pages.home.queue.QueueFrame;
 import swing.ui.pages.home.series.SeriesFrame;
 
 
-public class PageHome extends JPanelCustom {
+public class PageHome extends Pages {
 
     public PageHome(CombinedPanel combinedPanel) {
         super(PanelType.GRID, true);
@@ -18,7 +20,7 @@ public class PageHome extends JPanelCustom {
     }
 }
 
-class LeftSidePageHome extends JPanelCustom {
+class LeftSidePageHome extends Pages {
 
     public LeftSidePageHome(CombinedPanel combinedPanel) {
         super(PanelType.GRID);
@@ -28,7 +30,7 @@ class LeftSidePageHome extends JPanelCustom {
     }
 }
 
-class RightSidePageHome extends JPanelCustom {
+class RightSidePageHome extends Pages {
 
     public RightSidePageHome(CombinedPanel combinedPanel) {
         super(PanelType.GRID);
