@@ -7,7 +7,6 @@ import swing.objects.general.SmoothScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 //todo При перемещении от manage объектов в коллекции должна появляться временная панель снизу с надписью добавить новую панель, перекрывающая остальные панели
 
@@ -19,7 +18,6 @@ class CollectionPanel extends JPanelCustom {
 
         SmoothScrollPane scroller = new SmoothScrollPane(collectionsListPanel);
         add(scroller);
-
 
         add(new BottomAddCollectionPanel(), BorderLayout.SOUTH);
     }
@@ -45,31 +43,5 @@ class CollectionPanel extends JPanelCustom {
         }
     }
 
-    private static class EmptyDropPanel extends DropPanel {
-        public EmptyDropPanel() {
-            super("_EMPTY_SLOT_", new DropTargetNewCollection());
-            setDimensions(ZERO, ZERO, MAX);
-            setHoverBorderEnabled(false);
-
-            setOpaque(false);
-        }
-    }
-
-    private static class DropTargetNewCollection extends DropPanelAbstract {
-        @Override
-        public void dropAction() {
-            System.out.println("«Добавить новую коллекцию»");
-            // TODO: вызвать отображение вашей временной панели
-        }
-    }
-
-    private static class BottomAddCollectionPanel extends DropPanel {
-
-        public BottomAddCollectionPanel() {
-            super("_EMPTY_SLOT_2", new DropTargetNewCollection());
-            int height = 100;
-            setPreferredSize(MAX_INT, height);
-            add(new JLabel("+ Add collection"));
-        }
-    }
+    private String ae;
 }
