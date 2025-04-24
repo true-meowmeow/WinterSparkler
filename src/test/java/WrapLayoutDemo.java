@@ -49,9 +49,6 @@ public class WrapLayoutDemo {
             frame.add(mainPanel);
 
 
-
-
-
             frame.setVisible(true);
         });
     }
