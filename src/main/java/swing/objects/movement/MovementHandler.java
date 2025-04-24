@@ -2,6 +2,7 @@ package swing.objects.movement;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
+import swing.ui.pages.home.SwingHomeVariables;
 import swing.ui.pages.home.collections.CollectionItemPanel;
 import swing.ui.pages.home.collections.DropTargetCollection;
 import swing.ui.pages.home.play.SelectablePanel;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static swing.ui.pages.home.play.ManagePanel.FolderSystemPanelInstance;
 
-public class MovementHandler extends MouseAdapter {
+public class MovementHandler extends MouseAdapter implements SwingHomeVariables {
     private final SelectablePanel panel;
     private Point pressPoint = null;
     private boolean moved = false;
@@ -209,5 +210,4 @@ public class MovementHandler extends MouseAdapter {
             }
         }
     }
-
 }
