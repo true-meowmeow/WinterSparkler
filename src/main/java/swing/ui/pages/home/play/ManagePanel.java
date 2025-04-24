@@ -50,65 +50,71 @@ public class ManagePanel extends JPanelCustom {
     public void addNotify() {
         super.addNotify();
 
+        // установим glassPane для ghost-эффекта
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window instanceof JFrame) {
-            JFrame frame = (JFrame) window;
-            // Устанавливаем glassPane для ghost‑эффекта
-            frame.setGlassPane(dragGlassPane);
+            ((JFrame) window).setGlassPane(dragGlassPane);
         }
 
+        JRootPane root = SwingUtilities.getRootPane(this);
+        if (root == null) return;
+        glassPane = root.getGlassPane();
 
-        // Теперь корневой элемент уже должен быть доступен
-        JRootPane rootPane = SwingUtilities.getRootPane(this);
-        if (rootPane != null) {
-            glassPane = rootPane.getGlassPane();
-            // ESC – снимаем выделение
-            rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "clearSelection");
-            // Ctrl+D – тоже снимаем выделение
-            rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK), "clearSelection");
+        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = root.getActionMap();
 
-            rootPane.getActionMap().put("clearSelection", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    clearSelection();
-                    anchorIndex = -1;
-                }
-            });
+        // Home / Back навигация
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,      0), "goHome");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_HOME,        0), "goHome");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE,  0), "goBack");
+        am.put("goHome", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                PathManager.getInstance().goToHome();
+            }
+        });
+        am.put("goBack", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                PathManager.getInstance().goToParentDirectory();
+            }
+        });
 
-            // Ctrl+A – выделять только объекты Person, у которых isFolder == false
-            rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectNotFolder");
-            rootPane.getActionMap().put("selectNotFolder", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    int firstIndex = -1;
-                    for (SelectablePanel sp : panels) {
-                        if (!sp.getIsFolder()) {
-                            sp.setSelected(true);
-                            if (firstIndex == -1) {
-                                firstIndex = sp.getIndex();
-                            }
-                        } else {
-                            sp.setSelected(false);
-                        }
-                    }
-                    anchorIndex = firstIndex;
-                }
-            });
+        // очистка выделения
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK), "clearSel");
+        am.put("clearSel", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                clearSelection();
+                anchorIndex = -1;
+            }
+        });
 
-            // Ctrl+Shift+A – выделить все панели
-            rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK), "selectAll");
-            rootPane.getActionMap().put("selectAll", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    for (SelectablePanel sp : panels) {
+        // Ctrl+A — выбрать только файлы
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectNotFolder");
+        am.put("selectNotFolder", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                int first = -1;
+                for (SelectablePanel sp : panels) {
+                    if (!sp.getIsFolder()) {
                         sp.setSelected(true);
+                        if (first == -1) first = sp.getIndex();
+                    } else {
+                        sp.setSelected(false);
                     }
-                    anchorIndex = 0;
                 }
-            });
-        }
+                anchorIndex = first;
+            }
+        });
+
+        // Ctrl+Shift+A — выбрать всё
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK), "selectAll");
+        am.put("selectAll", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                for (SelectablePanel sp : panels) sp.setSelected(true);
+                anchorIndex = 0;
+            }
+        });
     }
+
 
     public ManagePanel() {
         super(Axis.Y_AX);
