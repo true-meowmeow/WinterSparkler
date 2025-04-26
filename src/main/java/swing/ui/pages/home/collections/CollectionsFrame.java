@@ -1,7 +1,6 @@
 package swing.ui.pages.home.collections;
 
-import swing.objects.general.JPanelCustom;
-import swing.objects.general.SmoothScrollPane;
+import swing.objects.general.panel.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;

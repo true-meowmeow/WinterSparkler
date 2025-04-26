@@ -2,8 +2,8 @@ package swing.ui.pages.home.play;
 
 import core.contentManager.*;
 import swing.objects.PathManager;
-import swing.objects.general.Axis;
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.Axis;
+import swing.objects.general.panel.JPanelCustom;
 import swing.objects.movement.DragGlassPane;
 import swing.objects.selection.*;
 import swing.ui.pages.home.collections.DropTargetCollection;

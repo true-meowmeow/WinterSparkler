@@ -1,8 +1,8 @@
 package swing.ui.pages.home.series;
 
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.JPanelCustom;
 import swing.objects.dropper.DropPanel;
-import swing.objects.general.PanelType;
+import swing.objects.general.panel.PanelType;
 import swing.ui.pages.home.play.CombinedPanel;
 
 import javax.swing.*;
