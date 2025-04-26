@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class JPanelTabs extends JPanel {
-    CardLayout cardLayout = new CardLayout();
+    public CardLayout cardLayout = new CardLayout();
 
     //Objects
     FolderEntities folderEntities = new FolderEntities();

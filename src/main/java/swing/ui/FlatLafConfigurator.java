@@ -1,7 +1,5 @@
 // core/FlatLafConfigurator.java
-package core;
-
-import swing.objects.general.DemoPrefs;
+package swing.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +18,7 @@ public final class FlatLafConfigurator implements VariablesUI {
 
         UIManager.put("ScrollPane.smoothScrolling", true);
 
-        UIManager.put("TitlePane.buttonSize", new Dimension(TITLE_BUTTON_WIDTH, TITLE_BUTTON_HEIGHT));
+        UIManager.put("TitlePane.buttonSize", TITLE_CONTROL_BUTTON);
         UIManager.put("TitlePane.showIcon", false);
         UIManager.put("TitlePane.noIconLeftGap", z);
         UIManager.put("TitlePane.menuBarTitleGap", z);

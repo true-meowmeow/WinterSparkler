@@ -1,5 +1,6 @@
 package core;
 
+import swing.ui.FlatLafConfigurator;
 import swing.ui.MainJFrame;
 import javax.swing.*;
 
