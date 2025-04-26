@@ -2,7 +2,7 @@ package swing.ui.pages.settings;
 
 import core.contentManager.FolderEntities;
 import core.contentManager.FolderEntry;
-import swing.objects.general.panel.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -21,7 +21,8 @@ public class FolderPathsPanel extends JPanelCustom {
     public DefaultListModel<FolderEntry> listModel;
     public JList<FolderEntry> pathsList;
 
-    public FolderPathsPanel(FolderEntities folderEntities) {
+    public FolderPathsPanel() {
+        FolderEntities folderEntities = FolderEntities.getInstance();
 
         //this.folderEntities = folderEntities;
         this.listModel = folderEntities.listModel;

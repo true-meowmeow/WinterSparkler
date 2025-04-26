@@ -6,7 +6,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FolderEntities {   //todo блять это вообще что делает
+public class FolderEntities {
+
+    private static final FolderEntities INSTANCE = new FolderEntities();
+
+    public static FolderEntities getInstance() {
+        return INSTANCE;
+    }
 
     // Модель списка хранит объекты FolderEntry
     public final DefaultListModel<FolderEntry> listModel = new DefaultListModel<>();
@@ -30,16 +36,5 @@ public class FolderEntities {   //todo блять это вообще что д�
             }
         }
         return paths;
-    }
-
-    public java.util.List<String> getAllDisplayNames() {
-        java.util.List<String> names = new java.util.ArrayList<>();
-        for (int i = 0; i < listModel.getSize(); i++) {
-            FolderEntry fe = listModel.getElementAt(i);
-            if (!fe.isAddButton()) {
-                names.add(fe.getDisplayName());
-            }
-        }
-        return names;
     }
 }

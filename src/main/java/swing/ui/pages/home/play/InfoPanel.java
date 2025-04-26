@@ -1,8 +1,8 @@
 package swing.ui.pages.home.play;
 
 
-import swing.objects.general.panel.JPanelCustom;
-import swing.objects.general.panel.PanelType;
+import swing.objects.general.JPanelCustom;
+import swing.objects.general.PanelType;
 
 import javax.swing.*;
 import java.awt.*;
