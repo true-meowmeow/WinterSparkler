@@ -1,8 +1,8 @@
 package swing.ui.components;
 
-import swing.objects.general.panel.Axis;
-import swing.objects.general.panel.JPanelCustom;
-import swing.objects.general.panel.PanelType;
+import swing.objects.general.Axis;
+import swing.objects.general.JPanelCustom;
+import swing.objects.general.PanelType;
 import swing.ui.JPanelTabs;
 import swing.ui.VariablesUI;
 

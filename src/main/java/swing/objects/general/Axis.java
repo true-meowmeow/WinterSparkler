@@ -1,4 +1,4 @@
-package swing.objects.general.panel;
+package swing.objects.general;
 
 import swing.objects.WrapLayout;
 

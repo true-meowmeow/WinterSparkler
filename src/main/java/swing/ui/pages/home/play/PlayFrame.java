@@ -1,17 +1,17 @@
 package swing.ui.pages.home.play;
 
-import swing.objects.general.panel.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PlayFrame extends JPanelCustom {
 
-    public PlayFrame(CombinedPanel combinedPanel) {
+    public PlayFrame() {
         super(true);
 
         // Оборачиваем InfoPanel и PlaylistPanel в один комбинированный контейнер с переключением картами
-        add(combinedPanel, BorderLayout.CENTER);
+        add(CombinedPanel.getInstance(), BorderLayout.CENTER);
         add(new PlayerPanel(), BorderLayout.SOUTH);
     }
 }

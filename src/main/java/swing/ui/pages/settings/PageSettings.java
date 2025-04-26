@@ -1,20 +1,21 @@
 package swing.ui.pages.settings;
 
-import core.contentManager.FolderEntities;
-import swing.objects.general.panel.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 import swing.objects.general.Pages;
-import swing.objects.general.panel.PanelType;
+import swing.objects.general.PanelType;
+import swing.ui.VariablesUI;
 
 import java.awt.*;
 
 
-public class PageSettings extends Pages {
-    public PageSettings(FolderEntities folderEntities) {
+//todo Зарефакторить настройки, просто накидано
+public class PageSettings extends Pages implements VariablesUI {
+    public PageSettings() {
         super(PanelType.GRID, true);
 
-        add(new LeftPanel(), menuGridBagConstraintsX(0, 40));
-        add(new CenterPanel(), menuGridBagConstraintsX(1, 30));
-        add(new RightPanel(folderEntities), menuGridBagConstraintsX(2, 30));
+        add(new LeftPanel(), menuGridBagConstraintsX(0, weightLeftPanelSettings));
+        add(new CenterPanel(), menuGridBagConstraintsX(1, weightCenterPanelSettings));
+        add(new RightPanel(), menuGridBagConstraintsX(2, weightRightPanelSettings));
     }
 }
 
@@ -37,12 +38,11 @@ class CenterPanel extends JPanelCustom {
 
 class RightPanel extends JPanelCustom {
 
-    public RightPanel(FolderEntities folderEntities) {
+    public RightPanel() {
         super(true);
 
-
         setBackground(Color.DARK_GRAY);
-        add(new FolderPathsPanel(folderEntities), BorderLayout.NORTH);
+        add(new FolderPathsPanel(), BorderLayout.NORTH);
     }
 }
 

@@ -1,7 +1,7 @@
 package swing.ui.pages.home.queue;
 
-import swing.objects.general.panel.JPanelCustom;
-import swing.objects.general.panel.PanelType;
+import swing.objects.general.JPanelCustom;
+import swing.objects.general.PanelType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +60,7 @@ class QueuePanel extends JPanelCustom {
 class ImagePanel extends JPanelCustom {
     public ImagePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(Color.GRAY);
         add(Box.createVerticalStrut(300));
     }
 }
