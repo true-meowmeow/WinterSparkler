@@ -1,6 +1,5 @@
 package swing.ui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import core.Variables;
@@ -8,10 +7,7 @@ import swing.ui.components.TitleMenuBar;
 import swing.ui.controllers.TabHotkeyController;
 import swing.ui.utils.IconLoader;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
 
 public class MainJFrame extends JFrame implements Variables, VariablesUI {
 
@@ -34,8 +30,6 @@ public class MainJFrame extends JFrame implements Variables, VariablesUI {
         TitleMenuBar titleMenuBar = new TitleMenuBar(jPanelTabs);
         setJMenuBar(titleMenuBar);
         new TabHotkeyController(titleMenuBar);
-
-        setFocusTraversalKeysEnabled(false); // позволяем перехватывать TAB
     }
 
 }

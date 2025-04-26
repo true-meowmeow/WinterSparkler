@@ -8,9 +8,9 @@ import java.net.URISyntaxException;
 
 import static core.Main.LINK_GITHUB;
 
-public class Favorites extends JPanel {
+public class PageFavorites extends JPanel {
 
-    public Favorites() {
+    public PageFavorites() {
 
         setLayout(new GridBagLayout());
 
