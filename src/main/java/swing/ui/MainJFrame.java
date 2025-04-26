@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import core.Variables;
 import core.VariablesUI;
+import swing.objects.general.DemoPrefs;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,6 +29,7 @@ public class MainJFrame extends JFrame implements Variables, VariablesUI {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle(TITLE_NAME);
+
 
         try {
             setIconImages(loadAndScaleIcons("/icon/Winter Sparkler and Musical Glow2.png", new int[]{16, 32, 48, 64, 128, 256, 512, 1024}));
