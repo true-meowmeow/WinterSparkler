@@ -2,7 +2,7 @@ package swing.ui.pages.home.play;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.JPanelCustom;
 import swing.objects.ObservableCardLayout;
 
 import javax.swing.*;

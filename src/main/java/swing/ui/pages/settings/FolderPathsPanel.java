@@ -2,7 +2,7 @@ package swing.ui.pages.settings;
 
 import core.contentManager.FolderEntities;
 import core.contentManager.FolderEntry;
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.JPanelCustom;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;

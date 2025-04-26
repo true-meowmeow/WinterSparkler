@@ -2,21 +2,20 @@ package swing.ui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import core.MainJFrameElements;
 import core.Variables;
+import core.VariablesUI;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
-public class MainJFrame extends MainJFrameElements implements Variables {
+public class MainJFrame extends JFrame implements Variables, VariablesUI {
     private ButtonGroup navButtonGroup;
     private JToggleButton btnHome;
     private JToggleButton btnComponent;
     private JToggleButton btnFavorites;
-    private final int controlButtonSizeHeight = 28;
-    private final int buttonPreferredSizeWidth = 90;
     JPanelTabs jPanelTabs;
 
     // управление историей вкладок (кроме Settings)
@@ -25,10 +24,10 @@ public class MainJFrame extends MainJFrameElements implements Variables {
     private String currentTab = "PageHome";
 
     public MainJFrame() {
-        setSize(1600, 900);
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setTitle(appName + " " + appVersion);
+        setTitle(TITLE_NAME);
 
         try {
             setIconImages(loadAndScaleIcons("/icon/Winter Sparkler and Musical Glow2.png", new int[]{16, 32, 48, 64, 128, 256, 512, 1024}));
@@ -173,6 +172,9 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         setJMenuBar(menuBar);
     }
 
+    JButton menuButtonSettings = new JButton("Settings");
+    JMenuBar menuBar = new JMenuBar();
+
     private void deselectNavigationButtons() {
         if (navButtonGroup != null) navButtonGroup.clearSelection();
         Color bgColor = UIManager.getColor("MenuBar.background");
@@ -216,7 +218,7 @@ public class MainJFrame extends MainJFrameElements implements Variables {
         button.setOpaque(false);
         button.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12));
-        button.setPreferredSize(new Dimension(buttonPreferredSizeWidth, controlButtonSizeHeight));
+        button.setPreferredSize(new Dimension(NAVIGATION_BUTTON_WIDTH, NAVIGATION_BUTTON_HEIGHT));
 
         button.addItemListener(e -> {
             if (button.isSelected()) {

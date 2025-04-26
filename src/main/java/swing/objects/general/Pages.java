@@ -1,5 +1,8 @@
 package swing.objects.general;
 
+import swing.objects.general.panel.JPanelCustom;
+import swing.objects.general.panel.PanelType;
+
 import javax.swing.*;
 import java.awt.*;
 

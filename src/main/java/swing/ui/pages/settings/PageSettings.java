@@ -1,9 +1,9 @@
 package swing.ui.pages.settings;
 
 import core.contentManager.FolderEntities;
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.JPanelCustom;
 import swing.objects.general.Pages;
-import swing.objects.general.PanelType;
+import swing.objects.general.panel.PanelType;
 
 import java.awt.*;
 
