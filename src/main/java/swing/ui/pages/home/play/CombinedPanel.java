@@ -2,7 +2,7 @@ package swing.ui.pages.home.play;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
-import swing.objects.general.panel.JPanelCustom;
+import swing.objects.general.JPanelCustom;
 import swing.objects.ObservableCardLayout;
 
 import javax.swing.*;
@@ -10,18 +10,23 @@ import java.awt.*;
 
 public class CombinedPanel extends JPanelCustom {
 
+    private static CombinedPanel INSTANCE = new CombinedPanel();
+
+    public static CombinedPanel getInstance() {
+        return INSTANCE;
+    }
+
     public static final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
     public static final String MANAGE_VIEW = "MANAGE_VIEW";
 
     private ObservableCardLayout cardLayout;
     private JPanel cardPanel;
 
-
-    public CombinedPanel(FolderEntities folderEntities) {
+    public CombinedPanel() {
         super(true);
 
 
-        cardLayout = new ObservableCardLayout(MANAGE_VIEW, folderEntities);
+        cardLayout = new ObservableCardLayout(MANAGE_VIEW, FolderEntities.getInstance());
         cardPanel = new JPanel(cardLayout);
 
         ManagePanel folderPanel = new ManagePanel();

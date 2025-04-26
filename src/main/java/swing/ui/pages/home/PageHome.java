@@ -1,38 +1,38 @@
 package swing.ui.pages.home;
 
 import swing.objects.general.Pages;
-import swing.objects.general.panel.PanelType;
+import swing.objects.general.PanelType;
+import swing.ui.VariablesUI;
 import swing.ui.pages.home.collections.CollectionsFrame;
-import swing.ui.pages.home.play.CombinedPanel;
 import swing.ui.pages.home.play.PlayFrame;
 import swing.ui.pages.home.queue.QueueFrame;
 import swing.ui.pages.home.series.SeriesFrame;
 
 
-public class PageHome extends Pages {
+public class PageHome extends Pages implements VariablesUI {
 
-    public PageHome(CombinedPanel combinedPanel) {
+    public PageHome() {
         super(PanelType.GRID, true);
-        add(new LeftSidePageHome(combinedPanel), menuGridBagConstraintsX(0, 37));
-        add(new RightSidePageHome(combinedPanel), menuGridBagConstraintsX(1, 63));
+        add(new LeftSidePageHome(), menuGridBagConstraintsX(0, weightLeftSidePageHome));
+        add(new RightSidePageHome(), menuGridBagConstraintsX(1, weightRightSidePageHome));
     }
 }
 
-class LeftSidePageHome extends Pages {
+class LeftSidePageHome extends Pages implements VariablesUI {
 
-    public LeftSidePageHome(CombinedPanel combinedPanel) {
+    public LeftSidePageHome() {
         super(PanelType.GRID);
-        add(new CollectionsFrame(), menuGridBagConstraintsX(0, 50));
-        add(new SeriesFrame(combinedPanel), menuGridBagConstraintsX(1, 50));
+        add(new CollectionsFrame(), menuGridBagConstraintsX(0, weightCollectionsFrame));
+        add(new SeriesFrame(), menuGridBagConstraintsX(1, weightSeriesFrame));
 
     }
 }
 
-class RightSidePageHome extends Pages {
+class RightSidePageHome extends Pages implements VariablesUI {
 
-    public RightSidePageHome(CombinedPanel combinedPanel) {
+    public RightSidePageHome() {
         super(PanelType.GRID);
-        add(new PlayFrame(combinedPanel), menuGridBagConstraintsX(0, 75));
-        add(new QueueFrame(), menuGridBagConstraintsX(1, 25));
+        add(new PlayFrame(), menuGridBagConstraintsX(0, weightPlayFrame));
+        add(new QueueFrame(), menuGridBagConstraintsX(1, weightQueueFrame));
     }
 }
