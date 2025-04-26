@@ -1,4 +1,4 @@
-package swing.objects.general;
+package swing.ui;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.IntelliJTheme.ThemeLaf;

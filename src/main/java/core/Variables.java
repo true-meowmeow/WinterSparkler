@@ -5,6 +5,7 @@ public interface Variables {
     String APP_NAME = "WinterSparkler";
     String APP_VERSION = "0.0.1";
     String TITLE_NAME = APP_NAME + "  " + APP_VERSION;
+    String ICON_PATH = "/icon/Winter Sparkler and Musical Glow2.png";
 
     int DEFAULT_WIDTH = 1600;
     int DEFAULT_HEIGHT = 900;
