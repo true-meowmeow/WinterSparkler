@@ -3,7 +3,7 @@ package swing.ui.pages.home.play;
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
 import swing.objects.PathManager;
-import swing.objects.general.JPanelCustom;
+import swing.objects.general.panel.JPanelCustom;
 import swing.objects.movement.MovementHandler;
 
 import javax.swing.*;

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static core.Main.link_github;
+import static core.Main.LINK_GITHUB;
 
 public class Favorites extends JPanel {
 
@@ -78,7 +78,7 @@ public class Favorites extends JPanel {
         if (aFlag) {
             System.out.println("Favorites panel is now visible");
             try {
-                Desktop.getDesktop().browse(new URI(link_github));
+                Desktop.getDesktop().browse(new URI(LINK_GITHUB));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (URISyntaxException e) {

@@ -1,4 +1,4 @@
-package swing.objects.general;
+package swing.objects.general.panel;
 
 import swing.objects.WrapLayout;
 
@@ -36,6 +36,4 @@ public enum Axis {
     public WrapLayout createWrapLayout(int hgap, int vgap) {
         return new WrapLayout(value, hgap, vgap);
     }
-
-
 }
