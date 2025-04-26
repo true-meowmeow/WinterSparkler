@@ -51,7 +51,7 @@ public final class TitleMenuBar extends JMenuBar implements VariablesUI {
     }
 
     private AbstractButton createButton(Tab tab) {
-        AbstractButton btn = tab == Tab.SETTINGS ? new JButton(tab.label) : new JToggleButton(tab.label);
+        AbstractButton btn = tab == Tab.SETTINGS ? new JButton(tab.getLabel()) : new JToggleButton(tab.getLabel());
 
         style(btn, tab);
         btn.addActionListener(e -> handleClick(tab));
@@ -121,7 +121,7 @@ public final class TitleMenuBar extends JMenuBar implements VariablesUI {
     }
 
     private void showCard(Tab tab) {
-        tabs.cardLayout.show(tabs, tab.card);
+        tabs.showTab(tab);
         current = tab;
     }
 
