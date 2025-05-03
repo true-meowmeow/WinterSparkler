@@ -20,7 +20,7 @@ public class SeriesFrame extends JPanelCustom {
  class ControlsPanel extends JPanelCustom {
     public ControlsPanel() {
         super(PanelType.GRID);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBorder(10, 10, 10, 10);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.5;
