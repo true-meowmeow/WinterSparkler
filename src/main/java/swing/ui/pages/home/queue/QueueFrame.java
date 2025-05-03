@@ -10,12 +10,6 @@ public class QueueFrame extends JPanelCustom {
 
     public QueueFrame() {
         super(true);
-        JPanel contentPanel = new JPanel(new BorderLayout());
-
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-        contentPanel.add(new JLabel(), BorderLayout.CENTER); // Пустой компонент
-        add(contentPanel, BorderLayout.CENTER);
-
 
         add(new InfoQueuePanel(), BorderLayout.NORTH);
         add(new QueuePanel(), BorderLayout.CENTER);
@@ -23,12 +17,10 @@ public class QueueFrame extends JPanelCustom {
     }
 }
 
-
-
 class InfoQueuePanel extends JPanelCustom {
     public InfoQueuePanel() {
         super(PanelType.GRID);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBorder(10, 10, 10, 10);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.5;

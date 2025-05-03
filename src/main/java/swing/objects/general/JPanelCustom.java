@@ -52,6 +52,10 @@ public class JPanelCustom extends JPanel {
         setLayout(type.createLayout(this, null, 0, 0));
     }
 
+    public void setBorder(int top, int left, int bottom, int right) {
+        setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
+    }
+
 
     public void setDimensions(Dimension minimum, Dimension preferred, Dimension maximum) {
         setMinimumSize(minimum);
