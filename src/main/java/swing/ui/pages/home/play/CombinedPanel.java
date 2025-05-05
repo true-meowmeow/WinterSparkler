@@ -5,7 +5,6 @@ import core.contentManager.FolderEntities;
 import swing.objects.general.JPanelCustom;
 import swing.objects.ObservableCardLayout;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class CombinedPanel extends JPanelCustom {
@@ -24,17 +23,17 @@ public class CombinedPanel extends JPanelCustom {
 
     public CombinedPanel() {
         super(true);
+        //new ManagePanel();
 
         cardLayout = new ObservableCardLayout(MANAGE_VIEW, FolderEntities.getInstance());
         cardPanel = new JPanelCustom(cardLayout);
 
-        new ManagePanel();
 
 
         // Добавляем слушатель изменений, который обновляет ту же панель
         cardLayout.addPropertyChangeListener(evt -> {
             if ("filesDataList".equals(evt.getPropertyName())) {
-                ManagePanel.FolderSystemPanelInstance().updateManagingPanel(((FilesDataMap) evt.getNewValue()));
+                ManagePanel.getInstance().updateManagingPanel(((FilesDataMap) evt.getNewValue()));
             }
         });
 
@@ -49,7 +48,7 @@ public class CombinedPanel extends JPanelCustom {
         {           // Карточка для режима управления: объединяем InfoPanel и дополнительную панель управления
             JPanelCustom manageCard = new JPanelCustom();
             manageCard.add(new SelectionMenuPanel(), BorderLayout.NORTH);
-            manageCard.add(ManagePanel.FolderSystemPanelInstance(), BorderLayout.CENTER);
+            manageCard.add(ManagePanel.getInstance(), BorderLayout.CENTER);
 
             cardPanel.add(manageCard, MANAGE_VIEW);
         }

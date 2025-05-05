@@ -78,13 +78,13 @@ public class SelectionPanel extends JPanelCustom {
      */
     public void updateSet(FilesDataMap.CatalogData.FilesData filesDataHashSet) {
         container.removeAll();
-        ManagePanel.FolderSystemPanelInstance().panels.clear();
+        ManagePanel.getInstance().panels.clear();
 
         int index = 0;
         // Добавляем панели папок
         for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
             FolderPanel fp = new FolderPanel(index++, folder);
-            ManagePanel.FolderSystemPanelInstance().panels.add(fp);
+            ManagePanel.getInstance().panels.add(fp);
             container.add(fp);
         }
         // Добавляем сепаратор для завершения строки в WrapLayout
@@ -92,7 +92,7 @@ public class SelectionPanel extends JPanelCustom {
         // Добавляем панели медиа
         for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
             MediaPanel mp = new MediaPanel(index++, media);
-            ManagePanel.FolderSystemPanelInstance().panels.add(mp);
+            ManagePanel.getInstance().panels.add(mp);
             container.add(mp);
         }
 
@@ -102,7 +102,7 @@ public class SelectionPanel extends JPanelCustom {
 
     public void updateSetHome(FilesDataMap filesDataMap) {
         container.removeAll();
-        ManagePanel.FolderSystemPanelInstance().panels.clear();
+        ManagePanel.getInstance().panels.clear();
 
         int index = 0;
         outerLoop:
@@ -127,7 +127,7 @@ public class SelectionPanel extends JPanelCustom {
             // Добавляем панели папок
             for (FilesDataMap.CatalogData.FilesData.SubFolder folder : filesDataHashSet.getFoldersDataHashSet()) {
                 FolderPanel fp = new FolderPanel(index++, folder);
-                ManagePanel.FolderSystemPanelInstance().panels.add(fp);
+                ManagePanel.getInstance().panels.add(fp);
                 container.add(fp);
             }
             // Добавляем сепаратор для завершения строки в WrapLayout
@@ -135,7 +135,7 @@ public class SelectionPanel extends JPanelCustom {
             // Добавляем панели медиа
             for (MediaData media : filesDataHashSet.getMediaDataHashSet()) {
                 MediaPanel mp = new MediaPanel(index++, media);
-                ManagePanel.FolderSystemPanelInstance().panels.add(mp);
+                ManagePanel.getInstance().panels.add(mp);
                 container.add(mp);
             }
 
