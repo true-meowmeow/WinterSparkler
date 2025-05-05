@@ -40,9 +40,9 @@ public class SeriesFrame extends JPanelCustom {
         // При переключении кнопки меняем карточку в CombinedPanel
         manageToggle.addActionListener(e -> {
             if (manageToggle.isSelected()) {
-                CombinedPanel.getInstance().showCard(CombinedPanel.MANAGE_VIEW);
+                CombinedPanel.getInstance().showCard(CombinedPanel.getInstance().MANAGE_VIEW);
             } else {
-                CombinedPanel.getInstance().showCard(CombinedPanel.PLAYLIST_VIEW);
+                CombinedPanel.getInstance().showCard(CombinedPanel.getInstance().PLAYLIST_VIEW);
             }
         });
     }
