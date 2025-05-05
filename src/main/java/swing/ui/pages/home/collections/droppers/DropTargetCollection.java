@@ -1,13 +1,12 @@
-package swing.ui.pages.home.collections;
+package swing.ui.pages.home.collections.droppers;
 
 import swing.objects.dropper.DropPanelAbstract;
-
-import java.util.function.Consumer;
+import swing.ui.pages.home.collections.objects.CollectionObject;
 
 public class DropTargetCollection extends DropPanelAbstract {
 
 
-    public CollectionItemPanel collectionItem;
+    public CollectionObject collectionItem;
 
     @Override
     public void dropAction() {
@@ -17,14 +16,7 @@ public class DropTargetCollection extends DropPanelAbstract {
     }
 
     @Override
-    public void setCollectionItem(CollectionItemPanel collectionItem) {
+    public void setCollectionItem(CollectionObject collectionItem) {
         this.collectionItem = collectionItem;
     }
-
-
-    /*
-    @Override
-    public void dropAction(String title) {
-        System.out.println("dropped from collection + " + title);
-    }*/
 }

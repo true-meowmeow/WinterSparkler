@@ -3,8 +3,6 @@ package swing.objects.movement;
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import swing.ui.pages.home.SwingHomeVariables;
-import swing.ui.pages.home.collections.EmptyDropPanel;
-import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.play.SelectablePanel;
 
 import javax.swing.*;

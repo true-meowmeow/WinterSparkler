@@ -1,19 +1,21 @@
-package swing.ui.pages.home.collections;
+package swing.ui.pages.home.collections.controllers;
+
+import swing.ui.pages.home.collections.objects.CollectionObject;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class CollectionItemController {
-    private static CollectionItemPanel openedPanel = null;
+public class CollectionObjectController {
+    private static CollectionObject openedPanel = null;
 
-    private final CollectionItemPanel view;
+    private final CollectionObject view;
     private Point pressPoint;
     private boolean dragging = false;
     private boolean isDragHighlight = false;
     private int lastY;
 
-    public CollectionItemController(CollectionItemPanel view) {
+    public CollectionObjectController(CollectionObject view) {
         this.view = view;
         initMouse();
     }
@@ -64,7 +66,7 @@ public class CollectionItemController {
         if (parent == null) return false;
         Point p = SwingUtilities.convertPoint(view, e.getPoint(), parent);
         for (Component c : parent.getComponents()) {
-            if (c == view || !(c instanceof CollectionItemPanel)) continue;
+            if (c == view || !(c instanceof CollectionObject)) continue;
             if (p.y >= c.getY() && p.y <= c.getY() + c.getHeight()) return true;
         }
         return false;
