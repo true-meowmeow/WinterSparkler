@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static swing.ui.pages.home.play.ManagePanel.FolderSystemPanelInstance;
+import static swing.ui.pages.home.play.ManagePanel.getInstance;
 
 public class MovementHandler extends MouseAdapter implements SwingHomeVariables {
 
@@ -28,7 +28,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
     private boolean initialShift = false;
     private boolean initialAlt = false;
     private boolean pendingShiftClick = false;
-    private boolean dragStartedWithShift = false;
+    //private boolean dragStartedWithShift = false;
     private static DropPanel lastHoverPanel = null;
 
     public MovementHandler(SelectablePanel panel) {
@@ -51,26 +51,26 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         pressPoint = e.getPoint();
         moved = false;
         initialCtrl = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
-        dragStartedWithShift = initialShift;
+        //dragStartedWithShift = initialShift;
         pendingShiftClick = initialShift;
 
         /* —–– выделения —–– */
         if (initialShift) {
             pendingShiftClick = true;
-            if (FolderSystemPanelInstance().anchorIndex == -1) {
-                FolderSystemPanelInstance().clearSelection();
+            if (getInstance().anchorIndex == -1) {
+                getInstance().clearSelection();
                 panel.setSelected(true);
-                FolderSystemPanelInstance().anchorIndex = panel.getIndex();
+                getInstance().anchorIndex = panel.getIndex();
             }
         } else if (initialCtrl) {
-            FolderSystemPanelInstance().handlePanelClick(panel, e);
+            getInstance().handlePanelClick(panel, e);
         } else {
             if (!panel.isSelected()) {
-                FolderSystemPanelInstance().clearSelection();
+                getInstance().clearSelection();
                 panel.setSelected(true);
-                FolderSystemPanelInstance().anchorIndex = panel.getIndex();
+                getInstance().anchorIndex = panel.getIndex();
             } else {
-                FolderSystemPanelInstance().anchorIndex = panel.getIndex();
+                getInstance().anchorIndex = panel.getIndex();
             }
         }
     }
@@ -88,12 +88,12 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 moved = true;
 
                 if (!initialCtrl && !initialShift && !panel.isSelected()) {
-                    FolderSystemPanelInstance().clearSelection();
+                    getInstance().clearSelection();
                     panel.setSelected(true);
-                    FolderSystemPanelInstance().anchorIndex = panel.getIndex();
+                    getInstance().anchorIndex = panel.getIndex();
                 }
                 if (initialShift && pendingShiftClick && !panel.isSelected()) {
-                    FolderSystemPanelInstance().handlePanelClick(panel, e);
+                    getInstance().handlePanelClick(panel, e);
                     pendingShiftClick = false;
                 } else if (initialShift && pendingShiftClick) {
                     pendingShiftClick = false;
@@ -102,23 +102,23 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         }
 
         /* начало группового drag’a */
-        if (moved && !FolderSystemPanelInstance().draggingGroup && panel.isSelected()) {
-            FolderSystemPanelInstance().draggingGroup = true;
-            FolderSystemPanelInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, FolderSystemPanelInstance().getGlassPane());
+        if (moved && !getInstance().draggingGroup && panel.isSelected()) {
+            getInstance().draggingGroup = true;
+            getInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, getInstance().getGlassPane());
 
-            int cnt = (int) FolderSystemPanelInstance().panels.stream().filter(SelectablePanel::isSelected).count();
-            FolderSystemPanelInstance().dragGlassPane.setGhostText(cnt > 1 ? "Dragging " + cnt + " objects" : "Dragging object");
-            FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(FolderSystemPanelInstance().groupDragStart.x + 10, FolderSystemPanelInstance().groupDragStart.y + 10));
-            FolderSystemPanelInstance().dragGlassPane.setVisible(true);
+            int cnt = (int) getInstance().panels.stream().filter(SelectablePanel::isSelected).count();
+            getInstance().dragGlassPane.setGhostText(cnt > 1 ? "Dragging " + cnt + " objects" : "Dragging object");
+            getInstance().dragGlassPane.setGhostLocation(new Point(getInstance().groupDragStart.x + 10, getInstance().groupDragStart.y + 10));
+            getInstance().dragGlassPane.setVisible(true);
 
             /* ── показываем панель «+ Add collection», если нужно ── */
             showBottomPanelIfNeeded();
         }
 
         /* перемещение «призрака» и подсветка DropPanel’ов */
-        if (FolderSystemPanelInstance().draggingGroup) {
-            Point glassPt = SwingUtilities.convertPoint(panel, e.getPoint(), FolderSystemPanelInstance().getGlassPane());
-            FolderSystemPanelInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
+        if (getInstance().draggingGroup) {
+            Point glassPt = SwingUtilities.convertPoint(panel, e.getPoint(), getInstance().getGlassPane());
+            getInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
 
             Point dropScreenPoint = e.getLocationOnScreen();
             DropPanel hoverPanel = null;
@@ -146,7 +146,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             return;
         }
 
-        if (FolderSystemPanelInstance().draggingGroup) {
+        if (getInstance().draggingGroup) {
             Point dropScreenPoint = e.getLocationOnScreen();
             DropPanel targetPanel = null;
             for (DropPanel dp : DropPanelRegistry.getAll()) {
@@ -164,7 +164,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             if (targetPanel != null) {
                 /* сбор выбранных элементов */
                 List<SelectablePanel> selectedItems = new ArrayList<>();
-                for (SelectablePanel sp : FolderSystemPanelInstance().panels)
+                for (SelectablePanel sp : getInstance().panels)
                     if (sp.isSelected()) selectedItems.add(sp);
                 Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
 
@@ -176,11 +176,11 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
             }
 
-            FolderSystemPanelInstance().clearSelection();
-            FolderSystemPanelInstance().anchorIndex = -1;
-            FolderSystemPanelInstance().draggingGroup = false;
-            FolderSystemPanelInstance().groupDragStart = null;
-            FolderSystemPanelInstance().dragGlassPane.clearGhost();
+            getInstance().clearSelection();
+            getInstance().anchorIndex = -1;
+            getInstance().draggingGroup = false;
+            getInstance().groupDragStart = null;
+            getInstance().dragGlassPane.clearGhost();
 
             /* спрятать нижнюю панель */
             hideBottomPanel();
@@ -190,13 +190,13 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             }
         } else if (!moved) {                  // обычный клик
             if (initialShift && pendingShiftClick) {
-                FolderSystemPanelInstance().handlePanelClick(panel, e);
+                getInstance().handlePanelClick(panel, e);
                 pendingShiftClick = false;
             } else if (!initialCtrl && !initialShift && !initialAlt) {
                 if (panel.isSelected()) {
-                    FolderSystemPanelInstance().clearSelection();
+                    getInstance().clearSelection();
                     panel.setSelected(true);
-                    FolderSystemPanelInstance().anchorIndex = panel.getIndex();
+                    getInstance().anchorIndex = panel.getIndex();
                 }
             }
         }

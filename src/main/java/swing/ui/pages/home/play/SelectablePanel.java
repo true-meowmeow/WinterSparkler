@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
 
-import static swing.ui.pages.home.play.ManagePanel.FolderSystemPanelInstance;
+import static swing.ui.pages.home.play.ManagePanel.getInstance;
 
 public class SelectablePanel extends JPanelCustom {
     private boolean selected = false;
@@ -47,9 +47,9 @@ public class SelectablePanel extends JPanelCustom {
 
         }
         if (SelectablePanel.this.getIsFolder()) {
-            FolderSystemPanelInstance().clearSelection();
+            getInstance().clearSelection();
         }
-        FolderSystemPanelInstance().anchorIndex = -1;
+        getInstance().anchorIndex = -1;
     }
 
 
@@ -94,11 +94,11 @@ public class SelectablePanel extends JPanelCustom {
     }
 
     public void setSelected(boolean selected) {
-        if (!selected && this.selected && FolderSystemPanelInstance().anchorIndex == this.index) {
-            FolderSystemPanelInstance().updateAnchorAfterDeselection(this.index);
+        if (!selected && this.selected && getInstance().anchorIndex == this.index) {
+            getInstance().updateAnchorAfterDeselection(this.index);
         }
         if (selected && !this.selected) {
-            this.selectionOrder = FolderSystemPanelInstance().globalSelectionCounter++;
+            this.selectionOrder = getInstance().globalSelectionCounter++;
         }
         if (!selected) {
             this.selectionOrder = 0;

@@ -6,7 +6,6 @@ import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
 import swing.objects.movement.DragGlassPane;
 import swing.objects.selection.*;
-import swing.ui.pages.home.collections.droppers.DropTargetCollection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +17,10 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class ManagePanel extends JPanelCustom {
-    private static ManagePanel INSTANCE;
+    private static ManagePanel INSTANCE = new ManagePanel();
     private Component glassPane; // Поле для glassPane
 
-    public static ManagePanel FolderSystemPanelInstance() {
+    public static ManagePanel getInstance() {
         return INSTANCE;
     }
 
