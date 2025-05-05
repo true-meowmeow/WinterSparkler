@@ -1,22 +1,28 @@
-package swing.ui.pages.home.collections;
+package swing.ui.pages.home.collections.objects;
 
 import swing.objects.dropper.DropPanel;
 import swing.ui.pages.home.SwingHomeVariables;
+import swing.ui.pages.home.collections.controllers.CollectionObjectController;
+import swing.ui.pages.home.collections.droppers.DropTargetCollection;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionItemPanel extends DropPanel implements SwingHomeVariables {
+public class CollectionObject extends DropPanel implements SwingHomeVariables {
+    private int positionList; //position in ui list
     private String title;
 
-    public CollectionItemPanel(String title) {
+    CollectionObjectController collectionObjectController;
+
+    public CollectionObject(int positionList, String title) {
         super(title, new DropTargetCollection());
+        this.positionList = positionList;
         this.title = title;
+        collectionObjectController = new CollectionObjectController(this);
+        dropTargetPanel.setCollectionItem(this);
 
         setMaximumSize(MAX_INT, HEIGHT_COLLECTION_PANEL);
         setPreferredSize(ZERO_INT, HEIGHT_COLLECTION_PANEL);
-
-        dropTargetPanel.setCollectionItem(this);
 
 
         setLayout(new BorderLayout());
@@ -38,6 +44,10 @@ public class CollectionItemPanel extends DropPanel implements SwingHomeVariables
 
     public void setFocus() {
         setBackground(new Color(0xE0E0E0));
+    }
+
+    public int getPositionList() {
+        return positionList;
     }
 
     public String getTitle() {

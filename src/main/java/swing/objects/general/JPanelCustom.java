@@ -27,6 +27,12 @@ public class JPanelCustom extends JPanel {
         this(DEFAULT_TYPE, null, 0, 0, false);
     }
 
+    /*** Конструктор для добавления по LayoutManager.*/
+    public JPanelCustom(LayoutManager layout) {
+        super();
+        setLayout(layout);
+    }
+
     /*** Конструктор установки нулевых границ.*/
     public JPanelCustom(boolean clearBorder) {
         this(DEFAULT_TYPE, null, 0, 0, clearBorder);

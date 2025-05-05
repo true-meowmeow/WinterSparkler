@@ -2,9 +2,9 @@ package swing.ui.pages.home.collections;
 
 import swing.objects.dropper.DropPanel;
 import swing.ui.pages.home.SwingHomeVariables;
+import swing.ui.pages.home.collections.droppers.DropTargetNewCollection;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class BottomAddCollectionPanel extends DropPanel implements SwingHomeVariables {
 

@@ -1,4 +1,4 @@
-package swing.ui.pages.home.collections;
+package swing.ui.pages.home.collections.droppers;
 
 import swing.objects.dropper.DropPanelAbstract;
 

@@ -6,7 +6,7 @@ import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
 import swing.objects.movement.DragGlassPane;
 import swing.objects.selection.*;
-import swing.ui.pages.home.collections.DropTargetCollection;
+import swing.ui.pages.home.collections.droppers.DropTargetCollection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +18,11 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class ManagePanel extends JPanelCustom {
-    private static ManagePanel instance;
+    private static ManagePanel INSTANCE;
     private Component glassPane; // Поле для glassPane
 
     public static ManagePanel FolderSystemPanelInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     // Глобальный счётчик для порядка выделения
@@ -37,8 +37,6 @@ public class ManagePanel extends JPanelCustom {
     public Point groupDragStart = null;
     public boolean draggingGroup = false;
 
-    // Правая область – информационное окно (drop target)
-    public DropTargetCollection dropTargetCollection;
     // Glass pane для ghost‑эффекта при перетаскивании
     public DragGlassPane dragGlassPane;
 
@@ -64,16 +62,18 @@ public class ManagePanel extends JPanelCustom {
         ActionMap am = root.getActionMap();
 
         // Home / Back навигация
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,      0), "goHome");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_HOME,        0), "goHome");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE,  0), "goBack");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "goHome");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0), "goHome");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "goBack");
         am.put("goHome", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 PathManager.getInstance().goToHome();
             }
         });
         am.put("goBack", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 PathManager.getInstance().goToParentDirectory();
             }
         });
@@ -81,7 +81,8 @@ public class ManagePanel extends JPanelCustom {
         // очистка выделения
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK), "clearSel");
         am.put("clearSel", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 clearSelection();
                 anchorIndex = -1;
             }
@@ -90,7 +91,8 @@ public class ManagePanel extends JPanelCustom {
         // Ctrl+A — выбрать только файлы
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), "selectNotFolder");
         am.put("selectNotFolder", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 int first = -1;
                 for (SelectablePanel sp : panels) {
                     if (!sp.getIsFolder()) {
@@ -108,7 +110,8 @@ public class ManagePanel extends JPanelCustom {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A,
                 InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK), "selectAll");
         am.put("selectAll", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 for (SelectablePanel sp : panels) sp.setSelected(true);
                 anchorIndex = 0;
             }
@@ -118,7 +121,7 @@ public class ManagePanel extends JPanelCustom {
 
     public ManagePanel() {
         super(Axis.Y_AX);
-        instance = this;
+        INSTANCE = this;
 
         dragGlassPane = new DragGlassPane();
         add(selectionPanel);
