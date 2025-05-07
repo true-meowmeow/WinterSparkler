@@ -1,4 +1,4 @@
-package swing.objects.movement;
+package swing.ui.pages.home.play.view.controllers;
 
 import javax.swing.*;
 import java.awt.*;

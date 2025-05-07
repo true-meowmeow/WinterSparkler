@@ -1,10 +1,9 @@
 package swing.ui.pages.home.series;
 
 import swing.objects.dropper.DropPanelAbstract;
-import swing.ui.pages.home.play.SelectablePanel;
+import swing.ui.pages.home.play.view.SelectablePanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class DropTargetSeries extends DropPanelAbstract {

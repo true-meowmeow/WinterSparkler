@@ -1,4 +1,4 @@
-package swing.ui.pages.home.play;
+package swing.ui.pages.home.play.view;
 
 import swing.objects.general.JPanelCustom;
 
