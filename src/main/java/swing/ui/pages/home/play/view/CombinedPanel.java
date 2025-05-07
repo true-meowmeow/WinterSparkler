@@ -1,4 +1,4 @@
-package swing.ui.pages.home.play;
+package swing.ui.pages.home.play.view;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.FolderEntities;
@@ -15,19 +15,17 @@ public class CombinedPanel extends JPanelCustom {
         return INSTANCE;
     }
 
-    public final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
-    public final String MANAGE_VIEW = "MANAGE_VIEW";
+    public static final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
+    public static final String MANAGE_VIEW = "MANAGE_VIEW";
 
     private ObservableCardLayout cardLayout;
     private JPanelCustom  cardPanel;
 
     public CombinedPanel() {
         super(true);
-        //new ManagePanel();
 
-        cardLayout = new ObservableCardLayout(MANAGE_VIEW, FolderEntities.getInstance());
+        cardLayout = new ObservableCardLayout();
         cardPanel = new JPanelCustom(cardLayout);
-
 
 
         // Добавляем слушатель изменений, который обновляет ту же панель

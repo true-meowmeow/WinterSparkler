@@ -1,9 +1,9 @@
-package swing.objects.movement;
+package swing.ui.pages.home.play.view.controllers;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import swing.ui.pages.home.SwingHomeVariables;
-import swing.ui.pages.home.play.SelectablePanel;
+import swing.ui.pages.home.play.view.SelectablePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static swing.ui.pages.home.play.ManagePanel.getInstance;
+import static swing.ui.pages.home.play.view.ManagePanel.getInstance;
 
 public class MovementHandler extends MouseAdapter implements SwingHomeVariables {
 

@@ -1,7 +1,7 @@
 package swing.objects.dropper;
 
 import swing.ui.pages.home.collections.objects.CollectionObject;
-import swing.ui.pages.home.play.SelectablePanel;
+import swing.ui.pages.home.play.view.SelectablePanel;
 
 import java.util.List;
 

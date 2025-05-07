@@ -1,16 +1,16 @@
-package swing.ui.pages.home.play;
+package swing.ui.pages.home.play.view;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
 import swing.objects.PathManager;
 import swing.objects.general.JPanelCustom;
-import swing.objects.movement.MovementHandler;
+import swing.ui.pages.home.play.view.controllers.MovementHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
 
-import static swing.ui.pages.home.play.ManagePanel.getInstance;
+import static swing.ui.pages.home.play.view.ManagePanel.getInstance;
 
 public class SelectablePanel extends JPanelCustom {
     private boolean selected = false;
