@@ -1,7 +1,7 @@
 package swing.objects.selection;
 
-import swing.ui.pages.home.play.ManagePanel;
-import swing.ui.pages.home.play.SelectablePanel;
+import swing.ui.pages.home.play.view.ManagePanel;
+import swing.ui.pages.home.play.view.SelectablePanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -6,8 +6,8 @@ import swing.objects.*;
 import swing.objects.general.JPanelCustom;
 import swing.objects.general.PanelType;
 import swing.objects.general.SmoothScrollPane;
-import swing.ui.pages.home.play.ManagePanel;
-import swing.ui.pages.home.play.SelectablePanel;
+import swing.ui.pages.home.play.view.ManagePanel;
+import swing.ui.pages.home.play.view.SelectablePanel;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
