@@ -4,8 +4,10 @@ import swing.objects.dropper.DropPanel;
 import swing.ui.pages.home.collections.droppers.DropTargetNewCollection;
 
 public class EmptyDropPanel extends DropPanel {
+    public static final String PROPERTY_NAME = "_EMPTY_DROP_PANEL_";
+
     public EmptyDropPanel() {
-        super("_EMPTY_DROP_PANEL_", new DropTargetNewCollection());
+        super(PROPERTY_NAME, new DropTargetNewCollection());
         setDimensions(ZERO, ZERO, MAX);
         setHoverBorderEnabled(false);
 

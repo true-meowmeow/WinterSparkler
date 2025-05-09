@@ -1,6 +1,6 @@
 package swing.objects.dropper;
 
-import swing.objects.general.JPanelCustom;
+import swing.objects.core.JPanelCustom;
 
 import javax.swing.*;
 import javax.swing.border.Border;

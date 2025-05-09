@@ -1,8 +1,8 @@
 package swing.ui.pages.settings;
 
-import swing.objects.general.JPanelCustom;
-import swing.objects.general.Pages;
-import swing.objects.general.PanelType;
+import swing.objects.core.JPanelCustom;
+import swing.objects.core.Pages;
+import swing.objects.core.PanelType;
 import swing.ui.VariablesUI;
 
 import java.awt.*;

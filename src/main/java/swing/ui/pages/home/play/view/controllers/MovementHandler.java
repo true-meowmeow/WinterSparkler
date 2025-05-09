@@ -3,6 +3,8 @@ package swing.ui.pages.home.play.view.controllers;
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import swing.ui.pages.home.SwingHomeVariables;
+import swing.ui.pages.home.collections.BottomAddCollectionPanel;
+import swing.ui.pages.home.collections.EmptyDropPanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
 import javax.swing.*;
@@ -18,8 +20,6 @@ import static swing.ui.pages.home.play.view.ManagePanel.getInstance;
 
 public class MovementHandler extends MouseAdapter implements SwingHomeVariables {
 
-    private static final String NAME_EMPTY_PANEL = "_EMPTY_SLOT_";
-    private static final String NAME_BOTTOM_PANEL = "_EMPTY_SLOT_2";
 
     private final SelectablePanel panel;
     private Point pressPoint = null;
@@ -203,13 +203,13 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
 
     /* ----------------------------------------------------------- */
     private void showBottomPanelIfNeeded() {
-        DropPanel bottom = DropPanelRegistry.get(NAME_BOTTOM_PANEL);
-        DropPanel empty = DropPanelRegistry.get(NAME_EMPTY_PANEL);
+        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
+        DropPanel empty = DropPanelRegistry.get(EmptyDropPanel.PROPERTY_NAME);
 
         if (bottom == null) return;
         int emptyHeight = (empty != null) ? empty.getHeight() : 0;
 
-        if (emptyHeight < 200) {
+        //if (emptyHeight < 200) {
             if (!bottom.isVisible()) {
                 bottom.setVisible(true);
                 Container p = bottom.getParent();
@@ -218,11 +218,11 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                     p.repaint();
                 }
             }
-        }
+        //}
     }
 
     private void hideBottomPanel() {
-        DropPanel bottom = DropPanelRegistry.get(NAME_BOTTOM_PANEL);
+        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
         if (bottom != null && bottom.isVisible()) {
             bottom.setVisible(false);
             Container p = bottom.getParent();

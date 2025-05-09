@@ -1,6 +1,6 @@
 package swing.ui.pages.home.collections;
 
-import swing.objects.general.JPanelCustom;
+import swing.objects.core.JPanelCustom;
 
 import java.awt.*;
 
