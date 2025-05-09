@@ -1,6 +1,5 @@
 package swing.ui.pages.home.play.view;
 
-import core.contentManager.FilesDataMap;
 import swing.objects.general.JPanelCustom;
 import swing.objects.ViewCardLayout;
 

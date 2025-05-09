@@ -5,6 +5,7 @@ import swing.objects.PathManager;
 import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.DragGlassPane;
+import swing.ui.pages.home.play.view.controllers.KeyBindingConfigurator;
 import swing.ui.pages.home.play.view.controllers.ManageController;
 import swing.ui.pages.home.play.view.selection.SelectionPanel;
 

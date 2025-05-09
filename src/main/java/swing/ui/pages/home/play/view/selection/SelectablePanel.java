@@ -1,4 +1,4 @@
-package swing.ui.pages.home.play.view;
+package swing.ui.pages.home.play.view.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
