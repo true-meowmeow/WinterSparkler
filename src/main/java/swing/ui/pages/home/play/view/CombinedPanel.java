@@ -1,9 +1,8 @@
 package swing.ui.pages.home.play.view;
 
 import core.contentManager.FilesDataMap;
-import core.contentManager.FolderEntities;
 import swing.objects.general.JPanelCustom;
-import swing.objects.ObservableCardLayout;
+import swing.objects.ViewCardLayout;
 
 import java.awt.*;
 
@@ -18,44 +17,30 @@ public class CombinedPanel extends JPanelCustom {
     public static final String PLAYLIST_VIEW = "PLAYLIST_VIEW";
     public static final String MANAGE_VIEW = "MANAGE_VIEW";
 
-    private ObservableCardLayout cardLayout;
-    private JPanelCustom  cardPanel;
+    private final ViewCardLayout cardLayout = new ViewCardLayout();
+    private final JPanelCustom viewCardPanel = new JPanelCustom(cardLayout);
 
     public CombinedPanel() {
-        super(true);
-
-        cardLayout = new ObservableCardLayout();
-        cardPanel = new JPanelCustom(cardLayout);
-
-
-        // Добавляем слушатель изменений, который обновляет ту же панель
-        cardLayout.addPropertyChangeListener(evt -> {
-            if ("filesDataList".equals(evt.getPropertyName())) {
-                ManagePanel.getInstance().updateManagingPanel(((FilesDataMap) evt.getNewValue()));
-            }
-        });
-
-        {           // Карточка для режима плейлиста: объединяем InfoPanel и PlaylistPanel
+        {           // Карточка для режима плейлиста
             JPanelCustom playlistCard = new JPanelCustom();
             playlistCard.add(new InfoPanel(), BorderLayout.NORTH);
             playlistCard.add(new PlaylistPanel(), BorderLayout.CENTER);
 
-            cardPanel.add(playlistCard, PLAYLIST_VIEW);
+            viewCardPanel.add(playlistCard, PLAYLIST_VIEW);
         }
 
-        {           // Карточка для режима управления: объединяем InfoPanel и дополнительную панель управления
+        {           // Карточка для режима управления
             JPanelCustom manageCard = new JPanelCustom();
             manageCard.add(new SelectionMenuPanel(), BorderLayout.NORTH);
             manageCard.add(ManagePanel.getInstance(), BorderLayout.CENTER);
 
-            cardPanel.add(manageCard, MANAGE_VIEW);
+            viewCardPanel.add(manageCard, MANAGE_VIEW);
         }
 
-        setLayout(new BorderLayout());
-        add(cardPanel, BorderLayout.CENTER);
+        add(viewCardPanel);
     }
 
     public void showCard(String view) {
-        cardLayout.show(cardPanel, view);
+        cardLayout.show(viewCardPanel, view);
     }
 }
