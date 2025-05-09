@@ -147,11 +147,11 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         if (getInstance().draggingGroup) {
             Point dropScreenPoint = e.getLocationOnScreen();
             DropPanel targetPanel = null;
-            for (DropPanel dp : DropPanelRegistry.getAll()) {
-                if (!dp.isShowing()) continue;                // безопасно, панель могла быть скрыта
+            for (DropPanel dp : DropPanelRegistry.getAll()) {    /// Перебирает все панели дропа
+                if (!dp.isShowing()) continue;
                 try {
                     Rectangle panelBounds = new Rectangle(dp.getLocationOnScreen(), dp.getSize());
-                    if (panelBounds.contains(dropScreenPoint)) {
+                    if (panelBounds.contains(dropScreenPoint)) {    ///  При совпадении по координатам ставит объект
                         targetPanel = dp;
                         break;
                     }
@@ -166,10 +166,9 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                     if (sp.isSelected()) selectedItems.add(sp);
                 Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
 
-                // TODO: dropAction(TransferableData …)
+                /// Drop action
                 targetPanel.dropTargetPanel.dropAction(selectedItems);
                 targetPanel.dropTargetPanel.dropAction();
-                targetPanel.dropTargetPanel.dropAction("fdsfsd");
 
                 getInstance().manageController.clearSelection();
                 getInstance().manageController.clearAnchorIndex();
