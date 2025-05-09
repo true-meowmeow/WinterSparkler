@@ -1,4 +1,4 @@
-package swing.objects;
+package swing.objects.objects;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

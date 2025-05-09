@@ -1,8 +1,8 @@
 package swing.ui.pages.home.series;
 
-import swing.objects.general.JPanelCustom;
+import swing.objects.core.JPanelCustom;
 import swing.objects.dropper.DropPanel;
-import swing.objects.general.PanelType;
+import swing.objects.core.PanelType;
 import swing.ui.pages.home.play.view.CombinedPanel;
 
 import javax.swing.*;
@@ -48,8 +48,9 @@ public class SeriesFrame extends JPanelCustom {
     }
 }
 class SeriesPanel extends DropPanel {
+    public static final String PROPERTY_NAME = "_SERIES_PANEL_";
     public SeriesPanel() {
-        super("_SERIES_PANEL_", new DropTargetSeries());
+        super(PROPERTY_NAME, new DropTargetSeries());
         setBackground(Color.LIGHT_GRAY);
     }
 

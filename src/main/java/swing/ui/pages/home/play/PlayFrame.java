@@ -1,6 +1,6 @@
 package swing.ui.pages.home.play;
 
-import swing.objects.general.JPanelCustom;
+import swing.objects.core.JPanelCustom;
 import swing.ui.pages.home.play.view.CombinedPanel;
 import swing.ui.pages.home.play.player.PlayerPanel;
 

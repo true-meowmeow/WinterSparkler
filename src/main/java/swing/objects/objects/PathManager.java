@@ -1,8 +1,7 @@
-package swing.objects;
+package swing.objects.objects;
 
 import swing.ui.pages.home.play.view.ManagePanel;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -10,13 +9,17 @@ import java.util.HashSet;
 public class PathManager {
     private static final PathManager instance = new PathManager(); // один экземпляр
     private Path path;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    public static final String PROPERTY_NAME = "_PATH_MANAGER_";
 
     private HashSet<Path> corePaths;
 
     private PathManager() {
         corePaths = new HashSet<>();
-        setPropertyChangeListener();
+
+        propertyChangeSupport.addPropertyChangeListener(evt -> {
+            ManagePanel.getInstance().updateManagePanel();
+        });
     }
 
     public void setCorePaths(HashSet<Path> corePaths) {
@@ -32,15 +35,17 @@ public class PathManager {
     }
 
     public void setPath(Path newPath) {
-        Path oldPath = this.path;
-        this.path = newPath;
-        pcs.firePropertyChange("path", oldPath, newPath);
+        updatePath(newPath);
     }
 
-    public void setPathHome() {
+    public void setPath() {
+        updatePath(pathHome);
+    }
+
+    private void updatePath(Path newPath) {
         Path oldPath = this.path;
-        this.path = pathHome;
-        pcs.firePropertyChange("path", oldPath, pathHome);
+        this.path = newPath;
+        propertyChangeSupport.firePropertyChange(PROPERTY_NAME, oldPath, newPath);
     }
 
     public void goToParentDirectory() {
@@ -52,7 +57,7 @@ public class PathManager {
         }
     }
 
-    private Path pathHome = Path.of("Home");
+    private final Path pathHome = Path.of("Home");
 
     public boolean isPathHome() {
         return path.equals(pathHome);
@@ -60,11 +65,5 @@ public class PathManager {
 
     public void goToHome() {
         setPath(pathHome);
-    }
-
-    public void setPropertyChangeListener() {
-        pcs.addPropertyChangeListener(evt -> {
-            ManagePanel.getInstance().updateManagePanel();
-        });
     }
 }

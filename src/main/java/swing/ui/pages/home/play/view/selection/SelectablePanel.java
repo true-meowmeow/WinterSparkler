@@ -2,8 +2,8 @@ package swing.ui.pages.home.play.view.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
-import swing.objects.PathManager;
-import swing.objects.general.JPanelCustom;
+import swing.objects.objects.PathManager;
+import swing.objects.core.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.MovementHandler;
 
 import javax.swing.*;

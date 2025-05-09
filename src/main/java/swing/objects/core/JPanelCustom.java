@@ -1,4 +1,4 @@
-package swing.objects.general;
+package swing.objects.core;
 
 import javax.swing.*;
 import java.awt.*;

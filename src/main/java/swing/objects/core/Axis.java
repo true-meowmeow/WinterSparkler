@@ -1,6 +1,6 @@
-package swing.objects.general;
+package swing.objects.core;
 
-import swing.objects.WrapLayout;
+import swing.objects.objects.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;

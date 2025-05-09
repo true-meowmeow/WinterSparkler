@@ -1,7 +1,7 @@
 package swing.ui.pages.home;
 
-import swing.objects.general.Pages;
-import swing.objects.general.PanelType;
+import swing.objects.core.Pages;
+import swing.objects.core.PanelType;
 import swing.ui.VariablesUI;
 import swing.ui.pages.home.collections.CollectionsFrame;
 import swing.ui.pages.home.play.PlayFrame;
