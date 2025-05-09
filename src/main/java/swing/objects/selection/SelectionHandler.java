@@ -44,7 +44,7 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
         altStart   = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK)   != 0;
 
         if (!ctrlStart && !shiftStart && !altStart) {
-            ManagePanel.getInstance().clearSelection();
+            ManagePanel.getInstance().manageController.clearSelection();
         }
 
         selectionRect = new Rectangle(dragStartView);
@@ -63,7 +63,7 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
         dragging = false;
 
         Rectangle vpRect = getSelectionRect();
-        for (SelectablePanel sp : ManagePanel.getInstance().panels) {
+        for (SelectablePanel sp : ManagePanel.getInstance().manageController.panels) {
             Rectangle comp = SwingUtilities.convertRectangle(
                     sp.getParent(), sp.getBounds(), viewport);
 
@@ -76,11 +76,11 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
         }
 
         int min = Integer.MAX_VALUE;
-        for (SelectablePanel sp : ManagePanel.getInstance().panels) {
+        for (SelectablePanel sp : ManagePanel.getInstance().manageController.panels) {
             if (sp.isSelected() && sp.getIndex() < min) min = sp.getIndex();
         }
         if (min != Integer.MAX_VALUE) {
-            ManagePanel.getInstance().anchorIndex = min;
+            ManagePanel.getInstance().manageController.anchorIndex = min;
         }
 
         selectionRect = null;
