@@ -1,9 +1,9 @@
 package swing.ui.pages.home.play.view;
 
 import core.contentManager.*;
-import swing.objects.PathManager;
-import swing.objects.general.Axis;
-import swing.objects.general.JPanelCustom;
+import swing.objects.objects.PathManager;
+import swing.objects.core.Axis;
+import swing.objects.core.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.DragGlassPane;
 import swing.ui.pages.home.play.view.controllers.KeyBindingConfigurator;
 import swing.ui.pages.home.play.view.controllers.ManageController;
@@ -69,7 +69,7 @@ public class ManagePanel extends JPanelCustom {
         manageController.panels = new ArrayList<>();
 
         PathManager.getInstance().setCorePaths(new HashSet<>(filesDataMapObj.getCatalogDataHashMap().keySet()));
-        PathManager.getInstance().setPathHome();
+        PathManager.getInstance().setPath();
         if (PathManager.getInstance().isPathHome()) {
             selectionPanel.updateSetHome(filesDataMap);
         }

@@ -7,9 +7,10 @@ import swing.ui.pages.home.collections.droppers.DropTargetNewCollection;
 import javax.swing.*;
 
 public class BottomAddCollectionPanel extends DropPanel implements SwingHomeVariables {
+    public static final String PROPERTY_NAME = "_BOTTOM_ADD_COLLECTION_PANEL_";
 
     public BottomAddCollectionPanel() {
-        super("_BOTTOM_ADD_COLLECTION_PANEL_", new DropTargetNewCollection());
+        super(PROPERTY_NAME, new DropTargetNewCollection());
 
         int height = HEIGHT_ADD_COLLECTION_PANEL;
         setPreferredSize(MAX_INT, height);

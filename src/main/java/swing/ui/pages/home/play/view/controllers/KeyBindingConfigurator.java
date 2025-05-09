@@ -1,6 +1,6 @@
 package swing.ui.pages.home.play.view.controllers;
 
-import swing.objects.PathManager;
+import swing.objects.objects.PathManager;
 import swing.ui.pages.home.play.view.ManagePanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
