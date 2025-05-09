@@ -107,9 +107,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             getInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, getInstance().glassPane);
 
             int cnt = (int) getInstance().manageController.panels.stream().filter(SelectablePanel::isSelected).count();
-            getInstance().dragGlassPane.setGhostText(cnt > 1 ? "Dragging " + cnt + " objects" : "Dragging object");
-            getInstance().dragGlassPane.setGhostLocation(new Point(getInstance().groupDragStart.x + 10, getInstance().groupDragStart.y + 10));
-            getInstance().dragGlassPane.setVisible(true);
+            getInstance().dragGlassPane.configure(cnt, getInstance().groupDragStart);
 
             /* ── показываем панель «+ Add collection», если нужно ── */
             showBottomPanelIfNeeded();
@@ -172,6 +170,8 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 targetPanel.dropTargetPanel.dropAction(selectedItems);
                 targetPanel.dropTargetPanel.dropAction();
                 targetPanel.dropTargetPanel.dropAction("fdsfsd");
+
+
             } else {
                 System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
             }
@@ -181,6 +181,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             getInstance().draggingGroup = false;
             getInstance().groupDragStart = null;
             getInstance().dragGlassPane.clearGhost();
+
 
             /* спрятать нижнюю панель */
             hideBottomPanel();
