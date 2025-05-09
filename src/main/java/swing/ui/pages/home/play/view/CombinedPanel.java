@@ -21,21 +21,21 @@ public class CombinedPanel extends JPanelCustom {
     private final JPanelCustom viewCardPanel = new JPanelCustom(cardLayout);
 
     public CombinedPanel() {
-        {           // Карточка для режима плейлиста
-            JPanelCustom playlistCard = new JPanelCustom();
-            playlistCard.add(new InfoPanel(), BorderLayout.NORTH);
-            playlistCard.add(new PlaylistPanel(), BorderLayout.CENTER);
+        // Карточка для режима плейлиста
+        JPanelCustom playlistCard = new JPanelCustom();
+        playlistCard.add(new InfoPanel(), BorderLayout.NORTH);
+        playlistCard.add(new PlaylistPanel(), BorderLayout.CENTER);
 
-            viewCardPanel.add(playlistCard, PLAYLIST_VIEW);
-        }
+        viewCardPanel.add(playlistCard, PLAYLIST_VIEW);
 
-        {           // Карточка для режима управления
-            JPanelCustom manageCard = new JPanelCustom();
-            manageCard.add(new SelectionMenuPanel(), BorderLayout.NORTH);
-            manageCard.add(ManagePanel.getInstance(), BorderLayout.CENTER);
 
-            viewCardPanel.add(manageCard, MANAGE_VIEW);
-        }
+        // Карточка для режима управления
+        JPanelCustom manageCard = new JPanelCustom();
+        manageCard.add(new SelectionMenuPanel(), BorderLayout.NORTH);
+        manageCard.add(ManagePanel.getInstance(), BorderLayout.CENTER);
+
+        viewCardPanel.add(manageCard, MANAGE_VIEW);
+
 
         add(viewCardPanel);
     }

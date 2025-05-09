@@ -5,32 +5,30 @@ import swing.objects.PathManager;
 import swing.objects.general.Axis;
 import swing.objects.general.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.DragGlassPane;
-import swing.objects.selection.*;
 import swing.ui.pages.home.play.view.controllers.ManageController;
+import swing.ui.pages.home.play.view.selection.SelectionPanel;
 
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.*;
 
 public class ManagePanel extends JPanelCustom {
-    private static ManagePanel INSTANCE = new ManagePanel();
-
-    public ManageController manageController = new ManageController(this);
-
-    // Glass pane для ghost‑эффекта при перетаскивании
-    public DragGlassPane dragGlassPane;
+    private static final ManagePanel INSTANCE = new ManagePanel();
 
     public static ManagePanel getInstance() {
         return INSTANCE;
     }
 
+    public ManageController manageController = new ManageController();
 
-    // Глобальный счётчик для порядка выделения
-    public static long globalSelectionCounter = 1;
+    // Glass pane для ghost‑эффекта при перетаскивании
+    public DragGlassPane dragGlassPane = new DragGlassPane();
 
+
+    public static long globalSelectionCounter = 1;    // Глобальный счётчик для порядка выделения
     // Переменные для группового перетаскивания (ghost‑эффект)
-    public Point groupDragStart = null;
-    public boolean draggingGroup = false;
+    public Point groupDragStart;
+    public boolean draggingGroup;
 
 
     public Component glassPane; // Поле для glassPane
@@ -59,9 +57,7 @@ public class ManagePanel extends JPanelCustom {
     public ManagePanel() {
         super(Axis.Y_AX);
 
-        dragGlassPane = new DragGlassPane();
         add(selectionPanel);
-
     }
 
     public FilesDataMap filesDataMap;

@@ -7,12 +7,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class ManageController {
-    ManagePanel parent;
-
-    public ManageController(ManagePanel parent) {
-        this.parent = parent;
-    }
-
 
     public ArrayList<SelectablePanel> panels;    // Список панелей
     public int anchorIndex = -1;    // Якорный индекс для диапазонного выделения (Shift)
