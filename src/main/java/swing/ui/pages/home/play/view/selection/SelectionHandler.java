@@ -34,14 +34,14 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
     }
 
     /* ---------- Mouse ---------- */
-    @Override public void mousePressed(MouseEvent e) {
-        dragStartView = SwingUtilities.convertPoint(
-                viewport, e.getPoint(), viewport.getView());
+    @Override
+    public void mousePressed(MouseEvent e) {
+        dragStartView = SwingUtilities.convertPoint(viewport, e.getPoint(), viewport.getView());
         lastMouseViewport = e.getPoint();
 
-        ctrlStart  = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)  != 0;
+        ctrlStart = (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) != 0;
         shiftStart = (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) != 0;
-        altStart   = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK)   != 0;
+        altStart = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) != 0;
 
         if (!ctrlStart && !shiftStart && !altStart) {
             ManagePanel.getInstance().manageController.clearSelection();
@@ -52,26 +52,27 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
         viewport.repaint();
     }
 
-    @Override public void mouseDragged(MouseEvent e) {
+    @Override
+    public void mouseDragged(MouseEvent e) {
         if (!dragging) return;
         lastMouseViewport = e.getPoint();
         updateSelectionRect();
     }
 
-    @Override public void mouseReleased(MouseEvent e) {
+    @Override
+    public void mouseReleased(MouseEvent e) {
         if (!dragging) return;
         dragging = false;
 
         Rectangle vpRect = getSelectionRect();
         for (SelectablePanel sp : ManagePanel.getInstance().manageController.panels) {
-            Rectangle comp = SwingUtilities.convertRectangle(
-                    sp.getParent(), sp.getBounds(), viewport);
+            Rectangle comp = SwingUtilities.convertRectangle(sp.getParent(), sp.getBounds(), viewport);
 
             if (vpRect.intersects(comp)) {
-                if (shiftStart)              sp.setSelected(!altStart);
-                else if (altStart)           sp.setSelected(false);
-                else if (ctrlStart)          sp.setSelected(!sp.isSelected());
-                else                         sp.setSelected(true);
+                if (shiftStart) sp.setSelected(!altStart);
+                else if (altStart) sp.setSelected(false);
+                else if (ctrlStart) sp.setSelected(!sp.isSelected());
+                else sp.setSelected(true);
             }
         }
 
@@ -88,7 +89,8 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
     }
 
     /* ---------- Scroll listener ---------- */
-    @Override public void stateChanged(ChangeEvent e) {
+    @Override
+    public void stateChanged(ChangeEvent e) {
         if (dragging) updateSelectionRect();
     }
 
@@ -96,14 +98,9 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
     private void updateSelectionRect() {
         if (selectionRect == null) return;
 
-        Point curView = SwingUtilities.convertPoint(
-                viewport, lastMouseViewport, viewport.getView());
+        Point curView = SwingUtilities.convertPoint(viewport, lastMouseViewport, viewport.getView());
 
-        selectionRect.setBounds(
-                Math.min(dragStartView.x, curView.x),
-                Math.min(dragStartView.y, curView.y),
-                Math.abs(dragStartView.x - curView.x),
-                Math.abs(dragStartView.y - curView.y));
+        selectionRect.setBounds(Math.min(dragStartView.x, curView.x), Math.min(dragStartView.y, curView.y), Math.abs(dragStartView.x - curView.x), Math.abs(dragStartView.y - curView.y));
 
         viewport.repaint();
     }
