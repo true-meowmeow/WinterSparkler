@@ -6,14 +6,16 @@ import java.awt.*;
 public class DragGlassPane extends JComponent {
     private String ghostText;
     private Point ghostLocation;
+    private final int offset = 5;
 
-    public void setGhostText(String text) {
-        this.ghostText = text;
-        repaint();
+    public void configure(int countObjects, Point point) {
+        this.ghostText = countObjects > 1 ? "Dragging " + countObjects + " objects" : "Dragging object";
+        setGhostLocation(point);
+        setVisible(true);
     }
 
-    public void setGhostLocation(Point p) {
-        this.ghostLocation = p;
+    public void setGhostLocation(Point point) {
+        this.ghostLocation = new Point(point.x + offset, point.y + offset);
         repaint();
     }
 

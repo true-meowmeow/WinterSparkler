@@ -1,4 +1,4 @@
-package swing.objects.selection;
+package swing.ui.pages.home.play.view.selection;
 
 import swing.ui.pages.home.play.view.ManagePanel;
 import swing.ui.pages.home.play.view.SelectablePanel;

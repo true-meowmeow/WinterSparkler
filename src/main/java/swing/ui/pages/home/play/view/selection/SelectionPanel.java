@@ -1,4 +1,4 @@
-package swing.objects.selection;
+package swing.ui.pages.home.play.view.selection;
 
 import core.contentManager.FilesDataMap;
 import core.contentManager.MediaData;
@@ -21,15 +21,10 @@ public class SelectionPanel extends JPanelCustom {
 
     private JPanelCustom container;
     private JScrollPane scrollPane;
-    // Удаляем локальное поле selectionRect. Теперь оно содержится в SelectionHandler.
     private SelectionHandler selectionHandler;
-    private final static int scrollSpeedThrottle = 60; // delay in milli seconds
 
     public SelectionPanel() {
-        // Используем BorderLayout для корректного размещения компонентов
-        setLayout(new BorderLayout());
-
-        container = new JPanelCustom(PanelType.WRAP/*, Axis.CENTER*/);
+        container = new JPanelCustom(PanelType.WRAP);
         scrollPane = new SmoothScrollPane(container);
         scrollPane.getViewport().setOpaque(false);
 
@@ -63,7 +58,7 @@ public class SelectionPanel extends JPanelCustom {
                     container.invalidate();
                     container.validate();
                     container.repaint();
-                    SelectionPanel.this.repaint();
+                    repaint();
                 });
             }
         });
