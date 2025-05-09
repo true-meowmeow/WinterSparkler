@@ -57,20 +57,20 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         /* —–– выделения —–– */
         if (initialShift) {
             pendingShiftClick = true;
-            if (getInstance().anchorIndex == -1) {
-                getInstance().clearSelection();
+            if (getInstance().manageController.anchorIndex == -1) {
+                getInstance().manageController.clearSelection();
                 panel.setSelected(true);
-                getInstance().anchorIndex = panel.getIndex();
+                getInstance().manageController.anchorIndex = panel.getIndex();
             }
         } else if (initialCtrl) {
-            getInstance().handlePanelClick(panel, e);
+            getInstance().manageController.handlePanelClick(panel, e);
         } else {
             if (!panel.isSelected()) {
-                getInstance().clearSelection();
+                getInstance().manageController.clearSelection();
                 panel.setSelected(true);
-                getInstance().anchorIndex = panel.getIndex();
+                getInstance().manageController.anchorIndex = panel.getIndex();
             } else {
-                getInstance().anchorIndex = panel.getIndex();
+                getInstance().manageController.anchorIndex = panel.getIndex();
             }
         }
     }
@@ -88,12 +88,12 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 moved = true;
 
                 if (!initialCtrl && !initialShift && !panel.isSelected()) {
-                    getInstance().clearSelection();
+                    getInstance().manageController.clearSelection();
                     panel.setSelected(true);
-                    getInstance().anchorIndex = panel.getIndex();
+                    getInstance().manageController.anchorIndex = panel.getIndex();
                 }
                 if (initialShift && pendingShiftClick && !panel.isSelected()) {
-                    getInstance().handlePanelClick(panel, e);
+                    getInstance().manageController.handlePanelClick(panel, e);
                     pendingShiftClick = false;
                 } else if (initialShift && pendingShiftClick) {
                     pendingShiftClick = false;
@@ -104,9 +104,9 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         /* начало группового drag’a */
         if (moved && !getInstance().draggingGroup && panel.isSelected()) {
             getInstance().draggingGroup = true;
-            getInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, getInstance().getGlassPane());
+            getInstance().groupDragStart = SwingUtilities.convertPoint(panel, pressPoint, getInstance().glassPane);
 
-            int cnt = (int) getInstance().panels.stream().filter(SelectablePanel::isSelected).count();
+            int cnt = (int) getInstance().manageController.panels.stream().filter(SelectablePanel::isSelected).count();
             getInstance().dragGlassPane.setGhostText(cnt > 1 ? "Dragging " + cnt + " objects" : "Dragging object");
             getInstance().dragGlassPane.setGhostLocation(new Point(getInstance().groupDragStart.x + 10, getInstance().groupDragStart.y + 10));
             getInstance().dragGlassPane.setVisible(true);
@@ -117,7 +117,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
 
         /* перемещение «призрака» и подсветка DropPanel’ов */
         if (getInstance().draggingGroup) {
-            Point glassPt = SwingUtilities.convertPoint(panel, e.getPoint(), getInstance().getGlassPane());
+            Point glassPt = SwingUtilities.convertPoint(panel, e.getPoint(), getInstance().glassPane);
             getInstance().dragGlassPane.setGhostLocation(new Point(glassPt.x + 10, glassPt.y + 10));
 
             Point dropScreenPoint = e.getLocationOnScreen();
@@ -164,7 +164,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             if (targetPanel != null) {
                 /* сбор выбранных элементов */
                 List<SelectablePanel> selectedItems = new ArrayList<>();
-                for (SelectablePanel sp : getInstance().panels)
+                for (SelectablePanel sp : getInstance().manageController.panels)
                     if (sp.isSelected()) selectedItems.add(sp);
                 Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
 
@@ -176,8 +176,8 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
             }
 
-            getInstance().clearSelection();
-            getInstance().anchorIndex = -1;
+            getInstance().manageController.clearSelection();
+            getInstance().manageController.anchorIndex = -1;
             getInstance().draggingGroup = false;
             getInstance().groupDragStart = null;
             getInstance().dragGlassPane.clearGhost();
@@ -190,13 +190,13 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             }
         } else if (!moved) {                  // обычный клик
             if (initialShift && pendingShiftClick) {
-                getInstance().handlePanelClick(panel, e);
+                getInstance().manageController.handlePanelClick(panel, e);
                 pendingShiftClick = false;
             } else if (!initialCtrl && !initialShift && !initialAlt) {
                 if (panel.isSelected()) {
-                    getInstance().clearSelection();
+                    getInstance().manageController.clearSelection();
                     panel.setSelected(true);
-                    getInstance().anchorIndex = panel.getIndex();
+                    getInstance().manageController.anchorIndex = panel.getIndex();
                 }
             }
         }
