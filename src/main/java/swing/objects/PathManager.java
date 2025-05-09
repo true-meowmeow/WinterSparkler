@@ -1,5 +1,7 @@
 package swing.objects;
 
+import swing.ui.pages.home.play.view.ManagePanel;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.nio.file.Path;
@@ -14,6 +16,7 @@ public class PathManager {
 
     private PathManager() {
         corePaths = new HashSet<>();
+        setPropertyChangeListener();
     }
 
     public void setCorePaths(HashSet<Path> corePaths) {
@@ -59,11 +62,9 @@ public class PathManager {
         setPath(pathHome);
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        pcs.removePropertyChangeListener(listener);
+    public void setPropertyChangeListener() {
+        pcs.addPropertyChangeListener(evt -> {
+            ManagePanel.getInstance().updateManagePanel();
+        });
     }
 }
