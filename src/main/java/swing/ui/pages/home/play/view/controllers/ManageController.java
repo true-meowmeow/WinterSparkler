@@ -1,7 +1,6 @@
 package swing.ui.pages.home.play.view.controllers;
 
-import swing.ui.pages.home.play.view.ManagePanel;
-import swing.ui.pages.home.play.view.SelectablePanel;
+import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

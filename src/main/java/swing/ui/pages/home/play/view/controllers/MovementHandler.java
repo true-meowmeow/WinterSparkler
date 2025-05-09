@@ -3,7 +3,7 @@ package swing.ui.pages.home.play.view.controllers;
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import swing.ui.pages.home.SwingHomeVariables;
-import swing.ui.pages.home.play.view.SelectablePanel;
+import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
 import javax.swing.*;
 import java.awt.*;
