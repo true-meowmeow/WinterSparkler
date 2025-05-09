@@ -31,19 +31,19 @@ public class CollectionObject extends DropPanel implements SwingHomeVariables {
     }
 
     public void setNormal() {
-        setBackground(new Color(0xF5F5F5));
+        setBackground(basicColor);
     }
 
     public void setOpened() {
-        setBackground(new Color(0xDCDCDC));
+        setBackground(aOpenedColor);
     }
 
     public void setDragHighlight() {
-        setBackground(new Color(0xDCDCDC));
+        setBackground(aDragColor);
     }
 
     public void setFocus() {
-        setBackground(new Color(0xE0E0E0));
+        setBackground(aFocusColor);
     }
 
     public int getPositionList() {

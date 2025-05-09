@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class PlayerPanel extends DropPanel {
     public PlayerPanel() {
-        super("_EMPTY_SLOT_", new DropTargetNewCollection());
+        super("_Player_Panel_", new DropTargetNewCollection());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(Box.createVerticalStrut(300));
     }

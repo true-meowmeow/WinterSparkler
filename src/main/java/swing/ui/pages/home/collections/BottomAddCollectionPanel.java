@@ -9,7 +9,7 @@ import javax.swing.*;
 public class BottomAddCollectionPanel extends DropPanel implements SwingHomeVariables {
 
     public BottomAddCollectionPanel() {
-        super("_EMPTY_SLOT_2", new DropTargetNewCollection());
+        super("_BOTTOM_ADD_COLLECTION_PANEL_", new DropTargetNewCollection());
 
         int height = HEIGHT_ADD_COLLECTION_PANEL;
         setPreferredSize(MAX_INT, height);

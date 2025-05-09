@@ -49,7 +49,7 @@ public class SeriesFrame extends JPanelCustom {
 }
 class SeriesPanel extends DropPanel {
     public SeriesPanel() {
-        super("series", new DropTargetSeries());
+        super("_SERIES_PANEL_", new DropTargetSeries());
         setBackground(Color.LIGHT_GRAY);
     }
 
