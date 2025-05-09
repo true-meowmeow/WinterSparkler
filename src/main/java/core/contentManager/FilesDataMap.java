@@ -3,7 +3,6 @@ package core.contentManager;
 import java.nio.file.Path;
 import java.util.*;
 
-//todo Есть вариант отсортировать все карты по старшинству имени и запустить в поток чтобы чем ближе к корню файлы, тем больше приоритет
 public class FilesDataMap { //Объект корневых путей
 
     private HashMap<Path, CatalogData> catalogDataHashMap = new HashMap<>();     //rootPath, FolderData
