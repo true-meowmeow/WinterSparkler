@@ -80,7 +80,7 @@ public class SelectionHandler extends MouseAdapter implements ChangeListener {
             if (sp.isSelected() && sp.getIndex() < min) min = sp.getIndex();
         }
         if (min != Integer.MAX_VALUE) {
-            ManagePanel.getInstance().manageController.anchorIndex = min;
+            ManagePanel.getInstance().manageController.setAnchorIndex(min);
         }
 
         selectionRect = null;

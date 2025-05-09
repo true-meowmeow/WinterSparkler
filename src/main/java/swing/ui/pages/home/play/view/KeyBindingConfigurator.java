@@ -47,7 +47,7 @@ public class KeyBindingConfigurator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parent.manageController.clearSelection();
-                parent.manageController.anchorIndex = -1;
+                parent.manageController.clearAnchorIndex();
             }
         });
 
@@ -65,7 +65,7 @@ public class KeyBindingConfigurator {
                         sp.setSelected(false);
                     }
                 }
-                parent.manageController.anchorIndex = first;
+                parent.manageController.setAnchorIndex(first);
             }
         });
 
@@ -75,7 +75,7 @@ public class KeyBindingConfigurator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (SelectablePanel sp : parent.manageController.panels) sp.setSelected(true);
-                parent.manageController.anchorIndex = 0;
+                parent.manageController.setAnchorIndex(0);
             }
         });
     }

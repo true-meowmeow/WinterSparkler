@@ -9,13 +9,25 @@ import java.util.ArrayList;
 public class ManageController {
 
     public ArrayList<SelectablePanel> panels;    // Список панелей
-    public int anchorIndex = -1;    // Якорный индекс для диапазонного выделения (Shift)
-
 
     public void clearSelection() {
         for (SelectablePanel p : panels) {
             p.setSelected(false);
         }
+    }
+
+    private int anchorIndex = -1;    // Якорный индекс для диапазонного выделения (Shift)
+
+    public int getAnchorIndex() {
+        return anchorIndex;
+    }
+
+    public void setAnchorIndex(int anchorIndex) {
+        this.anchorIndex = anchorIndex;
+    }
+
+    public void clearAnchorIndex() {
+        setAnchorIndex(-1);
     }
 
     private int getSelectedCount() {
@@ -36,11 +48,11 @@ public class ManageController {
 
         if (shift) {
             if (anchorIndex == -1) {
-                anchorIndex = index;
+                setAnchorIndex(index);
                 if (alt) {
                     panel.setSelected(false);
                     if (getSelectedCount() == 0) {
-                        anchorIndex = -1;
+                        clearAnchorIndex();
                     }
                 } else if (ctrl) {
                     panel.setSelected(!panel.isSelected());
@@ -69,21 +81,21 @@ public class ManageController {
                     }
                 }
                 if (alt && getSelectedCount() == 0) {
-                    anchorIndex = -1;
+                    clearAnchorIndex();
                 } else {
-                    anchorIndex = index;
+                    setAnchorIndex(index);
                 }
             }
         } else if (ctrl) {
             boolean newSelection = !panel.isSelected();
             panel.setSelected(newSelection);
             if (newSelection) {
-                anchorIndex = index;
+                setAnchorIndex(index);
             }
         } else {
             clearSelection();
             panel.setSelected(true);
-            anchorIndex = index;
+            setAnchorIndex(index);
         }
     }
 
@@ -126,18 +138,18 @@ public class ManageController {
             }
         }
         if (candidateAbove == -1 && candidateBelow == -1) {
-            anchorIndex = -1;
+            clearAnchorIndex();
         } else if (candidateAbove == -1) {
-            anchorIndex = candidateBelow;
+            setAnchorIndex(candidateBelow);
         } else if (candidateBelow == -1) {
-            anchorIndex = candidateAbove;
+            setAnchorIndex(candidateAbove);
         } else {
             if (minAboveDiff < minBelowDiff) {
-                anchorIndex = candidateAbove;
+                setAnchorIndex(candidateAbove);
             } else if (minBelowDiff < minAboveDiff) {
-                anchorIndex = candidateBelow;
+                setAnchorIndex(candidateBelow);
             } else {
-                anchorIndex = candidateAbove; // при равенстве выбираем панель с большим индексом (выше)
+                setAnchorIndex(candidateAbove); // при равенстве выбираем панель с большим индексом (выше)
             }
         }
     }

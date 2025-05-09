@@ -49,7 +49,7 @@ public class SelectablePanel extends JPanelCustom {
         if (SelectablePanel.this.getIsFolder()) {
             getInstance().manageController.clearSelection();
         }
-        getInstance().manageController.anchorIndex = -1;
+        getInstance().manageController.clearAnchorIndex();
     }
 
 
@@ -94,7 +94,7 @@ public class SelectablePanel extends JPanelCustom {
     }
 
     public void setSelected(boolean selected) {
-        if (!selected && this.selected && getInstance().manageController.anchorIndex == this.index) {
+        if (!selected && this.selected && getInstance().manageController.getAnchorIndex() == this.index) {
             getInstance().manageController.updateAnchorAfterDeselection(this.index);
         }
         if (selected && !this.selected) {
