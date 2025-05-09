@@ -57,10 +57,10 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         /* —–– выделения —–– */
         if (initialShift) {
             pendingShiftClick = true;
-            if (getInstance().manageController.anchorIndex == -1) {
+            if (getInstance().manageController.getAnchorIndex() == -1) {
                 getInstance().manageController.clearSelection();
                 panel.setSelected(true);
-                getInstance().manageController.anchorIndex = panel.getIndex();
+                getInstance().manageController.setAnchorIndex(panel.getIndex());
             }
         } else if (initialCtrl) {
             getInstance().manageController.handlePanelClick(panel, e);
@@ -68,9 +68,9 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             if (!panel.isSelected()) {
                 getInstance().manageController.clearSelection();
                 panel.setSelected(true);
-                getInstance().manageController.anchorIndex = panel.getIndex();
+                getInstance().manageController.setAnchorIndex(panel.getIndex());
             } else {
-                getInstance().manageController.anchorIndex = panel.getIndex();
+                getInstance().manageController.setAnchorIndex(panel.getIndex());
             }
         }
     }
@@ -90,7 +90,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 if (!initialCtrl && !initialShift && !panel.isSelected()) {
                     getInstance().manageController.clearSelection();
                     panel.setSelected(true);
-                    getInstance().manageController.anchorIndex = panel.getIndex();
+                    getInstance().manageController.setAnchorIndex(panel.getIndex());
                 }
                 if (initialShift && pendingShiftClick && !panel.isSelected()) {
                     getInstance().manageController.handlePanelClick(panel, e);
@@ -171,13 +171,12 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 targetPanel.dropTargetPanel.dropAction();
                 targetPanel.dropTargetPanel.dropAction("fdsfsd");
 
-
+                getInstance().manageController.clearSelection();
+                getInstance().manageController.clearAnchorIndex();
             } else {
                 System.out.println("Drop не произошёл ни в одной из зарегистрированных панелей");
             }
 
-            getInstance().manageController.clearSelection();
-            getInstance().manageController.anchorIndex = -1;
             getInstance().draggingGroup = false;
             getInstance().groupDragStart = null;
             getInstance().dragGlassPane.clearGhost();
@@ -197,7 +196,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 if (panel.isSelected()) {
                     getInstance().manageController.clearSelection();
                     panel.setSelected(true);
-                    getInstance().manageController.anchorIndex = panel.getIndex();
+                    getInstance().manageController.setAnchorIndex(panel.getIndex());
                 }
             }
         }
