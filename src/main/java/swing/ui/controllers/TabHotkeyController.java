@@ -63,7 +63,7 @@ public final class TabHotkeyController implements KeyEventDispatcher {
 
             default -> {
                 // кириллица «ё» и «Ё»
-                if (ch == 'ё' || ch == 'Ё') menu.toggleSettings();
+                if (ch == 'ё' || ch == 'Ё') menu.toggleSettings();      //fixme better solution will be appreciated
                 else return false;                   // ничего не перехватили
             }
         }

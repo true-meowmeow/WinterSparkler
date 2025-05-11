@@ -60,7 +60,7 @@ public class KeyBindingConfigurator {
             public void actionPerformed(ActionEvent e) {
                 int first = -1;
                 for (SelectablePanel sp : parent.manageController.panels) {
-                    if (!sp.getIsFolder()) {
+                    if (!sp.isFolder()) {
                         sp.setSelected(true);
                         if (first == -1) first = sp.getIndex();
                     } else {
