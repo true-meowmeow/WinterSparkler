@@ -2,6 +2,7 @@ package swing.ui.pages.home.play.view.controllers;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
+import swing.objects.objects.TransferableData;
 import swing.ui.pages.home.SwingHomeVariables;
 import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.collections.EmptyDropPanel;
@@ -160,15 +161,8 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             }
 
             if (targetPanel != null) {
-                /* сбор выбранных элементов */
-                List<SelectablePanel> selectedItems = new ArrayList<>();
-                for (SelectablePanel sp : getInstance().manageController.panels)
-                    if (sp.isSelected()) selectedItems.add(sp);
-                Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
 
-                /// Drop action
-                targetPanel.dropTargetPanel.dropAction(selectedItems);
-                targetPanel.dropTargetPanel.dropAction();
+                dropAction(targetPanel);
 
                 getInstance().manageController.clearSelection();
                 getInstance().manageController.clearAnchorIndex();
@@ -201,6 +195,13 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         }
     }
 
+    private void dropAction(DropPanel targetPanel) {    ///  Drop action from manage panel
+        TransferableData transferableData = new TransferableData(getInstance().getSelectedPanels());
+
+        targetPanel.dropTargetPanel.dropAction(getInstance().getSelectedPanels());
+        targetPanel.dropTargetPanel.dropAction();
+    }
+
     /* ----------------------------------------------------------- */
     private void showBottomPanelIfNeeded() {
         DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
@@ -210,14 +211,14 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         int emptyHeight = (empty != null) ? empty.getHeight() : 0;
 
         //if (emptyHeight < 200) {
-            if (!bottom.isVisible()) {
-                bottom.setVisible(true);
-                Container p = bottom.getParent();
-                if (p != null) {
-                    p.revalidate();
-                    p.repaint();
-                }
+        if (!bottom.isVisible()) {
+            bottom.setVisible(true);
+            Container p = bottom.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
             }
+        }
         //}
     }
 
