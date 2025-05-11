@@ -39,6 +39,8 @@ public class CombinedPanel extends JPanelCustom {
         add(viewCardPanel);
     }
 
+
+
     public void showCard(String view) {
         cardLayout.show(viewCardPanel, view);
     }

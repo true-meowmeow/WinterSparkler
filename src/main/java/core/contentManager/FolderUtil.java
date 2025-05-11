@@ -13,7 +13,7 @@ public class FolderUtil {
     public static String getExtension(String nameFull) {
         if (nameFull.contains(".")) {
             int lastDotIndex = nameFull.lastIndexOf('.');
-            return nameFull.substring(lastDotIndex + 1);
+            return nameFull.substring(lastDotIndex + 1).toLowerCase();
         }
         return "";
     }

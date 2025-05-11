@@ -3,7 +3,8 @@ package core.contentManager;
 import java.nio.file.Path;
 import java.util.*;
 
-public class FilesDataMap { //Объект корневых путей
+public class FilesDataMap {
+    /// Объект корневых путей
 
     private HashMap<Path, CatalogData> catalogDataHashMap = new HashMap<>();     //rootPath, FolderData
 
@@ -35,7 +36,30 @@ public class FilesDataMap { //Объект корневых путей
         // Если ничего не найдено, возвращаем null или можно выбросить исключение
         return null;
     }
-                                                                                                         //fixme Есть вероятность реализации isActive здесь включительно
+
+    public ArrayList<MediaData> getAllMediaData(Path directoryPath) {
+        ArrayList<MediaData> result = new ArrayList<>();
+        Comparator<Path> pathComparator = (p1, p2) -> p1.toString().compareToIgnoreCase(p2.toString());
+        TreeMap<Path, CatalogData.FilesData> sortedByPath = new TreeMap<>(pathComparator);
+
+        for (CatalogData catalog : catalogDataHashMap.values()) {
+            for (Map.Entry<Path, CatalogData.FilesData> entry : catalog.getFilesDataHashMap().entrySet()) {
+                if (entry.getKey().startsWith(directoryPath)) {
+                    sortedByPath.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        for (CatalogData.FilesData filesData : sortedByPath.values()) {                             ///  Group sort
+            List<MediaData> mediaList = new ArrayList<>(filesData.getMediaDataHashSet());
+            mediaList.sort(Comparator.comparing(MediaData::getNameFull, String.CASE_INSENSITIVE_ORDER));
+            result.addAll(mediaList);
+        }
+
+        //result.sort(Comparator.comparing(MediaData::getNameFull, String.CASE_INSENSITIVE_ORDER));     /// Global sort
+        return result;
+    }
+                                                                                                          //fixme Есть вероятность реализации isActive здесь включительно
 
     public CatalogData getCatalogDataWithPath(Path path) {
         return catalogDataHashMap.get(path);
@@ -115,6 +139,7 @@ public class FilesDataMap { //Объект корневых путей
                 public int compareTo(SubFolder o) {
                     return name.compareTo(o.name);
                 }
+
                 @Override
                 public boolean equals(Object o) {
                     if (this == o) return true;

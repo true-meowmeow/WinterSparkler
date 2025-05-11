@@ -13,6 +13,7 @@ import swing.ui.pages.home.play.view.selection.SelectionPanel;
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 
 public class ManagePanel extends JPanelCustom {
     private static final ManagePanel INSTANCE = new ManagePanel();
@@ -56,16 +57,6 @@ public class ManagePanel extends JPanelCustom {
         }
     }
 
-    public ArrayList<SelectablePanel> getSelectedPanels() {
-        ArrayList<SelectablePanel> selectedItems = new ArrayList<>();
-        for (SelectablePanel p : manageController.panels) {
-            if (p.isSelected()) {
-                selectedItems.add(p);
-            }
-        }
-        Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
-        return selectedItems;
-    }
 
     public ManagePanel() {
         super(Axis.Y_AX);

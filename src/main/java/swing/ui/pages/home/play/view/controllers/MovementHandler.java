@@ -2,7 +2,7 @@ package swing.ui.pages.home.play.view.controllers;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
-import swing.objects.objects.TransferableData;
+import core.contentManager.TransferableManageData;
 import swing.ui.pages.home.SwingHomeVariables;
 import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.collections.EmptyDropPanel;
@@ -12,10 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import static swing.ui.pages.home.play.view.ManagePanel.getInstance;
 
@@ -196,9 +192,9 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
     }
 
     private void dropAction(DropPanel targetPanel) {    ///  Drop action from manage panel
-        TransferableData transferableData = new TransferableData(getInstance().getSelectedPanels());
+        TransferableManageData transferableManageData = new TransferableManageData();
 
-        targetPanel.dropTargetPanel.dropAction(getInstance().getSelectedPanels());
+        targetPanel.dropTargetPanel.dropAction(transferableManageData);
         targetPanel.dropTargetPanel.dropAction();
     }
 
