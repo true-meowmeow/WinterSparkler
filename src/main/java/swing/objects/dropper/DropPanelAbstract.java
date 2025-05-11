@@ -1,13 +1,11 @@
 package swing.objects.dropper;
 
+import core.contentManager.TransferableManageData;
 import swing.ui.pages.home.collections.objects.CollectionObject;
-import swing.ui.pages.home.play.view.selection.SelectablePanel;
-
-import java.util.List;
 
 public abstract class DropPanelAbstract {
 
-    public void dropAction(List<SelectablePanel> selectedItems) {
+    public void dropAction(TransferableManageData transferableManageData) {
     }
 
     public void dropAction() {

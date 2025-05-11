@@ -32,8 +32,11 @@ public class SelectablePanel extends JPanelCustom {
         init(new Dimension(70, 70));
     }
 
+    private MediaData mediaData;
+
     public SelectablePanel(int index, MediaData mediaData) {    ///Media
         this.index = index;
+        this.mediaData = mediaData;
         this.name = mediaData.getName();
 
 
@@ -94,6 +97,9 @@ public class SelectablePanel extends JPanelCustom {
         return name;
     }
 
+    public MediaData getMediaData() {
+        return mediaData;
+    }
 
     private boolean isFolder;
 
