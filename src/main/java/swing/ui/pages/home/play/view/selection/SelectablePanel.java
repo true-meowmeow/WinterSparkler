@@ -42,11 +42,11 @@ public class SelectablePanel extends JPanelCustom {
 
     public void action() {
         if (isFolder) {
-            PathManager.getInstance().setPath(folderPath);
+            PathManager.getInstance().setPath(folderPath);  /// Opens a folder
         } else {    //todo action for media
 
         }
-        if (SelectablePanel.this.getIsFolder()) {
+        if (SelectablePanel.this.isFolder()) {
             getInstance().manageController.clearSelection();
         }
         getInstance().manageController.clearAnchorIndex();
@@ -69,6 +69,18 @@ public class SelectablePanel extends JPanelCustom {
         addMouseMotionListener(movementHandler);
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public Path getFolderPath() {
+        return folderPath;
+    }
+
+    public boolean isFolder() {
+        return isFolder;
+    }
 
     public int getIndex() {
         return index;
@@ -84,10 +96,6 @@ public class SelectablePanel extends JPanelCustom {
 
 
     private boolean isFolder;
-
-    public boolean getIsFolder() {
-        return isFolder;
-    }
 
     public long getSelectionOrder() {
         return selectionOrder;

@@ -9,13 +9,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CollectionObject extends DropPanel implements SwingHomeVariables {
-    private int positionList; //position in ui list
+    private int positionList;
+    private int collectionOrder;
     private String title;
-
+    private final JLabel label;
     CollectionObjectController collectionObjectController;
+    //private static final String PROPERTY_PREFIX = ;
+    //private static String PROPERTY_NAME;
 
-    public CollectionObject(int positionList, String title) {
-        super(title, new DropTargetCollection());
+
+    public CollectionObject(String PropertyName, int collectionOrder, int positionList, String title) { //Я буду передавать сюда объекты перемещаемые и информацию о них, статический класс, генерирующий эти названия на основе информации
+        super(PropertyName, new DropTargetCollection());
+
+        this.collectionOrder = collectionOrder;
         this.positionList = positionList;
         this.title = title;
         collectionObjectController = new CollectionObjectController(this);
@@ -24,10 +30,36 @@ public class CollectionObject extends DropPanel implements SwingHomeVariables {
         setMaximumSize(MAX_INT, HEIGHT_COLLECTION_PANEL);
         setPreferredSize(ZERO_INT, HEIGHT_COLLECTION_PANEL);
 
-
         setLayout(new BorderLayout());
-        add(new JLabel(title, SwingConstants.CENTER), BorderLayout.CENTER);
+        label = new JLabel(title, SwingConstants.CENTER);
+        add(label, BorderLayout.CENTER);
         setNormal();
+    }
+
+
+    void setPositionList(int pos) {
+        positionList = pos;
+    }
+
+    void setCollectionOrder(int order) {
+        collectionOrder = order;
+    }
+
+    void setTitle(String t) {
+        title = t;
+        label.setText(t);
+    }
+
+    public int getPositionList() {
+        return positionList;
+    }
+
+    public int getCollectionOrder() {
+        return collectionOrder;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setNormal() {
@@ -44,13 +76,5 @@ public class CollectionObject extends DropPanel implements SwingHomeVariables {
 
     public void setFocus() {
         setBackground(aFocusColor);
-    }
-
-    public int getPositionList() {
-        return positionList;
-    }
-
-    public String getTitle() {
-        return title;
     }
 }

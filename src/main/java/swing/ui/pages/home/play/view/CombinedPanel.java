@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class CombinedPanel extends JPanelCustom {
 
-    private static CombinedPanel INSTANCE = new CombinedPanel();
+    private static final CombinedPanel INSTANCE = new CombinedPanel();
 
     public static CombinedPanel getInstance() {
         return INSTANCE;

@@ -7,6 +7,7 @@ import swing.objects.core.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.DragGlassPane;
 import swing.ui.pages.home.play.view.controllers.KeyBindingConfigurator;
 import swing.ui.pages.home.play.view.controllers.ManageController;
+import swing.ui.pages.home.play.view.selection.SelectablePanel;
 import swing.ui.pages.home.play.view.selection.SelectionPanel;
 
 import java.awt.*;
@@ -53,6 +54,17 @@ public class ManagePanel extends JPanelCustom {
                 selectionPanel.updateSet(filesDataMap.getFilesDataByFullPath(PathManager.getInstance().getPath()));
             }
         }
+    }
+
+    public ArrayList<SelectablePanel> getSelectedPanels() {
+        ArrayList<SelectablePanel> selectedItems = new ArrayList<>();
+        for (SelectablePanel p : manageController.panels) {
+            if (p.isSelected()) {
+                selectedItems.add(p);
+            }
+        }
+        Collections.sort(selectedItems, Comparator.comparingLong(SelectablePanel::getSelectionOrder));
+        return selectedItems;
     }
 
     public ManagePanel() {
