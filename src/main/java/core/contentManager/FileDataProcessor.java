@@ -58,10 +58,10 @@ public class FileDataProcessor {
                 filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addSubFolder(pathFile, pathFile.getFileName());
             } else {
                 Path fullNamePath = pathFile;
+                String folderName = String.valueOf(pathFile.getParent().getFileName());
                 String nameFull = fullNamePath.getFileName().toString();
                 String name = getName(nameFull);
                 String extension = getExtension(nameFull);
-
 
                 if (AUDIO_EXTENSIONS.contains(extension)) {
                     //todo Нужно будет parent and next links ставить
@@ -70,5 +70,17 @@ public class FileDataProcessor {
                 }
             }
         }
+    }
+
+    public static String[] getFolderNames(Path fullNamePath) {
+        int nameCount = fullNamePath.getNameCount();
+        if (nameCount <= 1) {
+            return new String[0];
+        }
+        String[] folders = new String[nameCount];
+        for (int i = 0; i < nameCount; i++) {
+            folders[i] = fullNamePath.getName(i).toString();
+        }
+        return folders;
     }
 }

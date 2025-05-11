@@ -1,10 +1,10 @@
 package swing.ui.pages.home.series;
 
 import swing.objects.dropper.DropPanelAbstract;
+import core.contentManager.TransferableManageData;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
 import javax.swing.*;
-import java.util.List;
 
 public class DropTargetSeries extends DropPanelAbstract {
     private JLabel infoLabel;
@@ -24,7 +24,7 @@ public class DropTargetSeries extends DropPanelAbstract {
     }
 
     @Override
-    public void dropAction(List<SelectablePanel> selectedItems) {
+    public void dropAction(TransferableManageData transferableManageData) {
         //dropItems(selectedItems);
         System.out.println("dropped from series");
     }
