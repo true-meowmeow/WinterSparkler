@@ -58,7 +58,6 @@ public class FileDataProcessor {
                 filesDataMap.getCatalogDataWithPath(rootPath).getFilesDataWithPath(currentPath).addSubFolder(pathFile, pathFile.getFileName());
             } else {
                 Path fullNamePath = pathFile;
-                String folderName = String.valueOf(pathFile.getParent().getFileName());
                 String nameFull = fullNamePath.getFileName().toString();
                 String name = getName(nameFull);
                 String extension = getExtension(nameFull);

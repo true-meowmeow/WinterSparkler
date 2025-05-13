@@ -1,29 +1,33 @@
 package swing.ui.pages.home.collections.droppers;
 
+import core.contentManager.MediaData;
 import swing.objects.dropper.DropPanelAbstract;
 import core.contentManager.TransferableManageData;
-import swing.ui.pages.home.collections.objects.CollectionObjectManager;
+import swing.ui.pages.home.collections.objects.CollectionObjectPanel;
+
+import java.util.List;
 
 public class DropTargetNewCollection extends DropPanelAbstract {
     @Override
     public void dropAction() {
-        System.out.println();
-        System.out.println("«Добавить новую коллекцию»");
-        System.out.println();
-        // TODO: вызвать отображение вашей временной панели
 
-        CollectionObjectManager.getInstance().addCollection();
 
     }
+
+    private static final boolean mergeGroups = false;      /// Сохраняет группы
 
     @Override
     public void dropAction(TransferableManageData transferableManageData) {
         super.dropAction(transferableManageData);
+        if (transferableManageData.isEmpty()) return;
 
-/*        for (SelectablePanel sb : selectedItems) {
-            System.out.println(sb.getIsFolder());
-        }*/
-        //CollectionsPanel.Colle
+        if (mergeGroups) {
+            transferableManageData.mergeMediaGroups();
+        }
+
+        for (List<MediaData> mediaGroupList : transferableManageData.getMediaGroupList()) {
+            CollectionObjectPanel.getInstance().getCollectionManager().addCollection(mediaGroupList);
+        }
 
     }
 }
