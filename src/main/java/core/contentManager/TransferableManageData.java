@@ -9,15 +9,34 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TransferableManageData {
+public class TransferableManageData {       //todo компиляцию CollectionNameGenerator выполнить здесь чтобы потом передать
     private List<List<MediaData>> mediaGroupList;
+    private String[] mediaNames;
     private boolean empty = true;
 
     public TransferableManageData() {
         List<SelectablePanel> initialList = getSelectedPanels();
+        //todo Здесь залесть но как и в медиа только вытащить путь папки и сохранить его, разделив
         setMediaGroupList(getGroup(initialList));
+
+        //CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator();
         print();
+
+        mediaNames = getMediaNames();
     }
+
+    private String[] getMediaNames() {
+        if (mediaGroupList == null || mediaGroupList.isEmpty()) return new String[0];
+
+        List<String> names = new ArrayList<>();
+        for (List<MediaData> group : mediaGroupList) {
+            for (MediaData media : group) {
+                names.add(media.getName());
+            }
+        }
+        return names.toArray(new String[0]);
+    }
+
 
     /**
      * Объединяет все группы в одну, сохраняя порядок
@@ -44,7 +63,7 @@ public class TransferableManageData {
         for (List<MediaData> mediaGroup : mediaGroupList) {
             System.out.println("Группа #" + (++groupIndex) + ": size is " + mediaGroup.size());
             for (MediaData media : mediaGroup) {
-                System.out.println("    " + media);
+                System.out.println("    " + media.getName());
             }
         }
     }
@@ -69,10 +88,7 @@ public class TransferableManageData {
 
         // Теперь папки
         for (SelectablePanel sb : folderPanels) {
-            List<MediaData> group = DataManager
-                    .getInstance()
-                    .getFilesDataMap()
-                    .getAllMediaData(sb.getFolderPath());
+            List<MediaData> group = DataManager.getInstance().getFilesDataMap().getAllMediaData(sb.getFolderPath());
             if (!group.isEmpty()) {
                 groups.add(group);
                 empty = false;
