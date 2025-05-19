@@ -14,14 +14,19 @@ public class DropTargetNewCollection extends DropPanelAbstract {
 
     }
 
-    private static final boolean mergeGroups = false;      /// Сохраняет группы
+    private static final boolean mergeGroups = false;
+
+    /// Сохраняет группы
 
     @Override
     public void dropAction(TransferableManageData transferableManageData) {
         super.dropAction(transferableManageData);
-        if (transferableManageData.isEmpty()) return;
+        if (transferableManageData.isEmpty()) {   /// If the folder/s is empty
+            return;
+        }
 
-        if (mergeGroups) {
+
+        if (mergeGroups) {  /// Просто показаться, для создания групп или группы todo here переместить в серию дроп
             transferableManageData.mergeMediaGroups();
         }
 
