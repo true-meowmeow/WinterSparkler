@@ -8,7 +8,6 @@ import java.util.List;
 
 public class CollectionManager {
     private final List<CollectionObject> objects = new ArrayList<>();
-    String nameGenerator;
 
     private final CollectionObjectPanel collectionObjectPanel;
 
@@ -23,9 +22,8 @@ public class CollectionManager {
         //collectionNameGenerator = new CollectionNameGenerator();
 
         int collectionOrderNumber = counter.getNextNumber();
-        nameGenerator = "123";
 
-        CollectionObject collectionObject = new CollectionObject(getPropertyName(collectionOrderNumber), collectionOrderNumber, objects.size(), nameGenerator);
+        CollectionObject collectionObject = new CollectionObject(getPropertyName(collectionOrderNumber), collectionOrderNumber, objects.size(), "dsadfsadfdsafdsfd");
         objects.add(collectionObject);
 
         collectionObjectPanel.refreshUI();

@@ -21,7 +21,7 @@ public class SelectablePanel extends JPanelCustom {
     private Path folderPath;
 
 
-    public SelectablePanel(int index, FilesDataMap.CatalogData.FilesData.SubFolder folder) {    ///Folder
+    public SelectablePanel(int index, FilesDataMap.CatalogData.FilesData.SubFolder folder) {    /// Folder
         this.index = index;
         this.name = folder.getName();
         this.folderPath = folder.getPath();
@@ -34,7 +34,7 @@ public class SelectablePanel extends JPanelCustom {
 
     private MediaData mediaData;
 
-    public SelectablePanel(int index, MediaData mediaData) {    ///Media
+    public SelectablePanel(int index, MediaData mediaData) {    /// Media
         this.index = index;
         this.mediaData = mediaData;
         this.name = mediaData.getName();
