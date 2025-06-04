@@ -21,7 +21,6 @@ public class DataManager {
     }
 
     public void setFilesDataMap() {
-        DataManager.filesDataMap = filesDataMap;
         filesDataMap = processor.processRootPaths(FolderEntities.getInstance().getAllPaths());
     }
 }
