@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="flatlaf-3.5.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/flatlaf-3.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-5.16.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-platform-5.16.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsvg-1.7.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/miglayout-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/miglayout-swing.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/miglayout-core-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/miglayout-swing-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
