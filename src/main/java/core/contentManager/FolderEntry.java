@@ -2,9 +2,8 @@ package core.contentManager;
 
 import java.io.File;
 
-public
 // Класс-обёртка для элемента списка
-class FolderEntry {
+public class FolderEntry {
     private final String path;
     private final boolean addButton; // если true – это специальный элемент "Добавить папку"
 
