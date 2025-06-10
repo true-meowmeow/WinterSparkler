@@ -2,7 +2,7 @@ package swing.ui.pages.home.play.view.controllers;
 
 import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
-import core.contentManager.TransferableManageData;
+import core.service.TransferableManageData;
 import swing.ui.pages.home.SwingHomeVariables;
 import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.collections.EmptyDropPanel;

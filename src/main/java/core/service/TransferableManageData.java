@@ -1,6 +1,8 @@
-package core.contentManager;
+package core.service;
 
-import swing.objects.objects.DataManager;
+import core.model.MediaData;
+
+import swing.util.DataManager;
 import swing.ui.pages.home.play.view.ManagePanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
 

@@ -1,12 +1,16 @@
-package core.contentManager;
+package core.service;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static core.contentManager.FolderUtil.getExtension;
-import static core.contentManager.FolderUtil.getName;
+import core.model.FilesDataMap;
+import core.model.FolderData;
+import core.model.MediaData;
+
+import static core.model.FolderUtil.getExtension;
+import static core.model.FolderUtil.getName;
 
 public class FileDataProcessor {
     private static final Set<String> AUDIO_EXTENSIONS = new HashSet<>(Arrays.asList("wav", "flac", "opus", "mp3"));

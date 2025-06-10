@@ -1,7 +1,7 @@
 package swing.ui.pages.home.play.view;
 
-import core.contentManager.*;
-import swing.objects.objects.PathManager;
+import core.model.FilesDataMap;
+import swing.util.PathManager;
 import swing.objects.core.Axis;
 import swing.objects.core.JPanelCustom;
 import swing.ui.pages.home.play.view.controllers.DragGlassPane;

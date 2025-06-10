@@ -1,5 +1,6 @@
-package core.contentManager;
+package core.model;
 
+import core.service.FileDataProcessor;
 
 import java.nio.file.Path;
 import java.util.*;

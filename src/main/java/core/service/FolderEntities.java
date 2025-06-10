@@ -1,4 +1,4 @@
-package core.contentManager;
+package core.service;
 
 import javax.swing.*;
 import java.nio.file.Path;

@@ -1,8 +1,8 @@
 package swing.ui.pages.home.collections.droppers;
 
-import core.contentManager.MediaData;
+import core.model.MediaData;
 import swing.objects.dropper.DropPanelAbstract;
-import core.contentManager.TransferableManageData;
+import core.service.TransferableManageData;
 import swing.ui.pages.home.collections.objects.CollectionObjectPanel;
 
 import java.util.List;

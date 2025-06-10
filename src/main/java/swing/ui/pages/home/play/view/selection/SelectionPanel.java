@@ -1,11 +1,11 @@
 package swing.ui.pages.home.play.view.selection;
 
-import core.contentManager.FilesDataMap;
-import core.contentManager.MediaData;
+import core.model.FilesDataMap;
+import core.model.MediaData;
 import swing.objects.core.JPanelCustom;
 import swing.objects.core.PanelType;
-import swing.objects.objects.SmoothScrollPane;
-import swing.objects.objects.Separator;
+import swing.util.SmoothScrollPane;
+import swing.util.Separator;
 import swing.ui.pages.home.play.view.ManagePanel;
 
 import javax.swing.*;

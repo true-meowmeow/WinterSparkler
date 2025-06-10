@@ -1,7 +1,7 @@
 package swing.ui.pages.home.collections;
 
 import swing.objects.core.JPanelCustom;
-import swing.objects.objects.SmoothScrollPane;
+import swing.util.SmoothScrollPane;
 import swing.ui.pages.home.collections.objects.CollectionObjectPanel;
 
 import java.awt.*;

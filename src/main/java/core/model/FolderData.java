@@ -1,4 +1,4 @@
-package core.contentManager;
+package core.model;
 
 import java.nio.file.Path;
 import java.util.HashSet;

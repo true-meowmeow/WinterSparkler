@@ -1,7 +1,7 @@
 package swing.ui.pages.home.series;
 
 import swing.objects.dropper.DropPanelAbstract;
-import core.contentManager.TransferableManageData;
+import core.service.TransferableManageData;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
 
 import javax.swing.*;

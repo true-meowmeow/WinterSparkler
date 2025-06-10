@@ -1,8 +1,8 @@
-package swing.objects.objects;
+package swing.util;
 
-import core.contentManager.FileDataProcessor;
-import core.contentManager.FilesDataMap;
-import core.contentManager.FolderEntities;
+import core.service.FileDataProcessor;
+import core.model.FilesDataMap;
+import core.service.FolderEntities;
 
 public class DataManager {
     private static final DataManager INSTANCE = new DataManager();

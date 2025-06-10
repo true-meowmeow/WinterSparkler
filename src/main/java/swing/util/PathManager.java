@@ -1,4 +1,4 @@
-package swing.objects.objects;
+package swing.util;
 
 import swing.ui.pages.home.play.view.ManagePanel;
 

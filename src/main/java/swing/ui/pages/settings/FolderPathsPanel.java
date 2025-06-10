@@ -1,7 +1,7 @@
 package swing.ui.pages.settings;
 
-import core.contentManager.FolderEntities;
-import core.contentManager.FolderEntry;
+import core.service.FolderEntities;
+import core.model.FolderEntry;
 import swing.objects.core.JPanelCustom;
 
 import javax.swing.*;

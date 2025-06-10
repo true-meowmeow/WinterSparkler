@@ -1,7 +1,7 @@
 package swing.ui.pages.home.collections.objects;
 
-import core.contentManager.CollectionNameGenerator;
-import core.contentManager.MediaData;
+import core.service.CollectionNameGenerator;
+import core.model.MediaData;
 
 import java.util.ArrayList;
 import java.util.List;

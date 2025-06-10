@@ -1,7 +1,7 @@
 package swing.ui.pages.home.play.view;
 
 import swing.objects.core.JPanelCustom;
-import swing.objects.objects.PathManager;
+import swing.util.PathManager;
 import swing.objects.core.PanelType;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package core.contentManager;
+package core.service;
 
 public class CollectionNameGenerator {  /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных
 

@@ -1,7 +1,7 @@
 package swing.ui.pages.home.play.view;
 
 import swing.objects.core.JPanelCustom;
-import swing.objects.objects.ViewCardLayout;
+import swing.util.ViewCardLayout;
 
 import java.awt.*;
 

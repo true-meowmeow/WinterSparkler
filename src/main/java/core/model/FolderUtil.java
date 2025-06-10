@@ -1,4 +1,4 @@
-package core.contentManager;
+package core.model;
 
 public class FolderUtil {
 
