@@ -9,8 +9,8 @@ public interface SwingHomeVariables {
     //int HEIGHT_POPUP_ADD_COLLECTION_PANEL = 80;
 
 
-    Color basicColor = new Color(0xF5F5F5);
-    Color aOpenedColor = new Color(0xDCDCDC);
-    Color aDragColor = new Color(0xFFC6C6C6, true);
-    Color aFocusColor = new Color(0xE0E0E0);
+    Color basicColor = new Color(0xD3D3D3);
+    Color aOpenedColor = new Color(0x627685);
+    Color aDragColor = new Color(0xFF956969, true);
+    Color aFocusColor = new Color(0x6D9161);
 }

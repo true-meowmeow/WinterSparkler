@@ -16,10 +16,12 @@ public class CollectionManager {
     }
 
     OrderCounter counter;
-    CollectionNameGenerator collectionNameGenerator;
+
     public void addCollection(List<MediaData> mediaGroupList) {
         counter = new OrderCounter();
-        //collectionNameGenerator = new CollectionNameGenerator();
+        //CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator();
+
+        System.out.println(mediaGroupList.size());
 
         int collectionOrderNumber = counter.getNextNumber();
 
