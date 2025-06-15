@@ -19,13 +19,11 @@ public class CollectionManager {
 
     public void addCollection(List<MediaData> mediaGroupList) {
         counter = new OrderCounter();
-        //CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator();
-
-        System.out.println(mediaGroupList.size());
+        CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator(mediaGroupList);
 
         int collectionOrderNumber = counter.getNextNumber();
 
-        CollectionObject collectionObject = new CollectionObject(getPropertyName(collectionOrderNumber), collectionOrderNumber, objects.size(), "dsadfsadfdsafdsfd");
+        CollectionObject collectionObject = new CollectionObject(getPropertyName(collectionOrderNumber), collectionOrderNumber, objects.size(), collectionNameGenerator.getCollectionName());
         objects.add(collectionObject);
 
         collectionObjectPanel.refreshUI();

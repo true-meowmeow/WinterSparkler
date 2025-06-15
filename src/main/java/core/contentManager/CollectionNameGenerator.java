@@ -1,32 +1,45 @@
 package core.contentManager;
 
-public class CollectionNameGenerator {
-    /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных ->                                 (Этот класс отвечает до тех пор пока он не отвечает)
-    ///
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class CollectionNameGenerator {                                                  //                                 (Этот класс отвечает до тех пор пока он не отвечает)
+    /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных ->
+    /// Список имён всех аудиофайлов без расширения передаваемых в коллекцию + Список имён каждой папки абсолютного пути до ближайшего общего корня
 
 
     String[] folderNames;       /// Массив имён папок из Path
 
     //fixme Нужно сделать чтобы если передавалась объединённая группа, то он знал об этом и передавал конечную папку как папку в которой объединяется группа
 
-    /// Сейчас он в состоянии где ему просто переданы данные и он базово реализует свой будущий функционал
 
-    String[] mediaNames;        /// Массив имён песен в текущей папки
+    String[] mediaNames;
+
+    /// Массив имён медиа в текущей папке
 
 
-    public CollectionNameGenerator(String[] folderNames, String[] mediaNames) {
-        this.folderNames = folderNames;
-        this.mediaNames = mediaNames;
+    public CollectionNameGenerator(List<MediaData> mediaGroupList) {
+        mediaNames = FolderUtil.getNamesWithoutExtensions(mediaGroupList);
+        folderNames = FolderUtil.getFolderNames(FolderUtil.getShortestPath(mediaGroupList));
+
+        generateName();
     }
 
 
     private static final String defaultName = "New collection";
-    public String generateName() {
-        boolean failed = true;
+    private String collectionName = defaultName;
 
-        if (failed) {
-            return defaultName;  // Стандартное имя до реализации класса
+    /// Сейчас метод логики установки имени в состоянии где ему просто переданы данные и он базово реализует свой будущий функционал
+    public void generateName() {
+        try {
+            collectionName = folderNames[folderNames.length - 1];
+        } catch (Exception e) {
         }
-        return "";
+    }
+
+    public String getCollectionName() {
+        return collectionName;
     }
 }

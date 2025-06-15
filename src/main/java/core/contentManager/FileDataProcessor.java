@@ -71,7 +71,7 @@ public class FileDataProcessor {
         }
     }
 
-    public static String[] getFolderNames(Path fullNamePath) {
+/*    public static String[] getFolderNames(Path fullNamePath) {
         int nameCount = fullNamePath.getNameCount();
         if (nameCount <= 1) {
             return new String[0];
@@ -81,5 +81,5 @@ public class FileDataProcessor {
             folders[i] = fullNamePath.getName(i).toString();
         }
         return folders;
-    }
+    }*/
 }
