@@ -1,20 +1,23 @@
 package swing.ui.pages.home.collections.droppers;
 
 import core.contentManager.MediaData;
-import swing.objects.dropper.DropPanelAbstract;
 import core.contentManager.TransferableManageData;
+import swing.objects.dropper.DropPanelAbstract;
 import swing.ui.pages.home.collections.objects.CollectionObjectPanel;
 
 import java.util.List;
 
 public class DropTargetNewCollection extends DropPanelAbstract {
-    @Override
-    public void dropAction() {
 
-
+    public DropTargetNewCollection(boolean mergeGroups) {
+        this.mergeGroups = mergeGroups;
     }
 
-    private static final boolean mergeGroups = false;
+    @Override
+    public void dropAction() {
+    }
+
+    private boolean mergeGroups;
 
     /// Сохраняет группы
 

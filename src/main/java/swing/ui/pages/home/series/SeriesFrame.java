@@ -4,6 +4,7 @@ import swing.objects.core.JPanelCustom;
 import swing.objects.dropper.DropPanel;
 import swing.objects.core.PanelType;
 import swing.ui.pages.home.play.view.CombinedPanel;
+import swing.ui.pages.home.series.droppers.DropTargetSeries;
 
 import javax.swing.*;
 import java.awt.*;

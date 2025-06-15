@@ -1,6 +1,7 @@
 package swing.ui.pages.home.collections;
 
 import swing.objects.core.JPanelCustom;
+import swing.objects.core.Axis;
 import swing.objects.objects.SmoothScrollPane;
 import swing.ui.pages.home.collections.objects.CollectionObjectPanel;
 
@@ -15,7 +16,11 @@ public class CollectionsPanel extends JPanelCustom {
 
         add(scroller);
 
-        add(new BottomAddCollectionPanel(), BorderLayout.SOUTH);
+        JPanelCustom bottomContainer = new JPanelCustom(Axis.Y_AX);
+        bottomContainer.add(new BottomAddCollectionPanel());
+        bottomContainer.add(new BottomAddCollectionGroupPanel());
+
+        add(bottomContainer, BorderLayout.SOUTH);
     }
 
     JPanelCustom collectionsFieldPanel = new JPanelCustom();
