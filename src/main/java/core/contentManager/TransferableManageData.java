@@ -20,7 +20,7 @@ public class TransferableManageData {       //todo компиляцию Collecti
         setMediaGroupList(getGroup(initialList));
 
         //CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator();
-        print();
+        //print();
 
         mediaNames = getMediaNames();
     }

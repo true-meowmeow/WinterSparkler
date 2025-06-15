@@ -50,7 +50,7 @@ public class CollectionObjectController {
                     restoreBackground();
                 } else {
                     openPanel();
-                    System.out.println("Открываем коллекцию: " + view.getTitle());
+                    //System.out.println("Открываем коллекцию: " + view.getTitle());
                 }
                 pressPoint = null;
                 dragging = false;
