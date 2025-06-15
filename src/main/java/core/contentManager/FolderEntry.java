@@ -1,14 +1,19 @@
 package core.contentManager;
 
 import java.io.File;
+import java.nio.file.Path;
 
 // Класс-обёртка для элемента списка
 public class FolderEntry {
-    private final String path;
+    private final String path;      //todo переработать на Path
     private final boolean addButton; // если true – это специальный элемент "Добавить папку"
 
-    public FolderEntry(String path) {
+    public FolderEntry(String path) {   //todo Избавиться
         this.path = path;
+        this.addButton = false;
+    }
+    public FolderEntry(Path path) {
+        this.path = path.toString();
         this.addButton = false;
     }
 

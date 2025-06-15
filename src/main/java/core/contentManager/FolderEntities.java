@@ -19,8 +19,14 @@ public class FolderEntities {
     // JList для отображения элементов
     public final JList<FolderEntry> pathsList = new JList<>(listModel);
 
-    public void addListModel(String path) {
+/*    public void addListModel(String path) {
         listModel.addElement(new FolderEntry(path));
+    }*/
+
+    public void addPaths(List<Path> corePaths) {
+        for (Path path : corePaths) {
+            listModel.addElement(new FolderEntry(path));
+        }
     }
 
     public void addListModel(boolean addButton) {
