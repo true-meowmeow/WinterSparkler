@@ -8,6 +8,9 @@ import swing.ui.pages.home.collections.BottomAddCollectionGroupPanel;
 import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.collections.EmptyDropPanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
+import swing.ui.pages.home.series.BottomAddSeriesGroupPanel;
+import swing.ui.pages.home.series.BottomAddSeriesPanel;
+import swing.ui.pages.home.series.EmptySeriesDropPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -203,7 +206,12 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
     private void showBottomPanelIfNeeded() {                            ///  Current state is always true
         DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionGroupPanel.PROPERTY_NAME);
         DropPanel bottom2 = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
+
+        DropPanel bottomSeries = DropPanelRegistry.get(BottomAddSeriesPanel.PROPERTY_NAME);
+        DropPanel bottomSeriesGroup = DropPanelRegistry.get(BottomAddSeriesGroupPanel.PROPERTY_NAME);
+
         DropPanel empty = DropPanelRegistry.get(EmptyDropPanel.PROPERTY_NAME);
+        DropPanel emptySeries = DropPanelRegistry.get(EmptySeriesDropPanel.PROPERTY_NAME);
 
         int emptyHeight = (empty != null) ? empty.getHeight() : 0;
 
@@ -226,11 +234,34 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 p.repaint();
             }
         }
+
+
+        if (bottomSeriesGroup != null && !bottomSeriesGroup.isVisible()) {
+            bottomSeriesGroup.setVisible(true);
+            Container p = bottomSeriesGroup.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
+
+        if (bottomSeries != null && !bottomSeries.isVisible()) {
+            bottomSeries.setVisible(true);
+            Container p = bottomSeries.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
     }
 
     private void hideBottomPanel() {
         DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionGroupPanel.PROPERTY_NAME);
         DropPanel bottom2 = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
+
+        DropPanel bottomSeries = DropPanelRegistry.get(BottomAddSeriesPanel.PROPERTY_NAME);
+        DropPanel bottomSeriesGroup = DropPanelRegistry.get(BottomAddSeriesGroupPanel.PROPERTY_NAME);
+
         if (bottom != null && bottom.isVisible()) {
             bottom.setVisible(false);
             Container p = bottom.getParent();
@@ -239,9 +270,29 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
                 p.repaint();
             }
         }
+
         if (bottom2 != null && bottom2.isVisible()) {
             bottom2.setVisible(false);
             Container p = bottom2.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
+
+
+        if (bottomSeriesGroup != null && bottomSeriesGroup.isVisible()) {
+            bottomSeriesGroup.setVisible(false);
+            Container p = bottomSeriesGroup.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
+
+        if (bottomSeries != null && bottomSeries.isVisible()) {
+            bottomSeries.setVisible(false);
+            Container p = bottomSeries.getParent();
             if (p != null) {
                 p.revalidate();
                 p.repaint();

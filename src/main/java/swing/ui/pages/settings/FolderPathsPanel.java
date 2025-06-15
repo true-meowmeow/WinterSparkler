@@ -11,6 +11,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +23,8 @@ public class FolderPathsPanel extends JPanelCustom {
     public DefaultListModel<FolderEntry> listModel;
     public JList<FolderEntry> pathsList;
 
+    public static List<Path> corePaths = new ArrayList<>();
+
     public FolderPathsPanel() {
         FolderEntities folderEntities = FolderEntities.getInstance();
 
@@ -28,14 +32,16 @@ public class FolderPathsPanel extends JPanelCustom {
         this.listModel = folderEntities.listModel;
         this.pathsList = folderEntities.pathsList;
 
+        corePaths.add(Path.of("T:\\testing\\core 1"));
+        corePaths.add(Path.of("T:\\testing\\core 1 — копия"));
+        corePaths.add(Path.of("T:\\testing\\1c4324x2"));
+        corePaths.add(Path.of("T:\\DistributeFiles"));
+
 
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         //todo Нужно обработать исключение на отсутствие путей и попытку вызова manage дополнительным экраном что ничего нет
         // Добавляем несколько демонстрационных путей
-        folderEntities.addListModel("T:\\testing\\core 1");
-        folderEntities.addListModel("T:\\testing\\core 1 — копия");
-        folderEntities.addListModel("T:\\testing\\1c4324x2");
-        folderEntities.addListModel("T:\\DistributeFiles");
+        folderEntities.addPaths(corePaths);
         //folderEntities.addListModel("T:\\DistributeFiles");
 
         // Добавляем специальный элемент "Добавить папку"

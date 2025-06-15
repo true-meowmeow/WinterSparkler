@@ -1,13 +1,13 @@
 package core.contentManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import swing.ui.pages.settings.FolderPathsPanel;
+
+import java.nio.file.Path;
+import java.util.*;
 
 public class CollectionNameGenerator {                                                  //                                 (Этот класс отвечает до тех пор пока он не отвечает)
     /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных ->
-    /// Список имён всех аудиофайлов без расширения передаваемых в коллекцию + Список имён каждой папки абсолютного пути до ближайшего общего корня
+    /// Список имён всех аудиофайлов без расширения передаваемых в коллекцию + Список имён каждой папки от корня папки до конца пути по итерациям
 
 
     String[] folderNames;       /// Массив имён папок из Path
@@ -22,7 +22,7 @@ public class CollectionNameGenerator {                                          
 
     public CollectionNameGenerator(List<MediaData> mediaGroupList) {
         mediaNames = FolderUtil.getNamesWithoutExtensions(mediaGroupList);
-        folderNames = FolderUtil.getFolderNames(FolderUtil.getShortestPath(mediaGroupList));
+        folderNames = FolderUtil.getUniqueFoldersBetweenCoreAndMedia(mediaGroupList);
 
         generateName();
     }

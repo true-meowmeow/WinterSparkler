@@ -1,9 +1,9 @@
 package core.contentManager;
 
+import swing.ui.pages.settings.FolderPathsPanel;
+
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class FolderUtil {
 
@@ -62,15 +62,47 @@ public class FolderUtil {
         return names.toArray(new String[0]);
     }
 
-/*    public static String[] getFolderNamesSkipFirst(Path fullNamePath) {
-        int nameCount = fullNamePath.getNameCount();
-        if (nameCount <= 1) {
+    public static String[] getUniqueFoldersBetweenCoreAndMedia(List<MediaData> mediaList) {
+        List<Path> corePaths = FolderPathsPanel.corePaths;
+        if (mediaList == null || mediaList.isEmpty() || corePaths == null || corePaths.isEmpty())
             return new String[0];
+
+        // детерминируемость: сортируем пути медиаданных
+        List<MediaData> sorted = new ArrayList<>(mediaList);
+        Collections.sort(sorted);
+
+        // формируем «слои» для каждого медиа-файла
+        List<List<String>> layersByMedia = new ArrayList<>();
+        int maxDepth = 0;
+
+        for (MediaData md : sorted) {
+            Path media = md.getFullPath();
+            Path core = null;
+            int longest = -1;
+            for (Path cp : corePaths) {                         // выбираем самый длинный совпадающий корень
+                if (media.startsWith(cp) && cp.getNameCount() > longest) {
+                    core = cp;
+                    longest = cp.getNameCount();
+                }
+            }
+            if (core == null) continue;                         // медиа вне корней — пропускаем
+
+            List<String> segs = new ArrayList<>();
+            segs.add(core.getFileName().toString());            // слой 0 — сам корень
+            Path rel = core.relativize(media);                  // всё, что глубже
+            rel.forEach(p -> segs.add(p.toString()));
+            layersByMedia.add(segs);
+            maxDepth = Math.max(maxDepth, segs.size());
         }
-        String[] folders = new String[nameCount - 1];
-        for (int i = 1; i < nameCount; i++) {
-            folders[i - 1] = fullNamePath.getName(i).toString();
+
+        // Breadth-First сбор уникальных имён по слоям
+        Set<String> ordered = new LinkedHashSet<>();
+        for (int depth = 0; depth < maxDepth; depth++) {
+            for (List<String> segs : layersByMedia) {
+                if (depth < segs.size()) ordered.add(segs.get(depth));
+            }
         }
-        return folders;
-    }*/
+        return ordered.toArray(new String[0]);
+    }
+
 }

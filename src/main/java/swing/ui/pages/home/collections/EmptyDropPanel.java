@@ -9,7 +9,7 @@ public class EmptyDropPanel extends DropPanel {
     public EmptyDropPanel() {
         super(PROPERTY_NAME, new DropTargetNewCollection(true));
         setDimensions(ZERO, ZERO, MAX);
-        setHoverBorderEnabled(false);
+        //setHoverBorderEnabled(false);
 
         setOpaque(false);
     }
