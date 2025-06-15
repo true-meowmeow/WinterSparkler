@@ -4,6 +4,7 @@ import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import core.contentManager.TransferableManageData;
 import swing.ui.pages.home.SwingHomeVariables;
+import swing.ui.pages.home.collections.BottomAddCollectionGroupPanel;
 import swing.ui.pages.home.collections.BottomAddCollectionPanel;
 import swing.ui.pages.home.collections.EmptyDropPanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
@@ -199,15 +200,15 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
     }
 
     /* ----------------------------------------------------------- */
-    private void showBottomPanelIfNeeded() {
-        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
+    private void showBottomPanelIfNeeded() {                            ///  Current state is always true
+        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionGroupPanel.PROPERTY_NAME);
+        DropPanel bottom2 = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
         DropPanel empty = DropPanelRegistry.get(EmptyDropPanel.PROPERTY_NAME);
 
-        if (bottom == null) return;
         int emptyHeight = (empty != null) ? empty.getHeight() : 0;
 
         //if (emptyHeight < 200) {
-        if (!bottom.isVisible()) {
+        if (bottom != null && !bottom.isVisible()) {
             bottom.setVisible(true);
             Container p = bottom.getParent();
             if (p != null) {
@@ -216,13 +217,31 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
             }
         }
         //}
+
+        if (bottom2 != null && !bottom2.isVisible()) {
+            bottom2.setVisible(true);
+            Container p = bottom2.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
     }
 
     private void hideBottomPanel() {
-        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
+        DropPanel bottom = DropPanelRegistry.get(BottomAddCollectionGroupPanel.PROPERTY_NAME);
+        DropPanel bottom2 = DropPanelRegistry.get(BottomAddCollectionPanel.PROPERTY_NAME);
         if (bottom != null && bottom.isVisible()) {
             bottom.setVisible(false);
             Container p = bottom.getParent();
+            if (p != null) {
+                p.revalidate();
+                p.repaint();
+            }
+        }
+        if (bottom2 != null && bottom2.isVisible()) {
+            bottom2.setVisible(false);
+            Container p = bottom2.getParent();
             if (p != null) {
                 p.revalidate();
                 p.repaint();
