@@ -29,9 +29,9 @@ public class MediaData implements Comparable<MediaData> {    //Содержит 
         //System.out.println(fullPath + " | " + rootPath + " | " + relativePath + " | " + nameFull + " | " + fullNamePath );
     }
 
-    public String[] getFolderNames() {
+/*    public String[] getFolderNames() {
         return FileDataProcessor.getFolderNames(fullPath);
-    }
+    }*/
 
     public Path getFullPath() {
         return fullPath;
