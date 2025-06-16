@@ -34,7 +34,9 @@ public class DropTargetNewCollection extends DropPanelAbstract {
         }
 
         for (List<MediaData> mediaGroupList : transferableManageData.getMediaGroupList()) {
-            CollectionObjectPanel.getInstance().getCollectionManager().addCollection(mediaGroupList);
+            if (!mediaGroupList.isEmpty()) {
+                CollectionObjectPanel.getInstance().getCollectionManager().addCollection(mediaGroupList);
+            }
         }
 
     }

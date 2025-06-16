@@ -5,7 +5,8 @@ import swing.ui.pages.settings.FolderPathsPanel;
 import java.nio.file.Path;
 import java.util.*;
 
-public class CollectionNameGenerator {                                                  //                                 (Этот класс отвечает до тех пор пока он не отвечает)
+//Можно вкинуть базовую реализацию имени алгоритмом и потом подключить простейшую llm чтобы она умно это делала по данным folderNames & mediaNames
+public class CollectionNameGenerator {
     /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных ->
     /// Список имён всех аудиофайлов без расширения передаваемых в коллекцию + Список имён каждой папки от корня папки до конца пути по итерациям
 
@@ -21,20 +22,38 @@ public class CollectionNameGenerator {                                          
 
 
     public CollectionNameGenerator(List<MediaData> mediaGroupList) {
-        mediaNames = FolderUtil.getNamesWithoutExtensions(mediaGroupList);
-        folderNames = FolderUtil.getUniqueFoldersBetweenCoreAndMedia(mediaGroupList);
+        //mediaNames = FolderUtil.getNamesWithoutExtensions(mediaGroupList);
+        //folderNames = FolderUtil.getUniqueFoldersBetweenCoreAndMedia(mediaGroupList);
 
-        generateName();
+        for (MediaData md : mediaGroupList) {
+            System.out.println(md.getFullPath());
+        }
+
+        generateName(mediaGroupList);
     }
+    private String lastCommonFolder(List<MediaData> list) {
+        if (list == null || list.isEmpty()) return "";
 
+        String[] ref = list.get(0).getFullPath().toString().split("[\\\\/]+");
+        int common = ref.length;
+
+        for (int i = 1; i < list.size() && common > 0; i++) {
+            String[] cur = list.get(i).getFullPath().toString().split("[\\\\/]+");
+            int j = 0;
+            while (j < common && j < cur.length && ref[j].equals(cur[j])) j++;
+            common = j;
+        }
+
+        return common == 0 ? "" : ref[common - 1];
+    }
 
     private static final String defaultName = "New collection";
     private String collectionName = defaultName;
 
     /// Сейчас метод логики установки имени в состоянии где ему просто переданы данные и он базово реализует свой будущий функционал
-    public void generateName() {
+    public void generateName(List<MediaData> mediaGroupList) {
         try {
-            collectionName = folderNames[folderNames.length - 1];
+            collectionName = lastCommonFolder(mediaGroupList);
         } catch (Exception e) {
         }
     }

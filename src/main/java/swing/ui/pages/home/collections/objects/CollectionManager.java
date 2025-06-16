@@ -15,10 +15,11 @@ public class CollectionManager {
         this.collectionObjectPanel = collectionObjectPanel;
     }
 
-    OrderCounter counter;
+    private final OrderCounter counter = new OrderCounter();
 
     public void addCollection(List<MediaData> mediaGroupList) {
-        counter = new OrderCounter();
+
+
         CollectionNameGenerator collectionNameGenerator = new CollectionNameGenerator(mediaGroupList);
 
         int collectionOrderNumber = counter.getNextNumber();
@@ -51,7 +52,7 @@ public class CollectionManager {
         return objects;
     }
 
-    private class OrderCounter {
+    private class OrderCounter {    //Счетчик надо засунуть в базу данных будет потом
         private int current;
 
         public OrderCounter() {
