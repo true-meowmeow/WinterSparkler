@@ -4,13 +4,13 @@ import swing.objects.dropper.DropPanel;
 import swing.objects.dropper.DropPanelRegistry;
 import core.contentManager.TransferableManageData;
 import swing.ui.pages.home.SwingHomeVariables;
-import swing.ui.pages.home.collections.BottomAddCollectionGroupPanel;
-import swing.ui.pages.home.collections.BottomAddCollectionPanel;
-import swing.ui.pages.home.collections.EmptyDropPanel;
+import swing.ui.pages.home.collections.body.panels.BottomAddCollectionGroupPanel;
+import swing.ui.pages.home.collections.body.panels.BottomAddCollectionPanel;
+import swing.ui.pages.home.collections.body.panels.EmptyCollectionDropPanel;
 import swing.ui.pages.home.play.view.selection.SelectablePanel;
-import swing.ui.pages.home.series.BottomAddSeriesGroupPanel;
-import swing.ui.pages.home.series.BottomAddSeriesPanel;
-import swing.ui.pages.home.series.EmptySeriesDropPanel;
+import swing.ui.pages.home.series.body.panels.BottomAddSeriesGroupPanel;
+import swing.ui.pages.home.series.body.panels.BottomAddSeriesPanel;
+import swing.ui.pages.home.series.body.panels.EmptySeriesDropPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -210,7 +210,7 @@ public class MovementHandler extends MouseAdapter implements SwingHomeVariables 
         DropPanel bottomSeries = DropPanelRegistry.get(BottomAddSeriesPanel.PROPERTY_NAME);
         DropPanel bottomSeriesGroup = DropPanelRegistry.get(BottomAddSeriesGroupPanel.PROPERTY_NAME);
 
-        DropPanel empty = DropPanelRegistry.get(EmptyDropPanel.PROPERTY_NAME);
+        DropPanel empty = DropPanelRegistry.get(EmptyCollectionDropPanel.PROPERTY_NAME);
         DropPanel emptySeries = DropPanelRegistry.get(EmptySeriesDropPanel.PROPERTY_NAME);
 
         int emptyHeight = (empty != null) ? empty.getHeight() : 0;

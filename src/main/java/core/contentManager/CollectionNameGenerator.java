@@ -5,7 +5,7 @@ import swing.ui.pages.settings.FolderPathsPanel;
 import java.nio.file.Path;
 import java.util.*;
 
-//Можно вкинуть базовую реализацию имени алгоритмом и потом подключить простейшую llm чтобы она умно это делала по данным folderNames & mediaNames
+//Можно вкинуть базовую реализацию имени алгоритмом и потом подключить простейшую llm чтобы она умно это делала по данным folderNames & mediaNames, в фоне заполнит автоматическое имя коллекции другим
 public class CollectionNameGenerator {
     /// Этот класс отвечает за автоматическую генерацию имени коллекции на основе данных ->
     /// Список имён всех аудиофайлов без расширения передаваемых в коллекцию + Список имён каждой папки от корня папки до конца пути по итерациям
@@ -24,10 +24,6 @@ public class CollectionNameGenerator {
     public CollectionNameGenerator(List<MediaData> mediaGroupList) {
         //mediaNames = FolderUtil.getNamesWithoutExtensions(mediaGroupList);
         //folderNames = FolderUtil.getUniqueFoldersBetweenCoreAndMedia(mediaGroupList);
-
-        for (MediaData md : mediaGroupList) {
-            System.out.println(md.getFullPath());
-        }
 
         generateName(mediaGroupList);
     }
