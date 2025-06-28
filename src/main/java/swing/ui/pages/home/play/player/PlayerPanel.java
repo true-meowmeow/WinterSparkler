@@ -1,7 +1,7 @@
 package swing.ui.pages.home.play.player;
 
 import swing.objects.dropper.DropPanel;
-import swing.ui.pages.home.collections.droppers.DropTargetNewCollection;
+import swing.ui.pages.home.collections.body.droppers.DropTargetNewCollection;
 
 import javax.swing.*;
 

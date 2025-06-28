@@ -1,7 +1,7 @@
 package swing.objects.dropper;
 
 import core.contentManager.TransferableManageData;
-import swing.ui.pages.home.collections.objects.CollectionObject;
+import swing.ui.pages.home.collections.body.objects.CollectionObject;
 
 public abstract class DropPanelAbstract {
 
