@@ -74,7 +74,7 @@ public final class TitleMenuBar extends JMenuBar implements VariablesUI {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12));
-        button.setPreferredSize(TITLE_NAVIGATION_BUTTON);
+        button.setPreferredSize(VariablesUI.TITLE_NAVIGATION_BUTTON());
     }
 
     private void styleSettingsButton(JButton button) {
@@ -82,7 +82,7 @@ public final class TitleMenuBar extends JMenuBar implements VariablesUI {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8)); // при желании можно другое
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12));         // и другой шрифт/размер
-        button.setPreferredSize(TITLE_NAVIGATION_SETTINGS_BUTTON);
+        button.setPreferredSize(VariablesUI.TITLE_NAVIGATION_SETTINGS_BUTTON());
         // тут можно добавить уникальные для Settings эффекты:
         button.setOpaque(true);
     }

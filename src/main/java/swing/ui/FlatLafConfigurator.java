@@ -18,7 +18,7 @@ public final class FlatLafConfigurator implements VariablesUI {
 
         UIManager.put("ScrollPane.smoothScrolling", true);
 
-        UIManager.put("TitlePane.buttonSize", TITLE_CONTROL_BUTTON);
+        UIManager.put("TitlePane.buttonSize", VariablesUI.TITLE_CONTROL_BUTTON());
         UIManager.put("TitlePane.showIcon", false);
         UIManager.put("TitlePane.noIconLeftGap", z);
         UIManager.put("TitlePane.menuBarTitleGap", z);

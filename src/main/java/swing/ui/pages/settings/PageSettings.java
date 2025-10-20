@@ -13,9 +13,9 @@ public class PageSettings extends Pages implements VariablesUI {
     public PageSettings() {
         super(PanelType.GRID, true);
 
-        add(new LeftPanel(), menuGridBagConstraintsX(0, weightLeftPanelSettings));
-        add(new CenterPanel(), menuGridBagConstraintsX(1, weightCenterPanelSettings));
-        add(new RightPanel(), menuGridBagConstraintsX(2, weightRightPanelSettings));
+        add(new LeftPanel(), menuGridBagConstraintsX(0, VariablesUI.weightLeftPanelSettings()));
+        add(new CenterPanel(), menuGridBagConstraintsX(1, VariablesUI.weightCenterPanelSettings()));
+        add(new RightPanel(), menuGridBagConstraintsX(2, VariablesUI.weightRightPanelSettings()));
     }
 }
 

@@ -13,8 +13,8 @@ public class PageHome extends Pages implements VariablesUI {
 
     public PageHome() {
         super(PanelType.GRID, true);
-        add(new LeftSidePageHome(), menuGridBagConstraintsX(0, weightLeftSidePageHome));
-        add(new RightSidePageHome(), menuGridBagConstraintsX(1, weightRightSidePageHome));
+        add(new LeftSidePageHome(), menuGridBagConstraintsX(0, VariablesUI.weightLeftSidePageHome()));
+        add(new RightSidePageHome(), menuGridBagConstraintsX(1, VariablesUI.weightRightSidePageHome()));
     }
 }
 
@@ -22,8 +22,8 @@ class LeftSidePageHome extends Pages implements VariablesUI {
 
     public LeftSidePageHome() {
         super(PanelType.GRID);
-        add(new CollectionsFrame(), menuGridBagConstraintsX(0, weightCollectionsFrame));
-        add(new SeriesFrame(), menuGridBagConstraintsX(1, weightSeriesFrame));
+        add(new CollectionsFrame(), menuGridBagConstraintsX(0, VariablesUI.weightCollectionsFrame()));
+        add(new SeriesFrame(), menuGridBagConstraintsX(1, VariablesUI.weightSeriesFrame()));
 
     }
 }
@@ -32,7 +32,7 @@ class RightSidePageHome extends Pages implements VariablesUI {
 
     public RightSidePageHome() {
         super(PanelType.GRID);
-        add(new PlayFrame(), menuGridBagConstraintsX(0, weightPlayFrame));
-        add(new QueueFrame(), menuGridBagConstraintsX(1, weightQueueFrame));
+        add(new PlayFrame(), menuGridBagConstraintsX(0, VariablesUI.weightPlayFrame()));
+        add(new QueueFrame(), menuGridBagConstraintsX(1, VariablesUI.weightQueueFrame()));
     }
 }
