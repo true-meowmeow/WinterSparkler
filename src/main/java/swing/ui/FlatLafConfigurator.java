@@ -1,10 +1,11 @@
 // core/FlatLafConfigurator.java
 package swing.ui;
 
-import javax.swing.*;
-import java.awt.*;
+import core.config.LayoutSettings;
 
-public final class FlatLafConfigurator implements VariablesUI {
+import javax.swing.*;
+
+public final class FlatLafConfigurator {
 
     public static void applyLookAndFeel(String[] args, String prefsRootPath) {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -18,7 +19,7 @@ public final class FlatLafConfigurator implements VariablesUI {
 
         UIManager.put("ScrollPane.smoothScrolling", true);
 
-        UIManager.put("TitlePane.buttonSize", VariablesUI.TITLE_CONTROL_BUTTON());
+        UIManager.put("TitlePane.buttonSize", LayoutSettings.get().getTitleControlButton());
         UIManager.put("TitlePane.showIcon", false);
         UIManager.put("TitlePane.noIconLeftGap", z);
         UIManager.put("TitlePane.menuBarTitleGap", z);
