@@ -1,21 +1,22 @@
 package swing.ui.pages.settings;
 
+import core.config.LayoutSettings;
 import swing.objects.core.JPanelCustom;
 import swing.objects.core.Pages;
 import swing.objects.core.PanelType;
-import swing.ui.VariablesUI;
 
 import java.awt.*;
 
 
 //todo Зарефакторить настройки, просто накидано
-public class PageSettings extends Pages implements VariablesUI {
+public class PageSettings extends Pages {
+
     public PageSettings() {
         super(PanelType.GRID, true);
 
-        add(new LeftPanel(), menuGridBagConstraintsX(0, VariablesUI.weightLeftPanelSettings()));
-        add(new CenterPanel(), menuGridBagConstraintsX(1, VariablesUI.weightCenterPanelSettings()));
-        add(new RightPanel(), menuGridBagConstraintsX(2, VariablesUI.weightRightPanelSettings()));
+        add(new LeftPanel(), menuGridBagConstraintsX(0, LayoutSettings.get().getWeightLeftPanelSettings()));
+        add(new CenterPanel(), menuGridBagConstraintsX(1, LayoutSettings.get().getWeightCenterPanelSettings()));
+        add(new RightPanel(), menuGridBagConstraintsX(2, LayoutSettings.get().getWeightRightPanelSettings()));
     }
 }
 

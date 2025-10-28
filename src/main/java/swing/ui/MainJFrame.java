@@ -1,22 +1,20 @@
 package swing.ui;
 
-import javax.swing.*;
-
-import core.Variables;
+import core.config.CoreSettings;
 import swing.ui.components.TitleMenuBar;
 import swing.ui.controllers.TabHotkeyController;
 import swing.ui.utils.IconLoader;
 
+import javax.swing.*;
 import java.io.IOException;
 
-public class MainJFrame extends JFrame implements Variables, VariablesUI {
+public class MainJFrame extends JFrame {
 
     public MainJFrame() {
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setSize(CoreSettings.get().windowWidth(), CoreSettings.get().windowHeight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setTitle(TITLE_NAME);
-
+        setTitle(CoreSettings.get().appName());
 
         try {
             setIconImages(IconLoader.loadAndScaleIcons());
@@ -31,5 +29,4 @@ public class MainJFrame extends JFrame implements Variables, VariablesUI {
         setJMenuBar(titleMenuBar);
         new TabHotkeyController(titleMenuBar);
     }
-
 }
