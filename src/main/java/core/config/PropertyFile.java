@@ -13,17 +13,29 @@ final class PropertyFile {
         this.properties = properties;
     }
 
-    static PropertyFile load(Class<?> resourceAnchor, String resourcePath) {
+    static PropertyFile load(Class<?> resourceAnchor, String... resourcePaths) {
         Properties props = new Properties();
+        if (resourcePaths != null) {
+            for (String resourcePath : resourcePaths) {
+                loadResource(resourceAnchor, resourcePath, props);
+            }
+        }
+        return new PropertyFile(props);
+    }
+
+    private static void loadResource(Class<?> resourceAnchor, String resourcePath, Properties props) {
+        if (resourcePath == null || resourcePath.isBlank()) {
+            return;
+        }
         try (InputStream in = resourceAnchor.getResourceAsStream(resourcePath)) {
-            if (in != null) {
-                try (InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
-                    props.load(reader);
-                }
+            if (in == null) {
+                return;
+            }
+            try (InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+                props.load(reader);
             }
         } catch (IOException ignored) {
         }
-        return new PropertyFile(props);
     }
 
     String string(String key) {

@@ -1,5 +1,4 @@
-// core/FlatLafConfigurator.java
-package swing.ui;
+package core;
 
 import core.config.LayoutSettings;
 

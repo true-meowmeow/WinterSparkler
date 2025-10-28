@@ -4,7 +4,7 @@ import swing.objects.core.JPanelCustom;
 import swing.objects.core.PanelType;
 import swing.ui.components.Tab;
 import swing.ui.pages.PageFavorites;
-import swing.ui.pages.PageComponent;
+import swing.ui.pages.third.PageComponent;
 import swing.ui.pages.home.PageHome;
 import swing.ui.pages.settings.PageSettings;
 

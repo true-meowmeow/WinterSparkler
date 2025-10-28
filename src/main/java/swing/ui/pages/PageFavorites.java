@@ -1,12 +1,11 @@
 package swing.ui.pages;
 
+import core.config.CoreSettings;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import static core.Main.LINK_GITHUB;
 
 public class PageFavorites extends JPanel {
 
@@ -78,7 +77,7 @@ public class PageFavorites extends JPanel {
         if (aFlag) {
             System.out.println("Favorites panel is now visible");
             try {
-                Desktop.getDesktop().browse(new URI(LINK_GITHUB));
+                Desktop.getDesktop().browse(new URI(CoreSettings.get().appLink()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (URISyntaxException e) {
@@ -90,3 +89,5 @@ public class PageFavorites extends JPanel {
 
 
 }
+
+

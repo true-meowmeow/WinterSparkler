@@ -3,7 +3,6 @@ package core.config;
 import java.awt.*;
 
 public final class LayoutSettings {
-    private static final String RESOURCE_PATH = "/properties/layout.settings.properties";
     private static final LayoutSettings INSTANCE = load();
 
     private final Integer titleControlButtonWidth;
@@ -75,7 +74,11 @@ public final class LayoutSettings {
     }
 
     private static LayoutSettings load() {
-        PropertyFile props = PropertyFile.load(LayoutSettings.class, RESOURCE_PATH);
+        PropertyFile props = PropertyFile.load(
+                LayoutSettings.class,
+                ConfigFiles.DEFAULTS,
+                ConfigFiles.USER_OVERRIDES
+        );
         return new LayoutSettings(
                 props.integer("titleControlButtonWidth"),
                 props.integer("titleControlButtonHeight"),

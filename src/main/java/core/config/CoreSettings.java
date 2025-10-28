@@ -1,12 +1,11 @@
 package core.config;
 
 public final class CoreSettings {
-    private static final String RESOURCE_PATH = "/properties/core.settings.properties";
     private static final CoreSettings INSTANCE = load();
 
     private final String appName;
     private final String appVersion;
-    private final String windowTitle;
+    private final String appLink;
     private final int windowWidth;
     private final int windowHeight;
     private final String iconPath;
@@ -15,7 +14,7 @@ public final class CoreSettings {
 
     private CoreSettings(String appName,
                          String appVersion,
-                         String windowTitle,
+                         String appLink,
                          int windowWidth,
                          int windowHeight,
                          String iconPath,
@@ -23,7 +22,7 @@ public final class CoreSettings {
                          double defaultScale) {
         this.appName = appName;
         this.appVersion = appVersion;
-        this.windowTitle = windowTitle;
+        this.appLink = appLink;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.iconPath = iconPath;
@@ -35,24 +34,27 @@ public final class CoreSettings {
         return INSTANCE;
     }
 
-    private static CoreSettings load() {    //defaults
-        PropertyFile props = PropertyFile.load(CoreSettings.class, RESOURCE_PATH);
 
-        String appName = props.string("app.name", "WinterSparkler");
-        String appVersion = props.string("app.version", "version");
-        int windowWidth = props.integer("window.width", 1600);
-        int windowHeight = props.integer("window.height", 900);
-        String iconPath = /*sanitizeIconPath(*/props.string("icon.path", "/icon/Winter Sparkler and Musical Glow2.png");
-        String preferencesRootPath = props.string("prefs.root", "/core");
-        double defaultScale = props.doubleValue("ui.scale.default", 1.0);
+    private static CoreSettings load() {
+        PropertyFile props = PropertyFile.load(
+                CoreSettings.class,
+                ConfigFiles.DEFAULTS,
+                ConfigFiles.USER_OVERRIDES
+        );
 
-        String configuredTitle = props.string("window.title");
-        String windowTitle = configuredTitle != null ? configuredTitle : appName/* + "  " + appVersion*/;
+        String appName = requiredString(props, "app.name");
+        String appVersion = requiredString(props, "app.version");
+        String appLink = requiredString(props, "app.link");
+        int windowWidth = requiredInteger(props, "window.width");
+        int windowHeight = requiredInteger(props, "window.height");
+        String iconPath = requiredString(props, "icon.path");
+        String preferencesRootPath = requiredString(props, "prefs.root");
+        double defaultScale = requiredDouble(props, "ui.scale.default");
 
         return new CoreSettings(
                 appName,
                 appVersion,
-                windowTitle,
+                appLink,
                 windowWidth,
                 windowHeight,
                 iconPath,
@@ -61,12 +63,33 @@ public final class CoreSettings {
         );
     }
 
-/*    private static String sanitizeIconPath(String path) {
-        if (path == null || path.isBlank()) {
-            return "/icon/Winter Sparkler and Musical Glow2.png";
+    private static String requiredString(PropertyFile props, String key) {
+        String value = props.string(key);
+        if (value == null) {
+            throw missingProperty(key);
         }
-        return path.startsWith("/") ? path : "/" + path;
-    }*/
+        return value;
+    }
+
+    private static int requiredInteger(PropertyFile props, String key) {
+        Integer value = props.integer(key);
+        if (value == null) {
+            throw missingProperty(key);
+        }
+        return value;
+    }
+
+    private static double requiredDouble(PropertyFile props, String key) {
+        Double value = props.doubleValue(key);
+        if (value == null) {
+            throw missingProperty(key);
+        }
+        return value;
+    }
+
+    private static IllegalStateException missingProperty(String key) {
+        return new IllegalStateException("Missing required property: " + key);
+    }
 
     public String appName() {
         return appName;
@@ -76,8 +99,8 @@ public final class CoreSettings {
         return appVersion;
     }
 
-    public String windowTitle() {
-        return windowTitle;
+    public String appLink() {
+        return appLink;
     }
 
     public int windowWidth() {

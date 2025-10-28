@@ -14,7 +14,7 @@ public class MainJFrame extends JFrame {
         setSize(CoreSettings.get().windowWidth(), CoreSettings.get().windowHeight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setTitle(CoreSettings.get().windowTitle());
+        setTitle(CoreSettings.get().appName());
 
         try {
             setIconImages(IconLoader.loadAndScaleIcons());
