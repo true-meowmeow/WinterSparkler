@@ -16,7 +16,7 @@ public class BottomFrame extends Pages {
     public BottomFrame() {
         super(PanelType.GRID);
 
-        setPreferredSize(MAX_INT, 300);
+        setPreferredSize(MAX_INT, LayoutProperties.get().getBottomFrameHeight());
 
         add(new PlayerPanel(), menuGridBagConstraintsX(0, LayoutProperties.get().getWeightPlayFrame()));
         add(new CoverPanel(), menuGridBagConstraintsX(1, LayoutProperties.get().getWeightQueueFrame()));

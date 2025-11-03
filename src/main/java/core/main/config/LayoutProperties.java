@@ -3,170 +3,114 @@ package core.main.config;
 import java.awt.*;
 
 public final class LayoutProperties {
-    private static final LayoutProperties INSTANCE = load();
+    private static final LayoutProperties INSTANCE = new LayoutProperties();
 
-    private final Integer titleControlButtonWidth;
-    private final Integer titleControlButtonHeight;
-    private final Integer titleNavigationButtonWidth;
-    private final Integer titleNavigationButtonHeight;
-    private final Integer titleNavigationSettingsButtonWidth;
-    private final Integer titleNavigationSettingsButtonHeight;
-
-    private final Double weightLeftSidePageHome;
-    private final Double weightRightSidePageHome;
-    private final Double weightCollectionsFrame;
-    private final Double weightSeriesFrame;
-    private final Double weightPlayFrame;
-    private final Double weightQueueFrame;
-    private final Double weightLeftPanelSettings;
-    private final Double weightCenterPanelSettings;
-    private final Double weightRightPanelSettings;
-
-    private static final int DEF_TITLE_CONTROL_W = 47;
-    private static final int DEF_TITLE_CONTROL_H = 28;
-    private static final int DEF_TITLE_NAV_W = 90;
-    private static final int DEF_TITLE_NAV_H = 28;
-
-    private static final double DEF_LEFT_HOME = 37.0;
-    private static final double DEF_RIGHT_HOME = 63.0;
-    private static final double DEF_COLL = 50.0;
-    private static final double DEF_SER = 50.0;
-    private static final double DEF_PLAY = 75.0;
-    private static final double DEF_QUEUE = 25.0;
-    private static final double DEF_LEFT_SET = 40.0;
-    private static final double DEF_CENTER_SET = 30.0;
-    private static final double DEF_RIGHT_SET = 30.0;
-
-    private LayoutProperties(Integer titleControlButtonWidth,
-                             Integer titleControlButtonHeight,
-                             Integer titleNavigationButtonWidth,
-                             Integer titleNavigationButtonHeight,
-                             Integer titleNavigationSettingsButtonWidth,
-                             Integer titleNavigationSettingsButtonHeight,
-                             Double weightLeftSidePageHome,
-                             Double weightRightSidePageHome,
-                             Double weightCollectionsFrame,
-                             Double weightSeriesFrame,
-                             Double weightPlayFrame,
-                             Double weightQueueFrame,
-                             Double weightLeftPanelSettings,
-                             Double weightCenterPanelSettings,
-                             Double weightRightPanelSettings) {
-        this.titleControlButtonWidth = titleControlButtonWidth;
-        this.titleControlButtonHeight = titleControlButtonHeight;
-        this.titleNavigationButtonWidth = titleNavigationButtonWidth;
-        this.titleNavigationButtonHeight = titleNavigationButtonHeight;
-        this.titleNavigationSettingsButtonWidth = titleNavigationSettingsButtonWidth;
-        this.titleNavigationSettingsButtonHeight = titleNavigationSettingsButtonHeight;
-        this.weightLeftSidePageHome = weightLeftSidePageHome;
-        this.weightRightSidePageHome = weightRightSidePageHome;
-        this.weightCollectionsFrame = weightCollectionsFrame;
-        this.weightSeriesFrame = weightSeriesFrame;
-        this.weightPlayFrame = weightPlayFrame;
-        this.weightQueueFrame = weightQueueFrame;
-        this.weightLeftPanelSettings = weightLeftPanelSettings;
-        this.weightCenterPanelSettings = weightCenterPanelSettings;
-        this.weightRightPanelSettings = weightRightPanelSettings;
+    private LayoutProperties() {
     }
 
     public static LayoutProperties get() {
         return INSTANCE;
     }
 
-    private static LayoutProperties load() {
-        PropertyFile props = PropertyFile.load(
+    public Dimension getTitleControlButton() {
+        PropertyFile props = loadProperties();
+        int width = requireInt(props, "titleControlButtonWidth");
+        int height = requireInt(props, "titleControlButtonHeight");
+        return new Dimension(width, height);
+    }
+
+    public Dimension getTitleNavigationButton() {
+        PropertyFile props = loadProperties();
+        int width = requireInt(props, "titleNavigationButtonWidth");
+        int height = requireInt(props, "titleNavigationButtonHeight");
+        return new Dimension(width, height);
+    }
+
+    public Dimension getTitleNavigationSettingsButton() {
+        PropertyFile props = loadProperties();
+        int width = requireInt(props, "titleNavigationSettingsButtonWidth");
+        int height = requireInt(props, "titleNavigationSettingsButtonHeight");
+        return new Dimension(width, height);
+    }
+
+    public int getBottomFrameHeight() {
+        return requireInt(loadProperties(), "bottomFrameHeight");
+    }
+
+    public double getWeightLeftSidePageHome() {
+        return normalize(requireDouble(loadProperties(), "weightLeftSidePageHome"));
+    }
+
+    public double getWeightRightSidePageHome() {
+        PropertyFile props = loadProperties();
+        Double raw = props.doubleValue("weightRightSidePageHome");
+        if (raw == null) {
+            double left = normalize(requireDouble(props, "weightLeftSidePageHome"));
+            return Math.max(0.0, 100.0 - left);
+        }
+        return normalize(raw);
+    }
+
+    public double getWeightCollectionsFrame() {
+        return normalize(requireDouble(loadProperties(), "weightCollectionsFrame"));
+    }
+
+    public double getWeightSeriesFrame() {
+        return normalize(requireDouble(loadProperties(), "weightSeriesFrame"));
+    }
+
+    public double getWeightPlayFrame() {
+        return normalize(requireDouble(loadProperties(), "weightPlayFrame"));
+    }
+
+    public double getWeightQueueFrame() {
+        return normalize(requireDouble(loadProperties(), "weightQueueFrame"));
+    }
+
+    public double getWeightLeftPanelSettings() {
+        return normalize(requireDouble(loadProperties(), "weightLeftPanelSettings"));
+    }
+
+    public double getWeightCenterPanelSettings() {
+        return normalize(requireDouble(loadProperties(), "weightCenterPanelSettings"));
+    }
+
+    public double getWeightRightPanelSettings() {
+        return normalize(requireDouble(loadProperties(), "weightRightPanelSettings"));
+    }
+
+    private static PropertyFile loadProperties() {
+        return PropertyFile.load(
                 LayoutProperties.class,
                 ConfigFiles.DEFAULTS,
                 ConfigFiles.USER_OVERRIDES
         );
-        return new LayoutProperties(
-                props.integer("titleControlButtonWidth"),
-                props.integer("titleControlButtonHeight"),
-                props.integer("titleNavigationButtonWidth"),
-                props.integer("titleNavigationButtonHeight"),
-                props.integer("titleNavigationSettingsButtonWidth"),
-                props.integer("titleNavigationSettingsButtonHeight"),
-                props.doubleValue("weightLeftSidePageHome"),
-                props.doubleValue("weightRightSidePageHome"),
-                props.doubleValue("weightCollectionsFrame"),
-                props.doubleValue("weightSeriesFrame"),
-                props.doubleValue("weightPlayFrame"),
-                props.doubleValue("weightQueueFrame"),
-                props.doubleValue("weightLeftPanelSettings"),
-                props.doubleValue("weightCenterPanelSettings"),
-                props.doubleValue("weightRightPanelSettings")
-        );
     }
 
-    public Dimension getTitleControlButton() {
-        return new Dimension(
-                titleControlButtonWidth != null ? titleControlButtonWidth : DEF_TITLE_CONTROL_W,
-                titleControlButtonHeight != null ? titleControlButtonHeight : DEF_TITLE_CONTROL_H
-        );
-    }
-
-    public Dimension getTitleNavigationButton() {
-        return new Dimension(
-                titleNavigationButtonWidth != null ? titleNavigationButtonWidth : DEF_TITLE_NAV_W,
-                titleNavigationButtonHeight != null ? titleNavigationButtonHeight : DEF_TITLE_NAV_H
-        );
-    }
-
-    public Dimension getTitleNavigationSettingsButton() {
-        return new Dimension(
-                titleNavigationSettingsButtonWidth != null ? titleNavigationSettingsButtonWidth : DEF_TITLE_NAV_W,
-                titleNavigationSettingsButtonHeight != null ? titleNavigationSettingsButtonHeight : DEF_TITLE_NAV_H
-        );
-    }
-
-    public double getWeightLeftSidePageHome() {
-        return normalize(weightLeftSidePageHome, DEF_LEFT_HOME);
-    }
-
-    public double getWeightRightSidePageHome() {
-        if (weightRightSidePageHome == null && weightLeftSidePageHome != null) {
-            double left = getWeightLeftSidePageHome();
-            return Math.max(0.0, 100.0 - left);
-        }
-        return normalize(weightRightSidePageHome, DEF_RIGHT_HOME);
-    }
-
-    public double getWeightCollectionsFrame() {
-        return normalize(weightCollectionsFrame, DEF_COLL);
-    }
-
-    public double getWeightSeriesFrame() {
-        return normalize(weightSeriesFrame, DEF_SER);
-    }
-
-    public double getWeightPlayFrame() {
-        return normalize(weightPlayFrame, DEF_PLAY);
-    }
-
-    public double getWeightQueueFrame() {
-        return normalize(weightQueueFrame, DEF_QUEUE);
-    }
-
-    public double getWeightLeftPanelSettings() {
-        return normalize(weightLeftPanelSettings, DEF_LEFT_SET);
-    }
-
-    public double getWeightCenterPanelSettings() {
-        return normalize(weightCenterPanelSettings, DEF_CENTER_SET);
-    }
-
-    public double getWeightRightPanelSettings() {
-        return normalize(weightRightPanelSettings, DEF_RIGHT_SET);
-    }
-
-    private static double normalize(Double value, double defaultPercent) {
+    private static int requireInt(PropertyFile props, String key) {
+        Integer value = props.integer(key);
         if (value == null) {
-            return defaultPercent;
+            throw missingProperty(key);
         }
-        double scaled = value;
-        if (scaled > 0.0 && scaled <= 1.0) {
-            return scaled * 100.0;
+        return value;
+    }
+
+    private static double requireDouble(PropertyFile props, String key) {
+        Double value = props.doubleValue(key);
+        if (value == null) {
+            throw missingProperty(key);
         }
-        return scaled;
+        return value;
+    }
+
+    private static IllegalStateException missingProperty(String key) {
+        return new IllegalStateException("Missing configuration property: " + key);
+    }
+
+    private static double normalize(double value) {
+        if (value > 0.0 && value <= 1.0) {
+            return value * 100.0;
+        }
+        return value;
     }
 }

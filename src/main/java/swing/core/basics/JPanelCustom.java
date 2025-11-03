@@ -66,7 +66,7 @@ public class JPanelCustom extends JPanel {
     public void setDimensions(Dimension minimum, Dimension preferred, Dimension maximum) {
         setMinimumSize(minimum);
         setPreferredSize(preferred);
-        setMinimumSize(maximum);
+        setMaximumSize(maximum);
     }
 
     public void setPreferredSize(int x, int y) {
