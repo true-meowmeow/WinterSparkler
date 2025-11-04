@@ -8,8 +8,12 @@ import swing.elements.pages.home.playground.BottomFrame;
 import swing.elements.pages.home.playground.TopFrame;
 import swing.elements.pages.home.repository.collections.CollectionsFrame;
 import swing.elements.pages.home.repository.series.SeriesFrame;
+import swing.elements.pages.home.RightSideContentController;
+import swing.elements.pages.home.RightSideMode;
 
 import java.awt.*;
+
+import static swing.elements.pages.home.RightSideMode.DEFAULT_TAB;
 
 
 public class PageHome extends Pages {
@@ -34,7 +38,16 @@ class LeftSidePageHome extends Pages {
 class RightSidePageHome extends JPanelCustom {
 
     public RightSidePageHome() {
-        add(new TopFrame(), BorderLayout.CENTER);
-        add(new BottomFrame(), BorderLayout.SOUTH);
+        TopFrame topFrame = new TopFrame();
+        BottomFrame bottomFrame = new BottomFrame();
+
+        RightSideContentController controller = RightSideContentController.getInstance();
+        controller.reset();
+        controller.register(topFrame);
+        controller.register(bottomFrame);
+        controller.showMode(DEFAULT_TAB);
+
+        add(topFrame, BorderLayout.CENTER);
+        add(bottomFrame, BorderLayout.SOUTH);
     }
 }

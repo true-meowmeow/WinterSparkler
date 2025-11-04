@@ -4,6 +4,8 @@ import core.main.config.LayoutProperties;
 import swing.core.basics.Axis;
 import swing.core.basics.JPanelCustom;
 import swing.core.basics.PanelType;
+import swing.elements.pages.home.RightSideContentController;
+import swing.elements.pages.home.RightSideMode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +46,6 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
             super(PanelType.FLOW, align, 0, 0, false);
             for (Tab t : tabs) {
                 add(createButton(t));
-                System.out.println(t);
             }
             setOpaque(false);
         }
@@ -122,19 +123,15 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
 
     private void showCard(Tab tab) {
         switch (tab) {
-            case HOME -> {
-                System.out.println("1");
+            case HOME -> RightSideContentController.getInstance().showMode(RightSideMode.HOME);
+            case MANAGE -> RightSideContentController.getInstance().showMode(RightSideMode.MANAGE);
+            default -> {
             }
-            case MANAGE -> {        // Особое условие для вкладки Manage
-                System.out.println("2"); //todo Добавить действие переключения правой линии
-            }
-            default -> tabs.showTab(tab);
         }
 
         tabs.showTab(tab);
         current = tab;
 
-        System.out.println(tab);
     }
 
     public void switchToOtherRecentTab() {
@@ -150,3 +147,4 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
         else navButtons.get(target).doClick();
     }
 }
+

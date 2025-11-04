@@ -1,21 +1,27 @@
 package swing.elements.pages.home.playground;
 
 import core.main.config.LayoutProperties;
-import swing.core.basics.JPanelCustom;
 import swing.core.basics.Pages;
-import swing.core.basics.PanelType;
-import swing.elements.pages.home.playground.player.PlayerPanel;
+import swing.elements.pages.home.RightSideMode;
+import swing.elements.pages.home.playground.manage.ManagePanel;
 import swing.elements.pages.home.playground.playlist.PlaylistPanel;
 import swing.elements.pages.home.playground.queue.QueuePanel;
 
-import java.awt.*;
+import static swing.elements.pages.home.RightSideMode.DEFAULT_TAB;
 
-public class TopFrame extends Pages {
+public class TopFrame extends ModeCardPanel {
 
     public TopFrame() {
-        super(PanelType.GRID);
+        Pages home = createGrid(
+                column(new PlaylistPanel(), LayoutProperties.get().getWeightPlayFrame()),
+                column(new QueuePanel(RightSideMode.HOME), LayoutProperties.get().getWeightQueueFrame())
+        );
+        Pages manage = createGrid(
+                column(new ManagePanel(), 1)
+        );
 
-        add(new PlaylistPanel(), menuGridBagConstraintsX(0, LayoutProperties.get().getWeightPlayFrame()));
-        add(new QueuePanel(), menuGridBagConstraintsX(1, LayoutProperties.get().getWeightQueueFrame()));
+        register(RightSideMode.HOME, home);
+        register(RightSideMode.MANAGE, manage);
+        showMode(DEFAULT_TAB);
     }
 }

@@ -1,0 +1,13 @@
+package swing.elements.pages.home.playground.manage;
+
+import swing.core.basics.JPanelCustom;
+
+import java.awt.*;
+
+public class ManagePanel extends JPanelCustom {
+
+    public ManagePanel() {
+        setBackground(Color.ORANGE);
+    }
+}
+
