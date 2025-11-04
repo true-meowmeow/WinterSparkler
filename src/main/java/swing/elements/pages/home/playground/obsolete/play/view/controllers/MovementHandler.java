@@ -3,7 +3,6 @@ package swing.elements.pages.home.playground.obsolete.play.view.controllers;
 import swing.core.dropper.DropPanel;
 import swing.core.dropper.DropPanelRegistry;
 import core.contentManager.TransferableManageData;
-import swing.elements.pages.home.SwingHomeVariables;
 import swing.elements.pages.home.repository.collections.body.panels.BottomAddCollectionGroupPanel;
 import swing.elements.pages.home.repository.collections.body.panels.BottomAddCollectionPanel;
 import swing.elements.pages.home.repository.collections.body.panels.EmptyCollectionDropPanel;
@@ -19,7 +18,7 @@ import java.awt.event.MouseEvent;
 
 import static swing.elements.pages.home.playground.obsolete.play.view.ManagePanel.getInstance;
 
-public class MovementHandler extends MouseAdapter implements SwingHomeVariables {
+public class MovementHandler extends MouseAdapter {
 
 
     private final SelectablePanel panel;

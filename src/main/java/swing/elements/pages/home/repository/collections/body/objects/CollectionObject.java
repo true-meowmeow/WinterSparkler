@@ -1,14 +1,16 @@
 package swing.elements.pages.home.repository.collections.body.objects;
 
+import core.main.config.LayoutProperties;
 import swing.core.dropper.DropPanel;
-import swing.elements.pages.home.SwingHomeVariables;
 import swing.elements.pages.home.repository.collections.body.controllers.CollectionObjectController;
 import swing.elements.pages.home.repository.collections.body.droppers.DropTargetCollection;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CollectionObject extends DropPanel implements SwingHomeVariables {
+public class CollectionObject extends DropPanel {
+    private static final int COLLECTION_PANEL_HEIGHT = LayoutProperties.get().getHeightCollectionPanel();
+
     private int positionList;
     private int collectionOrder;
     private String title;
@@ -27,8 +29,8 @@ public class CollectionObject extends DropPanel implements SwingHomeVariables {
         collectionObjectController = new CollectionObjectController(this);
         dropTargetPanel.setCollectionItem(this);
 
-        setMaximumSize(MAX_INT, HEIGHT_COLLECTION_PANEL);
-        setPreferredSize(ZERO_INT, HEIGHT_COLLECTION_PANEL);
+        setMaximumSize(MAX_INT, COLLECTION_PANEL_HEIGHT);
+        setPreferredSize(ZERO_INT, COLLECTION_PANEL_HEIGHT);
 
         setLayout(new BorderLayout());
         label = new JLabel(title, SwingConstants.CENTER);
@@ -63,18 +65,18 @@ public class CollectionObject extends DropPanel implements SwingHomeVariables {
     }
 
     public void setNormal() {
-        setBackground(basicColor);
+        setBackground(LayoutProperties.get().getColorCollectionBasic());
     }
 
     public void setOpened() {
-        setBackground(aOpenedColor);
+        setBackground(LayoutProperties.get().getColorCollectionOpened());
     }
 
     public void setDragHighlight() {
-        setBackground(aDragColor);
+        setBackground(LayoutProperties.get().getColorCollectionDrag());
     }
 
     public void setFocus() {
-        setBackground(aFocusColor);
+        setBackground(LayoutProperties.get().getColorCollectionFocus());
     }
 }
