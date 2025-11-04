@@ -8,6 +8,10 @@ public class ManagePanel extends JPanelCustom {
 
     public ManagePanel() {
         setBackground(Color.ORANGE);
+
+        add(new Label("12312"));
+
+
     }
 }
 
