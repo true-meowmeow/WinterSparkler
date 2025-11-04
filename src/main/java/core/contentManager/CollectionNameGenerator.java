@@ -1,8 +1,5 @@
 package core.contentManager;
 
-import swing.ui.pages.settings.FolderPathsPanel;
-
-import java.nio.file.Path;
 import java.util.*;
 
 //Можно вкинуть базовую реализацию имени алгоритмом и потом подключить простейшую llm чтобы она умно это делала по данным folderNames & mediaNames, в фоне заполнит автоматическое имя коллекции другим

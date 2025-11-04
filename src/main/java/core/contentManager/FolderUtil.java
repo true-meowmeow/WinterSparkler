@@ -1,6 +1,6 @@
 package core.contentManager;
 
-import swing.ui.pages.settings.FolderPathsPanel;
+import swing.elements.pages.settings.FolderPathsPanel;
 
 import java.nio.file.Path;
 import java.util.*;

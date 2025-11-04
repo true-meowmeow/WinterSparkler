@@ -1,8 +1,8 @@
 package core.contentManager;
 
-import swing.objects.objects.DataManager;
-import swing.ui.pages.home.play.view.ManagePanel;
-import swing.ui.pages.home.play.view.selection.SelectablePanel;
+import swing.core.objects.DataManager;
+import swing.elements.pages.home.playground.obsolete.play.view.ManagePanel;
+import swing.elements.pages.home.playground.obsolete.play.view.selection.SelectablePanel;
 
 import java.util.ArrayList;
 import java.util.Collections;
