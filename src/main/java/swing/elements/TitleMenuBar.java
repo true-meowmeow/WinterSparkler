@@ -17,7 +17,7 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
     private final ButtonGroup navGroup = new ButtonGroup();
     private final Map<Tab, JToggleButton> navButtons = new EnumMap<>(Tab.class);
 
-    private final Deque<Tab> recent = new ArrayDeque<>(2);  // история  вкладок
+    private final Deque<Tab> recent = new ArrayDeque<>(2);  // история вкладок
 
     {
         recent.addLast(Tab.DEFAULT_TAB);
@@ -44,6 +44,7 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
             super(PanelType.FLOW, align, 0, 0, false);
             for (Tab t : tabs) {
                 add(createButton(t));
+                System.out.println(t);
             }
             setOpaque(false);
         }
@@ -120,8 +121,20 @@ public final class TitleMenuBar extends JMenuBar {      //todo поменять 
     }
 
     private void showCard(Tab tab) {
+        switch (tab) {
+            case HOME -> {
+                System.out.println("1");
+            }
+            case MANAGE -> {        // Особое условие для вкладки Manage
+                System.out.println("2"); //todo Добавить действие переключения правой линии
+            }
+            default -> tabs.showTab(tab);
+        }
+
         tabs.showTab(tab);
         current = tab;
+
+        System.out.println(tab);
     }
 
     public void switchToOtherRecentTab() {

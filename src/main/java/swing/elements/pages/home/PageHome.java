@@ -6,11 +6,7 @@ import swing.core.basics.Pages;
 import swing.core.basics.PanelType;
 import swing.elements.pages.home.playground.BottomFrame;
 import swing.elements.pages.home.playground.TopFrame;
-import swing.elements.pages.home.playground.obsolete.play.player.PlayerPanel;
-import swing.elements.pages.home.playground.obsolete.play.view.CombinedPanel;
 import swing.elements.pages.home.repository.collections.CollectionsFrame;
-import swing.elements.pages.home.playground.obsolete.play.PlayFrame;
-import swing.elements.pages.home.playground.obsolete.queue.QueueFrame;
 import swing.elements.pages.home.repository.series.SeriesFrame;
 
 import java.awt.*;

@@ -3,8 +3,8 @@ package swing.elements;
 import java.util.List;
 
 public enum Tab {
-    HOME("Home", "PageHome"),
-    MANAGE("Manage", "PageManage"),
+    HOME("Home", "MainPage"),
+    MANAGE("Manage", "MainPage"),
     GITHUB_LINK("Github link", "GITHUB_LINK"),
     SETTINGS("Settings", "Settings");
 
