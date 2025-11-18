@@ -6,7 +6,13 @@ import java.awt.*;
 
 public class MediaPanel extends JPanelCustom {
 
-    private static final int PANEL_HEIGHT = 80;
+
+    private static final int height = 80;
+    private static final int minWidth = 50;
+    private static final int maxWidth = 200;
+
+    private static final int minColumns = 1;
+    private static final int maxColumns = 4;
 
     public MediaPanel() {
 
