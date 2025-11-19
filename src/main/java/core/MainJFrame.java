@@ -1,6 +1,6 @@
 package core;
 
-import core.configOld.WindowConfig;
+import core.config.CoreProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,11 +8,12 @@ import java.awt.*;
 public class MainJFrame extends JFrame {
 
     public MainJFrame() {
-        super(WindowConfig.TITLE);
+        super(CoreProperties.get().windowTitle());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setSize(WindowConfig.WIDTH, WindowConfig.HEIGHT);
-        setMinimumSize(new Dimension(WindowConfig.MIN_WIDTH, WindowConfig.MIN_HEIGHT));
+        CoreProperties props = CoreProperties.get();
+        setSize(props.windowWidth(), props.windowHeight());
+        setMinimumSize(new Dimension(props.windowMinWidth(), props.windowMinHeight()));
         setLocationRelativeTo(null);
     }
 }

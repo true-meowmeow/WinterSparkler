@@ -8,6 +8,9 @@ public final class CoreProperties {
     private final String appLink;
     private final int windowWidth;
     private final int windowHeight;
+    private final int windowMinWidth;
+    private final int windowMinHeight;
+    private final String windowTitle;
     private final String iconPath;
     private final String preferencesRootPath;
     private final double defaultScale;
@@ -17,6 +20,9 @@ public final class CoreProperties {
                            String appLink,
                            int windowWidth,
                            int windowHeight,
+                           int windowMinWidth,
+                           int windowMinHeight,
+                           String windowTitle,
                            String iconPath,
                            String preferencesRootPath,
                            double defaultScale) {
@@ -25,6 +31,9 @@ public final class CoreProperties {
         this.appLink = appLink;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.windowMinWidth = windowMinWidth;
+        this.windowMinHeight = windowMinHeight;
+        this.windowTitle = windowTitle;
         this.iconPath = iconPath;
         this.preferencesRootPath = preferencesRootPath;
         this.defaultScale = defaultScale;
@@ -47,6 +56,9 @@ public final class CoreProperties {
         String appLink = requiredString(props, "app.link");
         int windowWidth = requiredInteger(props, "window.width");
         int windowHeight = requiredInteger(props, "window.height");
+        int windowMinWidth = requiredInteger(props, "window.minWidth");
+        int windowMinHeight = requiredInteger(props, "window.minHeight");
+        String windowTitle = requiredString(props, "window.title");
         String iconPath = requiredString(props, "icon.path");
         String preferencesRootPath = requiredString(props, "prefs.root");
         double defaultScale = requiredDouble(props, "ui.scale.default");
@@ -57,6 +69,9 @@ public final class CoreProperties {
                 appLink,
                 windowWidth,
                 windowHeight,
+                windowMinWidth,
+                windowMinHeight,
+                windowTitle,
                 iconPath,
                 preferencesRootPath,
                 defaultScale
@@ -109,6 +124,18 @@ public final class CoreProperties {
 
     public int windowHeight() {
         return windowHeight;
+    }
+
+    public int windowMinWidth() {
+        return windowMinWidth;
+    }
+
+    public int windowMinHeight() {
+        return windowMinHeight;
+    }
+
+    public String windowTitle() {
+        return windowTitle;
     }
 
     public String iconPath() {

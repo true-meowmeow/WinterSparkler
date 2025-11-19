@@ -3,16 +3,16 @@ package core;
 import core.cols.Col1;
 import core.cols.Col2;
 import core.cols.Col3;
+import core.config.BreakpointsProperties;
 
 import javax.swing.*;
 
-import static core.configOld.Breakpoints.*;
-
 public class JRoot extends JPanel {
 
+    private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
     public JRoot() {
-        ThreeColumnLayout layout = new ThreeColumnLayout(THREE_COL_WIDTH);
+        ThreeColumnLayout layout = new ThreeColumnLayout(breakpoints.threeColumnWidth());
         setLayout(layout);
 
         JPanel col1 = new Col1();

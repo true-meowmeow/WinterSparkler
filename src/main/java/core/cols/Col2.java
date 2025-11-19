@@ -1,20 +1,21 @@
 package core.cols;
 
-import core.configOld.Colors;
-import core.configOld.Fonts;
+import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Col2 extends JPanel {
 
+    private static final ThemeProperties THEME = ThemeProperties.get();
+
     public Col2() {
         super(new BorderLayout());
-        setBackground(Colors.COL2);
+        setBackground(THEME.columnTwoColor());
 
         JLabel lbl = new JLabel("COL 2", SwingConstants.CENTER);
-        lbl.setForeground(Colors.TEXT_COLOR);
-        lbl.setFont(Fonts.CELL.deriveFont(Fonts.DEMO_PANEL_TITLE_SIZE));
+        lbl.setForeground(THEME.textColor());
+        lbl.setFont(THEME.cellFont().deriveFont(THEME.demoPanelTitleSize()));
 
         add(lbl, BorderLayout.CENTER);
 

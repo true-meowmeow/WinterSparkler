@@ -2,35 +2,37 @@ package core.cols;
 
 import core.InnerGridPanel;
 import core.ThreeColumnLayout;
-import core.configOld.*;
+import core.config.GridProperties;
+import core.config.ThemeProperties;
+import core.config.UiTextProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Col3 extends JPanel {
 
+    private static final ThemeProperties THEME = ThemeProperties.get();
+    private static final UiTextProperties UI_TEXT = UiTextProperties.get();
+    private static final GridProperties GRID = GridProperties.get();
 
     public Col3(ThreeColumnLayout rootLayout, JPanel root) {
         super(new BorderLayout());
-        setBackground(Colors.COL3_BG);
+        setBackground(THEME.columnThreeBackgroundColor());
 
-        // Тулбар
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
 
-        JButton mergeBtn = new JButton(UiText.BTN_MERGE);
+        JButton mergeBtn = new JButton(UI_TEXT.mergeButtonText());
         toolbar.add(mergeBtn);
 
-        // Внутренняя сетка
-        InnerGridPanel grid = new InnerGridPanel(GridConfig.BOTTOM_ROW_HEIGHT);
+        InnerGridPanel grid = new InnerGridPanel(GRID.bottomRowHeight());
 
-        // Логика Merge/Unmerge
         mergeBtn.addActionListener(e -> {
             boolean newMode = !grid.isMergedTop();
             grid.setMergedTop(newMode);
             rootLayout.setForceColsAlwaysVisible(newMode);
-            if (UiText.SHOW_SPLIT_TEXT) {
-                mergeBtn.setText(newMode ? UiText.BTN_SPLIT : UiText.BTN_MERGE);
+            if (UI_TEXT.showSplitText()) {
+                mergeBtn.setText(newMode ? UI_TEXT.splitButtonText() : UI_TEXT.mergeButtonText());
             }
             root.revalidate();
             root.repaint();
@@ -39,8 +41,4 @@ public class Col3 extends JPanel {
         add(toolbar, BorderLayout.NORTH);
         add(grid, BorderLayout.CENTER);
     }
-
-
-
-
 }

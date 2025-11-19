@@ -85,4 +85,23 @@ final class PropertyFile {
         Double value = doubleValue(key);
         return value != null ? value : defaultValue;
     }
+
+    Boolean bool(String key) {
+        String value = string(key);
+        if (value == null) {
+            return null;
+        }
+        if ("true".equalsIgnoreCase(value)) {
+            return Boolean.TRUE;
+        }
+        if ("false".equalsIgnoreCase(value)) {
+            return Boolean.FALSE;
+        }
+        return null;
+    }
+
+    boolean bool(String key, boolean defaultValue) {
+        Boolean value = bool(key);
+        return value != null ? value : defaultValue;
+    }
 }

@@ -144,32 +144,10 @@ public final class LayoutProperties {
             throw missingProperty(key);
         }
         try {
-            return parseColor(value);
+            return ColorParser.parse(value);
         } catch (IllegalArgumentException ex) {
             throw invalidColor(key, value, ex);
         }
-    }
-
-    private static Color parseColor(String value) {
-        String normalized = value.trim();
-        if (normalized.isEmpty()) {
-            throw new IllegalArgumentException("Empty color value");
-        }
-        if (normalized.startsWith("#")) {
-            normalized = normalized.substring(1);
-        } else if (normalized.startsWith("0x") || normalized.startsWith("0X")) {
-            normalized = normalized.substring(2);
-        }
-        normalized = normalized.replace("_", "");
-        int length = normalized.length();
-        long parsed = Long.parseLong(normalized, 16);
-        if (length == 6) {
-            return new Color((int) parsed);
-        }
-        if (length == 8) {
-            return new Color((int) parsed, true);
-        }
-        throw new IllegalArgumentException("Unsupported color format");
     }
 
     private static IllegalStateException invalidColor(String key, String value, Exception cause) {

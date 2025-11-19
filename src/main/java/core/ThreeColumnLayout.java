@@ -1,12 +1,13 @@
 package core;
 
-import core.configOld.Breakpoints;
-import core.configOld.WindowConfig;
+import core.config.BreakpointsProperties;
+import core.config.CoreProperties;
 
 import java.awt.*;
 
 public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUtils {
     private final int breakpoint;
+    private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
     private Component c1;
     private Component c2;
@@ -55,16 +56,18 @@ public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUti
     @Override
     public Dimension preferredLayoutSize(Container parent) {
         Insets in = parent.getInsets();
-        int w = WindowConfig.WIDTH;
-        int h = WindowConfig.HEIGHT;
+        CoreProperties props = CoreProperties.get();
+        int w = props.windowWidth();
+        int h = props.windowHeight();
         return new Dimension(in.left + in.right + w, in.top + in.bottom + h);
     }
 
     @Override
     public Dimension minimumLayoutSize(Container parent) {
         Insets in = parent.getInsets();
-        int w = WindowConfig.MIN_WIDTH;
-        int h = WindowConfig.MIN_HEIGHT;
+        CoreProperties props = CoreProperties.get();
+        int w = props.windowMinWidth();
+        int h = props.windowMinHeight();
         return new Dimension(in.left + in.right + w, in.top + in.bottom + h);
     }
 
@@ -76,7 +79,7 @@ public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUti
         if (W < 0 || H < 0) return;
 
         // Если Merge активен и ширина < MERGE_HIDE_COLS_UNDER_WIDTH, скрываем COL1/COL2
-        if (forceColsAlwaysVisible && W < Breakpoints.MERGE_HIDE_COLS_UNDER_WIDTH) {
+        if (forceColsAlwaysVisible && W < breakpoints.mergeHideColumnsWidth()) {
             layoutOnlyCol3(in, W, H);
         }
         // Если ниже брейкпоинта и НЕ форсируем видимость — показываем только col3

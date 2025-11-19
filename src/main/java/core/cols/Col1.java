@@ -1,7 +1,6 @@
 package core.cols;
 
-import core.configOld.Colors;
-import core.configOld.Fonts;
+import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +9,11 @@ public class Col1 extends JPanel {
 
     public Col1() {
         super(new BorderLayout());
-        setBackground(Colors.COL1);
+        setBackground(ThemeProperties.get().columnOneColor());
 
         JLabel lbl = new JLabel("COL 1", SwingConstants.CENTER);
-        lbl.setForeground(Colors.TEXT_COLOR);
-        lbl.setFont(Fonts.CELL.deriveFont(Fonts.DEMO_PANEL_TITLE_SIZE));
+        lbl.setForeground(ThemeProperties.get().textColor());
+        lbl.setFont(ThemeProperties.get().cellFont().deriveFont(ThemeProperties.get().demoPanelTitleSize()));
 
         add(lbl, BorderLayout.CENTER);
 
