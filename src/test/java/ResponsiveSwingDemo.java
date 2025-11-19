@@ -25,10 +25,6 @@ public class ResponsiveSwingDemo {
 
         static final int MIN_WIDTH = 420;
         static final int MIN_HEIGHT = 300;
-
-        // Фактически редко используются в Swing, но оставляем как "жёсткий верхний лимит"
-        static final int MAX_WIDTH = 10000;
-        static final int MAX_HEIGHT = 10000;
     }
 
     private static final class GridConfig {
@@ -107,12 +103,22 @@ public class ResponsiveSwingDemo {
         }
 
         // Кривые для COL1/COL2 (оба равны)
-        static final CurvePoint[] COL12 = new CurvePoint[]{cp(1180, 200, 0.5), cp(1600, 280, 0.65), cp(2000, 350, 0.6), cp(3000, 550, 0.2), cp(5000, 750, 0.35), cp(10000, 1000, 0.5)};
+        static final CurvePoint[] COL12 = new CurvePoint[]{
+                cp(1180, 200, 0.5),
+                cp(1600, 280, 0.65),
+                cp(2000, 350, 0.6),
+                cp(3000, 550, 0.2),
+                cp(5000, 750, 0.35),
+                cp(10000, 1000, 0.5)};
 
         // Кривая для правых панелей (Panel 2 и Panel 4)
-        static final CurvePoint[] RIGHT = new CurvePoint[]{cp(780, 180, 0.5), cp(1040, 250, 0.6), cp(1500, 320, 0.6), cp(2500, 500, 0.2), cp(4500, 700, 0.35), cp(10000, 1000, 0.5)};
-
-        private static final double BIAS_EPSILON = 1e-6;
+        static final CurvePoint[] RIGHT = new CurvePoint[]{
+                cp(780, 180, 0.5),
+                cp(1040, 250, 0.6),
+                cp(1500, 320, 0.6),
+                cp(2500, 500, 0.2),
+                cp(4500, 700, 0.35),
+                cp(10000, 1000, 0.5)};
 
         static int eval(int containerW, CurvePoint[] pts) {
             if (pts == null || pts.length == 0) return 0;
@@ -140,7 +146,7 @@ public class ResponsiveSwingDemo {
             a = clamp01(a);
 
             // Ровно посередине — строго линейная кривая
-            if (Math.abs(a - 0.5) <= BIAS_EPSILON) {
+            if (Math.abs(a - 0.5) <= 1e-6) {
                 return t;
             }
 
@@ -213,8 +219,6 @@ public class ResponsiveSwingDemo {
 
     static class ThreeColumnLayout implements LayoutManager2 {
         private final int breakpoint;
-        private final int hgap;
-        private final int vgap; // на будущее — пока не используется
 
         private Component c1;
         private Component c2;
@@ -223,10 +227,8 @@ public class ResponsiveSwingDemo {
         // Когда true — COL1/COL2 не скрываем ниже брейкпоинта (кроме < MERGE_HIDE_COLS_UNDER_WIDTH)
         private boolean forceColsAlwaysVisible = false;
 
-        ThreeColumnLayout(int breakpoint, int hgap, int vgap) {
+        ThreeColumnLayout(int breakpoint) {
             this.breakpoint = breakpoint;
-            this.hgap = hgap;
-            this.vgap = vgap;
         }
 
         void setForceColsAlwaysVisible(boolean force) {
@@ -318,21 +320,21 @@ public class ResponsiveSwingDemo {
 
             // Ширина колонок 1 и 2 берётся по кривой COL12
             int w12 = Curves.eval(W, Curves.COL12);
-            int maxEach = Math.max(0, (W - 2 * hgap) / 2);
+            int maxEach = Math.max(0, (W - 2) / 2);
             w12 = Math.min(w12, maxEach);
 
             int w1 = w12;
             int w2 = w12;
-            int w3 = Math.max(0, W - (w1 + w2 + 2 * hgap));
+            int w3 = Math.max(0, W - (w1 + w2 + 2));
 
             if (c1 != null) {
                 showComp(c1, x, y, w1, H);
             }
             if (c2 != null) {
-                showComp(c2, x + w1 + hgap, y, w2, H);
+                showComp(c2, x + w1, y, w2, H);
             }
             if (c3 != null) {
-                showComp(c3, x + w1 + hgap + w2 + hgap, y, w3, H);
+                showComp(c3, x + w1 + w2, y, w3, H);
             }
         }
 
@@ -626,14 +628,13 @@ public class ResponsiveSwingDemo {
 
         f.setSize(WindowConfig.WIDTH, WindowConfig.HEIGHT);
         f.setMinimumSize(new Dimension(WindowConfig.MIN_WIDTH, WindowConfig.MIN_HEIGHT));
-        f.setMaximumSize(new Dimension(WindowConfig.MAX_WIDTH, WindowConfig.MAX_HEIGHT));
         f.setLocationRelativeTo(null);
 
         return f;
     }
 
     private static JPanel createRootPanel() {
-        ThreeColumnLayout layout = new ThreeColumnLayout(Breakpoints.THREE_COL_WIDTH, 0, 0);
+        ThreeColumnLayout layout = new ThreeColumnLayout(Breakpoints.THREE_COL_WIDTH);
         JPanel root = new JPanel(layout);
 
         JPanel col1 = demoPanel("COL 1", Colors.COL1);
