@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLaf;
 import core.flatLaf.FlatLafConfigurator;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 

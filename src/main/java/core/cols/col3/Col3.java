@@ -1,4 +1,4 @@
-package core.cols;
+package core.cols.col3;
 
 import core.InnerGridPanel;
 import core.ThreeColumnLayout;
@@ -23,7 +23,7 @@ public class Col3 extends JPanel {
         toolbar.setFloatable(false);
 
         JButton mergeBtn = new JButton(UI_TEXT.mergeButtonText());
-        toolbar.add(mergeBtn);
+        //toolbar.add(mergeBtn);
 
         InnerGridPanel grid = new InnerGridPanel(GRID.bottomRowHeight());
 

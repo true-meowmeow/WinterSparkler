@@ -1,6 +1,9 @@
 package core;
 
-import core.cols.Cell;
+import core.cols.col3.panel1.Panel1;
+import core.cols.col3.panel2.Panel2;
+import core.cols.col3.panel3.Panel3;
+import core.cols.col3.panel4.Panel4;
 import core.config.BreakpointsProperties;
 import core.config.GridProperties;
 import core.config.MergeProperties;
@@ -18,10 +21,10 @@ public class InnerGridPanel extends JPanel implements LayoutManager2, ComponentV
     private final ThemeProperties theme = ThemeProperties.get();
     private boolean mergedTop = false;
 
-    private final JPanel p1 = new Cell("1", theme.gridPanelOneColor());
-    private final JPanel p2 = new Cell("2", theme.gridPanelTwoColor());
-    private final JPanel p3 = new Cell("3", theme.gridPanelThreeColor());
-    private final JPanel p4 = new Cell("4", theme.gridPanelFourColor());
+    private final Panel1 p1 = new Panel1();
+    private final Panel2 p2 = new Panel2();
+    private final Panel3 p3 = new Panel3();
+    private final Panel4 p4 = new Panel4();
 
     public InnerGridPanel(int bottomRowHeight) {
         super(null);

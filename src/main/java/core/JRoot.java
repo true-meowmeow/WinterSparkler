@@ -1,13 +1,15 @@
 package core;
 
-import core.cols.Col1;
-import core.cols.Col2;
-import core.cols.Col3;
+import core.cols.col1.Col1;
+import core.cols.col2.Col2;
+import core.cols.col3.Col3;
 import core.config.BreakpointsProperties;
 
 import javax.swing.*;
 
 public class JRoot extends JPanel {
+
+    public enum Role {COL1, COL2, COL3}
 
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
@@ -25,6 +27,5 @@ public class JRoot extends JPanel {
         add(col3, Role.COL3);
     }
 
-    public enum Role {COL1, COL2, COL3}
 
 }

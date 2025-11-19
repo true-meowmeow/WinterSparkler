@@ -1,5 +1,7 @@
 package core;
 
+import core.config.CurveProperties;
+
 public class Curves {
 
     static final class CurvePoint {
@@ -18,23 +20,20 @@ public class Curves {
         return new CurvePoint(w, v, a);
     }
 
-    // Кривые для COL1/COL2 (оба равны)
-    public static final CurvePoint[] COL12 = new CurvePoint[]{
-            cp(1180, 200, 0.5),
-            cp(1600, 280, 0.65),
-            cp(2000, 350, 0.6),
-            cp(3000, 550, 0.2),
-            cp(5000, 750, 0.35),
-            cp(10000, 1000, 0.5)};
+    private static final CurveProperties CURVE_PROPERTIES = CurveProperties.get();
 
-    // Кривая для правых панелей (Panel 2 и Panel 4)
-    public static final CurvePoint[] RIGHT = new CurvePoint[]{
-            cp(780, 180, 0.5),
-            cp(1040, 250, 0.6),
-            cp(1500, 320, 0.6),
-            cp(2500, 500, 0.2),
-            cp(4500, 700, 0.35),
-            cp(10000, 1000, 0.5)};
+    public static final CurvePoint[] COL12 = loadCurve(CURVE_PROPERTIES.col12());
+
+    public static final CurvePoint[] RIGHT = loadCurve(CURVE_PROPERTIES.right());
+
+    private static CurvePoint[] loadCurve(CurveProperties.CurveValue[] definitions) {
+        CurvePoint[] points = new CurvePoint[definitions.length];
+        for (int i = 0; i < definitions.length; i++) {
+            CurveProperties.CurveValue def = definitions[i];
+            points[i] = cp(def.windowWidth(), def.valueWidth(), def.alpha());
+        }
+        return points;
+    }
 
     public static int eval(int containerW, CurvePoint[] pts) {
         if (pts == null || pts.length == 0) return 0;
@@ -61,21 +60,19 @@ public class Curves {
         t = clamp01(t);
         a = clamp01(a);
 
-        // Ровно посередине — строго линейная кривая
         if (Math.abs(a - 0.5) <= 1e-6) {
             return t;
         }
 
-        // Насколько сильно изгибаем кривую (0..1)
         double strength = Math.abs(a - 0.5) * 2.0;
-        // Экспонента 1..4: 1 — линейно, 4 — сильная кривизна
+
         double p = 1.0 + 3.0 * strength;
 
         if (a < 0.5) {
-            // Низкая alpha: плавный старт, ускорение в конце
+
             return Math.pow(t, p);
         } else {
-            // Высокая alpha: быстрый старт, плавное дотягивание к концу
+
             return 1.0 - Math.pow(1.0 - t, p);
         }
     }

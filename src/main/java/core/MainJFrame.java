@@ -12,7 +12,7 @@ public class MainJFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         CoreProperties props = CoreProperties.get();
-        setSize(props.windowWidth(), props.windowHeight());
+        setSize(props.windowWidth(), props.windowHeight()); //todo
         setMinimumSize(new Dimension(props.windowMinWidth(), props.windowMinHeight()));
         setLocationRelativeTo(null);
     }

@@ -1,4 +1,4 @@
-package core.cols;
+package core.cols.col1;
 
 import core.config.ThemeProperties;
 
