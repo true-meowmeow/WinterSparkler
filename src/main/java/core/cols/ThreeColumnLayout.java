@@ -1,5 +1,8 @@
-package core;
+package core.cols;
 
+import core.basics.ComponentVisibilityUtils;
+import core.basics.Curves;
+import core.JRoot;
 import core.config.BreakpointsProperties;
 import core.config.CoreProperties;
 
@@ -16,7 +19,7 @@ public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUti
     // Когда true — COL1/COL2 не скрываем ниже брейкпоинта (кроме < MERGE_HIDE_COLS_UNDER_WIDTH)
     private boolean forceColsAlwaysVisible = false;
 
-    ThreeColumnLayout(int breakpoint) {
+    public ThreeColumnLayout(int breakpoint) {
         this.breakpoint = breakpoint;
     }
 
@@ -116,7 +119,7 @@ public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUti
 
         int w1 = w12;
         int w2 = w12;
-        int w3 = Math.max(0, W - (w1 + w2 + 2));
+        int w3 = Math.max(0, W - (w1 + w2));
 
         if (c1 != null) {
             showComp(c1, x, y, w1, H);

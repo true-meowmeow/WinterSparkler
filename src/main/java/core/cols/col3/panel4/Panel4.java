@@ -1,16 +1,16 @@
 package core.cols.col3.panel4;
 
+import core.basics.JPanelCustom;
 import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Panel4 extends JPanel {
+public class Panel4 extends JPanelCustom {
 
     private final ThemeProperties theme = ThemeProperties.get();
 
     public Panel4() {
-        super(new BorderLayout());
 
         setBackground(theme.gridPanelFourColor());
 

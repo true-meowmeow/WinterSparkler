@@ -1,5 +1,6 @@
 package core;
 
+import core.cols.ThreeColumnLayout;
 import core.cols.col1.Col1;
 import core.cols.col2.Col2;
 import core.cols.col3.Col3;

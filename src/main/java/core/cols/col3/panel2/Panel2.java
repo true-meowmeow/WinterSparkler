@@ -1,16 +1,16 @@
 package core.cols.col3.panel2;
 
+import core.basics.JPanelCustom;
 import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Panel2 extends JPanel {
+public class Panel2 extends JPanelCustom {
 
     private final ThemeProperties theme = ThemeProperties.get();
 
     public Panel2() {
-        super(new BorderLayout());
 
         setBackground(theme.gridPanelTwoColor());
 

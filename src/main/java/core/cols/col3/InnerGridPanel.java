@@ -1,5 +1,7 @@
-package core;
+package core.cols.col3;
 
+import core.basics.ComponentVisibilityUtils;
+import core.basics.Curves;
 import core.cols.col3.panel1.Panel1;
 import core.cols.col3.panel2.Panel2;
 import core.cols.col3.panel3.Panel3;

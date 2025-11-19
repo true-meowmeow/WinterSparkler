@@ -1,16 +1,16 @@
 package core.cols.col2;
 
+import core.basics.JPanelCustom;
 import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Col2 extends JPanel {
+public class Col2 extends JPanelCustom {
 
     private static final ThemeProperties THEME = ThemeProperties.get();
 
     public Col2() {
-        super(new BorderLayout());
         setBackground(THEME.columnTwoColor());
 
         JLabel lbl = new JLabel("COL 2", SwingConstants.CENTER);

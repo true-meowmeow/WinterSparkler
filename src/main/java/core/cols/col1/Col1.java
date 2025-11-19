@@ -1,14 +1,14 @@
 package core.cols.col1;
 
+import core.basics.JPanelCustom;
 import core.config.ThemeProperties;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Col1 extends JPanel {
+public class Col1 extends JPanelCustom {
 
     public Col1() {
-        super(new BorderLayout());
         setBackground(ThemeProperties.get().columnOneColor());
 
         JLabel lbl = new JLabel("COL 1", SwingConstants.CENTER);

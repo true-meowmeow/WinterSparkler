@@ -1,7 +1,7 @@
 package core.cols.col3;
 
-import core.InnerGridPanel;
-import core.ThreeColumnLayout;
+import core.basics.JPanelCustom;
+import core.cols.ThreeColumnLayout;
 import core.config.GridProperties;
 import core.config.ThemeProperties;
 import core.config.UiTextProperties;
@@ -9,14 +9,13 @@ import core.config.UiTextProperties;
 import javax.swing.*;
 import java.awt.*;
 
-public class Col3 extends JPanel {
+public class Col3 extends JPanelCustom {
 
     private static final ThemeProperties THEME = ThemeProperties.get();
     private static final UiTextProperties UI_TEXT = UiTextProperties.get();
     private static final GridProperties GRID = GridProperties.get();
 
     public Col3(ThreeColumnLayout rootLayout, JPanel root) {
-        super(new BorderLayout());
         setBackground(THEME.columnThreeBackgroundColor());
 
         JToolBar toolbar = new JToolBar();
