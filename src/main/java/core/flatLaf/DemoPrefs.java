@@ -1,9 +1,10 @@
-package obsolete.core.main;
+package core.flatLaf;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.IntelliJTheme.ThemeLaf;
 import com.formdev.flatlaf.util.LoggingFacade;
 import com.formdev.flatlaf.util.StringUtils;
+import core.config.CoreProperties;
 
 import javax.swing.*;
 import java.io.*;
@@ -31,11 +32,9 @@ public final class DemoPrefs {
 
     /* ────────────────── API ────────────────── */
 
-    public static void init(String rootPath) {
-        prefs = Preferences.userRoot().node(Objects.requireNonNull(rootPath));
-    }
-
     public static void setupLaf(String... args) {
+        prefs = Preferences.userRoot().node(Objects.requireNonNull(CoreProperties.get().preferencesRootPath()));
+
         try {
             if (args != null && args.length > 0)                     // из аргумента
                 setLaf(args[0]);

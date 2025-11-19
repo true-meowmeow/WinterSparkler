@@ -1,4 +1,4 @@
-package core.config;
+package core.configOld;
 
 import java.awt.*;
 

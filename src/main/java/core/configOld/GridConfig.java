@@ -1,4 +1,4 @@
-package core.config;
+package core.configOld;
 
 public final class GridConfig {
     public static final int PREF_WIDTH = 800;

@@ -1,12 +1,11 @@
 package core;
 
-import core.COLS.Col3;
-import core.config.Breakpoints;
-import core.config.WindowConfig;
+import core.configOld.Breakpoints;
+import core.configOld.WindowConfig;
 
 import java.awt.*;
 
-public class ThreeColumnLayout implements LayoutManager2 {
+public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUtils {
     private final int breakpoint;
 
     private Component c1;
@@ -93,13 +92,13 @@ public class ThreeColumnLayout implements LayoutManager2 {
         int y = in.top;
 
         if (c1 != null) {
-            Col3.hideComp(c1);
+            hideComp(c1);
         }
         if (c2 != null) {
-            Col3.hideComp(c2);
+            hideComp(c2);
         }
         if (c3 != null) {
-            Col3.showComp(c3, x, y, W, H);
+            showComp(c3, x, y, W, H);
         }
     }
 
@@ -108,7 +107,7 @@ public class ThreeColumnLayout implements LayoutManager2 {
         int y = in.top;
 
         // Ширина колонок 1 и 2 берётся по кривой COL12
-        int w12 = Col3.Curves.eval(W, Col3.Curves.COL12);
+        int w12 = Curves.eval(W, Curves.COL12);
         int maxEach = Math.max(0, (W - 2) / 2);
         w12 = Math.min(w12, maxEach);
 
@@ -117,13 +116,13 @@ public class ThreeColumnLayout implements LayoutManager2 {
         int w3 = Math.max(0, W - (w1 + w2 + 2));
 
         if (c1 != null) {
-            Col3.showComp(c1, x, y, w1, H);
+            showComp(c1, x, y, w1, H);
         }
         if (c2 != null) {
-            Col3.showComp(c2, x + w1, y, w2, H);
+            showComp(c2, x + w1, y, w2, H);
         }
         if (c3 != null) {
-            Col3.showComp(c3, x + w1 + w2, y, w3, H);
+            showComp(c3, x + w1 + w2, y, w3, H);
         }
     }
 

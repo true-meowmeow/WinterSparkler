@@ -1,19 +1,19 @@
 package core;
 
-import core.COLS.Col1;
-import core.COLS.Col2;
-import core.COLS.Col3;
+import core.cols.Col1;
+import core.cols.Col2;
+import core.cols.Col3;
 
 import javax.swing.*;
 
-import static core.config.Breakpoints.*;
+import static core.configOld.Breakpoints.*;
 
 public class JRoot extends JPanel {
 
 
     public JRoot() {
         ThreeColumnLayout layout = new ThreeColumnLayout(THREE_COL_WIDTH);
-        new JPanel(layout);
+        setLayout(layout);
 
         JPanel col1 = new Col1();
         JPanel col2 = new Col2();

@@ -1,14 +1,13 @@
-package obsolete.core.main;
+package core.flatLaf;
 
-import obsolete.core.main.config.LayoutProperties;
+import core.config.LayoutProperties;
 
 import javax.swing.*;
 
 public final class FlatLafConfigurator {
 
-    public static void applyLookAndFeel(String[] args, String prefsRootPath) {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        DemoPrefs.init(prefsRootPath);
+    public static void applyLookAndFeel(String[] args) {
+        JFrame.setDefaultLookAndFeelDecorated(true);    //Устанавливает FlatLaf для JFrame's
         DemoPrefs.setupLaf(args);
         tuneUI();
     }

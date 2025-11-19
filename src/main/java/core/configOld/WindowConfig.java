@@ -1,4 +1,4 @@
-package core.config;
+package core.configOld;
 
 public final class WindowConfig {
     public static final String TITLE = "Responsive Swing Demo";

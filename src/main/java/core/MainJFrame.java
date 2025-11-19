@@ -1,6 +1,6 @@
 package core;
 
-import core.config.WindowConfig;
+import core.configOld.WindowConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.*;
 public class MainJFrame extends JFrame {
 
     public MainJFrame() {
-        new JFrame(WindowConfig.TITLE);
+        super(WindowConfig.TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setSize(WindowConfig.WIDTH, WindowConfig.HEIGHT);

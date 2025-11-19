@@ -1,4 +1,4 @@
-package core.config;
+package core.configOld;
 
 public class MergeConfig {
     public static final int MIN_P3_WIDTH = 470;

@@ -1,6 +1,7 @@
 package core;
 
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import core.flatLaf.FlatLafConfigurator;
 
 import javax.swing.*;
 
@@ -8,13 +9,15 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            //FlatLafConfigurator.applyLookAndFeel(args, CoreProperties.get().preferencesRootPath());
+            FlatLafConfigurator.applyLookAndFeel(args);
+            //UIManager.setLookAndFeel(new FlatLightLaf());
+            FlatLaf.updateUI();
             Main.start();
         });
     }
 
     private static void start() {
-        FlatDarkLaf.setup();
+        //FlatDarkLaf.setup();
 
 
         JFrame frame = new MainJFrame();

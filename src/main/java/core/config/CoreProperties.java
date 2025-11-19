@@ -1,4 +1,4 @@
-package obsolete.core.main.config;
+package core.config;
 
 public final class CoreProperties {
     private static final CoreProperties INSTANCE = load();

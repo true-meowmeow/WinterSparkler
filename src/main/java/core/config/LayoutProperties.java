@@ -1,4 +1,4 @@
-package obsolete.core.main.config;
+package core.config;
 
 import java.awt.*;
 

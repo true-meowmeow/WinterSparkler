@@ -1,6 +1,6 @@
 package obsolete.swing.elements.pages.home.playground;
 
-import obsolete.core.main.config.LayoutProperties;
+import core.config.LayoutProperties;
 import obsolete.swing.core.basics.Pages;
 import obsolete.swing.elements.pages.home.RightSideMode;
 import obsolete.swing.elements.pages.home.playground.cover.CoverPanel;

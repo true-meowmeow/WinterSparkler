@@ -1,4 +1,4 @@
-package obsolete.core.main.config;
+package core.config;
 
 final class ConfigFiles {
     static final String DEFAULTS = "/properties/app.defaults.properties";

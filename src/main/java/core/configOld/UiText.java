@@ -1,4 +1,4 @@
-package core.config;
+package core.configOld;
 
 public final class UiText {
     public static final String BTN_MERGE = "Merge";

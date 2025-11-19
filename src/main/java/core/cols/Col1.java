@@ -1,7 +1,7 @@
-package core.COLS;
+package core.cols;
 
-import core.config.Colors;
-import core.config.Fonts;
+import core.configOld.Colors;
+import core.configOld.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 public class Col1 extends JPanel {
 
     public Col1() {
-        new JPanel(new BorderLayout());
+        super(new BorderLayout());
         setBackground(Colors.COL1);
 
         JLabel lbl = new JLabel("COL 1", SwingConstants.CENTER);
