@@ -1,7 +1,7 @@
 package core.cols;
 
-import core.basics.ComponentVisibilityUtils;
-import core.basics.Curves;
+import core.objects.ComponentVisibilityUtils;
+import core.objects.Curves;
 import core.JRoot;
 import core.config.BreakpointsProperties;
 import core.config.CoreProperties;

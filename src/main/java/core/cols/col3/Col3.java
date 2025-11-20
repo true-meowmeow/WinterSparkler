@@ -1,6 +1,6 @@
 package core.cols.col3;
 
-import core.basics.JPanelCustom;
+import core.objects.JPanelCustom;
 import core.cols.ThreeColumnLayout;
 import core.config.GridProperties;
 import core.config.ThemeProperties;
@@ -19,14 +19,14 @@ public class Col3 extends JPanelCustom {
         setBackground(THEME.columnThreeBackgroundColor());
 
         JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
+        //toolbar.setFloatable(false);
 
         JButton mergeBtn = new JButton(UI_TEXT.mergeButtonText());
-        //toolbar.add(mergeBtn);
+        //toolbar.add(mergeBtn);        //todo
 
         InnerGridPanel grid = new InnerGridPanel(GRID.bottomRowHeight());
 
-        mergeBtn.addActionListener(e -> {
+/*        mergeBtn.addActionListener(e -> {
             boolean newMode = !grid.isMergedTop();
             grid.setMergedTop(newMode);
             rootLayout.setForceColsAlwaysVisible(newMode);
@@ -35,9 +35,9 @@ public class Col3 extends JPanelCustom {
             }
             root.revalidate();
             root.repaint();
-        });
+        });*/
 
-        add(toolbar, BorderLayout.NORTH);
+        //add(toolbar, BorderLayout.NORTH);
         add(grid, BorderLayout.CENTER);
     }
 }

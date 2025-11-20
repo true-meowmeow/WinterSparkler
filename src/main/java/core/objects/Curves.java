@@ -1,4 +1,4 @@
-package core.basics;
+package core.objects;
 
 import core.config.CurveProperties;
 

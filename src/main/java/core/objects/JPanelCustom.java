@@ -1,4 +1,4 @@
-package core.basics;
+package core.objects;
 
 import javax.swing.*;
 import java.awt.*;
