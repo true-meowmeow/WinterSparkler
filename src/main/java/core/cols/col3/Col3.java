@@ -1,7 +1,7 @@
 package core.cols.col3;
 
 import core.objects.JPanelCustom;
-import core.cols.ThreeColumnLayout;
+import core.layouts.LibraryLayout;
 import core.config.GridProperties;
 import core.config.ThemeProperties;
 import core.config.UiTextProperties;
@@ -15,10 +15,10 @@ public class Col3 extends JPanelCustom {
     private static final UiTextProperties UI_TEXT = UiTextProperties.get();
     private static final GridProperties GRID = GridProperties.get();
 
-    public Col3(ThreeColumnLayout rootLayout, JPanel root) {
+    public Col3(LibraryLayout rootLayout, JPanel root) {
         setBackground(THEME.columnThreeBackgroundColor());
 
-        JToolBar toolbar = new JToolBar();
+        //JToolBar toolbar = new JToolBar();
         //toolbar.setFloatable(false);
 
         JButton mergeBtn = new JButton(UI_TEXT.mergeButtonText());

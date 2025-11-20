@@ -1,14 +1,18 @@
-package core.cols;
+package core.layouts;
 
 import core.objects.ComponentVisibilityUtils;
 import core.objects.Curves;
-import core.JRoot;
+import core.main.JRoot;
 import core.config.BreakpointsProperties;
 import core.config.CoreProperties;
 
 import java.awt.*;
 
-public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUtils {
+public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
+
+    //todo Переименовать это в Main tab и сделать отдельную Manage tab. Все panels and cols поместить в свою папку, чтобы они не относились к main или manage, это для того чтобы они использовались для пула лаяута.
+    //note Тут должен быть метод dispose, который убирает из вычислений не используемые панели
+
     private final int breakpoint;
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
@@ -19,7 +23,7 @@ public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUti
     // Когда true — COL1/COL2 не скрываем ниже брейкпоинта (кроме < MERGE_HIDE_COLS_UNDER_WIDTH)
     private boolean forceColsAlwaysVisible = false;
 
-    public ThreeColumnLayout(int breakpoint) {
+    public LibraryLayout(int breakpoint) {
         this.breakpoint = breakpoint;
     }
 

@@ -1,6 +1,6 @@
-package core;
+package core.main;
 
-import core.cols.ThreeColumnLayout;
+import core.layouts.LibraryLayout;
 import core.cols.col1.Col1;
 import core.cols.col2.Col2;
 import core.cols.col3.Col3;
@@ -15,7 +15,7 @@ public class JRoot extends JPanel {
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
     public JRoot() {
-        ThreeColumnLayout layout = new ThreeColumnLayout(breakpoints.threeColumnWidth());
+        LibraryLayout layout = new LibraryLayout(breakpoints.threeColumnWidth());
         setLayout(layout);
 
         JPanel col1 = new Col1();

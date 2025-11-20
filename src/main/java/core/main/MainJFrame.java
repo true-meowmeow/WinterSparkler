@@ -1,6 +1,8 @@
-package core;
+package core.main;
 
 import core.config.CoreProperties;
+import core.main.titleMenuBar.JPanelTabs;
+import core.main.titleMenuBar.TitleMenuBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,5 +18,8 @@ public class MainJFrame extends JFrame {
         setSize(props.windowWidth(), props.windowHeight());
         setMinimumSize(new Dimension(props.windowMinWidth(), props.windowMinHeight()));
         setLocationRelativeTo(null);
+
+        TitleMenuBar titleMenuBar = new TitleMenuBar();
+        setJMenuBar(titleMenuBar);
     }
 }

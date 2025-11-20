@@ -3,7 +3,6 @@ package obsolete.swing.elements.pages.home.repository.collections.body.panels;
 import obsolete.swing.core.basics.Axis;
 import obsolete.swing.core.basics.JPanelCustom;
 import obsolete.swing.core.basics.PanelType;
-import obsolete.swing.core.basics.*;
 import obsolete.swing.elements.pages.home.repository.collections.body.objects.CollectionManager;
 import obsolete.swing.elements.pages.home.repository.collections.body.objects.CollectionObject;
 

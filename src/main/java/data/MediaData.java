@@ -5,27 +5,26 @@ import java.util.List;
 
 public class MediaData {
 
-    List<CollectionObject> collectionObjectList;
+    List<GroupObject> groupObjectList;
 
     public MediaData() {
-        this.collectionObjectList = new ArrayList<>();
+        this.groupObjectList = new ArrayList<>();
         exampleData();
     }
 
     private void exampleData() {
-        collectionObjectList.add(new CollectionObject("Collection 1"));
-        collectionObjectList.add(new CollectionObject("Collection 2"));
-        collectionObjectList.add(new CollectionObject("Collection 3"));
 
-        for (int i = 0; i < 3; i++) {
-            collectionObjectList.add(new CollectionObject("Collection " + i));
-            for (int j = 0; j < 4; j++) {
-                collectionObjectList.get(i).getSeriesObjectList().add(new SeriesObject("Series " + j));
-                for (int k = 0; k < 10; k++) {
-                    collectionObjectList.get(i).getSeriesObjectList().get(j).getMediaObjectList().add(new MediaObject("Media " + k));
+        for (int s = 0; s < 2; s++) {
+            groupObjectList.add(new GroupObject("Group " + s));
+            for (int i = 0; i < 3; i++) {
+                groupObjectList.get(s).getCollectionObjectList().add(new CollectionObject("Collection " + i));
+                for (int j = 0; j < 4; j++) {
+                    groupObjectList.get(s).getCollectionObjectList().get(i).getSeriesObjectList().add(new SeriesObject("Series " + j));
+                    for (int k = 0; k < 10; k++) {
+                        groupObjectList.get(s).getCollectionObjectList().get(i).getSeriesObjectList().get(j).getMediaObjectList().add(new MediaObject("Media " + k));
+                    }
                 }
             }
         }
-
     }
 }
