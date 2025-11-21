@@ -33,7 +33,7 @@ public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {
-        if (constraints instanceof JRoot.Role role) {
+        if (constraints instanceof LibraryPanel.Role role) {
             switch (role) {
                 case COL1 -> c1 = comp;
                 case COL2 -> c2 = comp;
@@ -45,11 +45,11 @@ public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
     @Override
     public void addLayoutComponent(String name, Component comp) {
         if ("col1".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL1);
+            addLayoutComponent(comp, LibraryPanel.Role.COL1);
         } else if ("col2".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL2);
+            addLayoutComponent(comp, LibraryPanel.Role.COL2);
         } else if ("col3".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL3);
+            addLayoutComponent(comp, LibraryPanel.Role.COL3);
         }
     }
 
