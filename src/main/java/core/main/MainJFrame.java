@@ -1,5 +1,6 @@
 package core.main;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import core.config.CoreProperties;
 import core.main.titleMenuBar.TitleMenuBar;
 
@@ -24,5 +25,6 @@ public class MainJFrame extends JFrame {
         setContentPane(jRoot);
         TitleMenuBar titleMenuBar = new TitleMenuBar(jRoot::showCard);
         setJMenuBar(titleMenuBar);
+
     }
 }

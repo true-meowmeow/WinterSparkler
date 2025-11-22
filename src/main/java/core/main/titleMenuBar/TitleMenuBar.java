@@ -17,21 +17,29 @@ public final class TitleMenuBar extends JMenuBar {
 
     private final ButtonGroup navGroup = new ButtonGroup();
     private final Map<Tab, JToggleButton> navButtons = new EnumMap<>(Tab.class);
+    private final List<AbstractButton> allButtons = new ArrayList<>();
     private final Consumer<Tab> tabChangeHandler;
+    private final int collapseWidth = LayoutProperties.get().getTitleMenuBarCollapseWidth();
 
 
     public TitleMenuBar(Consumer<Tab> tabChangeHandler) {
         this.tabChangeHandler = tabChangeHandler;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
+        setBorder(BorderFactory.createEmptyBorder());
 
         add(new BuildPanel(Tab.navTabs(), Axis.LEFT));   // навигация слева
         add(Box.createHorizontalGlue());
         add(new BuildPanel(Tab.sideTabs(), Axis.RIGHT)); // Settings справа
 
         navButtons.get(Tab.DEFAULT_TAB).setSelected(true);
-
-
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                System.out.println(e);
+                updateButtonVisibility();
+            }
+        });
+        SwingUtilities.invokeLater(this::updateButtonVisibility);
     }
 
     private class BuildPanel extends JPanelCustom {
@@ -52,6 +60,7 @@ public final class TitleMenuBar extends JMenuBar {
         if (btn instanceof JToggleButton jt) navGroup.add(jt);
 
         if (btn instanceof JToggleButton) navButtons.put(tab, (JToggleButton) btn);
+        allButtons.add(btn);
         return btn;
     }
 
@@ -79,6 +88,16 @@ public final class TitleMenuBar extends JMenuBar {
         if (tabChangeHandler != null) {
             tabChangeHandler.accept(tab);
         }
+    }
+
+    private void updateButtonVisibility() {
+        int width = getWidth();
+        boolean shouldHide = width > 0 && width <= collapseWidth;
+        for (AbstractButton button : allButtons) {
+            button.setVisible(!shouldHide);
+        }
+        revalidate();
+        repaint();
     }
 }
 

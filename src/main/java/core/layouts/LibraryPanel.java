@@ -12,7 +12,7 @@ public class LibraryPanel extends JPanelCustom {
 
 
 
-    public enum Role {COL1, COL2, COL3}     //note Why do you have an enum?
+    public enum Role {COL1, COL2, COL3}
 
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
     public LibraryPanel() {
