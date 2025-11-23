@@ -2,21 +2,20 @@ package core.cols.col3;
 
 import core.objects.ComponentVisibilityUtils;
 import core.objects.Curves;
-import core.cols.col3.panel1.Panel1;
-import core.cols.col3.panel2.Panel2;
-import core.cols.col3.panel3.Panel3;
-import core.cols.col3.panel4.Panel4;
 import core.config.BreakpointsProperties;
 import core.config.GridProperties;
 import core.config.MergeProperties;
 import core.config.ThemeProperties;
+import core.panels.Panel1;
+import core.panels.Panel2;
+import core.panels.Panel3;
+import core.panels.Panel4;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class InnerGridPanel extends JPanel implements LayoutManager2, ComponentVisibilityUtils {
 
-    private final int bottomRowHeight;
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
     private final MergeProperties mergeProperties = MergeProperties.get();
     private final GridProperties grid = GridProperties.get();
@@ -28,9 +27,8 @@ public class InnerGridPanel extends JPanel implements LayoutManager2, ComponentV
     private final Panel3 p3 = new Panel3();
     private final Panel4 p4 = new Panel4();
 
-    public InnerGridPanel(int bottomRowHeight) {
+    public InnerGridPanel() {
         super(null);
-        this.bottomRowHeight = bottomRowHeight;
         setLayout(this);
         setOpaque(true);
         setBackground(theme.columnThreeBackgroundColor().darker());
@@ -99,7 +97,7 @@ public class InnerGridPanel extends JPanel implements LayoutManager2, ComponentV
         Insets in = parent.getInsets();
         int minRight = Curves.minRightWidth();
         int minW = Math.min(2 * minRight, grid.minWidthCap());
-        int minH = bottomRowHeight + grid.extraMinHeight();
+        int minH = grid.bottomRowHeight() + grid.extraMinHeight();
         return new Dimension(in.left + in.right + minW, in.top + in.bottom + minH);
     }
 
@@ -113,7 +111,7 @@ public class InnerGridPanel extends JPanel implements LayoutManager2, ComponentV
         int x = in.left;
         int y = in.top;
 
-        int hBottom = Math.min(bottomRowHeight, Math.max(0, H));
+        int hBottom = Math.min(grid.bottomRowHeight(), Math.max(0, H));
         int hTop = Math.max(0, H - hBottom);
 
         if (mergedTop) {

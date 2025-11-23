@@ -1,4 +1,4 @@
-package core.cols.col3.panel4;
+package core.panels;
 
 import core.objects.JPanelCustom;
 import core.config.ThemeProperties;

@@ -1,7 +1,6 @@
 package core.cols.col3;
 
 import core.objects.JPanelCustom;
-import core.layouts.LibraryLayout;
 import core.config.GridProperties;
 import core.config.ThemeProperties;
 import core.config.UiTextProperties;
@@ -15,7 +14,7 @@ public class Col3 extends JPanelCustom {
     private static final UiTextProperties UI_TEXT = UiTextProperties.get();
     private static final GridProperties GRID = GridProperties.get();
 
-    public Col3(LibraryLayout rootLayout, JPanel root) {
+    public Col3() {
         setBackground(THEME.columnThreeBackgroundColor());
 
         //JToolBar toolbar = new JToolBar();
@@ -24,7 +23,7 @@ public class Col3 extends JPanelCustom {
         JButton mergeBtn = new JButton(UI_TEXT.mergeButtonText());
         //toolbar.add(mergeBtn);        //todo
 
-        InnerGridPanel grid = new InnerGridPanel(GRID.bottomRowHeight());
+        InnerGridPanel grid = new InnerGridPanel();
 
 /*        mergeBtn.addActionListener(e -> {
             boolean newMode = !grid.isMergedTop();

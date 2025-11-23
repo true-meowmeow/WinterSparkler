@@ -1,7 +1,6 @@
-package core.cols.col3.panel5;
+package core.panels;
 
 import core.objects.JPanelCustom;
-import core.config.ThemeProperties;
 
 import java.awt.*;
 
