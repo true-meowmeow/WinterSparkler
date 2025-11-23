@@ -3,7 +3,7 @@ package core.panels;
 import core.objects.JPanelCustom;
 import core.config.ThemeProperties;
 
-public class Panel3 extends JPanelCustom {
+public class Panel3 extends JPanelCustom {  //Playlist
 
     private final ThemeProperties theme = ThemeProperties.get();
 

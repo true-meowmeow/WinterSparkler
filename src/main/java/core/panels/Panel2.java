@@ -3,7 +3,7 @@ package core.panels;
 import core.objects.JPanelCustom;
 import core.config.ThemeProperties;
 
-public class Panel2 extends JPanelCustom {
+public class Panel2 extends JPanelCustom {  //Series
 
     private final ThemeProperties theme = ThemeProperties.get();
 

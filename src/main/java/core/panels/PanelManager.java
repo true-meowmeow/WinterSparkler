@@ -7,6 +7,8 @@ public class PanelManager {
     private final Panel3 panel3 = new Panel3();
     private final Panel4 panel4 = new Panel4();
     private final Panel5 panel5 = new Panel5();
+    private final Panel6 panel6 = new Panel6();
+    private final Panel7 panel7 = new Panel7();
 
     public PanelManager() {
         /*
@@ -41,5 +43,13 @@ public class PanelManager {
 
     public Panel5 getPanel5() {
         return panel5;
+    }
+
+    public Panel6 getPanel6() {
+        return panel6;
+    }
+
+    public Panel7 getPanel7() {
+        return panel7;
     }
 }

@@ -1,27 +1,28 @@
 package core.main;
 
-import core.layouts.HomePanel;
-import core.layouts.LibraryPanel;
-import core.layouts.ManagePanel;
-import core.layouts.SettingsPanel;
+import core.cardPanels.HomePanel;
+import core.cardPanels.LibraryPanel;
+import core.cardPanels.ManagePanel;
+import core.cardPanels.SettingsPanel;
 import core.main.check.PanelType;
 import core.main.titleMenuBar.Tab;
 import core.objects.JPanelCustom;
+import core.panels.PanelManager;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class JRoot extends JPanelCustom {
 
+    PanelManager panelManager = new PanelManager();
 
     public JRoot() {
         super(PanelType.CARD);
 
 
-        LibraryPanel libraryPanel = new LibraryPanel();
-        HomePanel homePanel = new HomePanel();
-        ManagePanel managePanel = new ManagePanel();
-        SettingsPanel settingsPanel = new SettingsPanel();
+        LibraryPanel libraryPanel = new LibraryPanel(panelManager);
+        HomePanel homePanel = new HomePanel(panelManager);
+        ManagePanel managePanel = new ManagePanel(panelManager);
+        SettingsPanel settingsPanel = new SettingsPanel(panelManager);
 
         add(homePanel, Tab.HOME.name());
         add(libraryPanel, Tab.LIBRARY.name());
