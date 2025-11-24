@@ -1,4 +1,4 @@
-package core.panels;
+package core.panels.obsolete;
 
 import core.objects.JPanelCustom;
 import core.config.ThemeProperties;

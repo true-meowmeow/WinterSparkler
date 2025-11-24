@@ -1,12 +1,11 @@
-package core.cardPanels;
+package core.panels.cards.libraryCard;
 
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
-import core.panels.PanelManager;
-import core.panels.SplitInnerGridPanel;
+import core.panels.obsolete.PanelManager;
 import core.objects.JPanelCustom;
-import core.panels.Panel1;
-import core.panels.Panel2;
+import core.panels.obsolete.Panel1;
+import core.panels.obsolete.Panel2;
 
 import javax.swing.*;
 
@@ -20,7 +19,7 @@ public class LibraryPanel extends JPanelCustom {
 
         JPanel col1 = new Panel1();
         JPanel col2 = new Panel2();
-        JPanel col3 = new SplitInnerGridPanel();
+        JPanel col3 = new LibraryCol3();
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);

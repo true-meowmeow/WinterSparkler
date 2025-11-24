@@ -1,23 +1,28 @@
-package core.panels;
+package core.panels.cards.manageCard;
 
 import core.config.MergeProperties;
+import core.layouts.AbstractInnerGridPanel;
 import core.objects.Curves;
+import core.panels.obsolete.Panel4;
+import core.panels.obsolete.Panel5;
+import core.panels.obsolete.Panel6;
+import core.panels.obsolete.PanelManager;
 
 /**
  * Layout variant where the top portion is merged and represented with Panel 5.
  */
-public class MergedInnerGridPanel extends AbstractInnerGridPanel {
+public class ManageCol3 extends AbstractInnerGridPanel {
 
     private final MergeProperties mergeProperties = MergeProperties.get();
     private final Panel6 panel6;
     private final Panel4 panel4;
     private final Panel5 panel5;
 
-    public MergedInnerGridPanel() {
+    public ManageCol3() {
         this(new PanelManager());
     }
 
-    MergedInnerGridPanel(PanelManager panelManager) {
+    ManageCol3(PanelManager panelManager) {
         super(panelManager);
         this.panel6 = panelManager.getPanel6();
         this.panel4 = panelManager.getPanel4();

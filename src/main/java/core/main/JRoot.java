@@ -1,13 +1,13 @@
 package core.main;
 
-import core.cardPanels.HomePanel;
-import core.cardPanels.LibraryPanel;
-import core.cardPanels.ManagePanel;
-import core.cardPanels.SettingsPanel;
+import core.panels.cards.homeCard.HomePanel;
+import core.panels.cards.libraryCard.LibraryPanel;
+import core.panels.cards.manageCard.ManagePanel;
+import core.panels.cards.settingsCard.SettingsPanel;
 import core.main.check.PanelType;
 import core.main.titleMenuBar.Tab;
 import core.objects.JPanelCustom;
-import core.panels.PanelManager;
+import core.panels.obsolete.PanelManager;
 
 import java.awt.*;
 

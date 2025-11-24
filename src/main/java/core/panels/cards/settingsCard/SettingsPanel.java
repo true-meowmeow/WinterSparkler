@@ -1,7 +1,7 @@
-package core.cardPanels;
+package core.panels.cards.settingsCard;
 
 import core.objects.JPanelCustom;
-import core.panels.PanelManager;
+import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
 import java.awt.*;

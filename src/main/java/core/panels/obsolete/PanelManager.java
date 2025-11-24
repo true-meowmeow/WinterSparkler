@@ -1,6 +1,12 @@
-package core.panels;
+package core.panels.obsolete;
 
 public class PanelManager {
+
+
+
+
+
+
 
     private final Panel1 panel1 = new Panel1();
     private final Panel2 panel2 = new Panel2();

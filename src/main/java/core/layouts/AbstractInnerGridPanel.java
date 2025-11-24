@@ -1,10 +1,11 @@
-package core.panels;
+package core.layouts;
 
 import core.config.BreakpointsProperties;
 import core.config.GridProperties;
 import core.config.ThemeProperties;
 import core.objects.ComponentVisibilityUtils;
 import core.objects.Curves;
+import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,7 @@ import java.util.Objects;
  * Shared base for inner grid panels. Handles sizing mechanics and delegates the
  * actual layout of individual panel combinations to subclasses.
  */
-abstract class AbstractInnerGridPanel extends JPanel implements LayoutManager2, ComponentVisibilityUtils {
+public abstract class AbstractInnerGridPanel extends JPanel implements LayoutManager2, ComponentVisibilityUtils {
 
     protected final BreakpointsProperties breakpoints = BreakpointsProperties.get();
     protected final GridProperties grid = GridProperties.get();

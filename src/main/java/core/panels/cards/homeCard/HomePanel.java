@@ -1,8 +1,8 @@
-package core.cardPanels;
+package core.panels.cards.homeCard;
 
 import core.config.BreakpointsProperties;
 import core.objects.JPanelCustom;
-import core.panels.PanelManager;
+import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
 import java.awt.*;

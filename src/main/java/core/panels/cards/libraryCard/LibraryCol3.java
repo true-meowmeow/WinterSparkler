@@ -1,23 +1,25 @@
-package core.panels;
+package core.panels.cards.libraryCard;
 
+import core.layouts.AbstractInnerGridPanel;
 import core.objects.Curves;
+import core.panels.obsolete.*;
 
 /**
  * Layout variant that keeps the top row split into Panels 1 and 2 with all four
  * panels visible based on the responsive breakpoints.
  */
-public class SplitInnerGridPanel extends AbstractInnerGridPanel {
+public class LibraryCol3 extends AbstractInnerGridPanel {
 
     private final Panel3 panel3;
     private final Panel4 panel4;
     private final Panel5 panel5;
     private final Panel6 panel6;
 
-    public SplitInnerGridPanel() {
+    public LibraryCol3() {
         this(new PanelManager());
     }
 
-    SplitInnerGridPanel(PanelManager panelManager) {
+    LibraryCol3(PanelManager panelManager) {
         super(panelManager);
         this.panel3 = panelManager.getPanel3();
         this.panel4 = panelManager.getPanel4();

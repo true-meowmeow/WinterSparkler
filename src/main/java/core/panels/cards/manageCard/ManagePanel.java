@@ -1,12 +1,13 @@
-package core.cardPanels;
+package core.panels.cards.manageCard;
 
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
-import core.panels.*;
 import core.objects.JPanelCustom;
+import core.panels.obsolete.Panel1;
+import core.panels.obsolete.Panel2;
+import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ManagePanel extends JPanelCustom {
     public ManagePanel(PanelManager panelManager) {
@@ -17,7 +18,7 @@ public class ManagePanel extends JPanelCustom {
 
         JPanel col1 = new Panel1();
         JPanel col2 = new Panel2();
-        JPanel col3 = new MergedInnerGridPanel();
+        JPanel col3 = new ManageCol3();
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);
