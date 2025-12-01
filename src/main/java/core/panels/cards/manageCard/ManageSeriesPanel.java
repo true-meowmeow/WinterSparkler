@@ -1,4 +1,6 @@
 package core.panels.cards.manageCard;
 
-public class ManageSeriesPanel {
+import core.objects.JPanelCustom;
+
+public class ManageSeriesPanel extends JPanelCustom {
 }

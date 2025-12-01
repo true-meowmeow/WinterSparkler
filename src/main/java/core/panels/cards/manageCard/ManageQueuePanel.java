@@ -1,4 +1,6 @@
 package core.panels.cards.manageCard;
 
-public class ManageQueuePanel {
+import core.objects.JPanelCustom;
+
+public class ManageQueuePanel  extends JPanelCustom {
 }

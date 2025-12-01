@@ -1,4 +1,6 @@
 package core.panels.cards.libraryCard;
 
-public class LibraryQueuePanel {
+import core.objects.JPanelCustom;
+
+public class LibraryQueuePanel  extends JPanelCustom {
 }

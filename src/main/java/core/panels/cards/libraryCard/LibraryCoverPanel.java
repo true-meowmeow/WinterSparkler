@@ -1,4 +1,6 @@
 package core.panels.cards.libraryCard;
 
-public class LibraryCoverPanel {
+import core.objects.JPanelCustom;
+
+public class LibraryCoverPanel extends JPanelCustom {
 }

@@ -16,9 +16,9 @@ public class ManagePanel extends JPanelCustom {
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        JPanel col1 = new Panel1();
-        JPanel col2 = new Panel2();
-        JPanel col3 = new ManageCol3();
+        ManageCollectionPanel col1 = new ManageCollectionPanel();
+        ManageSeriesPanel col2 = new ManageSeriesPanel();
+        ManageCol3 col3 = new ManageCol3();
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);

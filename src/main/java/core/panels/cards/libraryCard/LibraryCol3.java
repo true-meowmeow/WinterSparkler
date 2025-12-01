@@ -10,26 +10,17 @@ import core.panels.obsolete.*;
  */
 public class LibraryCol3 extends AbstractInnerGridPanel {
 
-    private final Panel3 panel3;
-    private final Panel4 panel4;
-    private final Panel5 panel5;
-    private final Panel6 panel6;
+    private final LibraryPlaylistPanel playlistPanel = new LibraryPlaylistPanel();
+    private final LibraryQueuePanel queuePanel = new LibraryQueuePanel();
+    private final LibraryPlayPanel playPanel = new LibraryPlayPanel();
+    private final LibraryCoverPanel coverPanel = new LibraryCoverPanel();
 
-    public LibraryCol3() {
-        this(new PanelManager());
-    }
+    LibraryCol3() {
 
-    LibraryCol3(PanelManager panelManager) {
-        super(panelManager);
-        this.panel3 = panelManager.getPanel3();
-        this.panel4 = panelManager.getPanel4();
-        this.panel5 = panelManager.getPanel5();
-        this.panel6 = panelManager.getPanel6();
-
-        add(panel3);
-        add(panel4);
-        add(panel5);
-        add(panel6);
+        add(playlistPanel);
+        add(queuePanel);
+        add(playPanel);
+        add(coverPanel);
     }
 
     @Override
@@ -56,10 +47,10 @@ public class LibraryCol3 extends AbstractInnerGridPanel {
             extend2Down = false;
             extend3Up = false;
 
-            showComp(panel3, x, y, width, hTop);
-            hideComp(panel4);
-            hideComp(panel6);
-            showComp(panel5, x, y + hTop, width, hBottom);
+            showComp(playlistPanel, x, y, width, hTop);
+            hideComp(queuePanel);
+            hideComp(coverPanel);
+            showComp(playPanel, x, y + hTop, width, hBottom);
             return;
         } else {
             if (height < breakpoints.heightP1P2ToP3()) {
@@ -101,30 +92,30 @@ public class LibraryCol3 extends AbstractInnerGridPanel {
         }
 
         if (!hide1) {
-            showComp(panel3, x, y, wLeftTop, hTop);
+            showComp(playlistPanel, x, y, wLeftTop, hTop);
         } else {
-            hideComp(panel3);
+            hideComp(playlistPanel);
         }
 
         if (!hide2) {
             int h2 = extend2Down ? (hTop + hBottom) : hTop;
-            showComp(panel4, x + wLeftTop, y, wRightTop, h2);
+            showComp(queuePanel, x + wLeftTop, y, wRightTop, h2);
         } else {
-            hideComp(panel4);
+            hideComp(queuePanel);
         }
 
         if (extend3Up) {
             int rightOcc = (!hide2) ? wRightTop : 0;
             int wLeftTall = Math.max(0, width - rightOcc);
-            showComp(panel5, x, y, wLeftTall, hTop + hBottom);
+            showComp(playPanel, x, y, wLeftTall, hTop + hBottom);
         } else {
-            showComp(panel5, x, y + hTop, wLeftBottom, hBottom);
+            showComp(playPanel, x, y + hTop, wLeftBottom, hBottom);
         }
 
         if (!hide4 && !extend2Down) {
-            showComp(panel6, x + wLeftBottom, y + hTop, wRightBottom, hBottom);
+            showComp(coverPanel, x + wLeftBottom, y + hTop, wRightBottom, hBottom);
         } else {
-            hideComp(panel6);
+            hideComp(coverPanel);
         }
     }
 }

@@ -17,9 +17,11 @@ public class LibraryPanel extends JPanelCustom {
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        JPanel col1 = new Panel1();
-        JPanel col2 = new Panel2();
-        JPanel col3 = new LibraryCol3();
+        LibraryCollectionPanel col1 = new LibraryCollectionPanel();
+        LibrarySeriesPanel col2 = new LibrarySeriesPanel();
+        LibraryCol3 col3 = new LibraryCol3();
+
+
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);
