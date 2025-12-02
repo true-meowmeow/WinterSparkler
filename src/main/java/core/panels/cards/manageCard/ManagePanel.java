@@ -2,23 +2,25 @@ package core.panels.cards.manageCard;
 
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
-import core.objects.JPanelCustom;
-import core.panels.obsolete.Panel1;
-import core.panels.obsolete.Panel2;
+import core.objects.GPanel;
 import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
 
-public class ManagePanel extends JPanelCustom {
+public class ManagePanel extends GPanel {
     public ManagePanel(PanelManager panelManager) {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        ManageCollectionPanel col1 = new ManageCollectionPanel();
-        ManageSeriesPanel col2 = new ManageSeriesPanel();
-        ManageCol3 col3 = new ManageCol3();
+        ManagePanelsManager panelsManager = new ManagePanelsManager();
+
+
+
+        GPanel col1 = panelsManager.getCollectionPanel();
+        GPanel col2 = panelsManager.getSeriesPanel();
+        ManageCol3 col3 = new ManageCol3(panelsManager);
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);

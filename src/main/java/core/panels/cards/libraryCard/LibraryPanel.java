@@ -3,13 +3,11 @@ package core.panels.cards.libraryCard;
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
 import core.panels.obsolete.PanelManager;
-import core.objects.JPanelCustom;
-import core.panels.obsolete.Panel1;
-import core.panels.obsolete.Panel2;
+import core.objects.GPanel;
 
 import javax.swing.*;
 
-public class LibraryPanel extends JPanelCustom {
+public class LibraryPanel extends GPanel {
 
     public LibraryPanel(PanelManager panelManager) {
 
@@ -17,9 +15,11 @@ public class LibraryPanel extends JPanelCustom {
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        LibraryCollectionPanel col1 = new LibraryCollectionPanel();
-        LibrarySeriesPanel col2 = new LibrarySeriesPanel();
-        LibraryCol3 col3 = new LibraryCol3();
+        LibraryPanelsManager panelsManager = new LibraryPanelsManager();
+
+        GPanel col1 = panelsManager.getCollectionPanel();
+        GPanel col2 = panelsManager.getSeriesPanel();
+        LibraryCol3 col3 = new LibraryCol3(panelsManager);
 
 
 

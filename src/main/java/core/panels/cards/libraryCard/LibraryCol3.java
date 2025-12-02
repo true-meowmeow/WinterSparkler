@@ -2,7 +2,6 @@ package core.panels.cards.libraryCard;
 
 import core.layouts.AbstractInnerGridPanel;
 import core.objects.Curves;
-import core.panels.obsolete.*;
 
 /**
  * Layout variant that keeps the top row split into Panels 1 and 2 with all four
@@ -10,12 +9,17 @@ import core.panels.obsolete.*;
  */
 public class LibraryCol3 extends AbstractInnerGridPanel {
 
-    private final LibraryPlaylistPanel playlistPanel = new LibraryPlaylistPanel();
-    private final LibraryQueuePanel queuePanel = new LibraryQueuePanel();
-    private final LibraryPlayPanel playPanel = new LibraryPlayPanel();
-    private final LibraryCoverPanel coverPanel = new LibraryCoverPanel();
+    private LibraryPanelsManager.LibraryPlaylistPanel playlistPanel;
+    private LibraryPanelsManager.LibraryQueuePanel queuePanel;
+    private LibraryPanelsManager.LibraryPlayPanel playPanel;
+    private LibraryPanelsManager.LibraryCoverPanel coverPanel;
 
-    LibraryCol3() {
+    LibraryCol3(LibraryPanelsManager panelsManager) {
+        this.playlistPanel = panelsManager.getPlaylistPanel();
+        this.queuePanel = panelsManager.getQueuePanel();
+        this.playPanel = panelsManager.getPlayPanel();
+        this.coverPanel = panelsManager.getCoverPanel();
+
 
         add(playlistPanel);
         add(queuePanel);

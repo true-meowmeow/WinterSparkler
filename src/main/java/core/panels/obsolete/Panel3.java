@@ -1,9 +1,9 @@
 package core.panels.obsolete;
 
-import core.objects.JPanelCustom;
+import core.objects.GPanel;
 import core.config.ThemeProperties;
 
-public class Panel3 extends JPanelCustom {  //Playlist
+public class Panel3 extends GPanel {  //Playlist
 
     private final ThemeProperties theme = ThemeProperties.get();
 

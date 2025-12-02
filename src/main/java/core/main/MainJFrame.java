@@ -1,6 +1,5 @@
 package core.main;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import core.config.CoreProperties;
 import core.main.titleMenuBar.TitleMenuBar;
 
@@ -10,7 +9,7 @@ import java.awt.*;
 public class MainJFrame extends JFrame {
 
     private final CoreProperties props = CoreProperties.get();
-    private final JRoot jRoot;
+    private final GRoot jRoot;
 
 
     public MainJFrame() {
@@ -21,7 +20,7 @@ public class MainJFrame extends JFrame {
         setMinimumSize(new Dimension(props.windowMinWidth(), props.windowMinHeight()));
         setLocationRelativeTo(null);
 
-        jRoot = new JRoot();
+        jRoot = new GRoot();
         setContentPane(jRoot);
         TitleMenuBar titleMenuBar = new TitleMenuBar(jRoot::showCard);
         setJMenuBar(titleMenuBar);

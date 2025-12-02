@@ -4,7 +4,7 @@ package core.main.titleMenuBar;
 import core.config.LayoutProperties;
 import core.main.check.Axis;
 import core.main.check.PanelType;
-import core.objects.JPanelCustom;
+import core.objects.GPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +42,7 @@ public final class TitleMenuBar extends JMenuBar {
         SwingUtilities.invokeLater(this::updateButtonVisibility);
     }
 
-    private class BuildPanel extends JPanelCustom {
+    private class BuildPanel extends GPanel {
         public BuildPanel(List<Tab> tabs, Axis align) {
             super(PanelType.FLOW, align, 0, 0, true);
             for (Tab t : tabs) {

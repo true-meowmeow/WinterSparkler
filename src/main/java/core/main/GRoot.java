@@ -6,16 +6,16 @@ import core.panels.cards.manageCard.ManagePanel;
 import core.panels.cards.settingsCard.SettingsPanel;
 import core.main.check.PanelType;
 import core.main.titleMenuBar.Tab;
-import core.objects.JPanelCustom;
+import core.objects.GPanel;
 import core.panels.obsolete.PanelManager;
 
 import java.awt.*;
 
-public class JRoot extends JPanelCustom {
+public class GRoot extends GPanel {
 
     PanelManager panelManager = new PanelManager();
 
-    public JRoot() {
+    public GRoot() {
         super(PanelType.CARD);
 
 

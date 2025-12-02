@@ -11,12 +11,17 @@ public class ManageCol3 extends AbstractInnerGridPanel {
 
     private final MergeProperties mergeProperties = MergeProperties.get();
 
-    private final ManageManagePanel managePanel = new ManageManagePanel();
-    private final ManagePlayPanel playPanel = new ManagePlayPanel();
-    private final ManageQueuePanel queuePanel = new ManageQueuePanel();
+    private ManagePanelsManager.ManageExplorerPanel explorerPanel;
+    private ManagePanelsManager.ManagePlayPanel queuePanel;
+    private ManagePanelsManager.ManageQueuePanel playPanel;
 
-    ManageCol3() {
-        add(managePanel);
+    ManageCol3(ManagePanelsManager managePanelsManager) {
+        this.explorerPanel = managePanelsManager.getExplorerPanel();
+        this.queuePanel = managePanelsManager.getPlayPanel();
+        this.playPanel = managePanelsManager.getQueuePanel();
+
+
+        add(explorerPanel);
         add(playPanel);
         add(queuePanel);
     }
@@ -24,13 +29,13 @@ public class ManageCol3 extends AbstractInnerGridPanel {
     @Override
     protected void layoutPanels(int x, int y, int width, int height, int hTop, int hBottom) {
         if (hTop < mergeProperties.minP1Height()) {
-            showComp(managePanel, x, y, width, height);
+            showComp(explorerPanel, x, y, width, height);
             hideComp(playPanel);
             hideComp(queuePanel);
             return;
         }
 
-        showComp(managePanel, x, y, width, hTop);
+        showComp(explorerPanel, x, y, width, hTop);
 
         int wRight = Curves.eval(width, Curves.RIGHT);
         int wLeft = Math.max(0, width - wRight);
