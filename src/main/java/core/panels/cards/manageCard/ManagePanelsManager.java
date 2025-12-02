@@ -52,8 +52,11 @@ public class ManagePanelsManager {
 
     }
      class ManageExplorerPanel extends ExplorerPanel {
-
-    }
+         public ManageExplorerPanel() {
+             super();
+             init();
+         }
+     }
      class ManagePlayPanel extends PlayPanel {
 
     }

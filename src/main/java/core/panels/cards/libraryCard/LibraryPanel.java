@@ -2,14 +2,13 @@ package core.panels.cards.libraryCard;
 
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
-import core.panels.obsolete.PanelManager;
 import core.objects.GPanel;
 
 import javax.swing.*;
 
 public class LibraryPanel extends GPanel {
 
-    public LibraryPanel(PanelManager panelManager) {
+    public LibraryPanel() {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();

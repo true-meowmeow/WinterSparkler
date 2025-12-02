@@ -3,12 +3,10 @@ package core.panels.cards.manageCard;
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
 import core.objects.GPanel;
-import core.panels.obsolete.PanelManager;
-
 import javax.swing.*;
 
 public class ManagePanel extends GPanel {
-    public ManagePanel(PanelManager panelManager) {
+    public ManagePanel() {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();

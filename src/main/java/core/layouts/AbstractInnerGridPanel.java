@@ -5,7 +5,6 @@ import core.config.GridProperties;
 import core.config.ThemeProperties;
 import core.objects.ComponentVisibilityUtils;
 import core.objects.Curves;
-import core.panels.obsolete.PanelManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,15 +19,10 @@ public abstract class AbstractInnerGridPanel extends JPanel implements LayoutMan
     protected final BreakpointsProperties breakpoints = BreakpointsProperties.get();
     protected final GridProperties grid = GridProperties.get();
     protected final ThemeProperties theme = ThemeProperties.get();
-    protected final PanelManager panelManager;
+
 
     protected AbstractInnerGridPanel() {
-        this(new PanelManager());
-    }
-
-    protected AbstractInnerGridPanel(PanelManager panelManager) {
         super(null);
-        this.panelManager = Objects.requireNonNull(panelManager, "panelManager");
         setLayout(this);
         setOpaque(true);
         setBackground(theme.columnThreeBackgroundColor().darker());
