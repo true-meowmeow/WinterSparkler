@@ -1,4 +1,4 @@
-package core.panels.cards.homeCard;
+package core.swing.cards.homeCard;
 
 import core.config.BreakpointsProperties;
 import core.objects.GPanel;

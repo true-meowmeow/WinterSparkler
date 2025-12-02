@@ -1,4 +1,4 @@
-package core.panels.cards.libraryCard;
+package core.swing.cards.libraryCard;
 
 import core.layouts.AbstractInnerGridPanel;
 import core.objects.Curves;

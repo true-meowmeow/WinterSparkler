@@ -1,4 +1,4 @@
-package data;
+package core.swing.data;
 
 import java.util.ArrayList;
 import java.util.List;

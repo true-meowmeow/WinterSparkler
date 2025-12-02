@@ -1,6 +1,6 @@
-package core.panels.cards.libraryCard;
+package core.swing.cards.libraryCard;
 
-import core.panels.panels.*;
+import core.swing.panels.*;
 
 public class LibraryPanelsManager {
     LibraryCollectionPanel collectionPanel = new LibraryCollectionPanel();

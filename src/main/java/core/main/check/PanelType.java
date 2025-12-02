@@ -1,10 +1,13 @@
 package core.main.check;
 
 
-
 import java.awt.*;
 
-/** Описывает, какой LayoutManager использовать. */
+import core.layouts.LazyCardLayout;
+
+/**
+ * Описывает, какой LayoutManager использовать.
+ */
 public enum PanelType {
     GRID {
         @Override
@@ -50,15 +53,21 @@ public enum PanelType {
         public LayoutManager createLayout(Container c, Axis axis, int hgap, int vgap) {
             return new CardLayout();
         }
+    },
+    CARD_LAZY {
+        @Override
+        public LayoutManager createLayout(Container c, Axis axis, int hgap, int vgap) {
+            return new LazyCardLayout();
+        }
     };
 
     /**
      * Создаёт LayoutManager для данного контейнера.
      *
-     * @param c     контейнер, которому ставим layout
-     * @param axis  ось/выравнивание или null
-     * @param hgap  горизонтальный gap (для FLOW/WRAP)
-     * @param vgap  вертикальный gap   (для FLOW/WRAP)
+     * @param c    контейнер, которому ставим layout
+     * @param axis ось/выравнивание или null
+     * @param hgap горизонтальный gap (для FLOW/WRAP)
+     * @param vgap вертикальный gap   (для FLOW/WRAP)
      */
     public abstract LayoutManager createLayout(Container c, Axis axis, int hgap, int vgap);
 }

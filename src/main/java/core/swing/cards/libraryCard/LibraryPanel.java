@@ -1,24 +1,24 @@
-package core.panels.cards.manageCard;
+package core.swing.cards.libraryCard;
 
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
 import core.objects.GPanel;
-import javax.swing.*;
 
-public class ManagePanel extends GPanel {
-    public ManagePanel() {
+public class LibraryPanel extends GPanel {
+
+    public LibraryPanel() {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        ManagePanelsManager panelsManager = new ManagePanelsManager();
-
-
+        LibraryPanelsManager panelsManager = new LibraryPanelsManager();
 
         GPanel col1 = panelsManager.getCollectionPanel();
         GPanel col2 = panelsManager.getSeriesPanel();
-        ManageCol3 col3 = new ManageCol3(panelsManager);
+        LibraryCol3 col3 = new LibraryCol3(panelsManager);
+
+
 
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);

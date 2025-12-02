@@ -1,4 +1,4 @@
-package data;
+package core.swing.data;
 
 public class MediaObject {
 

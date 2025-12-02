@@ -1,4 +1,4 @@
-package core.panels.cards.settingsCard;
+package core.swing.cards.settingsCard;
 
 import core.objects.GPanel;
 

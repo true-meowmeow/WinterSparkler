@@ -1,9 +1,9 @@
 package core.main;
 
-import core.panels.cards.homeCard.HomePanel;
-import core.panels.cards.libraryCard.LibraryPanel;
-import core.panels.cards.manageCard.ManagePanel;
-import core.panels.cards.settingsCard.SettingsPanel;
+import core.swing.cards.homeCard.HomePanel;
+import core.swing.cards.libraryCard.LibraryPanel;
+import core.swing.cards.manageCard.ManagePanel;
+import core.swing.cards.settingsCard.SettingsPanel;
 import core.main.check.PanelType;
 import core.main.titleMenuBar.Tab;
 import core.objects.GPanel;
@@ -13,7 +13,7 @@ import java.awt.*;
 public class Root extends GPanel {
 
     public Root() {
-        super(PanelType.CARD);
+        super(PanelType.CARD_LAZY);
 
 
         LibraryPanel libraryPanel = new LibraryPanel();

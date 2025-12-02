@@ -1,4 +1,4 @@
-package core.panels.cards.manageCard;
+package core.swing.cards.manageCard;
 
 import core.config.MergeProperties;
 import core.layouts.AbstractInnerGridPanel;

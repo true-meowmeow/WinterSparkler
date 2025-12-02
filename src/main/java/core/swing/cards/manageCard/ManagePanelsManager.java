@@ -1,11 +1,9 @@
-package core.panels.cards.manageCard;
+package core.swing.cards.manageCard;
 
-import core.panels.panels.ExplorerPanel;
-import core.panels.panels.PlayPanel;
-import core.panels.panels.QueuePanel;
-import core.panels.panels.SeriesPanel;
-
-import java.awt.*;
+import core.swing.panels.ExplorerPanel;
+import core.swing.panels.PlayPanel;
+import core.swing.panels.QueuePanel;
+import core.swing.panels.SeriesPanel;
 
 public class ManagePanelsManager {
     ManageCollectionPanel collectionPanel = new ManageCollectionPanel();
@@ -38,7 +36,7 @@ public class ManagePanelsManager {
         return queuePanel;
     }
 
-    class ManageCollectionPanel extends core.panels.panels.CollectionPanel {
+    class ManageCollectionPanel extends core.swing.panels.CollectionPanel {
         public ManageCollectionPanel() {
         }
 

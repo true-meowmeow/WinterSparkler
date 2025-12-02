@@ -1,4 +1,4 @@
-package core.panels.panels;
+package core.swing.panels;
 
 import core.objects.GPanel;
 
