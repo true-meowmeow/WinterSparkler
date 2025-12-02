@@ -1,0 +1,11 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+idea/
+
+# Maven
+target/
+**/target/
+
+# Не хранить этот файл
+AGENTS.md
