@@ -33,6 +33,10 @@ public final class LayoutProperties {
         return new Dimension(width, height);
     }
 
+    public int getTitleMenuBarCollapseWidth() {
+        return requireInt(loadProperties(), "titleMenuBarCollapseWidth");
+    }
+
     public int getBottomFrameHeight() {
         return requireInt(loadProperties(), "bottomFrameHeight");
     }

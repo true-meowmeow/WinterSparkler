@@ -2,18 +2,13 @@ package core.layouts;
 
 import core.objects.ComponentVisibilityUtils;
 import core.objects.Curves;
-import core.main.JRoot;
 import core.config.BreakpointsProperties;
 import core.config.CoreProperties;
 
 import java.awt.*;
 
-public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
+public class ThreeColumnLayout implements LayoutManager2, ComponentVisibilityUtils {
 
-    //todo Переименовать это в Main tab и сделать отдельную Manage tab. Все panels and cols поместить в свою папку, чтобы они не относились к main или manage, это для того чтобы они использовались для пула лаяута.
-    //note Тут должен быть метод dispose, который убирает из вычислений не используемые панели
-
-    private final int breakpoint;
     private final BreakpointsProperties breakpoints = BreakpointsProperties.get();
 
     private Component c1;
@@ -23,17 +18,13 @@ public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
     // Когда true — COL1/COL2 не скрываем ниже брейкпоинта (кроме < MERGE_HIDE_COLS_UNDER_WIDTH)
     private boolean forceColsAlwaysVisible = false;
 
-    public LibraryLayout(int breakpoint) {
-        this.breakpoint = breakpoint;
-    }
-
     public void setForceColsAlwaysVisible(boolean force) {
         this.forceColsAlwaysVisible = force;
     }
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {
-        if (constraints instanceof JRoot.Role role) {
+        if (constraints instanceof Cols role) {
             switch (role) {
                 case COL1 -> c1 = comp;
                 case COL2 -> c2 = comp;
@@ -45,11 +36,11 @@ public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
     @Override
     public void addLayoutComponent(String name, Component comp) {
         if ("col1".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL1);
+            addLayoutComponent(comp, Cols.COL1);
         } else if ("col2".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL2);
+            addLayoutComponent(comp, Cols.COL2);
         } else if ("col3".equals(name)) {
-            addLayoutComponent(comp, JRoot.Role.COL3);
+            addLayoutComponent(comp, Cols.COL3);
         }
     }
 
@@ -90,7 +81,7 @@ public class LibraryLayout implements LayoutManager2, ComponentVisibilityUtils {
             layoutOnlyCol3(in, W, H);
         }
         // Если ниже брейкпоинта и НЕ форсируем видимость — показываем только col3
-        else if (W < breakpoint && !forceColsAlwaysVisible) {
+        else if (W < breakpoints.threeColumnWidth() && !forceColsAlwaysVisible) {
             layoutOnlyCol3(in, W, H);
         } else {
             layoutThreeColumns(in, W, H);

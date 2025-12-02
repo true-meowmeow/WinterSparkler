@@ -4,33 +4,45 @@ package core.main.titleMenuBar;
 import core.config.LayoutProperties;
 import core.main.check.Axis;
 import core.main.check.PanelType;
-import core.objects.JPanelCustom;
+import core.objects.GPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public final class TitleMenuBar extends JMenuBar {
 
-    private final JPanelTabs tabs = new JPanelTabs();
     private final ButtonGroup navGroup = new ButtonGroup();
     private final Map<Tab, JToggleButton> navButtons = new EnumMap<>(Tab.class);
+    private final List<AbstractButton> allButtons = new ArrayList<>();
+    private final Consumer<Tab> tabChangeHandler;
+    private final int collapseWidth = LayoutProperties.get().getTitleMenuBarCollapseWidth();
 
 
-    public TitleMenuBar() {
+    public TitleMenuBar(Consumer<Tab> tabChangeHandler) {
+        this.tabChangeHandler = tabChangeHandler;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
+        setBorder(BorderFactory.createEmptyBorder());
 
         add(new BuildPanel(Tab.navTabs(), Axis.LEFT));   // навигация слева
         add(Box.createHorizontalGlue());
         add(new BuildPanel(Tab.sideTabs(), Axis.RIGHT)); // Settings справа
 
         navButtons.get(Tab.DEFAULT_TAB).setSelected(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                System.out.println(e);
+                updateButtonVisibility();
+            }
+        });
+        SwingUtilities.invokeLater(this::updateButtonVisibility);
     }
 
-    private class BuildPanel extends JPanelCustom {
+    private class BuildPanel extends GPanel {
         public BuildPanel(List<Tab> tabs, Axis align) {
             super(PanelType.FLOW, align, 0, 0, true);
             for (Tab t : tabs) {
@@ -43,20 +55,13 @@ public final class TitleMenuBar extends JMenuBar {
     private AbstractButton createButton(Tab tab) {
         AbstractButton btn = tab == Tab.SEARCH ? new JButton(tab.getLabel()) : new JToggleButton(tab.getLabel());
 
-        style(btn, tab);
+        styleNavButton(btn);
         btn.addActionListener(e -> openTab(tab));
         if (btn instanceof JToggleButton jt) navGroup.add(jt);
 
         if (btn instanceof JToggleButton) navButtons.put(tab, (JToggleButton) btn);
+        allButtons.add(btn);
         return btn;
-    }
-
-    private void style(AbstractButton b, Tab tab) {
-        if (tab == Tab.SETTINGS) {
-            styleNavButton(b);
-        } else {
-            styleNavButton(b);
-        }
     }
 
     private void styleNavButton(AbstractButton button) {
@@ -76,18 +81,23 @@ public final class TitleMenuBar extends JMenuBar {
     }
 
     private void showCard(Tab tab) {
-        switch (tab) {
-            case HOME -> System.out.println("HOME");
-            case LIBRARY -> System.out.println("LIBRARY");
-            case MANAGE -> System.out.println("MANAGE");
-            case GITHUB_LINK -> System.out.println("GITHUB_LINK");
-            case SEARCH -> System.out.println("SEARCH");
-            case SETTINGS -> System.out.println("SETTINGS");
-            default -> {
-            }
+        if (tab == Tab.SEARCH) {
+            return;
         }
 
-        //tabs.showTab(tab);
+        if (tabChangeHandler != null) {
+            tabChangeHandler.accept(tab);
+        }
+    }
+
+    private void updateButtonVisibility() {
+        int width = getWidth();
+        boolean shouldHide = width > 0 && width <= collapseWidth;
+        for (AbstractButton button : allButtons) {
+            button.setVisible(!shouldHide);
+        }
+        revalidate();
+        repaint();
     }
 }
 

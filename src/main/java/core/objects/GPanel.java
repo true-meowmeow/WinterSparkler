@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-public class JPanelCustom extends JPanel {
+public class GPanel extends JPanel {
 
     public static final int MAX_INT = Integer.MAX_VALUE;
     public static final int ZERO_INT = 0;
@@ -17,7 +17,7 @@ public class JPanelCustom extends JPanel {
     private static final PanelType DEFAULT_TYPE = PanelType.BORDER;
 
     // Конструкторы
-    public JPanelCustom(PanelType type, Axis axis, int hgap, int vgap, boolean clearBorder) {
+    public GPanel(PanelType type, Axis axis, int hgap, int vgap, boolean clearBorder) {
         setLayout(type.createLayout(this, axis, hgap, vgap));
         if (clearBorder) {
             setPreferredSize(ZERO);
@@ -26,38 +26,38 @@ public class JPanelCustom extends JPanel {
     }
 
     /*** Конструктор по умолчанию.*/
-    public JPanelCustom() {
+    public GPanel() {
         this(DEFAULT_TYPE, null, 0, 0, false);
     }
 
     /*** Конструктор для добавления по LayoutManager.*/
-    public JPanelCustom(LayoutManager layout) {
+    public GPanel(LayoutManager layout) {
         super();
         setLayout(layout);
     }
 
     /*** Конструктор установки нулевых границ.*/
-    public JPanelCustom(boolean clearBorder) {
+    public GPanel(boolean clearBorder) {
         this(DEFAULT_TYPE, null, 0, 0, clearBorder);
     }
 
     /*** Конструктор установки нулевых границ с типом панели.*/
-    public JPanelCustom(PanelType type, boolean clearBorder) {
+    public GPanel(PanelType type, boolean clearBorder) {
         this(type, null, 0, 0, clearBorder);
     }
 
     /*** Упрощённый: без отступов.*/
-    public JPanelCustom(PanelType type, Axis axis) {
+    public GPanel(PanelType type, Axis axis) {
         this(type, axis, 0, 0, false);
     }
 
     /*** Упрощённый: только ось, тип панели по умолчанию.*/
-    public JPanelCustom(Axis axis) {
+    public GPanel(Axis axis) {
         this(DEFAULT_TYPE, axis, 0, 0, false);
     }
 
     /*** Базовый конструктор по типу без осей и отступов.*/
-    public JPanelCustom(PanelType type) {
+    public GPanel(PanelType type) {
         setLayout(type.createLayout(this, null, 0, 0));
     }
 

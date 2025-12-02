@@ -17,13 +17,7 @@ public class Main {
     }
 
     private static void start() {
-
         JFrame frame = new MainJFrame();
-        JRoot jRoot = new JRoot();
-
-        frame.setContentPane(jRoot);
         frame.setVisible(true);
-
-
     }
 }

@@ -6,11 +6,10 @@ public enum Tab {
     HOME("Home", "HOME"),
     LIBRARY("Library", "LIBRARY"),
     MANAGE("Manage", "MANAGE"),
-    GITHUB_LINK("Github link", "GITHUB_LINK"),
     SEARCH("Search", "SEARCH"),
     SETTINGS("Settings", "SETTINGS");
 
-    static final Tab DEFAULT_TAB = LIBRARY;
+    public static final Tab DEFAULT_TAB = LIBRARY;
 
     private final String label;
     private final String card;
@@ -21,7 +20,7 @@ public enum Tab {
     }
 
     static List<Tab> navTabs() {
-        return List.of(HOME, LIBRARY, MANAGE, GITHUB_LINK);
+        return List.of(HOME, LIBRARY, MANAGE);
     }
 
     static List<Tab> sideTabs() {

@@ -4,7 +4,7 @@ import java.awt.*;
 
 public interface ComponentVisibilityUtils {
 
-    default  void showComp(Component c, int x, int y, int w, int h) {
+    default void showComp(Component c, int x, int y, int w, int h) {
         c.setVisible(true);
         c.setBounds(x, y, w, h);
     }
