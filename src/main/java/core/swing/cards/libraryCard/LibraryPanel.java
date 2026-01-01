@@ -19,7 +19,6 @@ public class LibraryPanel extends GPanel {
         LibraryCol3 col3 = new LibraryCol3(panelsManager);
 
 
-
         add(col1, Cols.COL1);
         add(col2, Cols.COL2);
         add(col3, Cols.COL3);

@@ -16,8 +16,8 @@ public class Root extends GPanel {
         super(PanelType.CARD_LAZY);
 
 
-        LibraryPanel libraryPanel = new LibraryPanel();
         HomePanel homePanel = new HomePanel();
+        LibraryPanel libraryPanel = new LibraryPanel();
         ManagePanel managePanel = new ManagePanel();
         SettingsPanel settingsPanel = new SettingsPanel();
 

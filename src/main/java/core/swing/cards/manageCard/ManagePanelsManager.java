@@ -39,12 +39,6 @@ public class ManagePanelsManager {
     class ManageCollectionPanel extends core.swing.panels.CollectionPanel {
         public ManageCollectionPanel() {
         }
-
-         @Override
-         public void createLabel() {
-             super.createLabel();
-             //setBackground(Color.BLUE);
-         }
      }
     class ManageSeriesPanel extends SeriesPanel {
 
