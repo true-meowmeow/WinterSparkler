@@ -1,14 +1,17 @@
 package core.swing.panels;
 
-import core.objects.GPanel;
+import core.swing.data.transferTrain.ExplorerModel;
+import core.swing.data.transferTrain.FolderView2;
 
 import java.awt.*;
 
-public class PlaylistPanel extends GPanel {
+public class PlaylistPanel extends FolderView2 {
+    public static final String name_id = "PlaylistPanel";
 
-    public PlaylistPanel() {
+    public PlaylistPanel(ExplorerModel model) {
+        super(model, model.itemsPanelByName(name_id));
+
         setBackground(Color.ORANGE);
-        add(new Label("playlist"));
 
     }
 }

@@ -1,17 +1,23 @@
 package core.swing.cards.libraryCard;
 
+import core.swing.data.transferTrain.ExplorerModel;
 import core.swing.panels.*;
 
 public class LibraryPanelsManager {
-    LibraryCollectionPanel collectionPanel = new LibraryCollectionPanel();
-    LibrarySeriesPanel seriesPanel = new LibrarySeriesPanel();
-    LibraryPlaylistPanel playlistPanel = new LibraryPlaylistPanel();
-    LibraryQueuePanel queuePanel = new LibraryQueuePanel();
-    LibraryPlayPanel playPanel = new LibraryPlayPanel();
-    LibraryCoverPanel coverPane = new LibraryCoverPanel();
+    LibraryCollectionPanel collectionPanel;
+    LibrarySeriesPanel seriesPanel;
+    LibraryPlaylistPanel playlistPanel;
+    LibraryQueuePanel queuePanel;
+    LibraryPlayPanel playPanel;
+    LibraryCoverPanel coverPane;
 
-    public LibraryPanelsManager() {
-
+    public LibraryPanelsManager(ExplorerModel model) {
+        collectionPanel = new LibraryCollectionPanel(model);
+        seriesPanel = new LibrarySeriesPanel(model);
+        playlistPanel = new LibraryPlaylistPanel(model);
+        queuePanel = new LibraryQueuePanel(model);
+        playPanel = new LibraryPlayPanel(model);
+        coverPane = new LibraryCoverPanel(model);
     }
 
 
@@ -40,25 +46,43 @@ public class LibraryPanelsManager {
     }
 
     class LibraryCollectionPanel extends CollectionPanel {
+        public LibraryCollectionPanel(ExplorerModel model) {
+            super(model);
+        }
     }
 
     class LibrarySeriesPanel extends SeriesPanel {
 
+        public LibrarySeriesPanel(ExplorerModel model) {
+            super(model);
+        }
     }
 
     class LibraryPlaylistPanel extends PlaylistPanel {
 
+        public LibraryPlaylistPanel(ExplorerModel model) {
+            super(model);
+        }
     }
 
     class LibraryQueuePanel extends QueuePanel {
 
+        public LibraryQueuePanel(ExplorerModel model) {
+            super(model);
+        }
     }
 
     class LibraryPlayPanel extends PlayPanel {
 
+        public LibraryPlayPanel(ExplorerModel model) {
+            super(model);
+        }
     }
 
     class LibraryCoverPanel extends CoverPanel {
 
+        public LibraryCoverPanel(ExplorerModel model) {
+            super(model);
+        }
     }
 }

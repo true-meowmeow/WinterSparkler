@@ -7,6 +7,9 @@ import core.swing.cards.settingsCard.SettingsPanel;
 import core.main.check.PanelType;
 import core.main.titleMenuBar.Tab;
 import core.objects.GPanel;
+import core.swing.data.transferTrain.ExplorerModel;
+import core.swing.data.transferTrain.Item;
+import core.swing.data.transferTrain.ItemsPanel;
 
 import java.awt.*;
 
@@ -15,10 +18,11 @@ public class Root extends GPanel {
     public Root() {
         super(PanelType.CARD_LAZY);
 
+        ExplorerModel model = new ExplorerModel();
 
         HomePanel homePanel = new HomePanel();
-        LibraryPanel libraryPanel = new LibraryPanel();
-        ManagePanel managePanel = new ManagePanel();
+        LibraryPanel libraryPanel = new LibraryPanel(model);
+        ManagePanel managePanel = new ManagePanel(model);
         SettingsPanel settingsPanel = new SettingsPanel();
 
         add(homePanel, Tab.HOME.name());

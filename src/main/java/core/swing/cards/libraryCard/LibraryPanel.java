@@ -3,16 +3,17 @@ package core.swing.cards.libraryCard;
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
 import core.objects.GPanel;
+import core.swing.data.transferTrain.ExplorerModel;
 
 public class LibraryPanel extends GPanel {
 
-    public LibraryPanel() {
+    public LibraryPanel(ExplorerModel model) {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        LibraryPanelsManager panelsManager = new LibraryPanelsManager();
+        LibraryPanelsManager panelsManager = new LibraryPanelsManager(model);
 
         GPanel col1 = panelsManager.getCollectionPanel();
         GPanel col2 = panelsManager.getSeriesPanel();

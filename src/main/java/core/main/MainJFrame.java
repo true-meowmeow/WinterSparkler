@@ -24,6 +24,5 @@ public class MainJFrame extends JFrame {
         setContentPane(jRoot);
         TitleMenuBar titleMenuBar = new TitleMenuBar(jRoot::showCard);
         setJMenuBar(titleMenuBar);
-
     }
 }

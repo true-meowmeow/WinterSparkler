@@ -3,16 +3,17 @@ package core.swing.cards.manageCard;
 import core.layouts.Cols;
 import core.layouts.ThreeColumnLayout;
 import core.objects.GPanel;
+import core.swing.data.transferTrain.ExplorerModel;
 
 public class ManagePanel extends GPanel {
-    public ManagePanel() {
+
+    public ManagePanel(ExplorerModel model) {
 
 
         ThreeColumnLayout layout = new ThreeColumnLayout();
         setLayout(layout);
 
-        ManagePanelsManager panelsManager = new ManagePanelsManager();
-
+        ManagePanelsManager panelsManager = new ManagePanelsManager(model);
 
 
         GPanel col1 = panelsManager.getCollectionPanel();
