@@ -13,6 +13,4 @@ public class CollectionPanel extends FolderView2 {
 
         setBackground(Color.RED);
     }
-
-
 }
