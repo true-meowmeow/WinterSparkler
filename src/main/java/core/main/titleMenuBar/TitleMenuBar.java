@@ -35,7 +35,7 @@ public final class TitleMenuBar extends JMenuBar {
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
-                System.out.println(e);
+                //System.out.println(e);
                 updateButtonVisibility();
             }
         });
