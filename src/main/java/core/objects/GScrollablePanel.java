@@ -3,8 +3,10 @@ package core.objects;
 import core.main.check.Axis;
 import core.main.check.PanelType;
 
+import javax.swing.JViewport;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
@@ -63,6 +65,13 @@ public class GScrollablePanel extends GPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
-        return trackViewportHeight;
+        if (!trackViewportHeight) {
+            return false;
+        }
+        JViewport viewport = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, this);
+        if (viewport == null) {
+            return true;
+        }
+        return viewport.getHeight() > getPreferredSize().height;
     }
 }
