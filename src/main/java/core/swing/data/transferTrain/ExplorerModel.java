@@ -56,6 +56,35 @@ public class ExplorerModel {
         pcs.firePropertyChange(moveProperty(targetItems), null, event);
     }
 
+    public void reorderItem(ItemsPanel itemsPanel, Item item, int targetIndex) {
+        int fromIndex = itemsPanel.items().indexOf(item);
+        if (fromIndex == -1) return;
+
+        int size = itemsPanel.items().getSize();
+        int newIndex = Math.max(0, Math.min(targetIndex, size));
+        if (fromIndex < newIndex) {
+            newIndex--;
+        }
+        if (newIndex == fromIndex) return;
+
+        itemsPanel.items().removeElementAt(fromIndex);
+        if (newIndex > itemsPanel.items().getSize()) {
+            newIndex = itemsPanel.items().getSize();
+        }
+        itemsPanel.items().add(newIndex, item);
+        parentByItem.put(item, itemsPanel);
+        pcs.firePropertyChange(changedProperty(itemsPanel), null, item);
+    }
+
+    public void notifyItemsChanged(ItemsPanel itemsPanel) {
+        pcs.firePropertyChange(changedProperty(itemsPanel), null, null);
+    }
+
+    public void toggleGroup(ItemsPanel itemsPanel, GroupItem group) {
+        group.toggleExpanded();
+        notifyItemsChanged(itemsPanel);
+    }
+
     public void addListener(PropertyChangeListener l) {
         pcs.addPropertyChangeListener(l);
     }
