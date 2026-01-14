@@ -1,6 +1,6 @@
 package obsolete.swing.elements.utils;
 
-import core.main.config.CoreProperties;
+import config.CoreProperties;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

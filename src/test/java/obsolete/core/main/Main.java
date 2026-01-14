@@ -1,6 +1,6 @@
 package obsolete.core.main;
 
-import core.flatLaf.FlatLafConfigurator;
+import config.laf.FlatLafConfigurator;
 import obsolete.swing.elements.MainJFrame;
 
 import javax.swing.*;

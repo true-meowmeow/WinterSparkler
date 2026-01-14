@@ -1,6 +1,6 @@
 package obsolete.swing.elements;
 
-import core.main.config.LayoutProperties;
+import config.LayoutProperties;
 import obsolete.swing.core.basics.Axis;
 import obsolete.swing.core.basics.JPanelCustom;
 import obsolete.swing.core.basics.PanelType;
