@@ -1,7 +1,7 @@
 package core.main;
 
 import com.formdev.flatlaf.FlatLaf;
-import core.flatLaf.FlatLafConfigurator;
+import core.ui.laf.FlatLafConfigurator;
 
 import javax.swing.*;
 

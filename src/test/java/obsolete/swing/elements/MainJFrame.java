@@ -1,6 +1,6 @@
 package obsolete.swing.elements;
 
-import core.config.CoreProperties;
+import core.main.config.CoreProperties;
 import obsolete.swing.elements.controllers.TabHotkeyController;
 import obsolete.swing.elements.utils.IconLoader;
 

@@ -1,6 +1,6 @@
 package obsolete.swing.elements.pages.githublink;
 
-import core.config.CoreProperties;
+import core.main.config.CoreProperties;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
