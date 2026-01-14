@@ -1,6 +1,6 @@
 package obsolete.swing.elements.pages.home;
 
-import core.config.LayoutProperties;
+import core.main.config.LayoutProperties;
 import obsolete.swing.core.basics.JPanelCustom;
 import obsolete.swing.core.basics.Pages;
 import obsolete.swing.core.basics.PanelType;

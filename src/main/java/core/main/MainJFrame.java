@@ -1,7 +1,7 @@
 package core.main;
 
-import core.config.CoreProperties;
-import core.main.titleMenuBar.TitleMenuBar;
+import core.main.config.CoreProperties;
+import core.ui.navigation.TitleMenuBar;
 
 import javax.swing.*;
 import java.awt.*;

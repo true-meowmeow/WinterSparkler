@@ -1,39 +1,38 @@
 package core.main;
 
-import core.swing.cards.homeCard.HomePanel;
-import core.swing.cards.libraryCard.LibraryPanel;
-import core.swing.cards.manageCard.ManagePanel;
-import core.swing.cards.settingsCard.SettingsPanel;
-import core.main.check.PanelType;
-import core.main.titleMenuBar.Tab;
-import core.objects.GPanel;
-import core.swing.data.transferTrain.ExplorerModel;
-import core.swing.data.transferTrain.Item;
-import core.swing.data.transferTrain.ItemsPanel;
+
+import core.ui.cards.home.HomePanel;
+import core.ui.cards.library.LibraryPanel;
+import core.ui.cards.manage.ManagePanel;
+import core.ui.cards.settings.SettingsPanel;
+import core.ui.components.BasePanel;
+import core.ui.layout.LayoutType;
+import core.ui.navigation.AppTab;
+import core.ui.transfer.ItemTransferModel;
 
 import java.awt.*;
 
-public class Root extends GPanel {
+public class Root extends BasePanel {
 
     public Root() {
-        super(PanelType.CARD_LAZY);
+        super(LayoutType.CARD_LAZY);
 
-        ExplorerModel model = new ExplorerModel();
+        ItemTransferModel model = new ItemTransferModel();
 
         HomePanel homePanel = new HomePanel();
         LibraryPanel libraryPanel = new LibraryPanel(model);
         ManagePanel managePanel = new ManagePanel(model);
         SettingsPanel settingsPanel = new SettingsPanel();
 
-        add(homePanel, Tab.HOME.name());
-        add(libraryPanel, Tab.LIBRARY.name());
-        add(managePanel, Tab.MANAGE.name());
-        add(settingsPanel, Tab.SETTINGS.name());
+        add(homePanel, AppTab.HOME.name());
+        add(libraryPanel, AppTab.LIBRARY.name());
+        add(managePanel, AppTab.MANAGE.name());
+        add(settingsPanel, AppTab.SETTINGS.name());
 
-        showCard(Tab.DEFAULT_TAB);
+        showCard(AppTab.DEFAULT_TAB);
     }
 
-    public void showCard(Tab tab) {
+    public void showCard(AppTab tab) {
         CardLayout cl = (CardLayout) getLayout();
         cl.show(this, tab.name());
     }

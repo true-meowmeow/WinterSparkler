@@ -1,6 +1,6 @@
 package obsolete.swing.elements.pages.home.repository.collections.body.panels;
 
-import core.config.LayoutProperties;
+import core.main.config.LayoutProperties;
 import obsolete.swing.core.dropper.DropPanel;
 import obsolete.swing.elements.pages.home.repository.collections.body.droppers.DropTargetNewCollection;
 
